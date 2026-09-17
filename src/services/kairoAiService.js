@@ -36,7 +36,7 @@ export function saveApiKey(key) {
 
 function buildSystemInstruction(selectedLab) {
   const labContext = selectedLab
-    ? `Current Selected Lab: ${selectedLab}`
+    ? `Current Selected Lab: ${selectedLab === 'DIGITAL_ECE' ? 'Digital, Microcontroller & ECE Communications Lab (Digital & ECE Lab Facilities)' : selectedLab}`
     : 'All Engineering Laboratories (Civil, Digital, ECE, Chemistry, Physics)';
 
   const inventory = getInventory();

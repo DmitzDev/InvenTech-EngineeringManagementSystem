@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, GraduationCap, Users, Clock, UserCheck } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
+import ScrollNumberPicker from '../ui/ScrollNumberPicker';
 
 const PROGRAMS = ['BSCPE', 'BSCE', 'BSCEE', 'BSECE'];
 const YEAR_LEVELS = [
@@ -11,6 +12,9 @@ const YEAR_LEVELS = [
   { id: '4', label: '4th Year', code: '4' },
 ];
 const SECTIONS = ['01', '02', '03', '04'];
+
+const HOUR_OPTIONS = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
+const MINUTE_OPTIONS = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
 
 export default function BorrowerForm() {
   const { borrower, setBorrowerField, setStep, goToWelcome } = useTransaction();
@@ -91,7 +95,7 @@ export default function BorrowerForm() {
     }
   }, [borrower.labTime, startHour, endHour]);
 
-  // Automatically update the Course Code whenever selections change
+  // Automatically update the Course Code whenever selections change (Format: 41-BSCPE-01)
   useEffect(() => {
     if (borrower.program || selectedYear || selectedSem || selectedSection) {
       const prog = borrower.program || '';
@@ -99,31 +103,51 @@ export default function BorrowerForm() {
       const sem = selectedSem || '';
       const sec = selectedSection || '';
 
-      if (prog && yr && sem && sec) {
-        const autoCode = `${prog} ${yr}${sem}${sec}`;
+      if (yr && sem && prog && sec) {
+        const autoCode = `${yr}${sem}-${prog}-${sec}`;
         setBorrowerField('courseCode', autoCode);
       }
     }
   }, [borrower.program, selectedYear, selectedSem, selectedSection, setBorrowerField]);
 
-  // Parse existing Course Code on mount
+  // Parse existing Course Code on mount (Supports 41-BSCPE-01 and legacy formats)
   useEffect(() => {
     if (borrower.courseCode && !selectedYear && !selectedSem && !selectedSection) {
-      const parts = borrower.courseCode.trim().split(' ');
-      if (parts.length >= 2) {
-        const prog = parts[0];
-        const numPart = parts[1];
-        if (PROGRAMS.includes(prog)) {
-          setBorrowerField('program', prog);
+      const trimmed = borrower.courseCode.trim();
+      if (trimmed.includes('-')) {
+        const parts = trimmed.split('-');
+        if (parts.length === 3) {
+          const [yrSem, prog, sec] = parts;
+          if (yrSem && yrSem.length >= 2) {
+            const yr = yrSem[0];
+            const sem = yrSem[1];
+            if (['1', '2', '3', '4'].includes(yr)) setSelectedYear(yr);
+            if (['1', '2', '3'].includes(sem)) setSelectedSem(sem);
+          }
+          if (PROGRAMS.includes(prog)) {
+            setBorrowerField('program', prog);
+          }
+          if (SECTIONS.includes(sec)) {
+            setSelectedSection(sec);
+          }
         }
-        if (numPart && numPart.length >= 4) {
-          const yr = numPart[0];
-          const sem = numPart[1];
-          const sec = numPart.substring(2, 4);
+      } else {
+        const parts = trimmed.split(' ');
+        if (parts.length >= 2) {
+          const prog = parts[0];
+          const numPart = parts[1];
+          if (PROGRAMS.includes(prog)) {
+            setBorrowerField('program', prog);
+          }
+          if (numPart && numPart.length >= 4) {
+            const yr = numPart[0];
+            const sem = numPart[1];
+            const sec = numPart.substring(2, 4);
 
-          if (['1', '2', '3', '4'].includes(yr)) setSelectedYear(yr);
-          if (['1', '2', '3'].includes(sem)) setSelectedSem(sem);
-          if (SECTIONS.includes(sec)) setSelectedSection(sec);
+            if (['1', '2', '3', '4'].includes(yr)) setSelectedYear(yr);
+            if (['1', '2', '3'].includes(sem)) setSelectedSem(sem);
+            if (SECTIONS.includes(sec)) setSelectedSection(sec);
+          }
         }
       }
     }
@@ -132,7 +156,7 @@ export default function BorrowerForm() {
   const validate = () => {
     const errs = {};
     if (!borrower.program) errs.program = 'Select an Engineering Program';
-    if (!borrower.courseCode?.trim()) errs.courseCode = 'Course Code required (e.g. BSCPE 3101)';
+    if (!borrower.courseCode?.trim()) errs.courseCode = 'Course Code required (e.g. 41-BSCPE-01)';
     if (!borrower.groupLeader?.trim()) errs.groupLeader = 'Group Leader / Student Name required';
     if (!borrower.instructor?.trim()) errs.instructor = 'Instructor name required';
     if (!borrower.labTime?.trim() || !startHour || !endHour) {
@@ -318,7 +342,7 @@ export default function BorrowerForm() {
               type="text"
               value={borrower.courseCode}
               onChange={(e) => setBorrowerField('courseCode', e.target.value.toUpperCase())}
-              placeholder="Select Program, Year, Term & Section above"
+              placeholder="e.g. 41-BSCPE-01 (Select options above)"
               className={`w-full h-9.5 sm:h-10.5 px-3.5 rounded-xl neu-inset text-cyan-300 font-mono text-sm font-extrabold placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all ${
                 errors.courseCode ? 'ring-2 ring-rose-500' : ''
               }`}
@@ -336,7 +360,6 @@ export default function BorrowerForm() {
             <span>Group & Schedule Information</span>
           </h2>
 
-          {/* Group No. & Group Leader */}
           <div className="grid grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-300 mb-1">
@@ -418,89 +441,73 @@ export default function BorrowerForm() {
               </span>
             </div>
 
-            {/* DUAL TIME RANGE PICKER CONTAINER */}
-            <div className="w-full p-2 sm:p-2.5 rounded-2xl neu-inset border border-slate-800/80 flex items-center justify-between gap-1 sm:gap-2">
+            {/* DUAL TIME RANGE PICKER CONTAINER (Slim & Space-Saving) */}
+            <div className="w-full py-1.5 sm:py-2 px-2.5 sm:px-3.5 rounded-2xl neu-inset border border-slate-800/80 flex items-center justify-between gap-1 sm:gap-1.5">
               {/* START TIME BLOCK */}
-              <div className="flex items-center gap-1 min-w-0">
-                {/* Start Hour Input */}
-                <input
-                  type="text"
-                  maxLength={2}
+              <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
+                {/* Start Hour Scroll Picker */}
+                <ScrollNumberPicker
                   value={startHour}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, '');
-                    setStartHour(val);
-                  }}
+                  onChange={setStartHour}
+                  options={HOUR_OPTIONS}
                   placeholder="--"
-                  className="w-8 sm:w-10 h-8 sm:h-9 text-center font-mono font-extrabold text-xs sm:text-sm text-cyan-300 rounded-lg neu-btn-raised focus:outline-none focus:ring-2 focus:ring-cyan-400 placeholder-slate-600"
                 />
-                <span className="text-cyan-400 font-bold text-xs sm:text-sm">:</span>
-                {/* Start Minute Input */}
-                <input
-                  type="text"
-                  maxLength={2}
+                <span className="text-cyan-400 font-bold text-sm sm:text-base my-auto select-none">:</span>
+                {/* Start Minute Scroll Picker */}
+                <ScrollNumberPicker
                   value={startMinute}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, '');
-                    setStartMinute(val);
-                  }}
+                  onChange={setStartMinute}
+                  options={MINUTE_OPTIONS}
                   placeholder="--"
-                  className="w-8 sm:w-10 h-8 sm:h-9 text-center font-mono font-extrabold text-xs sm:text-sm text-cyan-300 rounded-lg neu-btn-raised focus:outline-none focus:ring-2 focus:ring-cyan-400 placeholder-slate-600"
                 />
 
-                {/* Start AM / PM Dropdown Select */}
-                <select
-                  value={startPeriod}
-                  onChange={(e) => setStartPeriod(e.target.value)}
-                  className="h-8 sm:h-9 px-2 rounded-lg neu-btn-raised bg-[#111a2c] text-cyan-300 font-mono text-xs font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+                {/* Start AM / PM Single Tap Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setStartPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'))}
+                  className="w-10 sm:w-11 h-12 sm:h-13 rounded-xl neu-btn-raised bg-[#0f172a] hover:bg-[#131d35] border border-cyan-500/30 hover:border-cyan-400/80 active:scale-95 transition-all cursor-pointer flex items-center justify-center shadow-sm select-none"
+                  title="Tap to toggle AM / PM"
                 >
-                  <option value="AM" className="bg-[#111a2c] text-slate-100">AM</option>
-                  <option value="PM" className="bg-[#111a2c] text-slate-100">PM</option>
-                </select>
+                  <span className="font-mono font-black text-xs sm:text-sm text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.65)]">
+                    {startPeriod}
+                  </span>
+                </button>
               </div>
 
               {/* MIDDLE "to" SEPARATOR */}
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-0.5 shrink-0">
+              <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider px-0.5 sm:px-1 shrink-0 my-auto select-none">
                 to
               </span>
 
               {/* END TIME BLOCK */}
-              <div className="flex items-center gap-1 min-w-0">
-                {/* End Hour Input */}
-                <input
-                  type="text"
-                  maxLength={2}
+              <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
+                {/* End Hour Scroll Picker */}
+                <ScrollNumberPicker
                   value={endHour}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, '');
-                    setEndHour(val);
-                  }}
+                  onChange={setEndHour}
+                  options={HOUR_OPTIONS}
                   placeholder="--"
-                  className="w-8 sm:w-10 h-8 sm:h-9 text-center font-mono font-extrabold text-xs sm:text-sm text-cyan-300 rounded-lg neu-btn-raised focus:outline-none focus:ring-2 focus:ring-cyan-400 placeholder-slate-600"
                 />
-                <span className="text-cyan-400 font-bold text-xs sm:text-sm">:</span>
-                {/* End Minute Input */}
-                <input
-                  type="text"
-                  maxLength={2}
+                <span className="text-cyan-400 font-bold text-sm sm:text-base my-auto select-none">:</span>
+                {/* End Minute Scroll Picker */}
+                <ScrollNumberPicker
                   value={endMinute}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, '');
-                    setEndMinute(val);
-                  }}
+                  onChange={setEndMinute}
+                  options={MINUTE_OPTIONS}
                   placeholder="--"
-                  className="w-8 sm:w-10 h-8 sm:h-9 text-center font-mono font-extrabold text-xs sm:text-sm text-cyan-300 rounded-lg neu-btn-raised focus:outline-none focus:ring-2 focus:ring-cyan-400 placeholder-slate-600"
                 />
 
-                {/* End AM / PM Dropdown Select */}
-                <select
-                  value={endPeriod}
-                  onChange={(e) => setEndPeriod(e.target.value)}
-                  className="h-8 sm:h-9 px-2 rounded-lg neu-btn-raised bg-[#111a2c] text-cyan-300 font-mono text-xs font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+                {/* End AM / PM Single Tap Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setEndPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'))}
+                  className="w-10 sm:w-11 h-12 sm:h-13 rounded-xl neu-btn-raised bg-[#0f172a] hover:bg-[#131d35] border border-cyan-500/30 hover:border-cyan-400/80 active:scale-95 transition-all cursor-pointer flex items-center justify-center shadow-sm select-none"
+                  title="Tap to toggle AM / PM"
                 >
-                  <option value="AM" className="bg-[#111a2c] text-slate-100">AM</option>
-                  <option value="PM" className="bg-[#111a2c] text-slate-100">PM</option>
-                </select>
+                  <span className="font-mono font-black text-xs sm:text-sm text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.65)]">
+                    {endPeriod}
+                  </span>
+                </button>
               </div>
             </div>
 

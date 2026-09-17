@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save, Edit3 } from 'lucide-react';
-import { LAB_OPTIONS } from '../../data/equipmentData';
+import { ADMIN_LAB_OPTIONS } from '../../data/equipmentData';
 
 export default function EditItemModal({ isOpen, item, onClose, onSave }) {
   const [form, setForm] = useState({
@@ -110,7 +110,7 @@ export default function EditItemModal({ isOpen, item, onClose, onSave }) {
                 required
                 className="w-full h-11 px-3.5 rounded-xl bg-[#060b14] border border-slate-800 text-sm text-slate-100 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
               >
-                {LAB_OPTIONS.map((lab) => (
+                {ADMIN_LAB_OPTIONS.map((lab) => (
                   <option key={lab.id} value={lab.id}>{lab.name}</option>
                 ))}
               </select>

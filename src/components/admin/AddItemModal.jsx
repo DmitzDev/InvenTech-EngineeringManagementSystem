@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Plus, Package } from 'lucide-react';
-import { LAB_OPTIONS } from '../../data/equipmentData';
+import { ADMIN_LAB_OPTIONS } from '../../data/equipmentData';
 
 export default function AddItemModal({ isOpen, onClose, onSave }) {
   const [form, setForm] = useState({
@@ -102,7 +102,7 @@ export default function AddItemModal({ isOpen, onClose, onSave }) {
                 className="w-full h-11 px-3.5 rounded-xl bg-[#060b14] border border-slate-800 text-sm text-slate-100 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
               >
                 <option value="">Select Laboratory...</option>
-                {LAB_OPTIONS.map((lab) => (
+                {ADMIN_LAB_OPTIONS.map((lab) => (
                   <option key={lab.id} value={lab.id}>{lab.name}</option>
                 ))}
               </select>
