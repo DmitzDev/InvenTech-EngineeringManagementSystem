@@ -175,7 +175,7 @@ export default function BorrowerForm() {
   };
 
   return (
-    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1540px] mx-auto w-full p-3 sm:p-4 lg:p-5 flex flex-col justify-between h-full overflow-y-auto lg:overflow-hidden select-none">
+    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1540px] mx-auto w-full p-3 sm:p-4 lg:p-5 flex flex-col justify-between min-h-screen lg:min-h-0 lg:h-full overflow-y-auto lg:overflow-hidden select-none pb-20 lg:pb-0">
       {/* 1. Step Header */}
       <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 shrink-0">
         <div>
@@ -194,8 +194,8 @@ export default function BorrowerForm() {
         </p>
       </div>
 
-      {/* 2. Form Grid with Neumorphic Raised Panels (Zero-Scroll 100% Viewport Fit) */}
-      <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-auto py-1">
+      {/* 2. Form Grid with Neumorphic Raised Panels (Zero-Scroll 100% Viewport Fit on Kiosk) */}
+      <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 my-auto py-2">
         {/* Left Column: Academic & Course Code Builder */}
         <div className="neu-card rounded-3xl p-4 sm:p-5 space-y-3">
           <h2 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 pb-1.5 border-b border-slate-800/80 uppercase tracking-wider">
@@ -442,7 +442,7 @@ export default function BorrowerForm() {
             </div>
 
             {/* DUAL TIME RANGE PICKER CONTAINER (Slim & Space-Saving) */}
-            <div className="w-full py-1.5 sm:py-2 px-2.5 sm:px-3.5 rounded-2xl neu-inset border border-slate-800/80 flex items-center justify-between gap-1 sm:gap-1.5">
+            <div className="w-full py-1.5 sm:py-2 px-1.5 sm:px-3.5 rounded-2xl neu-inset border border-slate-800/80 flex items-center justify-between gap-0.5 sm:gap-1.5 overflow-x-auto no-scrollbar">
               {/* START TIME BLOCK */}
               <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
                 {/* Start Hour Scroll Picker */}
@@ -518,14 +518,14 @@ export default function BorrowerForm() {
         </div>
       </form>
 
-      {/* 3. Bottom Action CTA Bar (Zero-Scroll 100% Fit) */}
-      <div className="pt-2 sm:pt-3 border-t border-slate-800/80 flex items-center justify-between gap-4 shrink-0">
+      {/* 3. Bottom Action CTA Bar (Responsive on Mobile, Zero-Scroll on Kiosk) */}
+      <div className="pt-2 sm:pt-3 border-t border-slate-800/80 flex flex-col-reverse sm:flex-row items-center justify-between gap-2.5 sm:gap-4 shrink-0">
         <TouchButton
           variant="secondary"
           size="md"
           icon={ArrowLeft}
           onClick={goToWelcome}
-          className="min-w-[120px] sm:min-w-[140px] text-xs sm:text-sm font-bold"
+          className="w-full sm:w-auto min-w-[120px] sm:min-w-[140px] text-xs sm:text-sm font-bold"
         >
           Cancel
         </TouchButton>
@@ -535,7 +535,7 @@ export default function BorrowerForm() {
           size="lg"
           icon={ArrowRight}
           onClick={handleNext}
-          className="min-w-[220px] sm:min-w-[280px] text-sm sm:text-base font-extrabold shadow-lg"
+          className="w-full sm:w-auto min-w-[220px] sm:min-w-[280px] text-sm sm:text-base font-extrabold shadow-lg"
         >
           Next: Select Laboratory
         </TouchButton>

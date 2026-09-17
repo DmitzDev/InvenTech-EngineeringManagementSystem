@@ -84,7 +84,7 @@ export default function EquipmentCatalog() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto lg:overflow-hidden p-3 sm:p-5 lg:p-6 pb-24 md:pb-6 max-w-7xl mx-auto w-full flex flex-col justify-between select-none">
+    <div className="flex-1 overflow-y-auto lg:overflow-hidden p-3 sm:p-5 lg:p-6 pb-28 lg:pb-6 max-w-7xl mx-auto w-full flex flex-col justify-between select-none min-h-screen lg:min-h-0 lg:h-full">
       {/* Top Department Breadcrumb & Actions */}
       <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5 mb-3 shrink-0 flex-wrap gap-2">
         <div className="flex items-center gap-2">
