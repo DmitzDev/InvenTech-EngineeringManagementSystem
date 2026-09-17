@@ -203,8 +203,8 @@ export default function Header() {
             />
 
             {/* Floating Rudder Action Menu Dock (Animated slide-down) */}
-            <div className="absolute top-[calc(100%+8px)] sm:top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-50 select-none pointer-events-auto max-w-[96vw]">
-              <div className="animate-slide-down bg-[#09101d]/95 border border-cyan-500/50 backdrop-blur-2xl px-2 sm:px-5 py-1.5 sm:py-2.5 rounded-2xl sm:rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex items-center justify-center gap-1.5 sm:gap-3 overflow-x-auto no-scrollbar">
+            <div className="absolute top-[calc(100%+6px)] sm:top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-50 select-none pointer-events-auto w-[calc(100%-16px)] sm:w-auto sm:max-w-[96vw]">
+              <div className="animate-slide-down bg-[#09101d]/95 border border-cyan-500/50 backdrop-blur-2xl px-2 sm:px-5 py-2 sm:py-2.5 rounded-2xl sm:rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex items-center justify-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
                 {/* Item 1: Exit Fullscreen / Fullscreen Toggle */}
                 <button
                   type="button"
