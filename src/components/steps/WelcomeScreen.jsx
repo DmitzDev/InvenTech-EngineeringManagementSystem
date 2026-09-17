@@ -124,16 +124,6 @@ export default function WelcomeScreen() {
       <div className="flex-1 flex flex-col items-center justify-evenly text-center py-4 lg:pt-0 lg:pb-6 max-w-4xl mx-auto w-full relative z-10 gap-4 sm:gap-6 lg:gap-0">
         {/* Block 1: Status Pill & Live Digital Clock Pod (Lifted higher up) */}
         <div className="flex flex-col items-center gap-2 sm:gap-2.5 mt-0 lg:-mt-8">
-          {/* Touchscreen Kiosk Status Pill */}
-          <div className="flex items-center gap-2 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full neu-inset-sm border border-emerald-500/20 shadow-sm">
-            <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.9)]" />
-            </span>
-            <span className="text-[10px] sm:text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider sm:tracking-widest">
-              TOUCHSCREEN KIOSK READY • SYSTEM ACTIVE
-            </span>
-          </div>
 
           {/* Live Digital Clock Pod */}
           <div className="flex items-center gap-2 sm:gap-2.5 neu-inset px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs font-mono text-slate-300 shadow-sm">
