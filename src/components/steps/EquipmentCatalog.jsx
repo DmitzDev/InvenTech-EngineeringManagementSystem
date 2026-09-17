@@ -39,6 +39,9 @@ export default function EquipmentCatalog() {
   // Extract laboratory equipment
   const labEquipment = useMemo(() => {
     if (!selectedLab) return allEquipment;
+    if (selectedLab === 'DIGITAL_ECE') {
+      return allEquipment.filter((item) => item.lab === 'DIGITAL' || item.lab === 'ECE');
+    }
     return allEquipment.filter((item) => item.lab === selectedLab);
   }, [selectedLab, allEquipment]);
 
@@ -223,9 +226,28 @@ export default function EquipmentCatalog() {
                       <div>
                         {/* Tag Code, Unit & Stock Pill */}
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] font-mono font-bold text-cyan-400 neu-inset-sm px-2 py-0.5 rounded">
-                            {item.tagCode}
-                          </span>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-[10px] font-mono font-bold text-cyan-400 neu-inset-sm px-2 py-0.5 rounded">
+                              {item.tagCode}
+                            </span>
+                            <span
+                              className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
+                                item.lab === 'DIGITAL'
+                                  ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30'
+                                  : item.lab === 'ECE'
+                                  ? 'bg-indigo-500/15 text-indigo-300 border border-indigo-500/30'
+                                  : item.lab === 'CE'
+                                  ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                                  : item.lab === 'CHEM'
+                                  ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
+                                  : item.lab === 'PHYSICS'
+                                  ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30'
+                                  : 'bg-slate-700/30 text-slate-300'
+                              }`}
+                            >
+                              {item.lab === 'DIGITAL' ? 'DIGITAL' : item.lab === 'ECE' ? 'ECE' : item.lab}
+                            </span>
+                          </div>
 
                           <div className="flex items-center gap-1.5">
                             {/* Reserved Status Indicator */}

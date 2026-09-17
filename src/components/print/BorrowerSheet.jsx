@@ -36,7 +36,7 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
       index: i + 1,
       qtyRequested: item ? `${item.qty} ${item.unit || ''}` : '',
       description: item
-        ? `${item.name} (${item.tagCode})${item.isDamaged ? ' [FLAGGED DAMAGE]' : ''}`
+        ? `${item.name} (${item.tagCode}) • [${item.lab === 'DIGITAL' ? 'Digital Lab' : item.lab === 'ECE' ? 'ECE Lab' : item.lab === 'CE' ? 'CE Lab' : item.lab === 'CHEM' ? 'Chem Lab' : item.lab === 'PHYSICS' ? 'Physics Lab' : `${item.lab} Lab`}]${item.isDamaged ? ' [FLAGGED DAMAGE]' : ''}`
         : '',
       dateBorrowed: item ? borrower.date : '',
       dateReturned: '',
@@ -156,7 +156,7 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
             <tr key={row.index} className="h-5">
               <td className="border border-black text-center font-bold p-0.5">{row.index}</td>
               <td className="border border-black text-center font-bold p-0.5">{row.qtyRequested}</td>
-              <td className="border border-black px-1.5 p-0.5 font-medium truncate max-w-[200px]">
+              <td className="border border-black px-1.5 p-0.5 font-medium text-[9px] leading-tight max-w-[280px]">
                 {row.description}
               </td>
               <td className="border border-black text-center text-[8px] p-0.5">{row.dateBorrowed}</td>

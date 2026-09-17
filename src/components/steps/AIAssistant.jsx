@@ -12,7 +12,7 @@ export default function AIAssistant({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const filteredPresets = AI_EXPERIMENT_PRESETS.filter(
-    (p) => !selectedLab || p.lab === selectedLab
+    (p) => !selectedLab || (selectedLab === 'DIGITAL_ECE' ? (p.lab === 'DIGITAL' || p.lab === 'ECE') : p.lab === selectedLab)
   );
 
   const handleAddPresetItems = (preset, e) => {

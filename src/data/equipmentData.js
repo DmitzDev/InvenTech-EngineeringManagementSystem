@@ -10,24 +10,15 @@ export const LAB_OPTIONS = [
     "room": "F301 CIVIL ENGINEERING LAB"
   },
   {
-    "id": "DIGITAL",
-    "name": "Digital & Microcontroller Lab",
-    "shortName": "Digital Lab",
-    "tag": "DIG-LAB",
+    "id": "DIGITAL_ECE",
+    "name": "Digital, Microcontroller & ECE Lab",
+    "shortName": "Digital & ECE Lab",
+    "tag": "DIG/ECE-LAB",
     "accentColor": "cyan",
-    "description": "Digital Logic Circuits, ICs, Components, Relays, Microcontrollers & Prototyping",
+    "description": "Digital Logic, Microcontrollers, Prototyping, ETEK Modular Trainers & Communications",
     "iconName": "Cpu",
-    "room": "F303-F304 DIGITAL LAB"
-  },
-  {
-    "id": "ECE",
-    "name": "ECE & Communications Lab",
-    "shortName": "ECE Lab",
-    "tag": "ECE-LAB",
-    "accentColor": "indigo",
-    "description": "ETEK BEE Modular Trainers, Modulators, Transceivers, Meters & Benchtop Instruments",
-    "iconName": "Radio",
-    "room": "F303-F304 / Fame Bldg"
+    "room": "F303-F304 DIGITAL & ECE LAB",
+    "subLabs": ["DIGITAL", "ECE"]
   },
   {
     "id": "CHEM",
@@ -49,6 +40,14 @@ export const LAB_OPTIONS = [
     "iconName": "Atom",
     "room": "F204 – F205 PHYSICS LAB"
   }
+];
+
+export const ADMIN_LAB_OPTIONS = [
+  { id: "CE", name: "Civil Engineering Lab", shortName: "CE Lab" },
+  { id: "DIGITAL", name: "Digital & Microcontroller Lab", shortName: "Digital Lab" },
+  { id: "ECE", name: "ECE & Communications Lab", shortName: "ECE Lab" },
+  { id: "CHEM", name: "Chemistry Lab", shortName: "Chem Lab" },
+  { id: "PHYSICS", name: "Physics & Mechanics Lab", shortName: "Physics Lab" }
 ];
 
 // Master Clean Inventory (263 unique items from official Universidad de Dagupan Master List)
