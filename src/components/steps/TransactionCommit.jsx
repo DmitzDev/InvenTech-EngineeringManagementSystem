@@ -73,7 +73,7 @@ export default function TransactionCommit() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-28 xl:pb-8 max-w-6xl mx-auto w-full flex flex-col justify-between space-y-5 select-none relative">
+    <div className="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pb-32 xl:pb-8 max-w-6xl mx-auto w-full flex flex-col justify-between space-y-4 sm:space-y-5 select-none relative min-h-screen lg:min-h-0 lg:h-full">
       <div className="space-y-5">
         {/* Neumorphic Review & Verification Banner */}
         <div className="neu-card rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-cyan-500/30 shadow-[0_0_24px_rgba(6,182,212,0.15)]">
@@ -218,14 +218,15 @@ export default function TransactionCommit() {
       </div>
 
       {/* Action Toolbar */}
-      <div className="flex pt-4 border-t border-slate-800/80 items-center justify-between gap-4 shrink-0">
+      <div className="flex flex-col-reverse lg:flex-row pt-4 border-t border-slate-800/80 items-stretch lg:items-center justify-between gap-3 sm:gap-4 shrink-0">
         {/* Left Side: Navigation / Session Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <TouchButton
             variant="secondary"
             size="md"
             icon={ArrowLeft}
             onClick={() => setStep(3)}
+            className="flex-1 sm:flex-initial text-xs sm:text-sm"
           >
             Modify Cart
           </TouchButton>
@@ -235,6 +236,7 @@ export default function TransactionCommit() {
             size="md"
             icon={Home}
             onClick={goToWelcome}
+            className="flex-1 sm:flex-initial text-xs sm:text-sm"
           >
             Home
           </TouchButton>
@@ -244,13 +246,14 @@ export default function TransactionCommit() {
             size="md"
             icon={RotateCcw}
             onClick={resetTransaction}
+            className="w-full sm:w-auto text-xs sm:text-sm"
           >
             New Transaction
           </TouchButton>
         </div>
 
         {/* Right Side: Primary Actions (Download PDF & Print Slip) */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
           {/* Download PDF Button */}
           <TouchButton
             variant="success"
@@ -258,6 +261,7 @@ export default function TransactionCommit() {
             icon={isDownloadingPdf ? Loader2 : Download}
             onClick={handleDownloadPdf}
             disabled={isDownloadingPdf}
+            className="w-full sm:w-auto text-xs sm:text-sm"
           >
             {isDownloadingPdf ? 'Generating PDF...' : 'Download PDF Copy'}
           </TouchButton>
@@ -268,7 +272,7 @@ export default function TransactionCommit() {
             size="lg"
             icon={Printer}
             onClick={handleManualPrint}
-            className="shadow-lg shadow-cyan-950/50"
+            className="w-full sm:w-auto shadow-lg shadow-cyan-950/50 text-sm sm:text-base font-extrabold"
           >
             Print Borrower Slip
           </TouchButton>

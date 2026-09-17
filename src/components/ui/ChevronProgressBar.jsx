@@ -61,7 +61,7 @@ export default function ChevronProgressBar() {
 
   return (
     <div
-      className={`w-full py-2 px-3 sm:px-6 lg:px-8 border-b shrink-0 select-none z-10 transition-colors duration-300 relative ${
+      className={`w-full py-1.5 sm:py-2 px-2 sm:px-6 lg:px-8 border-b shrink-0 select-none z-10 transition-colors duration-300 relative ${
         isDark
           ? 'bg-[#080d17] border-slate-800/90 shadow-[0_4px_16px_rgba(0,0,0,0.6)]'
           : 'bg-[#e4ebf5] border-slate-300/80 shadow-[0_4px_12px_rgba(0,0,0,0.06)]'
@@ -70,7 +70,7 @@ export default function ChevronProgressBar() {
     >
       {/* Main Engineering Schematic Process Track Container */}
       <div
-        className={`max-w-6xl xl:max-w-7xl mx-auto rounded-2xl p-1 sm:p-1.5 flex items-stretch gap-1.5 sm:gap-2 border relative transition-all duration-300 shadow-inner ${
+        className={`max-w-6xl xl:max-w-7xl mx-auto rounded-xl sm:rounded-2xl p-1 sm:p-1.5 flex items-stretch gap-1 sm:gap-2 border relative transition-all duration-300 shadow-inner ${
           isDark
             ? 'bg-[#0b1220] border-slate-700/80 shadow-[inset_0_2px_6px_rgba(0,0,0,0.8)]'
             : 'bg-[#d5e0ee] border-slate-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]'
@@ -84,7 +84,7 @@ export default function ChevronProgressBar() {
 
           // Technical Chamfer Clip-Path for precision engineering aesthetic
           // Left-most chamfer on left, right-most on right, chevron connection between
-          let chamferClass = 'rounded-xl';
+          let chamferClass = 'rounded-lg sm:rounded-xl';
 
           // Visual Styling depending on state
           let nodeStyles = '';
@@ -108,13 +108,13 @@ export default function ChevronProgressBar() {
               type="button"
               disabled={!isClickable}
               onClick={() => isClickable && setStep(step.id)}
-              className={`flex-1 min-h-[46px] sm:min-h-[52px] px-2 sm:px-3 py-1.5 sm:py-2 flex items-center justify-between gap-1.5 sm:gap-2.5 transition-all duration-200 relative group active:scale-[0.98] ${chamferClass} ${nodeStyles}`}
+              className={`flex-1 min-h-[42px] sm:min-h-[52px] px-1.5 sm:px-3 py-1 sm:py-2 flex items-center justify-between gap-1 sm:gap-2.5 transition-all duration-200 relative group active:scale-[0.98] ${chamferClass} ${nodeStyles}`}
             >
               {/* Left Segment: Engineering Node Tag + Icon */}
-              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+              <div className="flex items-center gap-1 sm:gap-2 min-w-0">
                 {/* Technical Node Badge */}
                 <div
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-mono font-black text-xs shrink-0 transition-all ${
+                  className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center font-mono font-black text-[10px] sm:text-xs shrink-0 transition-all ${
                     isActive
                       ? isDark
                         ? 'bg-slate-950 text-cyan-300 border border-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
@@ -127,7 +127,7 @@ export default function ChevronProgressBar() {
                   }`}
                 >
                   {isCompleted ? (
-                    <Check className="w-4 h-4 stroke-[3]" />
+                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]" />
                   ) : (
                     <span className="tracking-tight">{step.id}</span>
                   )}
@@ -135,9 +135,9 @@ export default function ChevronProgressBar() {
 
                 {/* Technical Label Readout */}
                 <div className="flex flex-col text-left min-w-0">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1 sm:gap-1.5">
                     <span
-                      className={`text-[9px] sm:text-[10px] font-mono font-extrabold uppercase tracking-widest ${
+                      className={`hidden sm:inline text-[9px] sm:text-[10px] font-mono font-extrabold uppercase tracking-widest ${
                         isActive
                           ? isDark
                             ? 'text-slate-900'
@@ -165,7 +165,7 @@ export default function ChevronProgressBar() {
                   </div>
 
                   <span
-                    className={`truncate text-xs sm:text-sm font-black tracking-tight leading-tight ${
+                    className={`truncate text-[10px] sm:text-xs md:text-sm font-black tracking-tight leading-tight ${
                       isActive
                         ? isDark
                           ? 'text-slate-950 font-black'
@@ -185,11 +185,11 @@ export default function ChevronProgressBar() {
               </div>
 
               {/* Right Segment: Status LED or Cart Counter */}
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                 {/* Step 3 Live Apparatus Counter Pill */}
                 {step.id === 3 && cart.length > 0 && (
                   <div
-                    className={`px-1.5 sm:px-2 py-0.5 rounded-md font-mono text-[9px] sm:text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm ${
+                    className={`hidden xs:flex px-1 sm:px-2 py-0.5 rounded-md font-mono text-[8px] sm:text-[10px] font-black uppercase tracking-wider items-center gap-0.5 sm:gap-1 shadow-sm ${
                       isActive
                         ? isDark
                           ? 'bg-slate-950 text-cyan-300 border border-cyan-400'
