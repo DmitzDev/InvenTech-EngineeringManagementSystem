@@ -206,7 +206,7 @@ export default function BorrowerForm() {
           {/* 1. Engineering Program Pill Select (Toggleable) */}
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">
-              Engineering Program *
+              Engineering Program
             </label>
             <div className="grid grid-cols-4 gap-2">
               {PROGRAMS.map((prog) => {
@@ -236,7 +236,7 @@ export default function BorrowerForm() {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-300 mb-1">
-                Year Level *
+                Year Level
               </label>
               <div className="grid grid-cols-2 gap-1.5">
                 {YEAR_LEVELS.map((y) => {
@@ -261,7 +261,7 @@ export default function BorrowerForm() {
 
             <div>
               <label className="block text-xs font-bold text-slate-300 mb-1">
-                Term / Semester *
+                Term / Semester
               </label>
               <div className="grid grid-cols-2 gap-1.5">
                 <button
@@ -309,7 +309,7 @@ export default function BorrowerForm() {
           {/* 3. Section Number Selector (Toggleable) */}
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">
-              Class Section *
+              Class Section
             </label>
             <div className="grid grid-cols-4 gap-2">
               {SECTIONS.map((sec) => {
@@ -335,7 +335,7 @@ export default function BorrowerForm() {
           {/* 4. Course Code Display (Empty until options are selected) */}
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">
-              Course Code *
+              Course Code
             </label>
 
             <input
@@ -392,7 +392,7 @@ export default function BorrowerForm() {
 
             <div className="col-span-2">
               <label className="block text-xs font-bold text-slate-300 mb-1">
-                Group Leader / Student Name *
+                Group Leader / Student Name
               </label>
               <input
                 type="text"
@@ -413,7 +413,7 @@ export default function BorrowerForm() {
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1 flex items-center gap-1.5">
               <UserCheck className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Laboratory Instructor * (Type Name)</span>
+              <span>Laboratory Instructor (Type Name)</span>
             </label>
             <input
               type="text"
@@ -434,15 +434,83 @@ export default function BorrowerForm() {
             <div className="flex items-center justify-between mb-1">
               <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Time of Laboratory Schedule *</span>
+                <span>Time of Laboratory Schedule</span>
               </label>
               <span className="text-[11px] font-mono text-cyan-400 font-extrabold bg-cyan-950/70 px-2 py-0.5 rounded-full border border-cyan-500/40 truncate max-w-[200px]">
                 {borrower.labTime}
               </span>
             </div>
 
-            {/* DUAL TIME RANGE PICKER CONTAINER (Slim & Space-Saving) */}
-            <div className="w-full py-1.5 sm:py-2 px-1.5 sm:px-3.5 rounded-2xl neu-inset border border-slate-800/80 flex items-center justify-between gap-0.5 sm:gap-1.5 overflow-x-auto no-scrollbar">
+            {/* ═══ MOBILE: Native Time Inputs (typing support, no arrows) ═══ */}
+            <div className="block lg:hidden w-full py-2.5 px-3 rounded-2xl neu-inset border border-slate-800/80">
+              <div className="flex items-center justify-between gap-2">
+                {/* Start Time - Native Input */}
+                <div className="flex items-center gap-1.5 flex-1">
+                  <input
+                    type="time"
+                    value={(() => {
+                      if (!startHour) return '';
+                      let h = parseInt(startHour, 10);
+                      if (startPeriod === 'PM' && h !== 12) h += 12;
+                      if (startPeriod === 'AM' && h === 12) h = 0;
+                      return `${String(h).padStart(2, '0')}:${startMinute || '00'}`;
+                    })()}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val) {
+                        const [hStr, mStr] = val.split(':');
+                        let h = parseInt(hStr, 10);
+                        const period = h >= 12 ? 'PM' : 'AM';
+                        if (h === 0) h = 12;
+                        else if (h > 12) h -= 12;
+                        setStartHour(String(h).padStart(2, '0'));
+                        setStartMinute(mStr);
+                        setStartPeriod(period);
+                      }
+                    }}
+                    className="w-full h-10 px-3 rounded-xl neu-inset text-cyan-300 font-mono text-sm font-extrabold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all bg-transparent"
+                    style={{ colorScheme: 'dark' }}
+                  />
+                </div>
+
+                {/* "to" separator */}
+                <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider px-1 shrink-0 select-none">
+                  to
+                </span>
+
+                {/* End Time - Native Input */}
+                <div className="flex items-center gap-1.5 flex-1">
+                  <input
+                    type="time"
+                    value={(() => {
+                      if (!endHour) return '';
+                      let h = parseInt(endHour, 10);
+                      if (endPeriod === 'PM' && h !== 12) h += 12;
+                      if (endPeriod === 'AM' && h === 12) h = 0;
+                      return `${String(h).padStart(2, '0')}:${endMinute || '00'}`;
+                    })()}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val) {
+                        const [hStr, mStr] = val.split(':');
+                        let h = parseInt(hStr, 10);
+                        const period = h >= 12 ? 'PM' : 'AM';
+                        if (h === 0) h = 12;
+                        else if (h > 12) h -= 12;
+                        setEndHour(String(h).padStart(2, '0'));
+                        setEndMinute(mStr);
+                        setEndPeriod(period);
+                      }
+                    }}
+                    className="w-full h-10 px-3 rounded-xl neu-inset text-cyan-300 font-mono text-sm font-extrabold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all bg-transparent"
+                    style={{ colorScheme: 'dark' }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* ═══ KIOSK (lg+): Original ScrollNumberPicker with arrows ═══ */}
+            <div className="hidden lg:flex w-full py-1.5 sm:py-2 px-1.5 sm:px-3.5 rounded-2xl neu-inset border border-slate-800/80 items-center justify-between gap-0.5 sm:gap-1.5 overflow-x-auto no-scrollbar">
               {/* START TIME BLOCK */}
               <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
                 {/* Start Hour Scroll Picker */}
