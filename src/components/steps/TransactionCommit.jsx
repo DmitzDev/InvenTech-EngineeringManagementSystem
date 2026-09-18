@@ -26,7 +26,6 @@ export default function TransactionCommit() {
 
   // Print Slip manually triggered on button click
   const handleManualPrint = () => {
-    setIsRadialMenuOpen(false);
     try {
       window.print();
     } catch (e) {
@@ -36,7 +35,6 @@ export default function TransactionCommit() {
 
   // Download PDF manually triggered on button click
   const handleDownloadPdf = async () => {
-    setIsRadialMenuOpen(false);
     setIsDownloadingPdf(true);
 
     try {
