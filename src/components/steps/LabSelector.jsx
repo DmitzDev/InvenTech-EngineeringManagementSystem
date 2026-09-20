@@ -109,11 +109,10 @@ export default function LabSelector() {
                 </span>
 
                 <span
-                  className={`text-xs sm:text-sm font-black flex items-center gap-1.5 transition-colors ${
-                    isSelected
+                  className={`text-xs sm:text-sm font-black flex items-center gap-1.5 transition-colors ${isSelected
                       ? 'text-cyan-400'
                       : 'text-slate-400 group-hover:text-cyan-300'
-                  }`}
+                    }`}
                 >
                   <span>{isSelected ? 'Selected' : 'Open Catalog'}</span>
                   <ArrowRight className="w-4 h-4" />

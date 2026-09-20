@@ -231,9 +231,8 @@ export default function BorrowerForm() {
               <select
                 value={isOtherProgram ? 'OTHERS' : borrower.program}
                 onChange={(e) => handleProgramChange(e.target.value)}
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer ${
-                  errors.program ? 'ring-2 ring-rose-500' : ''
-                }`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer ${errors.program ? 'ring-2 ring-rose-500' : ''
+                  }`}
               >
                 <option value="" className="bg-[#0e1422] text-slate-400">Select Program</option>
                 {ENGINEERING_PROGRAMS.map((prog) => (
@@ -339,9 +338,8 @@ export default function BorrowerForm() {
               value={borrower.courseCode}
               onChange={(e) => setBorrowerField('courseCode', e.target.value.toUpperCase())}
               placeholder="e.g. 41-BSCPE-01"
-              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
-                errors.courseCode ? 'ring-2 ring-rose-500' : ''
-              }`}
+              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${errors.courseCode ? 'ring-2 ring-rose-500' : ''
+                }`}
             />
             {errors.courseCode && (
               <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.courseCode}</p>
@@ -395,9 +393,8 @@ export default function BorrowerForm() {
                 value={borrower.groupLeader}
                 onChange={(e) => setBorrowerField('groupLeader', e.target.value)}
                 placeholder="e.g. JASON CAYABYAB"
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
-                  errors.groupLeader ? 'ring-2 ring-rose-500' : ''
-                }`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${errors.groupLeader ? 'ring-2 ring-rose-500' : ''
+                  }`}
               />
               {errors.groupLeader && (
                 <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.groupLeader}</p>
@@ -416,9 +413,8 @@ export default function BorrowerForm() {
               value={borrower.instructor}
               onChange={(e) => setBorrowerField('instructor', e.target.value)}
               placeholder="e.g. Engr. Jin Benir Macaranas"
-              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
-                errors.instructor ? 'ring-2 ring-rose-500' : ''
-              }`}
+              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${errors.instructor ? 'ring-2 ring-rose-500' : ''
+                }`}
             />
             {errors.instructor && (
               <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.instructor}</p>

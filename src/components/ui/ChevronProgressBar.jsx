@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  UserCheck, 
-  CircuitBoard, 
-  SlidersHorizontal, 
-  FileCheck2, 
-  Check, 
-  Activity, 
+import {
+  UserCheck,
+  CircuitBoard,
+  SlidersHorizontal,
+  FileCheck2,
+  Check,
+  Activity,
   Sparkles,
   Layers,
   Cpu
@@ -13,33 +13,33 @@ import {
 import { useTransaction } from '../../context/TransactionContext';
 
 const STEPS = [
-  { 
-    id: 1, 
-    code: 'SPEC-01', 
-    title: 'BORROWER', 
+  {
+    id: 1,
+    code: 'SPEC-01',
+    title: 'BORROWER',
     subtitle: 'ID CLEARANCE',
-    icon: UserCheck 
+    icon: UserCheck
   },
-  { 
-    id: 2, 
-    code: 'SPEC-02', 
-    title: 'FACILITY', 
+  {
+    id: 2,
+    code: 'SPEC-02',
+    title: 'FACILITY',
     subtitle: 'LAB DISCIPLINE',
-    icon: CircuitBoard 
+    icon: CircuitBoard
   },
-  { 
-    id: 3, 
-    code: 'SPEC-03', 
-    title: 'APPARATUS', 
+  {
+    id: 3,
+    code: 'SPEC-03',
+    title: 'APPARATUS',
     subtitle: 'EQUIPMENT & CART',
-    icon: SlidersHorizontal 
+    icon: SlidersHorizontal
   },
-  { 
-    id: 4, 
-    code: 'SPEC-04', 
-    title: 'DISPATCH', 
+  {
+    id: 4,
+    code: 'SPEC-04',
+    title: 'DISPATCH',
     subtitle: 'SLIP & COMMIT',
-    icon: FileCheck2 
+    icon: FileCheck2
   },
 ];
 
@@ -61,20 +61,18 @@ export default function ChevronProgressBar() {
 
   return (
     <div
-      className={`w-full py-1 sm:py-1.5 lg:py-2 px-1.5 sm:px-4 lg:px-8 border-b shrink-0 select-none z-10 transition-colors duration-300 relative ${
-        isDark
+      className={`w-full py-1 sm:py-1.5 lg:py-2 px-1.5 sm:px-4 lg:px-8 border-b shrink-0 select-none z-10 transition-colors duration-300 relative ${isDark
           ? 'bg-[#080d17] border-slate-800/90 shadow-[0_4px_16px_rgba(0,0,0,0.6)]'
           : 'bg-[#e4ebf5] border-slate-300/80 shadow-[0_4px_12px_rgba(0,0,0,0.06)]'
-      }`}
+        }`}
       aria-label="Engineering Process Telemetry Bar"
     >
       {/* Main Engineering Schematic Process Track Container */}
       <div
-        className={`max-w-6xl xl:max-w-7xl mx-auto rounded-lg sm:rounded-xl lg:rounded-2xl p-0.5 sm:p-1 lg:p-1.5 flex items-stretch gap-0.5 sm:gap-1 lg:gap-2 border relative transition-all duration-300 shadow-inner ${
-          isDark
+        className={`max-w-6xl xl:max-w-7xl mx-auto rounded-lg sm:rounded-xl lg:rounded-2xl p-0.5 sm:p-1 lg:p-1.5 flex items-stretch gap-0.5 sm:gap-1 lg:gap-2 border relative transition-all duration-300 shadow-inner ${isDark
             ? 'bg-[#0b1220] border-slate-700/80 shadow-[inset_0_2px_6px_rgba(0,0,0,0.8)]'
             : 'bg-[#d5e0ee] border-slate-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]'
-        }`}
+          }`}
       >
         {STEPS.map((step, index) => {
           const isActive = currentStep === step.id;
@@ -114,17 +112,16 @@ export default function ChevronProgressBar() {
               <div className="flex items-center gap-0.5 sm:gap-1 lg:gap-2 min-w-0">
                 {/* Technical Node Badge */}
                 <div
-                  className={`w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 rounded-md sm:rounded-lg flex items-center justify-center font-mono font-black text-[9px] sm:text-[10px] lg:text-xs shrink-0 transition-all ${
-                    isActive
+                  className={`w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 rounded-md sm:rounded-lg flex items-center justify-center font-mono font-black text-[9px] sm:text-[10px] lg:text-xs shrink-0 transition-all ${isActive
                       ? isDark
                         ? 'bg-slate-950 text-cyan-300 border border-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
                         : 'bg-white text-teal-900 border border-white/80 shadow-md'
                       : isCompleted
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
-                      : isDark
-                      ? 'bg-slate-800/80 text-slate-400 border border-slate-700/60'
-                      : 'bg-slate-200 text-slate-500 border border-slate-300'
-                  }`}
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
+                        : isDark
+                          ? 'bg-slate-800/80 text-slate-400 border border-slate-700/60'
+                          : 'bg-slate-200 text-slate-500 border border-slate-300'
+                    }`}
                 >
                   {isCompleted ? (
                     <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]" />
@@ -137,47 +134,44 @@ export default function ChevronProgressBar() {
                 <div className="flex flex-col text-left min-w-0">
                   <div className="flex items-center gap-1 sm:gap-1.5">
                     <span
-                      className={`hidden sm:inline text-[9px] sm:text-[10px] font-mono font-extrabold uppercase tracking-widest ${
-                        isActive
+                      className={`hidden sm:inline text-[9px] sm:text-[10px] font-mono font-extrabold uppercase tracking-widest ${isActive
                           ? isDark
                             ? 'text-slate-900'
                             : 'text-cyan-100'
                           : isCompleted
-                          ? 'text-emerald-400'
-                          : 'text-slate-500'
-                      }`}
+                            ? 'text-emerald-400'
+                            : 'text-slate-500'
+                        }`}
                     >
                       {step.code}
                     </span>
 
                     {/* Step Icon */}
                     <StepIcon
-                      className={`w-3.5 h-3.5 hidden md:inline shrink-0 ${
-                        isActive
+                      className={`w-3.5 h-3.5 hidden md:inline shrink-0 ${isActive
                           ? isDark
                             ? 'text-slate-950'
                             : 'text-white'
                           : isCompleted
-                          ? 'text-emerald-400'
-                          : 'text-slate-500'
-                      }`}
+                            ? 'text-emerald-400'
+                            : 'text-slate-500'
+                        }`}
                     />
                   </div>
 
                   <span
-                    className={`truncate text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-black tracking-tight leading-tight ${
-                      isActive
+                    className={`truncate text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-black tracking-tight leading-tight ${isActive
                         ? isDark
                           ? 'text-slate-950 font-black'
                           : 'text-white font-black'
                         : isCompleted
-                        ? isDark
-                          ? 'text-slate-100'
-                          : 'text-slate-900 font-extrabold'
-                        : isDark
-                        ? 'text-slate-400'
-                        : 'text-slate-500'
-                    }`}
+                          ? isDark
+                            ? 'text-slate-100'
+                            : 'text-slate-900 font-extrabold'
+                          : isDark
+                            ? 'text-slate-400'
+                            : 'text-slate-500'
+                      }`}
                   >
                     {step.title}
                   </span>
@@ -189,13 +183,12 @@ export default function ChevronProgressBar() {
                 {/* Step 3 Live Apparatus Counter Pill */}
                 {step.id === 3 && cart.length > 0 && (
                   <div
-                    className={`hidden xs:flex px-1 sm:px-2 py-0.5 rounded-md font-mono text-[8px] sm:text-[10px] font-black uppercase tracking-wider items-center gap-0.5 sm:gap-1 shadow-sm ${
-                      isActive
+                    className={`hidden xs:flex px-1 sm:px-2 py-0.5 rounded-md font-mono text-[8px] sm:text-[10px] font-black uppercase tracking-wider items-center gap-0.5 sm:gap-1 shadow-sm ${isActive
                         ? isDark
                           ? 'bg-slate-950 text-cyan-300 border border-cyan-400'
                           : 'bg-white text-teal-900 border border-white'
                         : 'bg-cyan-500 text-slate-950 font-extrabold'
-                    }`}
+                      }`}
                   >
                     <Layers className="w-2.5 h-2.5" />
                     <span>{cart.length} {cart.length === 1 ? 'UNIT' : 'UNITS'}</span>
@@ -205,11 +198,10 @@ export default function ChevronProgressBar() {
                 {/* State Diodes */}
                 {isActive && (
                   <span
-                    className={`hidden xl:flex items-center gap-1 text-[9.5px] font-mono font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${
-                      isDark
+                    className={`hidden xl:flex items-center gap-1 text-[9.5px] font-mono font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${isDark
                         ? 'bg-slate-950/80 text-cyan-300 border border-cyan-400/80'
                         : 'bg-white/20 text-white border border-white/40'
-                    }`}
+                      }`}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
                     ACTIVE

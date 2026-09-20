@@ -184,20 +184,18 @@ export default function WelcomeScreen() {
           {/* INVEN TECH Brand Text with AM/PM Dynamic Theme Color Switching */}
           <div className="flex items-center justify-center gap-2.5 sm:gap-4 mt-3 sm:mt-4 mb-1.5 sm:mb-2 select-none">
             <span
-              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${
-                isDark
+              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
                   ? 'text-orange-400 drop-shadow-[0_0_24px_rgba(251,146,60,0.6)]'
                   : 'text-sky-500 drop-shadow-[0_0_24px_rgba(14,165,233,0.5)]'
-              }`}
+                }`}
             >
               INVEN
             </span>
             <span
-              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${
-                isDark
+              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
                   ? 'text-sky-400 drop-shadow-[0_0_24px_rgba(56,189,248,0.6)]'
                   : 'text-orange-500 drop-shadow-[0_0_24px_rgba(249,115,22,0.5)]'
-              }`}
+                }`}
             >
               TECH
             </span>
