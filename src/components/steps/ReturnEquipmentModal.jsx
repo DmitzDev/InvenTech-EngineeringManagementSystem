@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { RotateCcw, Search, CheckCircle2, AlertTriangle, XCircle, ShieldCheck, X, User, Clock, FileText, Check, QrCode, ScanLine } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
@@ -82,8 +83,8 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none">
       <div className="neu-card rounded-3xl max-w-3xl w-full shadow-2xl flex flex-col max-h-[85vh] overflow-hidden">
         {/* Modal Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
@@ -99,7 +100,7 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
                 </span>
               </h3>
               <p className="text-xs text-slate-400">
-                Scan borrower slip barcode or select an active transaction for return inspection.
+                Inspect physical item conditions, apply damages/losses if any, and issue clearance slip.
               </p>
             </div>
           </div>
