@@ -122,6 +122,7 @@ const initialState = {
   },
   selectedLab: null, // 'CE' | 'DIGITAL' | 'CHEM'
   cart: [], // [{ id, name, tagCode, category, qty, unit, description, isDamaged, damageNote }]
+  isCartDrawerOpen: false,
   reservations: getStoredReservations(),
   activeTransactions: getStoredTransactions(),
   activeClearanceRecord: null,
@@ -132,6 +133,18 @@ const initialState = {
 
 function transactionReducer(state, action) {
   switch (action.type) {
+    case 'SET_CART_DRAWER':
+      return {
+        ...state,
+        isCartDrawerOpen: Boolean(action.payload),
+      };
+
+    case 'TOGGLE_CART_DRAWER':
+      return {
+        ...state,
+        isCartDrawerOpen: !state.isCartDrawerOpen,
+      };
+
     case 'TOGGLE_THEME': {
       const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
       localStorage.setItem('udd_kiosk_theme', nextTheme);
@@ -720,6 +733,9 @@ export function TransactionProvider({ children }) {
     removeFromCart: (id) =>
       dispatch({ type: 'REMOVE_FROM_CART', payload: id }),
     clearCart: () => dispatch({ type: 'CLEAR_CART' }),
+    openCartDrawer: () => dispatch({ type: 'SET_CART_DRAWER', payload: true }),
+    closeCartDrawer: () => dispatch({ type: 'SET_CART_DRAWER', payload: false }),
+    toggleCartDrawer: () => dispatch({ type: 'TOGGLE_CART_DRAWER' }),
     addReservation: (reservationData) =>
       dispatch({ type: 'ADD_RESERVATION', payload: reservationData }),
     cancelReservation: (id) =>

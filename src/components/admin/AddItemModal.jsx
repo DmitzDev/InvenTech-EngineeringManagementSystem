@@ -43,10 +43,10 @@ export default function AddItemModal({ isOpen, onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm overflow-y-auto animate-fade-in select-none">
-      <div className="w-full max-w-lg bg-[#0a1220] border border-slate-700/80 rounded-3xl p-5 sm:p-6 shadow-2xl text-slate-100 space-y-4 my-auto max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm animate-fade-in select-none">
+      <div className="w-full max-w-lg bg-[#0a1220] border border-slate-700/80 rounded-3xl shadow-2xl text-slate-100 flex flex-col max-h-[85vh] overflow-hidden my-auto">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0">
               <Package className="w-5 h-5 text-cyan-400" />
@@ -59,14 +59,16 @@ export default function AddItemModal({ isOpen, onClose, onSave }) {
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-[#070d18] border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-2xl bg-[#070d18] border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center active:scale-95 transition-colors cursor-pointer"
+            aria-label="Close modal"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
           {/* Item Name */}
           <div>
             <label className="block text-sm font-semibold text-slate-200 mb-1.5">Equipment Name *</label>
@@ -158,18 +160,20 @@ export default function AddItemModal({ isOpen, onClose, onSave }) {
             />
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          </div>
+
+          {/* Actions Footer */}
+          <div className="flex items-center justify-end gap-4 p-4 border-t border-slate-800 bg-[#070d18] shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl bg-[#060b14] border border-slate-800 text-sm font-semibold text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+              className="min-h-[48px] px-5 py-2.5 rounded-xl bg-[#060b14] border border-slate-800 text-sm font-semibold text-slate-400 hover:text-slate-200 active:scale-95 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-sm font-bold flex items-center gap-2 shadow-md transition-all active:scale-98 cursor-pointer"
+              className="min-h-[48px] px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-sm font-bold flex items-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Add to Inventory</span>

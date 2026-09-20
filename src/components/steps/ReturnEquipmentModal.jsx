@@ -84,7 +84,7 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none">
-      <div className="neu-card rounded-3xl max-w-3xl w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+      <div className="neu-card rounded-3xl max-w-3xl w-full shadow-2xl flex flex-col max-h-[85vh] overflow-hidden">
         {/* Modal Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
           <div className="flex items-center gap-3">
@@ -107,7 +107,8 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl neu-btn-raised text-slate-400 hover:text-white"
+            className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-2xl neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -301,11 +302,11 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between shrink-0">
+        <div className="p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between gap-4 shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl neu-btn-raised text-xs text-slate-300 font-semibold"
+            className="min-h-[48px] px-5 py-2.5 rounded-xl neu-btn-raised text-xs text-slate-300 font-bold active:scale-95 cursor-pointer"
           >
             Cancel
           </button>

@@ -1,13 +1,14 @@
 export const LAB_OPTIONS = [
   {
-    "id": "CE",
-    "name": "Civil Engineering Lab",
-    "shortName": "CE Lab",
-    "tag": "CE-LAB",
-    "accentColor": "amber",
-    "description": "Surveying, Concrete Technology, Soil Mechanics, Materials Testing & Hydraulics",
+    "id": "CE_CHEM",
+    "name": "Civil & Chemistry Engineering Lab",
+    "shortName": "Civil & Chem Lab",
+    "tag": "CE/CHM-LAB",
+    "accentColor": "emerald",
+    "description": "Surveying, Concrete Technology, Soil Mechanics, Materials Testing, Glassware & Analytical Chemistry",
     "iconName": "Building2",
-    "room": "F301 CIVIL ENGINEERING LAB"
+    "room": "F201 & F301 CE-CHEM LAB",
+    "subLabs": ["CE", "CHEM"]
   },
   {
     "id": "DIGITAL_ECE",
@@ -19,16 +20,6 @@ export const LAB_OPTIONS = [
     "iconName": "Cpu",
     "room": "F303-F304 DIGITAL & ECE LAB",
     "subLabs": ["DIGITAL", "ECE"]
-  },
-  {
-    "id": "CHEM",
-    "name": "Chemistry Lab",
-    "shortName": "Chem Lab",
-    "tag": "CHM-LAB",
-    "accentColor": "emerald",
-    "description": "Analytical Chemistry, Qualitative & Quantitative Solution Testing, Glassware & Reagents",
-    "iconName": "FlaskConical",
-    "room": "F201 CHEMISTRY LAB"
   },
   {
     "id": "PHYSICS",
@@ -43,10 +34,11 @@ export const LAB_OPTIONS = [
 ];
 
 export const ADMIN_LAB_OPTIONS = [
+  { id: "CE_CHEM", name: "Civil & Chemistry Lab", shortName: "CE & Chem Lab" },
   { id: "CE", name: "Civil Engineering Lab", shortName: "CE Lab" },
+  { id: "CHEM", name: "Chemistry Lab", shortName: "Chem Lab" },
   { id: "DIGITAL", name: "Digital & Microcontroller Lab", shortName: "Digital Lab" },
   { id: "ECE", name: "ECE & Communications Lab", shortName: "ECE Lab" },
-  { id: "CHEM", name: "Chemistry Lab", shortName: "Chem Lab" },
   { id: "PHYSICS", name: "Physics & Mechanics Lab", shortName: "Physics Lab" }
 ];
 
@@ -4057,6 +4049,96 @@ export function deleteInventoryItem(id) {
   const updated = items.filter((i) => i.id !== id);
   setInventory(updated);
   return updated;
+}
+
+export function getItemImage(item) {
+  if (!item) return null;
+  if (item.image) return item.image;
+  const name = (item.name || '').toLowerCase();
+  const lab = (item.lab || '').toUpperCase();
+  
+  // ==========================================
+  // CIVIL ENGINEERING APPARATUS & EQUIPMENT
+  // ==========================================
+  if (lab === 'CE' || name.includes('theodolite') || name.includes('total station') || name.includes('slump') || name.includes('vicat') || name.includes('sieve') || name.includes('cbr') || name.includes('surveying') || name.includes('hydrometer') || name.includes('silicate')) {
+    if (name.includes('theodolite') || name.includes('total station') || name.includes('transit') || name.includes('gps') || name.includes('flow (current) meter')) {
+      return '/images/equipment/civil/theodolite_total_station.jpg';
+    }
+    if (name.includes('slump')) {
+      return '/images/equipment/civil/concrete_slump_cone.jpg';
+    }
+    if (name.includes('vicat') || name.includes('stwky') || name.includes('soil hydrometer') || name.includes('hydrometer')) {
+      return '/images/equipment/civil/vicat_apparatus.jpg';
+    }
+    if (name.includes('sieve')) {
+      return '/images/equipment/civil/soil_sieves.jpg';
+    }
+    if (name.includes('cbr') || name.includes('stcbr') || name.includes('stye') || name.includes('compression') || name.includes('compactor') || name.includes('splitter') || name.includes('abrasion') || name.includes('strain') || name.includes('mixer') || name.includes('tank') || name.includes('piping') || name.includes('manometer') || name.includes('hydraulic')) {
+      return '/images/equipment/civil/compression_machine.jpg';
+    }
+    if (name.includes('surveying') || name.includes('grade rod') || name.includes('range pole') || name.includes('tripod') || name.includes('leveling') || name.includes('gauge') || name.includes('compass')) {
+      return '/images/equipment/civil/surveying_equipment.jpg';
+    }
+    if (name.includes('hard hat') || name.includes('hammer') || name.includes('trowel') || name.includes('scoop') || name.includes('file') || name.includes('triangular file') || name.includes('drill bit') || name.includes('grinder') || name.includes('sander') || name.includes('planet') || name.includes('moisture can')) {
+      return '/images/equipment/civil/civil_safety_gear.jpg';
+    }
+    if (name.includes('sodium silicate') || name.includes('silicate') || name.includes('chemical') || name.includes('reagent')) {
+      return '/images/equipment/chemistry/reagent_bottle.jpg';
+    }
+    if (lab === 'CE') {
+      return '/images/equipment/civil/compression_machine.jpg';
+    }
+  }
+
+  // ==========================================
+  // CHEMISTRY APPARATUS & GLASSWARE
+  // ==========================================
+  if (name.includes('alcohol lamp') || name.includes('burner')) return '/images/equipment/chemistry/alcohol_lamp.jpg';
+  if (name.includes('beaker')) return '/images/equipment/chemistry/beaker.jpg';
+  if (name.includes('separatory') || name.includes('adapter') || name.includes('connecting tube')) return '/images/equipment/chemistry/separatory_funnel.jpg';
+  if (name.includes('flask') || name.includes('erlenmeyer') || name.includes('florence') || name.includes('distill')) {
+    return '/images/equipment/chemistry/erlenmeyer_flask.jpg';
+  }
+  if (name.includes('crucible') || name.includes('tong')) return '/images/equipment/chemistry/crucible_with_cover.jpg';
+  if (name.includes('evaporating dish') || name.includes('watch glass') || name.includes('tlc') || name.includes('plate')) return '/images/equipment/chemistry/evaporating_dish.jpg';
+  if (name.includes('graduated cylinder') || name.includes('hydrometer') || (name.includes('cylinder') && lab === 'CHEM')) return '/images/equipment/chemistry/graduated_cylinder.jpg';
+  if (name.includes('funnel') || name.includes('buchner') || name.includes('thistle') || name.includes('fish tail')) {
+    return '/images/equipment/chemistry/buchner_funnel.jpg';
+  }
+  if (name.includes('desiccator')) return '/images/equipment/chemistry/desiccator.jpg';
+  if (name.includes('mortar') || name.includes('pestle')) return '/images/equipment/chemistry/mortar_and_pestle.jpg';
+  if (name.includes('petri dish') || name.includes('petri')) return '/images/equipment/chemistry/petri_dish.jpg';
+  if (name.includes('microscope')) return '/images/equipment/chemistry/microscope.jpg';
+  if (name.includes('wash bottle') || name.includes('test tube brush') || name.includes('brush') || name.includes('rubber tubing') || name.includes('tubing')) {
+    return '/images/equipment/chemistry/wash_bottle.jpg';
+  }
+  if (name.includes('dropper') || name.includes('aspirator') || name.includes('pipette') || name.includes('syringe') || name.includes('spatula') || name.includes('stirring rod')) {
+    return '/images/equipment/chemistry/medicine_dropper.jpg';
+  }
+  if (name.includes('reagent') || name.includes('bottle') || name.includes('stopper') || name.includes('bung') || name.includes('leveling bulb') || name.includes('water trough') || name.includes('sodium silicate')) {
+    return '/images/equipment/chemistry/reagent_bottle.jpg';
+  }
+  if (name.includes('test tube') || name.includes('j-tube') || name.includes('drying tube') || name.includes('glass tubing')) {
+    return '/images/equipment/chemistry/test_tube_rack.jpg';
+  }
+  if (name.includes('iron stand') || name.includes('iron ring') || name.includes('iron clamp') || name.includes('extension clamp') || name.includes('clamp') || name.includes('metal rod') || name.includes('support rod') || name.includes('rod')) {
+    return '/images/equipment/chemistry/iron_stand_clamp.jpg';
+  }
+  if (name.includes('nichrome wire') || name.includes('copper wire') || name.includes('fuse wire') || name.includes('magnesium') || name.includes('ribbon') || (name.includes('wire') && !name.includes('gauze'))) {
+    return '/images/equipment/chemistry/nichrome_wire.jpg';
+  }
+  if (name.includes('tripod') || name.includes('wire gauze') || name.includes('gauze') || name.includes('asbestos mat') || name.includes('asbestos')) {
+    return '/images/equipment/chemistry/tripod_wire_gauze.jpg';
+  }
+  if (name.includes('triangular file') || name.includes('file')) {
+    return '/images/equipment/civil/civil_safety_gear.jpg';
+  }
+  
+  if (lab === 'CHEM') {
+    return '/images/equipment/chemistry/beaker.jpg';
+  }
+  
+  return null;
 }
 
 export function resetMasterInventory() {

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { Printer, Download, CheckCircle2, RotateCcw, ArrowLeft, Home, FileText, AlertTriangle, Loader2 } from 'lucide-react';
+import React from 'react';
+import { Printer, CheckCircle2, RotateCcw, ArrowLeft, FileText, AlertTriangle } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
-import html2pdf from 'html2pdf.js';
 
 export default function TransactionCommit() {
   const {
@@ -12,14 +11,11 @@ export default function TransactionCommit() {
     timestamp,
     selectedLab,
     resetTransaction,
-    goToWelcome,
     setStep,
     theme,
   } = useTransaction();
 
   const isDark = theme === 'dark';
-
-  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   const damagedItems = cart.filter((i) => i.isDamaged);
@@ -33,45 +29,8 @@ export default function TransactionCommit() {
     }
   };
 
-  // Download PDF manually triggered on button click
-  const handleDownloadPdf = async () => {
-    setIsDownloadingPdf(true);
-
-    try {
-      const element = document.getElementById('printable-borrower-sheet');
-      if (!element) {
-        throw new Error('Printable document element not found');
-      }
-
-      const clone = element.cloneNode(true);
-      clone.classList.remove('print-only');
-      clone.style.display = 'block';
-      clone.style.width = '794px';
-      clone.style.padding = '24px';
-      clone.style.backgroundColor = '#ffffff';
-      clone.style.color = '#000000';
-
-      const studentSlug = (borrower.groupLeader || 'Student').replace(/\s+/g, '_');
-      const filename = `Borrower_Slip_${studentSlug}_${transactionId || 'UdD'}.pdf`;
-
-      const opt = {
-        margin: [5, 5, 5, 5],
-        filename: filename,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      };
-
-      await html2pdf().set(opt).from(clone).save();
-    } catch (error) {
-      console.error('PDF Generation Failed:', error);
-    } finally {
-      setIsDownloadingPdf(false);
-    }
-  };
-
   return (
-    <div className="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pb-32 xl:pb-8 max-w-6xl mx-auto w-full flex flex-col justify-between space-y-4 sm:space-y-5 select-none relative min-h-screen lg:min-h-0 lg:h-full">
+    <div className="flex-1 p-3 sm:p-6 lg:p-8 pb-10 max-w-6xl mx-auto w-full flex flex-col justify-between space-y-4 sm:space-y-5 select-none relative min-h-0">
       <div className="space-y-5">
         {/* Neumorphic Review & Verification Banner */}
         <div className="neu-card rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-cyan-500/30 shadow-[0_0_24px_rgba(6,182,212,0.15)]">
@@ -89,7 +48,7 @@ export default function TransactionCommit() {
                 </span>
               </div>
               <p className="text-xs text-slate-300 mt-0.5">
-                Double-check your equipment list below. When satisfied, proceed to print or download your official borrower sheet.
+                Double-check your equipment list below. When satisfied, proceed to print your official borrower sheet.
               </p>
             </div>
           </div>
@@ -216,7 +175,7 @@ export default function TransactionCommit() {
       </div>
 
       {/* Action Toolbar */}
-      <div className="flex flex-col-reverse lg:flex-row pt-4 border-t border-slate-800/80 items-stretch lg:items-center justify-between gap-3 sm:gap-4 shrink-0">
+      <div className="flex flex-col-reverse sm:flex-row pt-4 border-t border-slate-800/80 items-stretch sm:items-center justify-between gap-3 sm:gap-4 shrink-0">
         {/* Left Side: Navigation / Session Controls */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <TouchButton
@@ -230,47 +189,24 @@ export default function TransactionCommit() {
           </TouchButton>
 
           <TouchButton
-            variant="secondary"
-            size="md"
-            icon={Home}
-            onClick={goToWelcome}
-            className="flex-1 sm:flex-initial text-xs sm:text-sm"
-          >
-            Home
-          </TouchButton>
-
-          <TouchButton
             variant="danger"
             size="md"
             icon={RotateCcw}
             onClick={resetTransaction}
-            className="w-full sm:w-auto text-xs sm:text-sm"
+            className="flex-1 sm:flex-initial text-xs sm:text-sm"
           >
             New Transaction
           </TouchButton>
         </div>
 
-        {/* Right Side: Primary Actions (Download PDF & Print Slip) */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-          {/* Download PDF Button */}
-          <TouchButton
-            variant="success"
-            size="lg"
-            icon={isDownloadingPdf ? Loader2 : Download}
-            onClick={handleDownloadPdf}
-            disabled={isDownloadingPdf}
-            className="w-full sm:w-auto text-xs sm:text-sm"
-          >
-            {isDownloadingPdf ? 'Generating PDF...' : 'Download PDF Copy'}
-          </TouchButton>
-
-          {/* Print Slip Button (Primary Action) */}
+        {/* Right Side: Print Slip Primary Action */}
+        <div className="flex items-center">
           <TouchButton
             variant="primary"
             size="lg"
             icon={Printer}
             onClick={handleManualPrint}
-            className="w-full sm:w-auto shadow-lg shadow-cyan-950/50 text-sm sm:text-base font-extrabold"
+            className="w-full sm:w-auto shadow-lg shadow-cyan-950/50 text-sm sm:text-base font-extrabold px-8"
           >
             Print Borrower Slip
           </TouchButton>
