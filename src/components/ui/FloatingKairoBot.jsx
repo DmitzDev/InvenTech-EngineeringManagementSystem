@@ -117,26 +117,26 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`mt-2 p-3 rounded-2xl border space-y-2.5 text-xs ${
+    <form onSubmit={handleSubmit} className={`mt-2 p-2.5 rounded-2xl border space-y-2 text-xs ${
       isDark ? 'bg-[#050e1c] border-[#7fdcff]/30 text-slate-200 shadow-md' : 'bg-white border-[#bae6fd] text-slate-800 shadow-sm'
     }`}>
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-1.5">
+      <div className="flex items-center justify-between border-b border-slate-800/80 pb-1">
         <span className={`font-black text-[11px] flex items-center gap-1.5 ${isDark ? 'text-[#dff7ff]' : 'text-[#0369a1]'}`}>
           <Calendar className="w-3.5 h-3.5 text-cyan-400" />
           <span>Advance Reservation Form</span>
         </span>
-        <span className="text-[9px] font-mono font-bold bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded">
+        <span className="text-[8.5px] font-mono font-bold bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded">
           Dual-Input
         </span>
       </div>
 
       {/* Apparatus Dropdown */}
       <div>
-        <label className="block text-[10px] font-bold text-slate-400 mb-1">Select Laboratory Apparatus *</label>
+        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5">Select Laboratory Apparatus *</label>
         <select
           value={selectedItemId}
           onChange={(e) => setSelectedItemId(e.target.value)}
-          className={`w-full h-8 px-2 rounded-xl text-xs font-semibold focus:outline-none ${
+          className={`w-full h-7.5 px-2 rounded-lg text-xs font-semibold focus:outline-none ${
             isDark ? 'bg-[#0a1628] border border-slate-700 text-slate-100' : 'bg-slate-50 border border-slate-300 text-slate-800'
           }`}
         >
@@ -149,26 +149,26 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
       </div>
 
       {/* Date and Time Slot */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         <div>
-          <label className="block text-[10px] font-bold text-slate-400 mb-1">Reservation Date *</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5">Reservation Date *</label>
           <input
             type="date"
             value={reserveDate}
             min={new Date().toISOString().split('T')[0]}
             onChange={(e) => setReserveDate(e.target.value)}
             required
-            className={`w-full h-8 px-2 rounded-xl text-[11px] font-mono focus:outline-none ${
+            className={`w-full h-7.5 px-2 rounded-lg text-[10.5px] font-mono focus:outline-none ${
               isDark ? 'bg-[#0a1628] border border-slate-700 text-slate-100' : 'bg-slate-50 border border-slate-300 text-slate-800'
             }`}
           />
         </div>
         <div>
-          <label className="block text-[10px] font-bold text-slate-400 mb-1">Time Schedule *</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5">Time Schedule *</label>
           <select
             value={timeSlot}
             onChange={(e) => setTimeSlot(e.target.value)}
-            className={`w-full h-8 px-1 rounded-xl text-[10.5px] focus:outline-none ${
+            className={`w-full h-7.5 px-1 rounded-lg text-[10px] focus:outline-none ${
               isDark ? 'bg-[#0a1628] border border-slate-700 text-cyan-300' : 'bg-slate-50 border border-slate-300 text-slate-800'
             }`}
           >
@@ -182,27 +182,27 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
       </div>
 
       {/* Student Name and Program */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         <div>
-          <label className="block text-[10px] font-bold text-slate-400 mb-1">Student Name *</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5">Student Name *</label>
           <input
             type="text"
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
             placeholder="Student Name..."
             required
-            className={`w-full h-8 px-2 rounded-xl text-[11px] focus:outline-none ${
+            className={`w-full h-7.5 px-2 rounded-lg text-[10.5px] focus:outline-none ${
               isDark ? 'bg-[#0a1628] border border-slate-700 text-slate-100' : 'bg-slate-50 border border-slate-300 text-slate-800'
             }`}
           />
         </div>
 
         <div>
-          <label className="block text-[10px] font-bold text-slate-400 mb-1">Program</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5">Program</label>
           <select
             value={program}
             onChange={(e) => setProgram(e.target.value)}
-            className={`w-full h-8 px-2 rounded-xl text-[11px] focus:outline-none ${
+            className={`w-full h-7.5 px-1.5 rounded-lg text-[10.5px] focus:outline-none ${
               isDark ? 'bg-[#0a1628] border border-slate-700 text-slate-100' : 'bg-slate-50 border border-slate-300 text-slate-800'
             }`}
           >
@@ -217,41 +217,41 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
 
       {/* Instructor / Faculty Input */}
       <div>
-        <label className="block text-[10px] font-bold text-slate-400 mb-1">Instructor / Professor * (Type Name)</label>
+        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5">Instructor / Professor *</label>
         <input
           type="text"
           value={instructor}
           onChange={(e) => setInstructor(e.target.value)}
           placeholder="e.g. Engr. Jin Benir Macaranas"
           required
-          className={`w-full h-8 px-2 rounded-xl text-[11px] focus:outline-none ${
+          className={`w-full h-7.5 px-2 rounded-lg text-[10.5px] focus:outline-none ${
             isDark ? 'bg-[#0a1628] border border-slate-700 text-slate-100' : 'bg-slate-50 border border-slate-300 text-slate-800'
           }`}
         />
       </div>
 
       {/* Quantity & Anti Double-Booking status */}
-      <div className="flex items-center justify-between pt-1">
+      <div className="flex items-center justify-between pt-0.5">
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] font-bold text-slate-400">Qty:</span>
+          <span className="text-[9.5px] font-bold text-slate-400">Qty:</span>
           <button
             type="button"
             onClick={() => setQty(Math.max(1, qty - 1))}
-            className="w-6 h-6 rounded bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center font-bold"
+            className="w-5.5 h-5.5 rounded bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs"
           >
             -
           </button>
-          <span className="w-5 text-center font-mono font-bold text-cyan-400">{qty}</span>
+          <span className="w-4 text-center font-mono font-bold text-cyan-400 text-xs">{qty}</span>
           <button
             type="button"
             onClick={() => setQty(Math.min(currentItem.stock || 10, qty + 1))}
-            className="w-6 h-6 rounded bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center font-bold"
+            className="w-5.5 h-5.5 rounded bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs"
           >
             +
           </button>
         </div>
 
-        <span className={`text-[10px] font-mono font-bold ${conflictInfo.hasConflict ? 'text-rose-400' : 'text-emerald-400'}`}>
+        <span className={`text-[9.5px] font-mono font-bold ${conflictInfo.hasConflict ? 'text-rose-400' : 'text-emerald-400'}`}>
           {conflictInfo.hasConflict ? 'Slot Full' : `${conflictInfo.availableSlots} free`}
         </span>
       </div>
@@ -260,9 +260,9 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
       <button
         type="submit"
         disabled={conflictInfo.hasConflict}
-        className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md transition-all active:scale-98 cursor-pointer mt-1"
+        className="w-full py-1.5 px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md transition-all active:scale-98 cursor-pointer mt-0.5"
       >
-        <Calendar className="w-3.5 h-3.5" />
+        <Calendar className="w-3 h-3" />
         <span>Submit Advance Reservation</span>
       </button>
     </form>
@@ -455,7 +455,15 @@ export default function FloatingKairoBot() {
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(scrollToBottom, 80);
+      scrollToBottom();
+      const t1 = setTimeout(scrollToBottom, 60);
+      const t2 = setTimeout(scrollToBottom, 200);
+      const t3 = setTimeout(scrollToBottom, 400);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
     }
   }, [isOpen, messages, isLoading]);
 
