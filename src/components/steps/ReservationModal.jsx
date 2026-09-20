@@ -126,20 +126,30 @@ export default function ReservationModal({ item, isOpen, onClose }) {
   };
 
   const modalContent = (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-6 bg-slate-950/85 backdrop-blur-md animate-fade-in select-none">
-      <div className="neu-card rounded-2xl sm:rounded-3xl max-w-lg sm:max-w-xl w-full shadow-2xl flex flex-col max-h-[94dvh] sm:max-h-[90vh] overflow-hidden border border-slate-800 my-auto">
-        {/* Modal Header - Pinned at top */}
-        <div className="px-3.5 py-2 sm:px-6 sm:py-4 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
+    <div className="fixed inset-0 z-[100] flex sm:items-center sm:justify-center sm:p-6 bg-black/70 backdrop-blur-sm animate-fade-in select-none">
+      {/* Click-away backdrop for mobile drawer and kiosk dialog */}
+      <div
+        className="absolute inset-0 cursor-pointer"
+        onClick={handleClose}
+      />
+
+      {/* Sidebar Drawer Container on Phone (Slides from Left) / Centered Card on 15" Kiosk */}
+      <div className="relative z-10 w-[88vw] max-w-[360px] sm:max-w-xl sm:w-full h-[100dvh] sm:h-auto sm:max-h-[90vh] bg-[#0c1424] sm:bg-[#0c1527] border-r sm:border border-slate-700/80 shadow-[10px_0_35px_rgba(0,0,0,0.85)] sm:shadow-2xl sm:rounded-3xl flex flex-col overflow-hidden animate-slide-left-drawer sm:animate-none my-0 sm:my-auto">
+        {/* Header - Pinned at top */}
+        <div className="px-3.5 py-3 sm:px-6 sm:py-4 border-b border-slate-800/90 flex items-center justify-between bg-[#111a2c] shrink-0">
           <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-            <div className="w-7 h-7 sm:w-11 sm:h-11 rounded-lg sm:rounded-2xl neu-inset flex items-center justify-center text-cyan-400 shrink-0">
-              <Calendar className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+            <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl neu-inset flex items-center justify-center text-cyan-400 shrink-0 shadow-sm">
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <h3 className="text-xs sm:text-lg font-bold text-slate-100 truncate">
-                Advance Equipment Reservation
+              <h3 className="text-xs sm:text-lg font-bold text-slate-100 truncate flex items-center gap-1.5">
+                <span>Advance Reservation</span>
+                <span className="sm:hidden text-[9px] font-mono font-bold bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded">
+                  FORM
+                </span>
               </h3>
-              <p className="text-[9.5px] sm:text-xs text-slate-400 truncate">
-                Book laboratory apparatus in advance for upcoming class experiments.
+              <p className="text-[10px] sm:text-xs text-slate-400 truncate">
+                Book lab apparatus in advance for upcoming class.
               </p>
             </div>
           </div>
@@ -147,33 +157,34 @@ export default function ReservationModal({ item, isOpen, onClose }) {
           <button
             type="button"
             onClick={handleClose}
-            className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer shrink-0"
-            aria-label="Close modal"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer shrink-0"
+            aria-label="Close form"
+            title="Close sidebar"
           >
             <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
-        {/* Modal Content */}
+        {/* Modal / Drawer Content */}
         {confirmedReservation ? (
           <>
-            <div className="p-3.5 sm:p-6 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
+            <div className="p-4 sm:p-6 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
               <div className="space-y-2 text-center animate-fade-in">
-                <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]">
-                  <Check className="w-5 h-5 sm:w-7 sm:h-7 stroke-[3]" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]">
+                  <Check className="w-6 h-6 sm:w-7 sm:h-7 stroke-[3]" />
                 </div>
 
                 <div>
-                  <h4 className="text-xs sm:text-lg font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
-                  <p className="text-[10px] sm:text-xs text-slate-400">
+                  <h4 className="text-sm sm:text-lg font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-400">
                     Ref ID: <span className="font-mono font-bold text-cyan-400 text-xs sm:text-sm">{confirmedReservation.id}</span>
                   </p>
                 </div>
 
-                <div className="neu-inset rounded-xl sm:rounded-2xl p-2.5 sm:p-4 text-left space-y-1.5 sm:space-y-2 text-[10.5px] sm:text-sm">
+                <div className="neu-inset rounded-xl sm:rounded-2xl p-3 sm:p-4 text-left space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
                   <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Apparatus:</span>
-                    <span className="font-bold text-slate-100 truncate max-w-[240px] sm:max-w-[320px]">{confirmedReservation.name}</span>
+                    <span className="font-bold text-slate-100 truncate max-w-[180px] sm:max-w-[320px]">{confirmedReservation.name}</span>
                   </div>
                   <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Quantity:</span>
@@ -183,52 +194,54 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   </div>
                   <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Schedule:</span>
-                    <span className="font-bold text-slate-100">{confirmedReservation.reserveDate} • {confirmedReservation.timeSlot}</span>
+                    <span className="font-bold text-slate-100 truncate max-w-[180px] sm:max-w-[320px]">
+                      {confirmedReservation.reserveDate} • {confirmedReservation.timeSlot}
+                    </span>
                   </div>
                   <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Student:</span>
-                    <span className="font-bold text-slate-100 truncate max-w-[240px] sm:max-w-[320px]">
+                    <span className="font-bold text-slate-100 truncate max-w-[180px] sm:max-w-[320px]">
                       {confirmedReservation.studentName} ({confirmedReservation.program} • G{confirmedReservation.groupNo})
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Instructor:</span>
-                    <span className="font-bold text-slate-100 truncate max-w-[240px] sm:max-w-[320px]">{confirmedReservation.instructor}</span>
+                    <span className="font-bold text-slate-100 truncate max-w-[180px] sm:max-w-[320px]">{confirmedReservation.instructor}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-2.5 sm:p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-center shrink-0">
-              <TouchButton variant="primary" size="md" onClick={handleClose} className="px-6 sm:px-10 py-2 sm:py-3 text-xs sm:text-base">
+            <div className="p-3 sm:p-4 border-t border-slate-800 bg-[#09101d] sm:bg-[#111a2c] flex items-center justify-center shrink-0">
+              <TouchButton variant="primary" size="md" onClick={handleClose} className="w-full sm:w-auto px-6 sm:px-10 py-2.5 sm:py-3 text-xs sm:text-base">
                 Done & Back to Catalog
               </TouchButton>
             </div>
           </>
         ) : (
           <form onSubmit={handleConfirmReservation} className="flex flex-col flex-1 min-h-0">
-            {/* Form Body - Ultra Compact on Mobile, Spacious on 15" Kiosk */}
-            <div className="p-2.5 sm:p-6 space-y-2 sm:space-y-4 overflow-y-auto flex-1 min-h-0">
-              {/* 1. Item Header + Quantity Stepper in 1 Combined Banner */}
-              <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl neu-inset flex items-center justify-between gap-2.5 sm:gap-4">
+            {/* Form Body - Smoothly scrollable with clear spacing */}
+            <div className="p-3.5 sm:p-6 space-y-2.5 sm:space-y-4 overflow-y-auto flex-1 min-h-0">
+              {/* 1. Item Header + Quantity Stepper */}
+              <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl neu-inset flex items-center justify-between gap-2.5 sm:gap-4 bg-[#09101d]/60">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 sm:gap-2">
-                    <span className="text-[8px] sm:text-xs font-mono font-bold text-cyan-400 uppercase neu-inset-sm px-1 sm:px-2 py-0.5 rounded">
+                    <span className="text-[8.5px] sm:text-xs font-mono font-bold text-cyan-400 uppercase neu-inset-sm px-1.5 sm:px-2 py-0.5 rounded">
                       {item.tagCode}
                     </span>
-                    <span className="text-[9.5px] sm:text-xs font-mono text-slate-400">
-                      Available Stock: <strong className="text-emerald-400">{item.stock}</strong>
+                    <span className="text-[10px] sm:text-xs font-mono text-slate-400">
+                      Stock: <strong className="text-emerald-400">{item.stock}</strong>
                     </span>
                   </div>
-                  <h4 className="text-[11.5px] sm:text-base font-bold text-slate-100 truncate leading-tight mt-0.5">{item.name}</h4>
+                  <h4 className="text-xs sm:text-base font-bold text-slate-100 truncate leading-tight mt-1">{item.name}</h4>
                 </div>
 
-                {/* Stepper (Compact on phone, Large touch-targets on Kiosk) */}
-                <div className="flex items-center gap-1 sm:gap-2 neu-inset rounded-lg sm:rounded-xl p-0.5 sm:p-1 shrink-0 bg-[#09101d]">
+                {/* Stepper */}
+                <div className="flex items-center gap-1 sm:gap-2 neu-inset rounded-lg sm:rounded-xl p-0.5 sm:p-1 shrink-0 bg-[#070d18]">
                   <button
                     type="button"
                     onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="w-6 h-6 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer"
+                    className="w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer"
                   >
                     -
                   </button>
@@ -236,7 +249,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   <button
                     type="button"
                     onClick={() => setQty(Math.min(item.stock, qty + 1))}
-                    className="w-6 h-6 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer"
+                    className="w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer"
                   >
                     +
                   </button>
@@ -244,10 +257,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
               </div>
 
               {/* 2. Date & Time Schedule Row */}
-              <div className="grid grid-cols-2 gap-2 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                 <div>
-                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
-                    <Calendar className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                  <label className="block text-[10.5px] sm:text-xs font-bold text-slate-300 mb-1 sm:mb-1.5 flex items-center gap-1">
+                    <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
                     <span>Reservation Date *</span>
                   </label>
                   <input
@@ -255,20 +268,20 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     value={reserveDate}
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setReserveDate(e.target.value)}
-                    className="w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-sm text-slate-100 font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    className="w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
-                    <Clock className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                  <label className="block text-[10.5px] sm:text-xs font-bold text-slate-300 mb-1 sm:mb-1.5 flex items-center gap-1">
+                    <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
                     <span>Time Schedule *</span>
                   </label>
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full h-8 sm:h-11 px-1.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
+                    className="w-full h-9 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
                     required
                   >
                     {STANDARD_TIME_SLOTS.map((slot) => (
@@ -281,7 +294,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
               </div>
 
               {/* 3. Real-Time Conflict / Availability Pill */}
-              <div className={`px-2.5 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs flex items-center justify-between ${
+              <div className={`px-2.5 py-1.5 rounded-lg sm:rounded-xl text-[10.5px] sm:text-xs flex items-center justify-between ${
                 conflictInfo.hasConflict
                   ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30'
                   : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
@@ -289,71 +302,70 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                 <span className="flex items-center gap-1.5 font-semibold truncate">
                   {conflictInfo.hasConflict ? (
                     <>
-                      <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-rose-400 shrink-0" />
-                      <span>Slot Conflict! Only {conflictInfo.availableSlots} units left for this schedule.</span>
+                      <AlertTriangle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400 shrink-0" />
+                      <span>Slot Conflict! Only {conflictInfo.availableSlots} units left.</span>
                     </>
                   ) : (
                     <>
-                      <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400 shrink-0" />
-                      <span>Available for Advance Booking</span>
+                      <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0" />
+                      <span>Available for Booking</span>
                     </>
                   )}
                 </span>
-                <span className="font-mono text-[9.5px] sm:text-xs shrink-0 ml-1.5 font-bold">
+                <span className="font-mono text-[10px] sm:text-xs shrink-0 ml-1 font-bold">
                   {conflictInfo.availableSlots} / {item.stock} free
                 </span>
               </div>
 
-              {/* 4. Student Name & Program / Course Row */}
-              <div className="grid grid-cols-2 gap-2 sm:gap-4">
-                <div>
-                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
-                    <Users className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
-                    <span>Student Leader *</span>
-                  </label>
+              {/* 4. Student Name */}
+              <div>
+                <label className="block text-[10.5px] sm:text-xs font-bold text-slate-300 mb-1 sm:mb-1.5 flex items-center gap-1">
+                  <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                  <span>Student Leader *</span>
+                </label>
+                <input
+                  type="text"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  placeholder="e.g. Jason Cayabyab"
+                  className="w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                  required
+                />
+              </div>
+
+              {/* 5. Program & Course Row */}
+              <div>
+                <label className="block text-[10.5px] sm:text-xs font-bold text-slate-300 mb-1 sm:mb-1.5 flex items-center gap-1">
+                  <GraduationCap className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                  <span>Program & Course Code</span>
+                </label>
+                <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+                  <select
+                    value={program}
+                    onChange={(e) => setProgram(e.target.value)}
+                    className="h-9 sm:h-11 px-1.5 sm:px-2 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-xs text-slate-100 font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
+                  >
+                    {ENGINEERING_PROGRAMS.map((p) => (
+                      <option key={p.code} value={p.code} className="bg-[#111a2c] text-slate-100 text-xs sm:text-sm">
+                        {p.code}
+                      </option>
+                    ))}
+                  </select>
+
                   <input
                     type="text"
-                    value={studentName}
-                    onChange={(e) => setStudentName(e.target.value)}
-                    placeholder="e.g. Jason Cayabyab"
-                    className="w-full h-8 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                    required
+                    value={courseCode}
+                    onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
+                    placeholder="Code (e.g. CEMAT1L)"
+                    className="h-9 sm:h-11 px-2 sm:px-2.5 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500"
                   />
-                </div>
-
-                <div>
-                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
-                    <GraduationCap className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
-                    <span>Program & Course</span>
-                  </label>
-                  <div className="grid grid-cols-2 gap-1 sm:gap-2">
-                    <select
-                      value={program}
-                      onChange={(e) => setProgram(e.target.value)}
-                      className="h-8 sm:h-11 px-1 sm:px-2 rounded-lg sm:rounded-xl neu-inset text-[10px] sm:text-xs text-slate-100 font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
-                    >
-                      {ENGINEERING_PROGRAMS.map((p) => (
-                        <option key={p.code} value={p.code} className="bg-[#111a2c] text-slate-100 text-xs sm:text-sm">
-                          {p.code}
-                        </option>
-                      ))}
-                    </select>
-
-                    <input
-                      type="text"
-                      value={courseCode}
-                      onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
-                      placeholder="Code"
-                      className="h-8 sm:h-11 px-1.5 sm:px-2 rounded-lg sm:rounded-xl neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                    />
-                  </div>
                 </div>
               </div>
 
-              {/* 5. Laboratory Instructor */}
+              {/* 6. Laboratory Instructor */}
               <div>
-                <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
-                  <UserCheck className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                <label className="block text-[10.5px] sm:text-xs font-bold text-slate-300 mb-1 sm:mb-1.5 flex items-center gap-1">
+                  <UserCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
                   <span>Laboratory Instructor / Professor *</span>
                 </label>
                 <input
@@ -361,18 +373,18 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   value={instructor}
                   onChange={(e) => setInstructor(e.target.value)}
                   placeholder="e.g. Engr. Jin Benir Macaranas"
-                  className="w-full h-8 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                  className="w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
                   required
                 />
               </div>
             </div>
 
-            {/* Modal Footer - Side by side on mobile and large on 15" Kiosk */}
-            <div className="px-3 py-2 sm:px-6 sm:py-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between gap-2.5 sm:gap-4 shrink-0">
+            {/* Modal / Drawer Footer - Fixed and Always Visible at Bottom */}
+            <div className="px-3.5 py-3 sm:px-6 sm:py-4 border-t border-slate-800/90 bg-[#09101d] sm:bg-[#111a2c] flex items-center justify-between gap-2.5 sm:gap-4 shrink-0">
               <button
                 type="button"
                 onClick={handleClose}
-                className="h-8 sm:h-11 px-3.5 sm:px-6 rounded-lg sm:rounded-xl neu-btn-raised text-xs sm:text-sm text-slate-300 font-bold cursor-pointer active:scale-95 shrink-0"
+                className="h-9 sm:h-11 px-4 sm:px-6 rounded-lg sm:rounded-xl neu-btn-raised text-xs sm:text-sm text-slate-300 font-bold cursor-pointer active:scale-95 shrink-0"
               >
                 Cancel
               </button>
@@ -382,9 +394,9 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                 size="md"
                 disabled={conflictInfo.hasConflict}
                 type="submit"
-                className="text-xs sm:text-base px-4 sm:px-8 h-8 sm:h-11 flex-1 max-w-[340px]"
+                className="text-xs sm:text-base px-4 sm:px-8 h-9 sm:h-11 flex-1 max-w-[280px] sm:max-w-[340px]"
               >
-                Confirm Booking ({qty} {item.unit || 'unit'}s)
+                Confirm ({qty} {item.unit || 'unit'}s)
               </TouchButton>
             </div>
           </form>
