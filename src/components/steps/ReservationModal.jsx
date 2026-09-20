@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Calendar,
   Clock,
@@ -50,6 +51,17 @@ export default function ReservationModal({ item, isOpen, onClose }) {
     if (borrower.groupNo) setGroupNo(borrower.groupNo);
     if (borrower.instructor) setInstructor(borrower.instructor);
   }, [borrower, isOpen]);
+
+  // Lock background scroll when modal is active
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
 
   if (!isOpen || !item) return null;
 
@@ -113,21 +125,21 @@ export default function ReservationModal({ item, isOpen, onClose }) {
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-1.5 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none overflow-hidden">
-      <div className="neu-card rounded-2xl sm:rounded-3xl max-w-lg w-full shadow-2xl flex flex-col max-h-[96dvh] sm:max-h-[90vh] overflow-hidden border border-slate-800 my-auto">
+  const modalContent = (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-6 bg-slate-950/85 backdrop-blur-md animate-fade-in select-none">
+      <div className="neu-card rounded-2xl sm:rounded-3xl max-w-lg sm:max-w-xl w-full shadow-2xl flex flex-col max-h-[94dvh] sm:max-h-[90vh] overflow-hidden border border-slate-800 my-auto">
         {/* Modal Header - Pinned at top */}
-        <div className="px-3 py-1.5 sm:px-5 sm:py-3 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg neu-inset flex items-center justify-center text-cyan-400 shrink-0">
-              <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
+        <div className="px-3.5 py-2 sm:px-6 sm:py-4 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+            <div className="w-7 h-7 sm:w-11 sm:h-11 rounded-lg sm:rounded-2xl neu-inset flex items-center justify-center text-cyan-400 shrink-0">
+              <Calendar className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <h3 className="text-xs sm:text-base font-bold text-slate-100 truncate">
-                Advance Reservation
+              <h3 className="text-xs sm:text-lg font-bold text-slate-100 truncate">
+                Advance Equipment Reservation
               </h3>
               <p className="text-[9.5px] sm:text-xs text-slate-400 truncate">
-                Book lab apparatus in advance for upcoming class.
+                Book laboratory apparatus in advance for upcoming class experiments.
               </p>
             </div>
           </div>
@@ -135,96 +147,96 @@ export default function ReservationModal({ item, isOpen, onClose }) {
           <button
             type="button"
             onClick={handleClose}
-            className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer shrink-0"
+            className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer shrink-0"
             aria-label="Close modal"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
         {/* Modal Content */}
         {confirmedReservation ? (
           <>
-            <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 overflow-y-auto flex-1">
-              <div className="space-y-1.5 text-center animate-fade-in">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.3)]">
-                  <Check className="w-4 h-4 sm:w-5 sm:h-5 stroke-[3]" />
+            <div className="p-3.5 sm:p-6 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
+              <div className="space-y-2 text-center animate-fade-in">
+                <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]">
+                  <Check className="w-5 h-5 sm:w-7 sm:h-7 stroke-[3]" />
                 </div>
 
                 <div>
-                  <h4 className="text-xs sm:text-base font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
+                  <h4 className="text-xs sm:text-lg font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
                   <p className="text-[10px] sm:text-xs text-slate-400">
-                    Ref ID: <span className="font-mono font-bold text-cyan-400">{confirmedReservation.id}</span>
+                    Ref ID: <span className="font-mono font-bold text-cyan-400 text-xs sm:text-sm">{confirmedReservation.id}</span>
                   </p>
                 </div>
 
-                <div className="neu-inset rounded-xl p-2 sm:p-3 text-left space-y-1 text-[10px] sm:text-xs">
-                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
+                <div className="neu-inset rounded-xl sm:rounded-2xl p-2.5 sm:p-4 text-left space-y-1.5 sm:space-y-2 text-[10.5px] sm:text-sm">
+                  <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Apparatus:</span>
-                    <span className="font-bold text-slate-100 truncate max-w-[200px]">{confirmedReservation.name}</span>
+                    <span className="font-bold text-slate-100 truncate max-w-[240px] sm:max-w-[320px]">{confirmedReservation.name}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
+                  <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Quantity:</span>
                     <span className="font-mono font-bold text-cyan-400">
                       {confirmedReservation.qty} {confirmedReservation.unit}s
                     </span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
+                  <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Schedule:</span>
                     <span className="font-bold text-slate-100">{confirmedReservation.reserveDate} • {confirmedReservation.timeSlot}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
+                  <div className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400">Student:</span>
-                    <span className="font-bold text-slate-100 truncate max-w-[200px]">
+                    <span className="font-bold text-slate-100 truncate max-w-[240px] sm:max-w-[320px]">
                       {confirmedReservation.studentName} ({confirmedReservation.program} • G{confirmedReservation.groupNo})
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Instructor:</span>
-                    <span className="font-bold text-slate-100 truncate max-w-[200px]">{confirmedReservation.instructor}</span>
+                    <span className="font-bold text-slate-100 truncate max-w-[240px] sm:max-w-[320px]">{confirmedReservation.instructor}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-2 sm:p-3 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-center shrink-0">
-              <TouchButton variant="primary" size="sm" onClick={handleClose} className="px-5 py-1.5 text-xs">
+            <div className="p-2.5 sm:p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-center shrink-0">
+              <TouchButton variant="primary" size="md" onClick={handleClose} className="px-6 sm:px-10 py-2 sm:py-3 text-xs sm:text-base">
                 Done & Back to Catalog
               </TouchButton>
             </div>
           </>
         ) : (
           <form onSubmit={handleConfirmReservation} className="flex flex-col flex-1 min-h-0">
-            {/* Form Body - Ultra Compact, ZERO vertical scroll required on mobile */}
-            <div className="p-2 sm:p-3.5 space-y-1.5 sm:space-y-2 overflow-y-auto flex-1 min-h-0">
-              {/* 1. Item Header + Quantity Stepper in 1 Combined Compact Banner */}
-              <div className="p-1.5 sm:p-2 rounded-xl neu-inset flex items-center justify-between gap-2">
+            {/* Form Body - Ultra Compact on Mobile, Spacious on 15" Kiosk */}
+            <div className="p-2.5 sm:p-6 space-y-2 sm:space-y-4 overflow-y-auto flex-1 min-h-0">
+              {/* 1. Item Header + Quantity Stepper in 1 Combined Banner */}
+              <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl neu-inset flex items-center justify-between gap-2.5 sm:gap-4">
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[8px] sm:text-[9px] font-mono font-bold text-cyan-400 uppercase neu-inset-sm px-1 py-0.2 rounded">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="text-[8px] sm:text-xs font-mono font-bold text-cyan-400 uppercase neu-inset-sm px-1 sm:px-2 py-0.5 rounded">
                       {item.tagCode}
                     </span>
-                    <span className="text-[9.5px] sm:text-[10px] font-mono text-slate-400">
-                      Stock: <strong className="text-emerald-400">{item.stock}</strong>
+                    <span className="text-[9.5px] sm:text-xs font-mono text-slate-400">
+                      Available Stock: <strong className="text-emerald-400">{item.stock}</strong>
                     </span>
                   </div>
-                  <h4 className="text-[11px] sm:text-xs font-bold text-slate-100 truncate leading-tight mt-0.5">{item.name}</h4>
+                  <h4 className="text-[11.5px] sm:text-base font-bold text-slate-100 truncate leading-tight mt-0.5">{item.name}</h4>
                 </div>
 
-                {/* Compact Stepper */}
-                <div className="flex items-center gap-1 neu-inset rounded-lg p-0.5 shrink-0 bg-[#09101d]">
+                {/* Stepper (Compact on phone, Large touch-targets on Kiosk) */}
+                <div className="flex items-center gap-1 sm:gap-2 neu-inset rounded-lg sm:rounded-xl p-0.5 sm:p-1 shrink-0 bg-[#09101d]">
                   <button
                     type="button"
                     onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 rounded neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs active:scale-95 cursor-pointer"
+                    className="w-6 h-6 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer"
                   >
                     -
                   </button>
-                  <span className="w-4 text-center font-mono font-black text-[11px] sm:text-xs text-cyan-400">{qty}</span>
+                  <span className="w-5 sm:w-8 text-center font-mono font-black text-xs sm:text-base text-cyan-400">{qty}</span>
                   <button
                     type="button"
                     onClick={() => setQty(Math.min(item.stock, qty + 1))}
-                    className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 rounded neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs active:scale-95 cursor-pointer"
+                    className="w-6 h-6 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer"
                   >
                     +
                   </button>
@@ -232,35 +244,35 @@ export default function ReservationModal({ item, isOpen, onClose }) {
               </div>
 
               {/* 2. Date & Time Schedule Row */}
-              <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
                 <div>
-                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
-                    <Calendar className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
-                    <span>Date *</span>
+                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
+                    <Calendar className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                    <span>Reservation Date *</span>
                   </label>
                   <input
                     type="date"
                     value={reserveDate}
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setReserveDate(e.target.value)}
-                    className="w-full h-7 sm:h-8.5 px-2 rounded-lg neu-inset text-[10.5px] sm:text-xs text-slate-100 font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    className="w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-sm text-slate-100 font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
-                    <Clock className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
-                    <span>Time Slot *</span>
+                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
+                    <Clock className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                    <span>Time Schedule *</span>
                   </label>
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full h-7 sm:h-8.5 px-1.5 rounded-lg neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
+                    className="w-full h-8 sm:h-11 px-1.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
                     required
                   >
                     {STANDARD_TIME_SLOTS.map((slot) => (
-                      <option key={slot} value={slot} className="bg-[#111a2c] text-slate-100 text-xs">
+                      <option key={slot} value={slot} className="bg-[#111a2c] text-slate-100 text-xs sm:text-sm">
                         {slot}
                       </option>
                     ))}
@@ -269,34 +281,34 @@ export default function ReservationModal({ item, isOpen, onClose }) {
               </div>
 
               {/* 3. Real-Time Conflict / Availability Pill */}
-              <div className={`px-2 py-0.5 rounded-md text-[9.5px] sm:text-[10px] flex items-center justify-between ${
+              <div className={`px-2.5 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs flex items-center justify-between ${
                 conflictInfo.hasConflict
                   ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30'
                   : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
               }`}>
-                <span className="flex items-center gap-1 font-semibold truncate">
+                <span className="flex items-center gap-1.5 font-semibold truncate">
                   {conflictInfo.hasConflict ? (
                     <>
-                      <AlertTriangle className="w-2.5 h-2.5 text-rose-400 shrink-0" />
-                      <span>Slot Conflict! {conflictInfo.availableSlots} left.</span>
+                      <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-rose-400 shrink-0" />
+                      <span>Slot Conflict! Only {conflictInfo.availableSlots} units left for this schedule.</span>
                     </>
                   ) : (
                     <>
-                      <ShieldCheck className="w-2.5 h-2.5 text-emerald-400 shrink-0" />
-                      <span>Available for Booking</span>
+                      <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400 shrink-0" />
+                      <span>Available for Advance Booking</span>
                     </>
                   )}
                 </span>
-                <span className="font-mono text-[9px] shrink-0 ml-1">
+                <span className="font-mono text-[9.5px] sm:text-xs shrink-0 ml-1.5 font-bold">
                   {conflictInfo.availableSlots} / {item.stock} free
                 </span>
               </div>
 
               {/* 4. Student Name & Program / Course Row */}
-              <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
                 <div>
-                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
-                    <Users className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
+                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
+                    <Users className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
                     <span>Student Leader *</span>
                   </label>
                   <input
@@ -304,24 +316,24 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     value={studentName}
                     onChange={(e) => setStudentName(e.target.value)}
                     placeholder="e.g. Jason Cayabyab"
-                    className="w-full h-7 sm:h-8.5 px-2 rounded-lg neu-inset text-[10.5px] sm:text-xs text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    className="w-full h-8 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
-                    <GraduationCap className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
-                    <span>Program & Section</span>
+                  <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
+                    <GraduationCap className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                    <span>Program & Course</span>
                   </label>
-                  <div className="grid grid-cols-2 gap-1">
+                  <div className="grid grid-cols-2 gap-1 sm:gap-2">
                     <select
                       value={program}
                       onChange={(e) => setProgram(e.target.value)}
-                      className="h-7 sm:h-8.5 px-1 rounded-lg neu-inset text-[10px] sm:text-xs text-slate-100 font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
+                      className="h-8 sm:h-11 px-1 sm:px-2 rounded-lg sm:rounded-xl neu-inset text-[10px] sm:text-xs text-slate-100 font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
                     >
                       {ENGINEERING_PROGRAMS.map((p) => (
-                        <option key={p.code} value={p.code} className="bg-[#111a2c] text-slate-100">
+                        <option key={p.code} value={p.code} className="bg-[#111a2c] text-slate-100 text-xs sm:text-sm">
                           {p.code}
                         </option>
                       ))}
@@ -332,7 +344,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                       value={courseCode}
                       onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
                       placeholder="Code"
-                      className="h-7 sm:h-8.5 px-1.5 rounded-lg neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                      className="h-8 sm:h-11 px-1.5 sm:px-2 rounded-lg sm:rounded-xl neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500"
                     />
                   </div>
                 </div>
@@ -340,37 +352,37 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
               {/* 5. Laboratory Instructor */}
               <div>
-                <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
-                  <UserCheck className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
-                  <span>Lab Instructor / Professor *</span>
+                <label className="block text-[9.5px] sm:text-xs font-bold text-slate-300 mb-0.5 sm:mb-1.5 flex items-center gap-1">
+                  <UserCheck className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+                  <span>Laboratory Instructor / Professor *</span>
                 </label>
                 <input
                   type="text"
                   value={instructor}
                   onChange={(e) => setInstructor(e.target.value)}
                   placeholder="e.g. Engr. Jin Benir Macaranas"
-                  className="w-full h-7 sm:h-8.5 px-2 rounded-lg neu-inset text-[10.5px] sm:text-xs text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                  className="w-full h-8 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
                   required
                 />
               </div>
             </div>
 
-            {/* Modal Footer - Clean & Visible at Bottom Without Any Scrolling */}
-            <div className="px-3 py-1.5 sm:px-4 sm:py-2.5 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between gap-2 shrink-0">
+            {/* Modal Footer - Side by side on mobile and large on 15" Kiosk */}
+            <div className="px-3 py-2 sm:px-6 sm:py-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between gap-2.5 sm:gap-4 shrink-0">
               <button
                 type="button"
                 onClick={handleClose}
-                className="h-7.5 sm:h-9 px-3 rounded-lg neu-btn-raised text-xs text-slate-300 font-bold cursor-pointer active:scale-95"
+                className="h-8 sm:h-11 px-3.5 sm:px-6 rounded-lg sm:rounded-xl neu-btn-raised text-xs sm:text-sm text-slate-300 font-bold cursor-pointer active:scale-95 shrink-0"
               >
                 Cancel
               </button>
 
               <TouchButton
                 variant="primary"
-                size="sm"
+                size="md"
                 disabled={conflictInfo.hasConflict}
                 type="submit"
-                className="text-xs sm:text-sm px-3.5 sm:px-5 h-7.5 sm:h-9 flex-1 max-w-[260px]"
+                className="text-xs sm:text-base px-4 sm:px-8 h-8 sm:h-11 flex-1 max-w-[340px]"
               >
                 Confirm Booking ({qty} {item.unit || 'unit'}s)
               </TouchButton>
@@ -380,4 +392,6 @@ export default function ReservationModal({ item, isOpen, onClose }) {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }

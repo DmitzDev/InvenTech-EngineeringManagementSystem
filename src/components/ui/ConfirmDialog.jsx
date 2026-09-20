@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { AlertTriangle, X } from 'lucide-react';
 import TouchButton from './TouchButton';
 
@@ -13,8 +14,8 @@ export default function ConfirmDialog({
 }) {
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in select-none">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in select-none">
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl shadow-black/80 flex flex-col gap-5">
         <div className="flex items-start gap-4">
           <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 shrink-0">
@@ -35,6 +36,7 @@ export default function ConfirmDialog({
           </TouchButton>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
