@@ -13,7 +13,7 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
   const damagedCount = cart.filter((i) => i.isDamaged).length;
 
   return (
-    <div className="neu-card rounded-2xl sm:rounded-3xl flex flex-col h-full max-h-[100dvh] overflow-hidden shadow-2xl justify-between">
+    <div className="w-full h-full max-h-[100dvh] flex flex-col justify-between overflow-hidden shadow-2xl bg-[#0e1422] rounded-none sm:rounded-l-3xl">
       {/* 1. Cart Header */}
       <div className="p-3.5 sm:p-4 border-b border-slate-800/80 bg-[#111a2c] shrink-0 space-y-2.5 sm:space-y-3">
         <div className="flex items-center justify-between">

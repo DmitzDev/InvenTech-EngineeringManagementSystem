@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Search,
   Plus,
@@ -219,6 +220,22 @@ export default function EquipmentCatalog() {
       if (showScrollTop) setShowScrollTop(false);
     }
   };
+
+  // Lock background body scrolling when cart drawer or modal is open
+  useEffect(() => {
+    if (isCartDrawerOpen || selectedItemForReservation) {
+      const origOverflow = document.body.style.overflow;
+      const origPosition = document.body.style.position;
+      const origTouchAction = document.body.style.touchAction;
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      return () => {
+        document.body.style.overflow = origOverflow;
+        document.body.style.position = origPosition;
+        document.body.style.touchAction = origTouchAction;
+      };
+    }
+  }, [isCartDrawerOpen, selectedItemForReservation]);
 
   const scrollToTop = () => {
     if (scrollContainerRef.current) {
@@ -506,26 +523,28 @@ export default function EquipmentCatalog() {
       )}
 
       {/* 5. Slide-Over Cart Drawer Modal */}
-      {isCartDrawerOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-end animate-fade-in">
-          {/* Overlay Click to Close */}
-          <div
-            className="absolute inset-0 cursor-pointer"
-            onClick={closeCartDrawer}
-          />
-
-          {/* Slide-in Cart Container */}
-          <div className="relative z-10 w-full max-w-md sm:max-w-lg md:max-w-xl h-full max-h-[100dvh] bg-[#0e1422] border-l border-slate-800 shadow-2xl flex flex-col animate-slide-left overflow-hidden">
-            <BorrowCart
-              onClose={closeCartDrawer}
-              onProceed={() => {
-                closeCartDrawer();
-                commitTransaction();
-              }}
+      {isCartDrawerOpen &&
+        createPortal(
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end animate-fade-in touch-none">
+            {/* Overlay Click to Close */}
+            <div
+              className="absolute inset-0 cursor-pointer"
+              onClick={closeCartDrawer}
             />
-          </div>
-        </div>
-      )}
+
+            {/* Slide-in Cart Container */}
+            <div className="relative z-10 w-full sm:max-w-md md:max-w-lg h-full h-[100dvh] max-h-[100dvh] bg-[#0e1422] sm:border-l border-slate-800 shadow-2xl flex flex-col animate-slide-left overflow-hidden">
+              <BorrowCart
+                onClose={closeCartDrawer}
+                onProceed={() => {
+                  closeCartDrawer();
+                  commitTransaction();
+                }}
+              />
+            </div>
+          </div>,
+          document.body
+        )}
 
       {/* Equipment Advance Reservation Modal */}
       {selectedItemForReservation && (
@@ -685,22 +704,15 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
               </span>
             </div>
 
-            {/* In-Cart / Active Reservation Badges */}
-            <div className="flex items-center gap-1">
-              {inCartQty > 0 && !isAllInCart && (
-                <span className="text-[9px] sm:text-[10px] font-mono font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-500/30 px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
-                  <Check className="w-2.5 h-2.5 text-cyan-400 stroke-[3]" />
-                  <span>{inCartQty} in cart</span>
-                </span>
-              )}
-
-              {totalReservedQty > 0 && (
+            {/* Active Reservation Badges */}
+            {totalReservedQty > 0 && (
+              <div className="flex items-center gap-1">
                 <span className="text-[9px] sm:text-[10px] font-mono font-bold text-amber-300 neu-inset-amber px-1.5 sm:px-2 py-0.5 rounded-md flex items-center gap-1">
                   <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                   <span>{totalReservedQty} Booked</span>
                 </span>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
