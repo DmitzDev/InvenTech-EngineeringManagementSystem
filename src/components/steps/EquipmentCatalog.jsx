@@ -733,17 +733,17 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
         </div>
       </div>
 
-      {/* Card Actions: Clean Reserve & Clean Add Button */}
-      <div className="mt-2.5 sm:mt-3 pt-2 sm:pt-2.5 border-t border-slate-800/80 flex items-center justify-between gap-1.5 sm:gap-2">
+      {/* Card Actions: Clean Responsive 2-Column Button Grid (Zero Overflow on Mobile) */}
+      <div className="mt-2 sm:mt-3 pt-2 sm:pt-2.5 border-t border-slate-800/80 grid grid-cols-2 gap-1 sm:gap-2 w-full">
         {/* Reserve Button */}
         <button
           type="button"
           onClick={() => onReserve(currentItem)}
-          className="min-h-[32px] sm:min-h-[40px] px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-[10.5px] sm:text-xs font-bold neu-btn-raised text-amber-300 hover:text-amber-200 flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer shrink-0"
+          className="w-full min-w-0 min-h-[30px] sm:min-h-[38px] px-1.5 sm:px-3 rounded-lg sm:rounded-xl text-[9.5px] sm:text-xs font-bold neu-btn-raised text-amber-300 hover:text-amber-200 flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer truncate"
           title="Reserve equipment"
         >
-          <Calendar className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-          <span className="font-bold">Reserve</span>
+          <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
+          <span className="truncate">Reserve</span>
         </button>
 
         {/* Dedicated Single Clean Add Button */}
@@ -751,7 +751,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           type="button"
           disabled={isOutOfStock}
           onClick={() => onAddToCart(currentItem)}
-          className={`min-h-[32px] sm:min-h-[40px] px-2.5 sm:px-3.5 rounded-lg sm:rounded-xl text-[10.5px] sm:text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+          className={`w-full min-w-0 min-h-[30px] sm:min-h-[38px] px-1.5 sm:px-3 rounded-lg sm:rounded-xl text-[9.5px] sm:text-xs font-bold flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed truncate ${
             isAllInCart
               ? 'bg-slate-800/80 text-slate-400 border border-slate-700'
               : inCartQty > 0
@@ -760,10 +760,10 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           }`}
           title={isOutOfStock ? (isAllInCart ? 'All available stock is already in your cart' : 'No more available stock') : 'Add 1 unit to cart'}
         >
-          <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-          <span>{isOutOfStock ? (isAllInCart ? 'Max Added' : 'No Stock') : 'Add'}</span>
+          <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5] shrink-0" />
+          <span className="truncate">{isOutOfStock ? (isAllInCart ? 'Max' : '0 Left') : 'Add'}</span>
           {inCartQty > 0 && !isOutOfStock && (
-            <span className="ml-0.5 px-1.5 py-0.2 rounded-full bg-slate-950/30 text-[9px] sm:text-[10px] font-mono font-black">
+            <span className="ml-0.5 px-1 py-0.2 rounded-full bg-slate-950/30 text-[8.5px] sm:text-[9.5px] font-mono font-black shrink-0">
               +{inCartQty}
             </span>
           )}
@@ -807,12 +807,12 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
         )}
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
-            <span className="text-[9px] font-mono font-bold text-cyan-300 neu-inset-sm px-1.5 py-0.2 rounded">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[9px] font-mono font-bold text-cyan-300 neu-inset-sm px-1.5 py-0.2 rounded shrink-0">
               {currentItem.tagCode}
             </span>
             <span
-              className={`text-[8.5px] font-mono font-bold flex items-center gap-1 px-1.5 py-0.2 rounded border ${
+              className={`text-[8.5px] font-mono font-bold flex items-center gap-1 px-1.5 py-0.2 rounded border truncate ${
                 isAllInCart
                   ? 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
                   : isOutOfStock
@@ -823,7 +823,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
               }`}
             >
               <span
-                className={`w-1.5 h-1.5 rounded-full ${
+                className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                   isAllInCart
                     ? 'bg-cyan-400'
                     : isOutOfStock
@@ -833,11 +833,11 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
                     : 'bg-emerald-400'
                 }`}
               />
-              <span>
+              <span className="truncate">
                 {isAllInCart
-                  ? `Max in cart (${inCartQty}/${totalStock})`
+                  ? `Max (${inCartQty}/${totalStock})`
                   : isOutOfStock
-                  ? 'Out of stock'
+                  ? '0 stock'
                   : `${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`}
               </span>
             </span>
@@ -855,7 +855,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
                   key={v.id}
                   type="button"
                   onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-1.5 py-0.5 text-[8.5px] font-mono font-bold rounded border ${
+                  className={`px-1.5 py-0.5 text-[8.5px] font-mono font-bold rounded border shrink-0 ${
                     v.id === currentItem.id ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 border-slate-700 text-slate-300'
                   }`}
                 >
@@ -872,7 +872,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
         <button
           type="button"
           onClick={() => onReserve(currentItem)}
-          className="p-1.5 rounded-lg neu-btn-raised text-amber-300 active:scale-95"
+          className="p-1.5 rounded-lg neu-btn-raised text-amber-300 active:scale-95 shrink-0"
           title="Reserve"
         >
           <Calendar className="w-3.5 h-3.5" />
@@ -882,7 +882,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
           type="button"
           disabled={isOutOfStock}
           onClick={() => onAddToCart(currentItem)}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed ${
+          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${
             inCartQty > 0 ? 'neu-btn-primary text-slate-950 font-black' : 'neu-btn-raised text-slate-200'
           }`}
         >
