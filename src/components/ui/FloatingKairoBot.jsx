@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, X, Send, User, Settings, Plus, Check, Loader2, BookOpen, Layers, Minimize2, RotateCcw, Bot, ShieldCheck, Calendar, Clock, AlertTriangle } from 'lucide-react';
+import { Sparkles, X, Send, User, Settings, Plus, Check, Loader2, BookOpen, Layers, Minimize2, RotateCcw, Bot, ShieldCheck, Calendar, Clock, AlertTriangle, ShoppingBag } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { askKairoAi, getStoredApiKey } from '../../services/kairoAiService';
 import { getInventory } from '../../data/equipmentData';
@@ -403,7 +403,15 @@ function FormattedKairoText({ text, isDark }) {
 }
 
 export default function FloatingKairoBot() {
-  const { currentStep, selectedLab, addMultipleToCart, theme, showToast } = useTransaction();
+  const {
+    currentStep,
+    selectedLab,
+    cart,
+    addMultipleToCart,
+    openCartDrawer,
+    theme,
+    showToast,
+  } = useTransaction();
   const isDark = theme === 'dark';
 
   const [isOpen, setIsOpen] = useState(false);
@@ -437,6 +445,12 @@ export default function FloatingKairoBot() {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleResetChat = () => {
+    setMessages(INITIAL_MESSAGES);
+    setAddedBundleKeys([]);
+    showToast('Kairo AI conversation restarted.', 'info');
   };
 
   useEffect(() => {
@@ -498,58 +512,63 @@ export default function FloatingKairoBot() {
   };
 
   const handleAddItemsToCart = (items, bundleKey) => {
-    if (items && items.length > 0) {
-      addMultipleToCart(items);
+    if (!items || items.length === 0) return;
+    addMultipleToCart(items);
+    if (bundleKey) {
       setAddedBundleKeys((prev) => [...prev, bundleKey]);
-      if (showToast) {
-        showToast(`Added ${items.length} items to Borrow Cart!`, 'success');
-      }
     }
+    showToast(`Added ${items.length} apparatus items to your borrow cart!`, 'success');
   };
 
-  const handleResetChat = () => {
-    setMessages(INITIAL_MESSAGES);
-    setAddedBundleKeys([]);
-    if (showToast) {
-      showToast('Kairo AI chat session restarted.', 'info');
-    }
-  };
+  const totalUnitsInCart = cart ? cart.reduce((sum, item) => sum + item.qty, 0) : 0;
 
   return (
     <>
-      {/* 1. FLOATING KAIRO AI 3D ROBOT HEAD TRIGGER BUTTON */}
+      {/* 1. FLOATING KAIRO AI 3D ROBOT HEAD + FLOATING CART DOCK (Side-by-side) */}
       {!isOpen && (
-        <div className="fixed bottom-12 right-3.5 sm:bottom-14 sm:right-6 z-40 select-none">
+        <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 select-none flex items-center gap-2.5">
+          {/* Mobile-Only Floating Cart Button: Positioned right beside Kairo AI Bot (Hidden on 15" Kiosk Screen) */}
+          {currentStep === 3 && (
+            <button
+              type="button"
+              onClick={openCartDrawer}
+              title="Open Borrow Cart"
+              className="sm:hidden group relative w-11 h-11 rounded-full neu-btn-raised bg-[#0f172a] border border-cyan-500/40 shadow-[0_4px_16px_rgba(0,0,0,0.6)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shrink-0"
+            >
+              <ShoppingBag className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" />
+
+              {totalUnitsInCart > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-mono font-black text-[10px] flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.6)] border border-slate-950 animate-fade-in">
+                  {totalUnitsInCart}
+                </span>
+              )}
+            </button>
+          )}
+
+          {/* Kairo AI Trigger Button */}
           <button
             type="button"
             onClick={() => setIsOpen(true)}
             title="Chat with Kairo AI (Engineering Assistant)"
-            className="kairo-trigger group relative flex items-center gap-2.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full font-black hover:scale-105 active:scale-95 transition-all duration-200 backdrop-blur-md cursor-pointer"
+            className="group relative flex items-center gap-2 p-1.5 pr-3.5 rounded-full font-black hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer neu-btn-raised bg-[#0f172a] border border-cyan-500/30 shadow-lg shrink-0"
           >
-            {/* High-Tech 3D Robot Head Avatar with Glowing Ocean Aura */}
-            <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 p-0.5 relative shrink-0 shadow-lg ${
-              isDark ? 'border-[#7fdcff] bg-slate-950 shadow-[0_0_12px_rgba(127,220,255,0.8)]' : 'border-[#0284c7] bg-white shadow-[0_0_10px_rgba(2,132,199,0.5)]'
-            }`}>
+            {/* Single Clean Avatar (No double nested circle border) */}
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden shrink-0">
               <img
                 src="/images/kairo_avatar.png"
                 alt="Kairo AI Avatar"
-                className="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950 animate-ping" />
-              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-slate-950" />
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-950" />
             </div>
 
-            {/* Guaranteed Contrast Text Label (Works in both Dark & Light themes) */}
+            {/* Contrast Text Label */}
             <div className="text-left leading-tight pr-1 hidden xs:block">
-              <div className={`text-xs font-black tracking-tight flex items-center gap-1 ${
-                isDark ? 'text-[#dff7ff]' : 'text-[#0c4a6e]'
-              }`}>
+              <div className="text-xs font-black tracking-tight flex items-center gap-1 text-cyan-300">
                 <span>Kairo AI</span>
-                <Sparkles className={`w-3 h-3 animate-pulse ${isDark ? 'text-[#7fdcff]' : 'text-[#0284c7]'}`} />
+                <Sparkles className="w-3 h-3 text-cyan-400 animate-pulse" />
               </div>
-              <div className={`text-[10px] font-bold ${
-                isDark ? 'text-[#7fcdff]' : 'text-[#0369a1]'
-              }`}>
+              <div className="text-[10px] font-bold text-slate-400">
                 Lab Assistant
               </div>
             </div>
@@ -567,7 +586,7 @@ export default function FloatingKairoBot() {
           />
 
           {/* Chat Window Container: 100% Fullscreen on Mobile, Sleek Floating Window on Desktop */}
-          <div className="kairo-chat-shell fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[450px] sm:h-[620px] sm:max-h-[88vh] z-50 rounded-none sm:rounded-3xl flex flex-col overflow-hidden animate-slide-up backdrop-blur-2xl select-none shadow-2xl border-0 sm:border border-slate-700/60">
+          <div className="kairo-chat-shell fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[450px] sm:h-[620px] sm:max-h-[85vh] z-50 rounded-none sm:rounded-3xl flex flex-col overflow-hidden animate-slide-up backdrop-blur-2xl select-none shadow-2xl border-0 sm:border border-slate-700/60">
             {/* Mobile Drag Handle & Close Bar */}
             <div className={`sm:hidden w-full pt-3 pb-1 px-4 flex justify-between items-center ${isDark ? 'bg-[#060e1c]' : 'bg-[#f0f9ff]'} border-b border-slate-800/60`}>
               <div className="flex items-center gap-2">
@@ -588,13 +607,11 @@ export default function FloatingKairoBot() {
             <div className="kairo-header px-4 py-3 sm:p-3.5 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 {/* 3D Head Avatar */}
-                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border p-0.5 shrink-0 ${
-                  isDark ? 'border-[#7fdcff] bg-slate-950 shadow-[0_0_12px_rgba(127,220,255,0.6)]' : 'border-[#0284c7] bg-white shadow-md'
-                }`}>
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden shrink-0">
                   <img
                     src="/images/kairo_avatar.png"
                     alt="Kairo AI"
-                    className="w-full h-full object-cover rounded-full"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
@@ -639,32 +656,32 @@ export default function FloatingKairoBot() {
               </div>
 
               {/* Action Icons: Reset, Settings, Minimize */}
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={handleResetChat}
-                  className="p-2 rounded-xl neu-btn-raised text-slate-400 hover:text-cyan-400 cursor-pointer transition-colors"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] sm:w-12 sm:h-12 sm:min-w-[48px] sm:min-h-[48px] rounded-xl neu-btn-raised text-slate-400 hover:text-cyan-400 flex items-center justify-center cursor-pointer transition-colors active:scale-95"
                   title="Restart Conversation"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setIsSettingsOpen(true)}
-                  className="p-2 rounded-xl neu-btn-raised text-slate-400 hover:text-cyan-400 cursor-pointer transition-colors"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] sm:w-12 sm:h-12 sm:min-w-[48px] sm:min-h-[48px] rounded-xl neu-btn-raised text-slate-400 hover:text-cyan-400 flex items-center justify-center cursor-pointer transition-colors active:scale-95"
                   title="Configure Gemini API Key"
                 >
-                  <Settings className="w-4 h-4" />
+                  <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="hidden sm:flex p-2 rounded-xl neu-btn-raised text-slate-400 hover:text-white cursor-pointer transition-colors"
+                  className="hidden sm:flex w-12 h-12 min-w-[48px] min-h-[48px] rounded-xl neu-btn-raised text-slate-400 hover:text-white items-center justify-center cursor-pointer transition-colors active:scale-95"
                   title="Minimize Kairo AI"
                 >
-                  <Minimize2 className="w-4 h-4" />
+                  <Minimize2 className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>

@@ -6,10 +6,37 @@
     touch-action: manipulation;
   }
 
+  html,
+  body,
+  #root,
+  .kiosk-shell {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  input,
+  textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
   body {
     transition: background-color 0.25s ease, color 0.25s ease;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+}
+
+.touch-target-kiosk {
+  min-height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  items-center: center;
+  justify-content: center;
 }
 
 /* =========================================================
@@ -119,7 +146,7 @@
 [data-theme="dark"] .neu-btn-raised:active {
   background: #0e1524;
   box-shadow: inset 3px 3px 6px #060a12, inset -3px -3px 6px #1a273e;
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
 [data-theme="dark"] .neu-btn-primary {
@@ -136,7 +163,7 @@
 
 [data-theme="dark"] .neu-btn-primary:active {
   box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.5), inset -3px -3px 6px rgba(255, 255, 255, 0.2);
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
 [data-theme="dark"] .neu-btn-danger {
@@ -144,6 +171,11 @@
   box-shadow: 3px 3px 8px #060a12, -3px -3px 8px #1d2538;
   color: #fda4af;
   border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+[data-theme="dark"] .neu-btn-danger:active {
+  background: #130d17;
+  transform: scale(0.95);
 }
 
 /* =========================================================

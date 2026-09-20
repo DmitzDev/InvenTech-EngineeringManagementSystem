@@ -114,8 +114,8 @@ export default function ReservationModal({ item, isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none">
-      <div className="neu-card rounded-3xl max-w-xl w-full shadow-2xl flex flex-col max-h-[92vh] overflow-hidden border border-slate-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none overflow-y-auto">
+      <div className="neu-card rounded-3xl max-w-xl w-full shadow-2xl flex flex-col max-h-[92dvh] sm:max-h-[85vh] overflow-hidden border border-slate-800 my-auto">
         {/* Modal Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
           <div className="flex items-center gap-3">
@@ -140,70 +140,73 @@ export default function ReservationModal({ item, isOpen, onClose }) {
           <button
             type="button"
             onClick={handleClose}
-            className="p-2 rounded-xl neu-btn-raised text-slate-400 hover:text-white cursor-pointer"
+            className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-2xl neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Modal Content Body */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
-          {confirmedReservation ? (
-            /* Confirmation State Card */
-            <div className="space-y-4 text-center py-2 animate-fade-in">
-              <div className="w-14 h-14 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                <Check className="w-7 h-7 stroke-[3]" />
-              </div>
+        {/* Modal Content */}
+        {confirmedReservation ? (
+          <>
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+              <div className="space-y-4 text-center py-2 animate-fade-in">
+                <div className="w-14 h-14 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                  <Check className="w-7 h-7 stroke-[3]" />
+                </div>
 
-              <div>
-                <h4 className="text-lg font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
-                <p className="text-xs text-slate-400 mt-1">
-                  Your reservation reference is{' '}
-                  <span className="font-mono font-bold text-cyan-400">{confirmedReservation.id}</span>
-                </p>
-              </div>
+                <div>
+                  <h4 className="text-lg font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Your reservation reference is{' '}
+                    <span className="font-mono font-bold text-cyan-400">{confirmedReservation.id}</span>
+                  </p>
+                </div>
 
-              <div className="neu-inset rounded-2xl p-4 text-left space-y-2 text-xs">
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400 font-medium">Apparatus:</span>
-                  <span className="font-bold text-slate-100">{confirmedReservation.name}</span>
+                <div className="neu-inset rounded-2xl p-4 text-left space-y-2 text-xs">
+                  <div className="flex justify-between border-b border-slate-800 pb-1.5">
+                    <span className="text-slate-400 font-medium">Apparatus:</span>
+                    <span className="font-bold text-slate-100">{confirmedReservation.name}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-800 pb-1.5">
+                    <span className="text-slate-400 font-medium">Reserved Quantity:</span>
+                    <span className="font-mono font-bold text-cyan-400">
+                      {confirmedReservation.qty} {confirmedReservation.unit}s
+                    </span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-800 pb-1.5">
+                    <span className="text-slate-400 font-medium">Scheduled Date:</span>
+                    <span className="font-bold text-slate-100">{confirmedReservation.reserveDate}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-800 pb-1.5">
+                    <span className="text-slate-400 font-medium">Time Schedule:</span>
+                    <span className="font-bold text-cyan-400">{confirmedReservation.timeSlot}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-800 pb-1.5">
+                    <span className="text-slate-400 font-medium">Student & Group:</span>
+                    <span className="font-bold text-slate-100">
+                      {confirmedReservation.studentName} ({confirmedReservation.program} • Group {confirmedReservation.groupNo})
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-400 font-medium">Instructor:</span>
+                    <span className="font-bold text-slate-100">{confirmedReservation.instructor}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400 font-medium">Reserved Quantity:</span>
-                  <span className="font-mono font-bold text-cyan-400">
-                    {confirmedReservation.qty} {confirmedReservation.unit}s
-                  </span>
-                </div>
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400 font-medium">Scheduled Date:</span>
-                  <span className="font-bold text-slate-100">{confirmedReservation.reserveDate}</span>
-                </div>
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400 font-medium">Time Schedule:</span>
-                  <span className="font-bold text-cyan-400">{confirmedReservation.timeSlot}</span>
-                </div>
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400 font-medium">Student & Group:</span>
-                  <span className="font-bold text-slate-100">
-                    {confirmedReservation.studentName} ({confirmedReservation.program} • Group {confirmedReservation.groupNo})
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400 font-medium">Instructor:</span>
-                  <span className="font-bold text-slate-100">{confirmedReservation.instructor}</span>
-                </div>
-              </div>
-
-              <div className="pt-2 flex items-center justify-center gap-3">
-                <TouchButton variant="primary" size="md" onClick={handleClose}>
-                  Done & Back to Catalog
-                </TouchButton>
               </div>
             </div>
-          ) : (
-            /* Reservation Form */
-            <form onSubmit={handleConfirmReservation} className="space-y-4">
+
+            <div className="p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-center shrink-0">
+              <TouchButton variant="primary" size="md" onClick={handleClose}>
+                Done & Back to Catalog
+              </TouchButton>
+            </div>
+          </>
+        ) : (
+          <form onSubmit={handleConfirmReservation} className="flex-1 flex flex-col min-h-0">
+            {/* Scrollable Form Body */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
               {/* Selected Equipment Banner */}
               <div className="p-3.5 rounded-2xl neu-inset flex items-center justify-between">
                 <div className="min-w-0 pr-2">
@@ -232,7 +235,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     value={reserveDate}
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setReserveDate(e.target.value)}
-                    className="w-full min-h-[46px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full min-h-[48px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     required
                   />
                 </div>
@@ -245,7 +248,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full min-h-[46px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-cyan-300 font-mono font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-[#111a2c]"
+                    className="w-full min-h-[48px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-cyan-300 font-mono font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-[#111a2c]"
                     required
                   >
                     {STANDARD_TIME_SLOTS.map((slot) => (
@@ -265,19 +268,21 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     <span className="text-[11px] text-slate-400">Units needed for your group</span>
                   </div>
 
-                  <div className="flex items-center gap-2 neu-inset rounded-xl p-1">
+                  <div className="flex items-center gap-2 neu-inset rounded-2xl p-1.5">
                     <button
                       type="button"
                       onClick={() => setQty(Math.max(1, qty - 1))}
-                      className="w-8 h-8 rounded-lg neu-btn-raised text-slate-300 font-bold flex items-center justify-center text-sm cursor-pointer"
+                      className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-xl neu-btn-raised text-slate-200 font-extrabold flex items-center justify-center text-lg active:scale-95 cursor-pointer"
+                      aria-label="Decrease quantity"
                     >
                       -
                     </button>
-                    <span className="w-8 text-center font-mono font-bold text-sm text-cyan-400">{qty}</span>
+                    <span className="w-10 text-center font-mono font-extrabold text-base text-cyan-400">{qty}</span>
                     <button
                       type="button"
                       onClick={() => setQty(Math.min(item.stock, qty + 1))}
-                      className="w-8 h-8 rounded-lg neu-btn-raised text-slate-300 font-bold flex items-center justify-center text-sm cursor-pointer"
+                      className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-xl neu-btn-raised text-slate-200 font-extrabold flex items-center justify-center text-lg active:scale-95 cursor-pointer"
+                      aria-label="Increase quantity"
                     >
                       +
                     </button>
@@ -321,7 +326,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                       value={studentName}
                       onChange={(e) => setStudentName(e.target.value)}
                       placeholder="e.g. Jason Cayabyab"
-                      className="w-full min-h-[46px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full min-h-[48px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-500"
                       required
                     />
                   </div>
@@ -335,7 +340,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                       <select
                         value={program}
                         onChange={(e) => setProgram(e.target.value)}
-                        className="min-h-[46px] px-3 rounded-xl neu-inset text-xs text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-[#111a2c]"
+                        className="min-h-[48px] px-3 rounded-xl neu-inset text-xs text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-[#111a2c]"
                       >
                         {ENGINEERING_PROGRAMS.map((p) => (
                           <option key={p.code} value={p.code} className="bg-[#111a2c] text-slate-100">
@@ -349,7 +354,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                         value={courseCode}
                         onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
                         placeholder="Course Code"
-                        className="min-h-[46px] px-3 rounded-xl neu-inset text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        className="min-h-[48px] px-3 rounded-xl neu-inset text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500"
                       />
                     </div>
                   </div>
@@ -367,34 +372,34 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     value={instructor}
                     onChange={(e) => setInstructor(e.target.value)}
                     placeholder="e.g. Engr. Jin Benir Macaranas"
-                    className="w-full min-h-[46px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full min-h-[48px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     required
                   />
                 </div>
               </div>
+            </div>
 
-              {/* Submit CTA */}
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="px-4 py-2.5 rounded-xl neu-btn-raised text-xs text-slate-300 font-semibold cursor-pointer active:scale-95"
-                >
-                  Cancel
-                </button>
+            {/* Pinned Modal Footer with 16px Anti-Fat-Finger Gap */}
+            <div className="p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between gap-4 shrink-0">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="min-h-[48px] px-5 py-2.5 rounded-xl neu-btn-raised text-xs text-slate-300 font-bold cursor-pointer active:scale-95"
+              >
+                Cancel
+              </button>
 
-                <TouchButton
-                  variant="primary"
-                  size="md"
-                  disabled={conflictInfo.hasConflict}
-                  onClick={handleConfirmReservation}
-                >
-                  Confirm Advance Booking ({qty} Units)
-                </TouchButton>
-              </div>
-            </form>
-          )}
-        </div>
+              <TouchButton
+                variant="primary"
+                size="md"
+                disabled={conflictInfo.hasConflict}
+                type="submit"
+              >
+                Confirm Advance Booking ({qty} Units)
+              </TouchButton>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

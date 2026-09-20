@@ -77,7 +77,8 @@ export default function AIAssistant({ isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl neu-btn-raised text-slate-400 hover:text-white"
+            className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-2xl neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -209,7 +210,7 @@ export default function AIAssistant({ isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl neu-btn-raised text-slate-200 font-bold text-xs"
+            className="min-h-[48px] px-6 py-2.5 rounded-xl neu-btn-raised text-slate-200 font-bold text-xs active:scale-95 cursor-pointer"
           >
             Done & Return to Catalog
           </button>
