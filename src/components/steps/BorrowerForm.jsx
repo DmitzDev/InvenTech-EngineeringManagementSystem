@@ -193,17 +193,17 @@ export default function BorrowerForm() {
   };
 
   return (
-    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-3.5 sm:p-5 lg:p-6 pb-6 sm:pb-8 lg:pb-8 flex flex-col justify-between select-none">
+    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-2.5 sm:p-5 lg:p-6 pb-2.5 sm:pb-8 flex flex-col justify-between select-none min-h-0">
       {/* 1. Step Header */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5 shrink-0">
+      <div className="flex items-center justify-between border-b border-slate-800/80 pb-1.5 sm:pb-2.5 shrink-0">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs sm:text-sm font-mono text-cyan-400 font-extrabold tracking-wider uppercase">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="text-[11px] sm:text-sm font-mono text-cyan-400 font-extrabold tracking-wider uppercase">
               Step 01 of 04
             </span>
-            <span className="text-xs sm:text-sm text-slate-400 font-medium">• Institutional Clearance</span>
+            <span className="text-[11px] sm:text-sm text-slate-400 font-medium truncate">• Institutional Clearance</span>
           </div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-100 leading-tight mt-0.5">
+          <h1 className="text-base sm:text-2xl lg:text-3xl font-extrabold text-slate-100 leading-tight">
             Borrower Identification Form
           </h1>
         </div>
@@ -212,26 +212,26 @@ export default function BorrowerForm() {
         </p>
       </div>
 
-      {/* 2. Form Grid with Neumorphic Raised Panels (Enlarged & Comfortable for 15" Touchscreen) */}
-      <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 my-auto py-2">
+      {/* 2. Form Grid with Neumorphic Raised Panels (Compact on Mobile, Spacious on 15" Kiosk) */}
+      <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 sm:gap-6 my-auto py-1 sm:py-2 min-h-0">
         {/* Left Column: Academic & Course Code Builder */}
-        <div className="neu-card rounded-3xl p-5 sm:p-6 lg:p-7 space-y-4 sm:space-y-5">
-          <h2 className="text-sm sm:text-base font-bold text-slate-200 flex items-center gap-2.5 pb-2 border-b border-slate-800/80 uppercase tracking-wider">
-            <GraduationCap className="w-5 h-5 text-cyan-400" />
+        <div className="neu-card rounded-2xl sm:rounded-3xl p-3 sm:p-6 lg:p-7 space-y-2.5 sm:space-y-4">
+          <h2 className="text-xs sm:text-base font-bold text-slate-200 flex items-center gap-2 pb-1 sm:pb-2 border-b border-slate-800/80 uppercase tracking-wider">
+            <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 shrink-0" />
             <span>Program & Course Details</span>
           </h2>
 
           {/* Academic Information: Clean 2x2 Uniform Dropdown Selectors */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 items-start">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3.5 items-start">
             {/* 1. Academic Program */}
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-300 mb-1.5">
-                Academic Program / Course
+              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+                Program / Course
               </label>
               <select
                 value={isOtherProgram ? 'OTHERS' : borrower.program}
                 onChange={(e) => handleProgramChange(e.target.value)}
-                className={`w-full h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer ${
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer ${
                   errors.program ? 'ring-2 ring-rose-500' : ''
                 }`}
               >
@@ -248,34 +248,34 @@ export default function BorrowerForm() {
 
               {/* Custom Program Input directly under the Program dropdown */}
               {isOtherProgram && (
-                <div className="mt-2.5 animate-fade-in">
+                <div className="mt-1.5 animate-fade-in">
                   <input
                     type="text"
                     value={customProgram}
                     onChange={(e) => handleCustomProgramChange(e.target.value)}
-                    placeholder="Type course (e.g. BSIT, BSN, BSBA)..."
-                    className="w-full h-11 sm:h-12 px-3.5 rounded-xl neu-inset text-cyan-300 font-bold text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all uppercase bg-[#0e1422] border border-amber-500/40"
+                    placeholder="Type course..."
+                    className="w-full h-8 sm:h-11 px-2.5 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-bold text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all uppercase bg-[#0e1422] border border-amber-500/40"
                     autoFocus
                   />
                 </div>
               )}
 
               {errors.program && (
-                <p className="text-xs text-rose-400 mt-1 font-semibold">{errors.program}</p>
+                <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.program}</p>
               )}
             </div>
 
             {/* 2. Year Level */}
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-300 mb-1.5">
+              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
                 Year Level
               </label>
               <select
                 value={selectedYear}
                 onChange={(e) => handleYearChange(e.target.value)}
-                className="w-full h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+                className="w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
               >
-                <option value="" className="bg-[#0e1422] text-slate-400">Select Year Level</option>
+                <option value="" className="bg-[#0e1422] text-slate-400">Select Year</option>
                 {YEAR_LEVELS.map((y) => (
                   <option key={y.id} value={y.id} className="bg-[#0e1422] text-slate-100">
                     {y.label}
@@ -286,15 +286,15 @@ export default function BorrowerForm() {
 
             {/* 3. Term / Semester */}
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-300 mb-1.5">
+              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
                 Term / Semester
               </label>
               <select
                 value={selectedSem}
                 onChange={(e) => handleSemChange(e.target.value)}
-                className="w-full h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+                className="w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
               >
-                <option value="" className="bg-[#0e1422] text-slate-400">Select Term / Sem</option>
+                <option value="" className="bg-[#0e1422] text-slate-400">Select Sem</option>
                 <option value="1" className="bg-[#0e1422] text-slate-100">1st Semester</option>
                 <option value="2" className="bg-[#0e1422] text-slate-100">2nd Semester</option>
                 {(selectedYear === '2' || selectedYear === '3') && (
@@ -305,13 +305,13 @@ export default function BorrowerForm() {
 
             {/* 4. Class Section */}
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-300 mb-1.5">
+              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
                 Class Section
               </label>
               <select
                 value={selectedSection}
                 onChange={(e) => handleSectionChange(e.target.value)}
-                className="w-full h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-3.5 rounded-xl neu-inset text-xs sm:text-sm font-bold font-mono text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+                className="w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm font-bold font-mono text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
               >
                 <option value="" className="bg-[#0e1422] text-slate-400">Select Section</option>
                 {SECTIONS.map((sec) => (
@@ -325,12 +325,12 @@ export default function BorrowerForm() {
 
           {/* 3. Course Code Input (Auto-calculated or manually editable) */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs sm:text-sm font-bold text-slate-300">
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-[10.5px] sm:text-sm font-bold text-slate-300">
                 Course Code
               </label>
-              <span className="text-xs text-slate-400">
-                Auto-generated or custom editable
+              <span className="text-[10px] sm:text-xs text-slate-400">
+                Auto-generated
               </span>
             </div>
 
@@ -339,39 +339,39 @@ export default function BorrowerForm() {
               value={borrower.courseCode}
               onChange={(e) => setBorrowerField('courseCode', e.target.value.toUpperCase())}
               placeholder="e.g. 41-BSCPE-01"
-              className={`w-full h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-4 rounded-xl neu-inset text-cyan-300 font-mono text-sm sm:text-base font-extrabold placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all ${
+              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
                 errors.courseCode ? 'ring-2 ring-rose-500' : ''
               }`}
             />
             {errors.courseCode && (
-              <p className="text-xs text-rose-400 mt-1 font-semibold">{errors.courseCode}</p>
+              <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.courseCode}</p>
             )}
           </div>
         </div>
 
         {/* Right Column: Group & Schedule Details */}
-        <div className="neu-card rounded-3xl p-5 sm:p-6 lg:p-7 space-y-4 sm:space-y-5">
-          <h2 className="text-sm sm:text-base font-bold text-slate-200 flex items-center gap-2.5 pb-2 border-b border-slate-800/80 uppercase tracking-wider">
-            <Users className="w-5 h-5 text-cyan-400" />
-            <span>Group & Schedule Information</span>
+        <div className="neu-card rounded-2xl sm:rounded-3xl p-3 sm:p-6 lg:p-7 space-y-2.5 sm:space-y-4">
+          <h2 className="text-xs sm:text-base font-bold text-slate-200 flex items-center gap-2 pb-1 sm:pb-2 border-b border-slate-800/80 uppercase tracking-wider">
+            <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 shrink-0" />
+            <span>Group & Schedule Details</span>
           </h2>
 
-          <div className="grid grid-cols-3 gap-3.5">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3.5">
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-slate-300 mb-1.5">
+              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
                 Group No.
               </label>
-              <div className="flex items-center neu-inset rounded-xl h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-2">
+              <div className="flex items-center neu-inset rounded-lg sm:rounded-xl h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-1 sm:px-2">
                 <button
                   type="button"
                   onClick={() =>
                     setBorrowerField('groupNo', String(Math.max(1, parseInt(borrower.groupNo || 1) - 1)))
                   }
-                  className="w-10 h-10 sm:w-11 sm:h-11 min-w-[38px] min-h-[38px] rounded-lg neu-btn-raised text-slate-200 font-bold flex items-center justify-center text-lg active:scale-95 cursor-pointer"
+                  className="w-7 h-7 sm:w-10 sm:h-10 min-w-[28px] sm:min-w-[38px] min-h-[28px] sm:min-h-[38px] rounded neu-btn-raised text-slate-200 font-bold flex items-center justify-center text-sm sm:text-lg active:scale-95 cursor-pointer shrink-0"
                 >
                   -
                 </button>
-                <span className="flex-1 text-center font-mono font-extrabold text-cyan-400 text-base sm:text-lg">
+                <span className="flex-1 text-center font-mono font-extrabold text-cyan-400 text-sm sm:text-lg">
                   {borrower.groupNo || '1'}
                 </span>
                 <button
@@ -379,7 +379,7 @@ export default function BorrowerForm() {
                   onClick={() =>
                     setBorrowerField('groupNo', String(Math.min(12, parseInt(borrower.groupNo || 1) + 1)))
                   }
-                  className="w-10 h-10 sm:w-11 sm:h-11 min-w-[38px] min-h-[38px] rounded-lg neu-btn-raised text-slate-200 font-bold flex items-center justify-center text-lg active:scale-95 cursor-pointer"
+                  className="w-7 h-7 sm:w-10 sm:h-10 min-w-[28px] sm:min-w-[38px] min-h-[28px] sm:min-h-[38px] rounded neu-btn-raised text-slate-200 font-bold flex items-center justify-center text-sm sm:text-lg active:scale-95 cursor-pointer shrink-0"
                 >
                   +
                 </button>
@@ -387,64 +387,64 @@ export default function BorrowerForm() {
             </div>
 
             <div className="col-span-2">
-              <label className="block text-xs sm:text-sm font-bold text-slate-300 mb-1.5">
-                Group Leader / Student Name
+              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+                Student / Group Leader Name
               </label>
               <input
                 type="text"
                 value={borrower.groupLeader}
                 onChange={(e) => setBorrowerField('groupLeader', e.target.value)}
                 placeholder="e.g. JASON CAYABYAB"
-                className={`w-full h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-4 rounded-xl neu-inset text-slate-100 text-sm sm:text-base font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all ${
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
                   errors.groupLeader ? 'ring-2 ring-rose-500' : ''
                 }`}
               />
               {errors.groupLeader && (
-                <p className="text-xs text-rose-400 mt-1 font-semibold">{errors.groupLeader}</p>
+                <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.groupLeader}</p>
               )}
             </div>
           </div>
 
           {/* Laboratory Instructor Input */}
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-slate-300 mb-1.5 flex items-center gap-1.5">
-              <UserCheck className="w-4 h-4 text-cyan-400" />
-              <span>Laboratory Instructor</span>
+            <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1 flex items-center gap-1.5">
+              <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
+              <span>Laboratory Instructor / Professor</span>
             </label>
             <input
               type="text"
               value={borrower.instructor}
               onChange={(e) => setBorrowerField('instructor', e.target.value)}
               placeholder="e.g. Engr. Jin Benir Macaranas"
-              className={`w-full h-12 sm:h-13 min-h-[48px] sm:min-h-[52px] px-4 rounded-xl neu-inset text-slate-100 text-sm sm:text-base font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all ${
+              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
                 errors.instructor ? 'ring-2 ring-rose-500' : ''
               }`}
             />
             {errors.instructor && (
-              <p className="text-xs text-rose-400 mt-1 font-semibold">{errors.instructor}</p>
+              <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.instructor}</p>
             )}
           </div>
 
           {/* Clean Unified Time of Laboratory Schedule */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs sm:text-sm font-bold text-slate-300 flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-cyan-400" />
-                <span>Time of Laboratory Schedule</span>
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-[10.5px] sm:text-sm font-bold text-slate-300 flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <span>Time Schedule</span>
               </label>
               {borrower.labTime && (
-                <span className="text-xs font-mono text-cyan-400 font-extrabold bg-cyan-950/70 px-3 py-1 rounded-full border border-cyan-500/40 truncate max-w-[240px]">
+                <span className="text-[10px] sm:text-xs font-mono text-cyan-400 font-extrabold bg-cyan-950/70 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-cyan-500/40 truncate max-w-[190px] sm:max-w-[240px]">
                   {borrower.labTime}
                 </span>
               )}
             </div>
 
-            <div className="w-full py-2.5 px-3.5 rounded-2xl neu-inset border border-slate-800/80">
-              <div className="flex items-center justify-between gap-3">
+            <div className="w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl neu-inset border border-slate-800/80">
+              <div className="flex items-center justify-between gap-2 sm:gap-3">
                 {/* Start Time */}
                 <div className="flex-1">
-                  <span className="block text-[10px] sm:text-xs uppercase font-bold text-slate-400 mb-1">
-                    Start Time
+                  <span className="block text-[9px] sm:text-xs uppercase font-bold text-slate-400 mb-0.5">
+                    Start
                   </span>
                   <input
                     type="time"
@@ -468,22 +468,22 @@ export default function BorrowerForm() {
                         setStartPeriod(period);
                       }
                     }}
-                    className="w-full h-11 sm:h-12 px-3.5 rounded-xl neu-inset text-cyan-300 font-mono text-sm sm:text-base font-extrabold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all bg-[#0e1422] border border-slate-800/80 cursor-pointer"
+                    className="w-full h-8 sm:h-11 px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-[#0e1422] border border-slate-800/80 cursor-pointer"
                     style={{ colorScheme: 'dark' }}
                   />
                 </div>
 
                 {/* "to" separator */}
-                <div className="flex flex-col items-center justify-center pt-4">
-                  <span className="text-xs sm:text-sm font-black text-slate-400 uppercase tracking-widest px-1 shrink-0 select-none">
+                <div className="flex flex-col items-center justify-center pt-3 sm:pt-4">
+                  <span className="text-[10px] sm:text-sm font-black text-slate-400 uppercase tracking-widest px-1 shrink-0 select-none">
                     to
                   </span>
                 </div>
 
                 {/* End Time */}
                 <div className="flex-1">
-                  <span className="block text-[10px] sm:text-xs uppercase font-bold text-slate-400 mb-1">
-                    End Time
+                  <span className="block text-[9px] sm:text-xs uppercase font-bold text-slate-400 mb-0.5">
+                    End
                   </span>
                   <input
                     type="time"
@@ -507,7 +507,7 @@ export default function BorrowerForm() {
                         setEndPeriod(period);
                       }
                     }}
-                    className="w-full h-11 sm:h-12 px-3.5 rounded-xl neu-inset text-cyan-300 font-mono text-sm sm:text-base font-extrabold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all bg-[#0e1422] border border-slate-800/80 cursor-pointer"
+                    className="w-full h-8 sm:h-11 px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-[#0e1422] border border-slate-800/80 cursor-pointer"
                     style={{ colorScheme: 'dark' }}
                   />
                 </div>
@@ -515,30 +515,30 @@ export default function BorrowerForm() {
             </div>
 
             {errors.labTime && (
-              <p className="text-xs text-rose-400 mt-1 font-semibold">{errors.labTime}</p>
+              <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.labTime}</p>
             )}
           </div>
         </div>
       </form>
 
-      {/* 3. Bottom Action CTA Bar (Elevated with comfortable margin from bottom bezel) */}
-      <div className="pt-3 sm:pt-4 mb-2 border-t border-slate-800/80 flex flex-col-reverse sm:flex-row items-center justify-between gap-3 sm:gap-4 shrink-0">
+      {/* 3. Bottom Action CTA Bar (Side by side on mobile for zero scrolling) */}
+      <div className="pt-2 sm:pt-4 border-t border-slate-800/80 flex items-center justify-between gap-2 sm:gap-4 shrink-0">
         <TouchButton
           variant="secondary"
-          size="md"
+          size="sm"
           icon={ArrowLeft}
           onClick={goToWelcome}
-          className="w-full sm:w-auto min-w-[130px] sm:min-w-[150px] text-xs sm:text-sm font-bold"
+          className="px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-bold shrink-0"
         >
           Cancel
         </TouchButton>
 
         <TouchButton
           variant="primary"
-          size="lg"
+          size="md"
           icon={ArrowRight}
           onClick={handleNext}
-          className="w-full sm:w-auto min-w-[240px] sm:min-w-[300px] text-sm sm:text-base font-extrabold shadow-lg"
+          className="flex-1 sm:flex-initial sm:min-w-[300px] py-2 sm:py-3 text-xs sm:text-base font-extrabold shadow-lg truncate"
         >
           Next: Select Laboratory
         </TouchButton>
