@@ -114,25 +114,20 @@ export default function ReservationModal({ item, isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none">
-      <div className="neu-card rounded-2xl sm:rounded-3xl max-w-xl w-full shadow-2xl flex flex-col max-h-[96dvh] sm:max-h-[88vh] overflow-hidden border border-slate-800 my-auto">
-        {/* Modal Header */}
-        <div className="px-3.5 py-2.5 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
-          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl neu-inset flex items-center justify-center text-cyan-400 shrink-0">
-              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-1.5 sm:p-4 bg-slate-950/85 backdrop-blur-sm animate-fade-in select-none overflow-hidden">
+      <div className="neu-card rounded-2xl sm:rounded-3xl max-w-lg w-full shadow-2xl flex flex-col max-h-[96dvh] sm:max-h-[90vh] overflow-hidden border border-slate-800 my-auto">
+        {/* Modal Header - Pinned at top */}
+        <div className="px-3 py-1.5 sm:px-5 sm:py-3 border-b border-slate-800/80 flex items-center justify-between bg-[#111a2c] shrink-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg neu-inset flex items-center justify-center text-cyan-400 shrink-0">
+              <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <h3 className="text-xs sm:text-base font-bold text-slate-100 truncate">
-                  Advance Reservation
-                </h3>
-                <span className="text-[9px] sm:text-[10px] font-mono px-1.5 py-0.2 rounded-full neu-inset-sm text-cyan-400 font-bold hidden xs:inline">
-                  TYPE / SELECT
-                </span>
-              </div>
-              <p className="text-[10.5px] sm:text-xs text-slate-400 truncate">
-                Reserve lab apparatus in advance with automatic conflict protection.
+              <h3 className="text-xs sm:text-base font-bold text-slate-100 truncate">
+                Advance Reservation
+              </h3>
+              <p className="text-[9.5px] sm:text-xs text-slate-400 truncate">
+                Book lab apparatus in advance for upcoming class.
               </p>
             </div>
           </div>
@@ -140,111 +135,128 @@ export default function ReservationModal({ item, isOpen, onClose }) {
           <button
             type="button"
             onClick={handleClose}
-            className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer shrink-0 ml-2"
+            className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg neu-btn-raised text-slate-400 hover:text-white flex items-center justify-center active:scale-95 cursor-pointer shrink-0"
             aria-label="Close modal"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {/* Modal Content */}
         {confirmedReservation ? (
           <>
-            <div className="flex-1 overflow-y-auto p-3.5 sm:p-5 space-y-3 sm:space-y-4">
-              <div className="space-y-3 text-center py-1 animate-fade-in">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                  <Check className="w-6 h-6 sm:w-7 sm:h-7 stroke-[3]" />
+            <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 overflow-y-auto flex-1">
+              <div className="space-y-1.5 text-center animate-fade-in">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.3)]">
+                  <Check className="w-4 h-4 sm:w-5 sm:h-5 stroke-[3]" />
                 </div>
 
                 <div>
-                  <h4 className="text-base sm:text-lg font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
-                    Reservation Ref:{' '}
-                    <span className="font-mono font-bold text-cyan-400">{confirmedReservation.id}</span>
+                  <h4 className="text-xs sm:text-base font-bold text-emerald-400">Equipment Reserved Successfully!</h4>
+                  <p className="text-[10px] sm:text-xs text-slate-400">
+                    Ref ID: <span className="font-mono font-bold text-cyan-400">{confirmedReservation.id}</span>
                   </p>
                 </div>
 
-                <div className="neu-inset rounded-xl sm:rounded-2xl p-3 sm:p-4 text-left space-y-1.5 sm:space-y-2 text-[11px] sm:text-xs">
-                  <div className="flex justify-between border-b border-slate-800 pb-1">
+                <div className="neu-inset rounded-xl p-2 sm:p-3 text-left space-y-1 text-[10px] sm:text-xs">
+                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
                     <span className="text-slate-400">Apparatus:</span>
-                    <span className="font-bold text-slate-100">{confirmedReservation.name}</span>
+                    <span className="font-bold text-slate-100 truncate max-w-[200px]">{confirmedReservation.name}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-800 pb-1">
+                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
                     <span className="text-slate-400">Quantity:</span>
                     <span className="font-mono font-bold text-cyan-400">
                       {confirmedReservation.qty} {confirmedReservation.unit}s
                     </span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-800 pb-1">
-                    <span className="text-slate-400">Scheduled:</span>
-                    <span className="font-bold text-slate-100">{confirmedReservation.reserveDate} ({confirmedReservation.timeSlot})</span>
+                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
+                    <span className="text-slate-400">Schedule:</span>
+                    <span className="font-bold text-slate-100">{confirmedReservation.reserveDate} • {confirmedReservation.timeSlot}</span>
                   </div>
-                  <div className="flex justify-between border-b border-slate-800 pb-1">
+                  <div className="flex justify-between border-b border-slate-800 pb-0.5">
                     <span className="text-slate-400">Student:</span>
-                    <span className="font-bold text-slate-100">
+                    <span className="font-bold text-slate-100 truncate max-w-[200px]">
                       {confirmedReservation.studentName} ({confirmedReservation.program} • G{confirmedReservation.groupNo})
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Instructor:</span>
-                    <span className="font-bold text-slate-100">{confirmedReservation.instructor}</span>
+                    <span className="font-bold text-slate-100 truncate max-w-[200px]">{confirmedReservation.instructor}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-3 sm:p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-center shrink-0">
-              <TouchButton variant="primary" size="sm" onClick={handleClose}>
+            <div className="p-2 sm:p-3 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-center shrink-0">
+              <TouchButton variant="primary" size="sm" onClick={handleClose} className="px-5 py-1.5 text-xs">
                 Done & Back to Catalog
               </TouchButton>
             </div>
           </>
         ) : (
-          <form onSubmit={handleConfirmReservation} className="flex-1 flex flex-col min-h-0">
-            {/* Form Body - Compact View without Vertical Overflow */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-2.5 sm:space-y-3.5">
-              {/* Selected Equipment Banner */}
-              <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl neu-inset flex items-center justify-between">
-                <div className="min-w-0 pr-2">
-                  <span className="text-[9px] sm:text-[10px] font-mono font-bold text-cyan-400 uppercase">
-                    {item.tagCode}
-                  </span>
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-100 truncate leading-tight">{item.name}</h4>
+          <form onSubmit={handleConfirmReservation} className="flex flex-col flex-1 min-h-0">
+            {/* Form Body - Ultra Compact, ZERO vertical scroll required on mobile */}
+            <div className="p-2 sm:p-3.5 space-y-1.5 sm:space-y-2 overflow-y-auto flex-1 min-h-0">
+              {/* 1. Item Header + Quantity Stepper in 1 Combined Compact Banner */}
+              <div className="p-1.5 sm:p-2 rounded-xl neu-inset flex items-center justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[8px] sm:text-[9px] font-mono font-bold text-cyan-400 uppercase neu-inset-sm px-1 py-0.2 rounded">
+                      {item.tagCode}
+                    </span>
+                    <span className="text-[9.5px] sm:text-[10px] font-mono text-slate-400">
+                      Stock: <strong className="text-emerald-400">{item.stock}</strong>
+                    </span>
+                  </div>
+                  <h4 className="text-[11px] sm:text-xs font-bold text-slate-100 truncate leading-tight mt-0.5">{item.name}</h4>
                 </div>
-                <div className="text-right font-mono text-[11px] sm:text-xs shrink-0">
-                  <span className="text-slate-400">Stock: </span>
-                  <span className="font-bold text-emerald-400">
-                    {item.stock} {item.unit || 'pc'}s
-                  </span>
+
+                {/* Compact Stepper */}
+                <div className="flex items-center gap-1 neu-inset rounded-lg p-0.5 shrink-0 bg-[#09101d]">
+                  <button
+                    type="button"
+                    onClick={() => setQty(Math.max(1, qty - 1))}
+                    className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 rounded neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs active:scale-95 cursor-pointer"
+                  >
+                    -
+                  </button>
+                  <span className="w-4 text-center font-mono font-black text-[11px] sm:text-xs text-cyan-400">{qty}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQty(Math.min(item.stock, qty + 1))}
+                    className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 rounded neu-btn-raised text-slate-200 font-black flex items-center justify-center text-xs active:scale-95 cursor-pointer"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
 
-              {/* Date & Time Schedule (Side by Side) */}
-              <div className="grid grid-cols-2 gap-2 sm:gap-3">
+              {/* 2. Date & Time Schedule Row */}
+              <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
                 <div>
-                  <label className="block text-[10.5px] sm:text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-cyan-400 shrink-0" />
-                    <span className="truncate">Date *</span>
+                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
+                    <Calendar className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
+                    <span>Date *</span>
                   </label>
                   <input
                     type="date"
                     value={reserveDate}
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setReserveDate(e.target.value)}
-                    className="w-full h-9 sm:h-11 min-h-[36px] sm:min-h-[44px] px-2.5 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-[11.5px] sm:text-sm text-slate-100 font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    className="w-full h-7 sm:h-8.5 px-2 rounded-lg neu-inset text-[10.5px] sm:text-xs text-slate-100 font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10.5px] sm:text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-cyan-400 shrink-0" />
-                    <span className="truncate">Schedule *</span>
+                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
+                    <Clock className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
+                    <span>Time Slot *</span>
                   </label>
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full h-9 sm:h-11 min-h-[36px] sm:min-h-[44px] px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-[11px] sm:text-sm text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
+                    className="w-full h-7 sm:h-8.5 px-1.5 rounded-lg neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
                     required
                   >
                     {STANDARD_TIME_SLOTS.map((slot) => (
@@ -256,129 +268,99 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                 </div>
               </div>
 
-              {/* Quantity Stepper & Anti-Double Booking Banner */}
-              <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl neu-card-sm space-y-2">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-200 leading-tight">Quantity to Reserve</label>
-                    <span className="text-[10px] text-slate-400">Total units for group experiment</span>
-                  </div>
-
-                  <div className="flex items-center gap-1.5 neu-inset rounded-xl p-1 shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => setQty(Math.max(1, qty - 1))}
-                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-sm active:scale-95 cursor-pointer"
-                      aria-label="Decrease quantity"
-                    >
-                      -
-                    </button>
-                    <span className="w-7 sm:w-8 text-center font-mono font-black text-sm text-cyan-400">{qty}</span>
-                    <button
-                      type="button"
-                      onClick={() => setQty(Math.min(item.stock, qty + 1))}
-                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg neu-btn-raised text-slate-200 font-black flex items-center justify-center text-sm active:scale-95 cursor-pointer"
-                      aria-label="Increase quantity"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                {/* Conflict Status */}
-                {conflictInfo.hasConflict ? (
-                  <div className="p-2 rounded-lg neu-inset-amber text-[10.5px] text-amber-300 flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-amber-400" />
-                    <div>
-                      <span className="font-bold">Overlap Alert! </span>
-                      <span>Only {conflictInfo.availableSlots} units free for this slot.</span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-1.5 sm:p-2 rounded-lg neu-inset flex items-center justify-between text-[10.5px] sm:text-xs">
-                    <span className="flex items-center gap-1 text-emerald-400 font-semibold">
-                      <ShieldCheck className="w-3.5 h-3.5" />
+              {/* 3. Real-Time Conflict / Availability Pill */}
+              <div className={`px-2 py-0.5 rounded-md text-[9.5px] sm:text-[10px] flex items-center justify-between ${
+                conflictInfo.hasConflict
+                  ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30'
+                  : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+              }`}>
+                <span className="flex items-center gap-1 font-semibold truncate">
+                  {conflictInfo.hasConflict ? (
+                    <>
+                      <AlertTriangle className="w-2.5 h-2.5 text-rose-400 shrink-0" />
+                      <span>Slot Conflict! {conflictInfo.availableSlots} left.</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShieldCheck className="w-2.5 h-2.5 text-emerald-400 shrink-0" />
                       <span>Available for Booking</span>
-                    </span>
-                    <span className="font-mono text-slate-300 text-[10.5px]">
-                      {conflictInfo.availableSlots} of {item.stock} free
-                    </span>
-                  </div>
-                )}
+                    </>
+                  )}
+                </span>
+                <span className="font-mono text-[9px] shrink-0 ml-1">
+                  {conflictInfo.availableSlots} / {item.stock} free
+                </span>
               </div>
 
-              {/* Student Details & Group Info */}
-              <div className="space-y-2 sm:space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                  <div>
-                    <label className="block text-[10.5px] sm:text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
-                      <Users className="w-3 h-3 text-cyan-400" />
-                      <span>Student / Group Leader *</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={studentName}
-                      onChange={(e) => setStudentName(e.target.value)}
-                      placeholder="e.g. Jason Cayabyab"
-                      className="w-full h-9 sm:h-11 min-h-[36px] sm:min-h-[44px] px-3 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10.5px] sm:text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
-                      <GraduationCap className="w-3 h-3 text-cyan-400" />
-                      <span>Program & Course Code</span>
-                    </label>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <select
-                        value={program}
-                        onChange={(e) => setProgram(e.target.value)}
-                        className="h-9 sm:h-11 min-h-[36px] sm:min-h-[44px] px-2 rounded-lg sm:rounded-xl neu-inset text-xs text-slate-100 font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
-                      >
-                        {ENGINEERING_PROGRAMS.map((p) => (
-                          <option key={p.code} value={p.code} className="bg-[#111a2c] text-slate-100">
-                            {p.code}
-                          </option>
-                        ))}
-                      </select>
-
-                      <input
-                        type="text"
-                        value={courseCode}
-                        onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
-                        placeholder="Course Code"
-                        className="h-9 sm:h-11 min-h-[36px] sm:min-h-[44px] px-2 rounded-lg sm:rounded-xl neu-inset text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Laboratory Instructor */}
+              {/* 4. Student Name & Program / Course Row */}
+              <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
                 <div>
-                  <label className="block text-[10.5px] sm:text-xs font-semibold text-slate-300 mb-1 flex items-center gap-1">
-                    <UserCheck className="w-3 h-3 text-cyan-400" />
-                    <span>Laboratory Instructor / Professor *</span>
+                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
+                    <Users className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
+                    <span>Student Leader *</span>
                   </label>
-
                   <input
                     type="text"
-                    value={instructor}
-                    onChange={(e) => setInstructor(e.target.value)}
-                    placeholder="e.g. Engr. Jin Benir Macaranas"
-                    className="w-full h-9 sm:h-11 min-h-[36px] sm:min-h-[44px] px-3 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    value={studentName}
+                    onChange={(e) => setStudentName(e.target.value)}
+                    placeholder="e.g. Jason Cayabyab"
+                    className="w-full h-7 sm:h-8.5 px-2 rounded-lg neu-inset text-[10.5px] sm:text-xs text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
                     required
                   />
                 </div>
+
+                <div>
+                  <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
+                    <GraduationCap className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
+                    <span>Program & Section</span>
+                  </label>
+                  <div className="grid grid-cols-2 gap-1">
+                    <select
+                      value={program}
+                      onChange={(e) => setProgram(e.target.value)}
+                      className="h-7 sm:h-8.5 px-1 rounded-lg neu-inset text-[10px] sm:text-xs text-slate-100 font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#111a2c]"
+                    >
+                      {ENGINEERING_PROGRAMS.map((p) => (
+                        <option key={p.code} value={p.code} className="bg-[#111a2c] text-slate-100">
+                          {p.code}
+                        </option>
+                      ))}
+                    </select>
+
+                    <input
+                      type="text"
+                      value={courseCode}
+                      onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
+                      placeholder="Code"
+                      className="h-7 sm:h-8.5 px-1.5 rounded-lg neu-inset text-[10px] sm:text-xs text-cyan-300 font-mono font-bold focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 5. Laboratory Instructor */}
+              <div>
+                <label className="block text-[9.5px] sm:text-xs font-semibold text-slate-300 mb-0.5 flex items-center gap-1">
+                  <UserCheck className="w-2.5 h-2.5 text-cyan-400 shrink-0" />
+                  <span>Lab Instructor / Professor *</span>
+                </label>
+                <input
+                  type="text"
+                  value={instructor}
+                  onChange={(e) => setInstructor(e.target.value)}
+                  placeholder="e.g. Engr. Jin Benir Macaranas"
+                  className="w-full h-7 sm:h-8.5 px-2 rounded-lg neu-inset text-[10.5px] sm:text-xs text-slate-100 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                  required
+                />
               </div>
             </div>
 
-            {/* Modal Footer */}
-            <div className="p-3 sm:p-4 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between gap-3 shrink-0">
+            {/* Modal Footer - Clean & Visible at Bottom Without Any Scrolling */}
+            <div className="px-3 py-1.5 sm:px-4 sm:py-2.5 border-t border-slate-800/80 bg-[#111a2c] flex items-center justify-between gap-2 shrink-0">
               <button
                 type="button"
                 onClick={handleClose}
-                className="h-9 sm:h-11 min-h-[36px] sm:min-h-[44px] px-4 rounded-lg sm:rounded-xl neu-btn-raised text-xs text-slate-300 font-bold cursor-pointer active:scale-95"
+                className="h-7.5 sm:h-9 px-3 rounded-lg neu-btn-raised text-xs text-slate-300 font-bold cursor-pointer active:scale-95"
               >
                 Cancel
               </button>
@@ -388,9 +370,9 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                 size="sm"
                 disabled={conflictInfo.hasConflict}
                 type="submit"
-                className="text-xs sm:text-sm px-4 sm:px-6"
+                className="text-xs sm:text-sm px-3.5 sm:px-5 h-7.5 sm:h-9 flex-1 max-w-[260px]"
               >
-                Confirm Reservation ({qty} Units)
+                Confirm Booking ({qty} {item.unit || 'unit'}s)
               </TouchButton>
             </div>
           </form>
