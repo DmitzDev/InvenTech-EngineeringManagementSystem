@@ -274,11 +274,10 @@ export default function EquipmentCatalog() {
               type="button"
               onClick={() => setMobileViewMode('grid')}
               title="2-Column Grid View"
-              className={`p-1.5 rounded-lg transition-all ${
-                mobileViewMode === 'grid'
+              className={`p-1.5 rounded-lg transition-all ${mobileViewMode === 'grid'
                   ? 'bg-cyan-500 text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
-              }`}
+                }`}
             >
               <LayoutGrid className="w-3.5 h-3.5" />
             </button>
@@ -286,11 +285,10 @@ export default function EquipmentCatalog() {
               type="button"
               onClick={() => setMobileViewMode('compact')}
               title="Compact Single-Line List View (Faster Scrolling)"
-              className={`p-1.5 rounded-lg transition-all ${
-                mobileViewMode === 'compact'
+              className={`p-1.5 rounded-lg transition-all ${mobileViewMode === 'compact'
                   ? 'bg-cyan-500 text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
-              }`}
+                }`}
             >
               <List className="w-3.5 h-3.5" />
             </button>
@@ -330,11 +328,10 @@ export default function EquipmentCatalog() {
                     key={cat}
                     type="button"
                     onClick={() => setActiveCategory(cat)}
-                    className={`min-h-[34px] sm:min-h-[40px] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-[10.5px] sm:text-xs font-bold transition-all whitespace-nowrap active:scale-95 cursor-pointer flex items-center justify-center shrink-0 ${
-                      isActive
+                    className={`min-h-[34px] sm:min-h-[40px] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-[10.5px] sm:text-xs font-bold transition-all whitespace-nowrap active:scale-95 cursor-pointer flex items-center justify-center shrink-0 ${isActive
                         ? 'neu-btn-primary shadow-md text-slate-950 font-black'
                         : 'neu-btn-raised text-slate-300 hover:text-white'
-                    }`}
+                      }`}
                   >
                     {cat}
                   </button>
@@ -369,11 +366,10 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('ALL');
                 setActiveCategory('ALL');
               }}
-              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${
-                mobileLabFilter === 'ALL'
+              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'ALL'
                   ? 'bg-cyan-500 text-slate-950 font-black shadow-sm'
                   : 'neu-btn-raised text-slate-300'
-              }`}
+                }`}
             >
               ALL ITEMS ({subLabCounts.total})
             </button>
@@ -383,11 +379,10 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('CE');
                 setActiveCategory('ALL');
               }}
-              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${
-                mobileLabFilter === 'CE'
+              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'CE'
                   ? 'bg-amber-500 text-slate-950 font-black shadow-sm'
                   : 'neu-btn-raised text-amber-300'
-              }`}
+                }`}
             >
               Civil Lab ({subLabCounts.ceCount})
             </button>
@@ -397,11 +392,10 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('CHEM');
                 setActiveCategory('ALL');
               }}
-              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${
-                mobileLabFilter === 'CHEM'
+              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'CHEM'
                   ? 'bg-emerald-500 text-slate-950 font-black shadow-sm'
                   : 'neu-btn-raised text-emerald-300'
-              }`}
+                }`}
             >
               Chemistry Lab ({subLabCounts.chemCount})
             </button>
@@ -416,11 +410,10 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('ALL');
                 setActiveCategory('ALL');
               }}
-              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${
-                mobileLabFilter === 'ALL'
+              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'ALL'
                   ? 'bg-cyan-500 text-slate-950 font-black shadow-sm'
                   : 'neu-btn-raised text-slate-300'
-              }`}
+                }`}
             >
               ALL ITEMS ({subLabCounts.total})
             </button>
@@ -430,11 +423,10 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('DIGITAL');
                 setActiveCategory('ALL');
               }}
-              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${
-                mobileLabFilter === 'DIGITAL'
+              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'DIGITAL'
                   ? 'bg-cyan-500 text-slate-950 font-black shadow-sm'
                   : 'neu-btn-raised text-cyan-300'
-              }`}
+                }`}
             >
               Digital Lab ({subLabCounts.digCount})
             </button>
@@ -444,11 +436,10 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('ECE');
                 setActiveCategory('ALL');
               }}
-              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${
-                mobileLabFilter === 'ECE'
+              className={`px-2.5 py-1 rounded-xl text-[10.5px] font-bold shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'ECE'
                   ? 'bg-indigo-500 text-slate-950 font-black shadow-sm'
                   : 'neu-btn-raised text-indigo-300'
-              }`}
+                }`}
             >
               ECE / Circuits ({subLabCounts.eceCount})
             </button>
@@ -570,11 +561,10 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
 
   return (
     <div
-      className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl transition-all duration-200 flex flex-col justify-between text-left ${
-        totalGroupInCart > 0
+      className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl transition-all duration-200 flex flex-col justify-between text-left ${totalGroupInCart > 0
           ? 'neu-card ring-2 ring-cyan-500 shadow-[0_0_18px_rgba(6,182,212,0.3)] bg-gradient-to-b from-cyan-950/25 to-[#0e1422]'
           : 'neu-card-sm neu-card-hover'
-      }`}
+        }`}
     >
       <div>
         {/* Media Header: Compact 1:1 Thumbnail + Tags */}
@@ -598,17 +588,16 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                   {currentItem.tagCode}
                 </span>
                 <span
-                  className={`text-[8.5px] sm:text-[9.5px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase ${
-                    currentItem.lab === 'DIGITAL'
+                  className={`text-[8.5px] sm:text-[9.5px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase ${currentItem.lab === 'DIGITAL'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
                       : currentItem.lab === 'ECE'
-                      ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
-                      : currentItem.lab === 'CE'
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                      : currentItem.lab === 'CHEM'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                      : 'bg-slate-700/40 text-slate-200'
-                  }`}
+                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
+                        : currentItem.lab === 'CE'
+                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                          : currentItem.lab === 'CHEM'
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                            : 'bg-slate-700/40 text-slate-200'
+                    }`}
                 >
                   {currentItem.lab}
                 </span>
@@ -637,13 +626,12 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                   key={v.id}
                   type="button"
                   onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10.5px] font-mono font-bold rounded-lg border transition-all active:scale-95 cursor-pointer flex items-center gap-1 ${
-                    isSelected
+                  className={`px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10.5px] font-mono font-bold rounded-lg border transition-all active:scale-95 cursor-pointer flex items-center gap-1 ${isSelected
                       ? 'bg-cyan-500 text-slate-950 font-black border-cyan-400 shadow-sm'
                       : vIsOut
-                      ? 'neu-btn-raised border-slate-800 text-slate-500 hover:text-slate-400 opacity-60'
-                      : 'neu-btn-raised border-slate-700/80 text-slate-200 hover:text-white'
-                  }`}
+                        ? 'neu-btn-raised border-slate-800 text-slate-500 hover:text-slate-400 opacity-60'
+                        : 'neu-btn-raised border-slate-700/80 text-slate-200 hover:text-white'
+                    }`}
                 >
                   <span>{v.variantLabel}</span>
                   {vQty > 0 && (
@@ -657,21 +645,11 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           </div>
         )}
 
-        {/* Improved Real-Time Stocks & Inventory Status Indicator */}
-        <div className="mt-2 pt-2 border-t border-slate-800/80">
+        {/* Improved Real-Time Stocks & Inventory Status Indicator - Clean Text with Dot (NO BOX) */}
+        <div className="mt-2 pt-1.5 border-t border-slate-800/60">
           <div className="flex items-center justify-between text-[10px] sm:text-xs font-semibold flex-wrap gap-1">
-            {/* Live Color-Coded Stock Status Pill */}
-            <div
-              className={`px-2 py-0.5 sm:py-1 rounded-lg flex items-center gap-1.5 font-mono text-[9.5px] sm:text-[11px] border transition-all ${
-                isAllInCart
-                  ? 'bg-cyan-500/15 text-cyan-300 border-cyan-500/35 shadow-[0_0_10px_rgba(6,182,212,0.15)]'
-                  : isOutOfStock
-                  ? 'bg-rose-500/15 text-rose-300 border-rose-500/35 shadow-[0_0_10px_rgba(244,63,94,0.15)]'
-                  : isLowStock
-                  ? 'bg-amber-500/15 text-amber-300 border-amber-500/35 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
-                  : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/35 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
-              }`}
-            >
+            {/* Live Color-Coded Stock Status Text with Dot Indicator */}
+            <div className="flex items-center gap-1.5 font-mono text-[10px] sm:text-xs font-bold">
               {/* Glowing Pulse Dot */}
               <span className="relative flex h-2 w-2 shrink-0">
                 {isLowStock && (
@@ -681,34 +659,28 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
                 )}
                 <span
-                  className={`relative inline-flex rounded-full h-2 w-2 ${
-                    isAllInCart
-                      ? 'bg-cyan-400'
+                  className={`relative inline-flex rounded-full h-2 w-2 ${isAllInCart
+                      ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
                       : isOutOfStock
-                      ? 'bg-rose-500'
-                      : isLowStock
-                      ? 'bg-amber-400'
-                      : 'bg-emerald-400'
-                  }`}
+                        ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]'
+                        : isLowStock
+                          ? 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]'
+                          : 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                    }`}
                 />
               </span>
 
               {/* Status Text with Live Available Count & Total Ratio */}
-              <span className="font-bold tracking-tight">
+              <span className={`tracking-tight ${isAllInCart ? 'text-cyan-300' : isOutOfStock ? 'text-rose-400' : isLowStock ? 'text-amber-300' : 'text-emerald-400'
+                }`}>
                 {isAllInCart ? (
                   `Max in Cart (${inCartQty}/${totalStock} ${currentItem.unit || 'pcs'})`
                 ) : isOutOfStock ? (
                   'Out of Stock (0 avail)'
                 ) : isLowStock ? (
-                  <>
-                    <span className="font-black text-amber-200">Low: {availableStock}</span>
-                    <span className="text-amber-400/80"> / {totalStock} {currentItem.unit || 'pcs'}</span>
-                  </>
+                  `Low: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`
                 ) : (
-                  <>
-                    <span className="font-black text-emerald-200">Stock: {availableStock}</span>
-                    <span className="text-emerald-400/80"> / {totalStock} {currentItem.unit || 'pcs'}</span>
-                  </>
+                  `Stock: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`
                 )}
               </span>
             </div>
@@ -739,106 +711,88 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
         <button
           type="button"
           onClick={() => onReserve(currentItem)}
-          className="w-full min-w-0 min-h-[30px] sm:min-h-[38px] px-1.5 sm:px-3 rounded-lg sm:rounded-xl text-[9.5px] sm:text-xs font-bold neu-btn-raised text-amber-300 hover:text-amber-200 flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer truncate"
+          className="h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-btn-raised text-amber-400 hover:text-amber-300 text-[11px] sm:text-xs font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 shrink-0 w-full min-w-0"
           title="Reserve equipment"
         >
-          <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
+          <Calendar className="w-3.5 h-3.5 shrink-0" />
           <span className="truncate">Reserve</span>
         </button>
 
-        {/* Dedicated Single Clean Add Button */}
+        {/* Add to Cart Button */}
         <button
           type="button"
-          disabled={isOutOfStock}
           onClick={() => onAddToCart(currentItem)}
-          className={`w-full min-w-0 min-h-[30px] sm:min-h-[38px] px-1.5 sm:px-3 rounded-lg sm:rounded-xl text-[9.5px] sm:text-xs font-bold flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed truncate ${
-            isAllInCart
-              ? 'bg-slate-800/80 text-slate-400 border border-slate-700'
+          disabled={isOutOfStock || isAllInCart}
+          className={`h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 shrink-0 w-full min-w-0 ${isOutOfStock || isAllInCart
+              ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-500'
               : inCartQty > 0
-              ? 'neu-btn-primary text-slate-950 font-black shadow-md'
-              : 'neu-btn-raised text-slate-200 hover:text-white'
-          }`}
-          title={isOutOfStock ? (isAllInCart ? 'All available stock is already in your cart' : 'No more available stock') : 'Add 1 unit to cart'}
+                ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 font-black shadow-md'
+                : 'neu-btn-primary text-slate-950 font-black'
+            }`}
+          title={isOutOfStock ? 'Out of Stock' : isAllInCart ? 'Max quantity reached in cart' : 'Add to borrow cart'}
         >
-          <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5] shrink-0" />
-          <span className="truncate">{isOutOfStock ? (isAllInCart ? 'Max' : '0 Left') : 'Add'}</span>
-          {inCartQty > 0 && !isOutOfStock && (
-            <span className="ml-0.5 px-1 py-0.2 rounded-full bg-slate-950/30 text-[8.5px] sm:text-[9.5px] font-mono font-black shrink-0">
-              +{inCartQty}
-            </span>
-          )}
+          <Plus className="w-3.5 h-3.5 shrink-0" />
+          <span className="truncate">
+            {isAllInCart ? 'Max' : isOutOfStock ? '0 Left' : inCartQty > 0 ? `Add (${inCartQty})` : 'Add'}
+          </span>
         </button>
       </div>
     </div>
   );
 }
 
-// 2. Mobile Ultra-Compact Row Strip View (Allows fast scanning of 8-10 items per phone viewport)
+// ----------------------------------------------------------------------
+// EquipmentCompactRow: Phone-Optimized Single Horizontal Strip View
+// ----------------------------------------------------------------------
 function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, getItemActiveReservations }) {
-  const [selectedVariantId, setSelectedVariantId] = useState(group.variants[0].id);
-
-  const currentItem = useMemo(() => {
-    return group.variants.find((v) => v.id === selectedVariantId) || group.variants[0];
-  }, [group, selectedVariantId]);
+  const [selectedVariantId, setSelectedVariantId] = useState(group.variants[0]?.id);
+  const currentItem = group.variants.find((v) => v.id === selectedVariantId) || group.variants[0];
 
   const inCartQty = getItemCartQty(currentItem.id);
-  const totalGroupInCart = group.variants.reduce((sum, v) => sum + getItemCartQty(v.id), 0);
-  const itemImg = getItemImage(currentItem);
-  const totalStock = currentItem.stock || 10;
+  const totalStock = currentItem.stock || 0;
   const availableStock = Math.max(0, totalStock - inCartQty);
-  const isOutOfStock = availableStock === 0;
-  const isAllInCart = inCartQty > 0 && availableStock === 0;
+  const isOutOfStock = totalStock <= 0;
+  const isAllInCart = inCartQty >= totalStock && totalStock > 0;
   const isLowStock = availableStock > 0 && availableStock <= 3;
 
-  return (
-    <div
-      className={`p-2 rounded-xl transition-all flex items-center justify-between gap-2 text-left ${
-        totalGroupInCart > 0
-          ? 'neu-card ring-1 ring-cyan-500 bg-gradient-to-r from-cyan-950/30 to-[#0e1422]'
-          : 'neu-card-sm'
-      }`}
-    >
-      {/* Thumbnail + Info */}
-      <div className="flex items-center gap-2 min-w-0 flex-1">
-        {itemImg && (
-          <div className="w-9 h-9 rounded-lg overflow-hidden bg-slate-950 border border-slate-800 shrink-0 relative flex items-center justify-center">
-            <img src={itemImg} alt={currentItem.name} className="w-full h-full object-cover" loading="lazy" />
-          </div>
-        )}
+  const activeReservations = getItemActiveReservations(currentItem.id);
+  const totalReservedQty = activeReservations.reduce((sum, r) => sum + (r.quantity || 1), 0);
 
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5 flex-wrap">
+  return (
+    <div className="neu-card-sm rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none">
+      {/* Left Info */}
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[9px] font-mono font-bold text-cyan-300 neu-inset-sm px-1.5 py-0.2 rounded shrink-0">
               {currentItem.tagCode}
             </span>
             <span
-              className={`text-[8.5px] font-mono font-bold flex items-center gap-1 px-1.5 py-0.2 rounded border truncate ${
-                isAllInCart
-                  ? 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
+              className={`text-[9.5px] sm:text-[10.5px] font-mono font-bold flex items-center gap-1.5 truncate ${isAllInCart
+                  ? 'text-cyan-300'
                   : isOutOfStock
-                  ? 'bg-rose-500/15 text-rose-300 border-rose-500/30'
-                  : isLowStock
-                  ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                  : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
-              }`}
+                    ? 'text-rose-400'
+                    : isLowStock
+                      ? 'text-amber-300'
+                      : 'text-emerald-400'
+                }`}
             >
               <span
-                className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                  isAllInCart
-                    ? 'bg-cyan-400'
+                className={`w-1.5 h-1.5 rounded-full shrink-0 ${isAllInCart
+                    ? 'bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]'
                     : isOutOfStock
-                    ? 'bg-rose-400'
-                    : isLowStock
-                    ? 'bg-amber-400 animate-pulse'
-                    : 'bg-emerald-400'
-                }`}
+                      ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
+                      : isLowStock
+                        ? 'bg-amber-400 animate-pulse shadow-[0_0_6px_rgba(245,158,11,0.8)]'
+                        : 'bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]'
+                  }`}
               />
               <span className="truncate">
                 {isAllInCart
                   ? `Max (${inCartQty}/${totalStock})`
                   : isOutOfStock
-                  ? '0 stock'
-                  : `${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`}
+                    ? '0 stock'
+                    : `Stock: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`}
               </span>
             </span>
           </div>
@@ -855,9 +809,8 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
                   key={v.id}
                   type="button"
                   onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-1.5 py-0.5 text-[8.5px] font-mono font-bold rounded border shrink-0 ${
-                    v.id === currentItem.id ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 border-slate-700 text-slate-300'
-                  }`}
+                  className={`px-1.5 py-0.5 text-[8.5px] font-mono font-bold rounded border shrink-0 ${v.id === currentItem.id ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 border-slate-700 text-slate-300'
+                    }`}
                 >
                   {v.variantLabel}
                 </button>
@@ -882,9 +835,8 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
           type="button"
           disabled={isOutOfStock}
           onClick={() => onAddToCart(currentItem)}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${
-            inCartQty > 0 ? 'neu-btn-primary text-slate-950 font-black' : 'neu-btn-raised text-slate-200'
-          }`}
+          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${inCartQty > 0 ? 'neu-btn-primary text-slate-950 font-black' : 'neu-btn-raised text-slate-200'
+            }`}
         >
           <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
           <span>{isOutOfStock ? (isAllInCart ? 'Max' : '0') : 'Add'}</span>
