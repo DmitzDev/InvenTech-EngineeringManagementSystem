@@ -3,10 +3,7 @@ import { createPortal } from 'react-dom';
 import {
   Search,
   Plus,
-  Minus,
-  Check,
   ArrowLeft,
-  ShieldCheck,
   AlertCircle,
   Calendar,
   ShoppingBag,
@@ -26,7 +23,6 @@ export default function EquipmentCatalog() {
     selectedLab,
     cart,
     addToCart,
-    updateCartQty,
     setStep,
     commitTransaction,
     reservations,
@@ -45,7 +41,7 @@ export default function EquipmentCatalog() {
   const scrollContainerRef = useRef(null);
 
   // Get live inventory from shared storage
-  const allEquipment = useMemo(() => getInventory(), [selectedLab]);
+  const allEquipment = useMemo(() => getInventory(), []);
 
   // Get current laboratory info
   const currentLabInfo = useMemo(() => {
@@ -809,7 +805,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
 // ----------------------------------------------------------------------
 // EquipmentCompactRow: Phone-Optimized Single Horizontal Strip View
 // ----------------------------------------------------------------------
-function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, getItemActiveReservations }) {
+function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) {
   const [selectedVariantId, setSelectedVariantId] = useState(group.variants[0]?.id);
   const currentItem = group.variants.find((v) => v.id === selectedVariantId) || group.variants[0];
 
@@ -820,9 +816,6 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
   const isOutOfStock = totalStock <= 0 || isMaintenance;
   const isAllInCart = inCartQty >= totalStock && totalStock > 0 && !isMaintenance;
   const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
-
-  const activeReservations = getItemActiveReservations(currentItem.id);
-  const totalReservedQty = activeReservations.reduce((sum, r) => sum + (r.quantity || 1), 0);
 
   return (
     <div className={`neu-card-sm rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none ${

@@ -10,7 +10,6 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
-import { ENGINEERING_SUBJECTS } from '../../data/equipmentData';
 import TouchButton from '../ui/TouchButton';
 
 const ENGINEERING_PROGRAMS = ['BSCPE', 'BSCE', 'BSCEE', 'BSECE'];
