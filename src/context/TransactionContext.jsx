@@ -4,6 +4,10 @@ import {
   createIncidentLog,
   resolveIncidentLog,
   updateInventoryItem,
+  getStudentClearanceHolds,
+  addStudentClearanceHold,
+  removeStudentClearanceHold,
+  isItemConsumable,
 } from '../data/equipmentData';
 
 const TransactionContext = createContext();
@@ -90,21 +94,26 @@ const initialState = {
   currentStep: 0, // 0 = Welcome, 1 = Borrower Form, 2 = Lab Selector, 3 = Catalog/Cart, 4 = Commit/Print
   theme: getPhilippineTheme(), // Real-time automatic: 4AM-4PM Light, 4PM-4AM Dark
   borrower: {
+    studentId: '',
     program: '',
     courseCode: '',
+    subjectCode: '',
     groupNo: '1',
     groupLeader: '',
+    groupMembers: [], // List of member Student IDs
     instructor: '',
     labTime: '',
     ...getInitialDateStrings(),
   },
   selectedLab: null, // 'CE' | 'DIGITAL' | 'CHEM'
-  cart: [], // [{ id, name, tagCode, category, qty, unit, description, isDamaged, damageNote }]
+  cart: [], // [{ id, name, tagCode, category, qty, unit, description, isConsumable, isDamaged, damageNote }]
   isCartDrawerOpen: false,
+  safetyAgreement: false,
   reservations: getStoredReservations(),
   activeTransactions: getStoredTransactions(),
   activeClearanceRecord: null,
   incidentLogs: getIncidentLogs(),
+  studentClearanceHolds: getStudentClearanceHolds(),
   transactionId: null,
   timestamp: null,
   toast: null,
@@ -123,6 +132,51 @@ function transactionReducer(state, action) {
         ...state,
         isCartDrawerOpen: !state.isCartDrawerOpen,
       };
+
+    case 'SET_SAFETY_AGREEMENT':
+      return {
+        ...state,
+        safetyAgreement: Boolean(action.payload),
+      };
+
+    case 'TOGGLE_SAFETY_AGREEMENT':
+      return {
+        ...state,
+        safetyAgreement: !state.safetyAgreement,
+      };
+
+    case 'ADD_GROUP_MEMBER': {
+      const memberId = (action.payload || '').trim().toUpperCase();
+      if (!memberId || (state.borrower.groupMembers || []).includes(memberId)) return state;
+      if ((state.borrower.groupMembers || []).length >= 8) {
+        return {
+          ...state,
+          toast: {
+            id: Date.now(),
+            type: 'error',
+            message: 'Maximum 8 group members allowed per borrower slip.',
+          },
+        };
+      }
+      return {
+        ...state,
+        borrower: {
+          ...state.borrower,
+          groupMembers: [...(state.borrower.groupMembers || []), memberId],
+        },
+      };
+    }
+
+    case 'REMOVE_GROUP_MEMBER': {
+      const memberToRemove = action.payload;
+      return {
+        ...state,
+        borrower: {
+          ...state.borrower,
+          groupMembers: (state.borrower.groupMembers || []).filter((m) => m !== memberToRemove),
+        },
+      };
+    }
 
     case 'TOGGLE_THEME': {
       const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
@@ -204,6 +258,7 @@ function transactionReducer(state, action) {
             unit: item.unit || 'pc',
             description: item.description || '',
             qty: item.qty || 1,
+            isConsumable: isItemConsumable(item),
             isDamaged: false,
             damageNote: '',
           },
@@ -216,7 +271,7 @@ function transactionReducer(state, action) {
         toast: {
           id: Date.now(),
           type: 'success',
-          message: `Added "${item.name}" to cart`,
+          message: `Added "${item.name}" ${isItemConsumable(item) ? '(Consumable)' : ''} to cart`,
         },
       };
     }
@@ -242,6 +297,7 @@ function transactionReducer(state, action) {
             unit: item.unit || 'pc',
             description: item.description || '',
             qty: 1,
+            isConsumable: isItemConsumable(item),
             isDamaged: false,
             damageNote: '',
           });
@@ -255,7 +311,7 @@ function transactionReducer(state, action) {
         toast: {
           id: Date.now(),
           type: 'success',
-          message: `Added ${addedCount} suggested apparatus to cart`,
+          message: `Added ${addedCount} apparatus preset items to cart`,
         },
       };
     }
@@ -931,6 +987,10 @@ export function TransactionProvider({ children }) {
     checkReservationConflict,
     checkStudentOverdueClearance,
     commitTransaction: () => dispatch({ type: 'COMMIT_TRANSACTION' }),
+    setSafetyAgreement: (val) => dispatch({ type: 'SET_SAFETY_AGREEMENT', payload: val }),
+    toggleSafetyAgreement: () => dispatch({ type: 'TOGGLE_SAFETY_AGREEMENT' }),
+    addGroupMember: (memberId) => dispatch({ type: 'ADD_GROUP_MEMBER', payload: memberId }),
+    removeGroupMember: (memberId) => dispatch({ type: 'REMOVE_GROUP_MEMBER', payload: memberId }),
     resetTransaction: () => dispatch({ type: 'RESET_TRANSACTION' }),
     goToWelcome: () => dispatch({ type: 'GO_TO_WELCOME' }),
     showToast: (message, type) =>

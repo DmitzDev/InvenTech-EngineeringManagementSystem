@@ -126,9 +126,20 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
                     )}
 
                     <div className="min-w-0 flex-1">
-                      <span className="text-[9px] font-mono text-cyan-400 font-bold block truncate">
-                        {item.tagCode}
-                      </span>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[9px] font-mono text-cyan-400 font-bold truncate">
+                          {item.tagCode}
+                        </span>
+                        <span
+                          className={`text-[8px] font-mono font-extrabold px-1.5 py-0.2 rounded uppercase ${
+                            item.isConsumable
+                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                              : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                          }`}
+                        >
+                          {item.isConsumable ? 'Consumable' : 'Returnable'}
+                        </span>
+                      </div>
                       <h4 className="text-xs sm:text-sm font-bold text-slate-100 truncate leading-snug">
                         {item.name}
                       </h4>

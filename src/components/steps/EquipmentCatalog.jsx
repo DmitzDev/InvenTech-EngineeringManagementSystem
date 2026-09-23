@@ -16,7 +16,7 @@ import {
   List,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
-import { getInventory, LAB_OPTIONS, getItemImage } from '../../data/equipmentData';
+import { getInventory, LAB_OPTIONS, getItemImage, isItemConsumable } from '../../data/equipmentData';
 import TouchButton from '../ui/TouchButton';
 import BorrowCart from './BorrowCart';
 import ReservationModal from './ReservationModal';
@@ -625,6 +625,15 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                 >
                   {currentItem.lab}
                 </span>
+                <span
+                  className={`text-[8px] sm:text-[9px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase ${
+                    isItemConsumable(currentItem)
+                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                      : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                  }`}
+                >
+                  {isItemConsumable(currentItem) ? 'Consumable' : 'Returnable'}
+                </span>
               </div>
             </div>
 
@@ -822,9 +831,18 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
       {/* Left Info */}
       <div className="min-w-0 flex-1">
         <div className="flex flex-col">
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 flex-wrap">
             <span className="text-[9px] font-mono font-bold text-cyan-300 neu-inset-sm px-1.5 py-0.2 rounded shrink-0">
               {currentItem.tagCode}
+            </span>
+            <span
+              className={`text-[8px] font-mono font-extrabold px-1.5 py-0.2 rounded uppercase shrink-0 ${
+                isItemConsumable(currentItem)
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                  : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+              }`}
+            >
+              {isItemConsumable(currentItem) ? 'Consumable' : 'Returnable'}
             </span>
             <span
               className={`text-[9.5px] sm:text-[10.5px] font-mono font-bold flex items-center gap-1.5 truncate ${

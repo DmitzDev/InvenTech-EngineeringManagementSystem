@@ -190,7 +190,7 @@ export function generateOfflineKairoResponse(userMessage, selectedLab) {
   // 3. Safety and ISO Protocols
   if (query.includes('safety') || query.includes('damage') || query.includes('ingat') || query.includes('basag') || query.includes('return') || query.includes('sira') || query.includes('rules') || query.includes('liability')) {
     return {
-      text: `### 🛡️ UdD School of Engineering Laboratory Safety Rules:\n\n1. **Pre-inspection:** I-check ang gamit bago i-submit ang form. Kung may sira na, i-toggle ang "Report Damaged".\n2. **Breakage Liability:** Ang nakapirma sa slip ang mananagot sakaling mabasag o mawala ang gamit.\n3. **Return Clearance:** I-scan ang barcode sa Custodian Counter pagkatapos ng klase para makakuha ng printed return slip.`,
+      text: `### 🛡️ UdD School of Engineering Laboratory Safety Rules:\n\n1. **Pre-inspection:** I-check ang gamit bago i-submit ang form. Kung may sira na, i-toggle ang "Report Damaged".\n2. **Breakage Liability:** Ang nakapirma sa slip ang mananagot sakaling mabasag o mawala ang gamit.\n3. **Return Clearance:** Ipakita ang official borrow slip / Transaction Reference sa Custodian Counter pagkatapos ng klase para sa clearance inspection.`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
