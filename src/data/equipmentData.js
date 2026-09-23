@@ -3991,7 +3991,16 @@ const DEFAULT_EQUIPMENT_ITEMS = [
   }
 ];
 
-const STORAGE_KEY = 'udd_master_lab_inventory_v6';
+const STORAGE_KEY = 'udd_master_lab_inventory_v7';
+
+// Clean old test cache keys from previous testing sessions
+try {
+  ['udd_master_lab_inventory_v1', 'udd_master_lab_inventory_v2', 'udd_master_lab_inventory_v3', 'udd_master_lab_inventory_v4', 'udd_master_lab_inventory_v5', 'udd_master_lab_inventory_v6', 'udd_kiosk_incident_logs_v1'].forEach((k) => {
+    localStorage.removeItem(k);
+  });
+} catch {
+  // ignore
+}
 
 export function getInventory() {
   try {
@@ -4051,12 +4060,64 @@ export function deleteInventoryItem(id) {
   return updated;
 }
 
+const INCIDENTS_STORAGE_KEY = 'udd_kiosk_incident_logs_v2';
+
+export function getIncidentLogs() {
+  try {
+    const stored = localStorage.getItem(INCIDENTS_STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    console.warn('Failed to load incident logs from localStorage', e);
+  }
+  return [];
+}
+
+export function saveIncidentLogs(logs) {
+  try {
+    localStorage.setItem(INCIDENTS_STORAGE_KEY, JSON.stringify(logs));
+  } catch (e) {
+    console.warn('Failed to save incident logs to localStorage', e);
+  }
+}
+
+export function createIncidentLog(incident) {
+  const logs = getIncidentLogs();
+  const newIncident = {
+    id: incident.id || `INC-${Date.now()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
+    timestamp: incident.timestamp || new Date().toLocaleString('en-US'),
+    status: incident.status || 'OPEN_INVESTIGATION', // 'OPEN_INVESTIGATION' | 'UNDER_REPAIR' | 'RESOLVED_REPAIRED'
+    ...incident,
+  };
+  const updated = [newIncident, ...logs];
+  saveIncidentLogs(updated);
+  return newIncident;
+}
+
+export function resolveIncidentLog(id, resolutionNotes = 'Repaired and restored to active inventory') {
+  const logs = getIncidentLogs();
+  const updated = logs.map((log) => {
+    if (log.id === id) {
+      return {
+        ...log,
+        status: 'RESOLVED_REPAIRED',
+        resolvedAt: new Date().toLocaleString('en-US'),
+        resolutionNotes,
+      };
+    }
+    return log;
+  });
+  saveIncidentLogs(updated);
+  return updated;
+}
+
 export function getItemImage(item) {
   if (!item) return null;
   if (item.image) return item.image;
   const name = (item.name || '').toLowerCase();
   const lab = (item.lab || '').toUpperCase();
-  
+
   // ==========================================
   // CIVIL ENGINEERING APPARATUS & EQUIPMENT
   // ==========================================
@@ -4133,11 +4194,11 @@ export function getItemImage(item) {
   if (name.includes('triangular file') || name.includes('file')) {
     return '/images/equipment/civil/civil_safety_gear.jpg';
   }
-  
+
   if (lab === 'CHEM') {
     return '/images/equipment/chemistry/beaker.jpg';
   }
-  
+
   return null;
 }
 

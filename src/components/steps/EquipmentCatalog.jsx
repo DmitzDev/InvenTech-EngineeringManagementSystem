@@ -573,17 +573,21 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
   const totalReservedQty = activeReservations.reduce((sum, r) => sum + (r.quantity || 1), 0);
 
   const totalStock = currentItem.stock || 10;
+  const isMaintenance = currentItem.status === 'Under Maintenance' || (currentItem.condition && currentItem.condition !== 'Functional' && currentItem.condition !== 'Passed Inspection');
   const availableStock = Math.max(0, totalStock - inCartQty);
-  const isOutOfStock = availableStock === 0;
-  const isAllInCart = inCartQty > 0 && availableStock === 0;
-  const isLowStock = availableStock > 0 && availableStock <= 3;
+  const isOutOfStock = availableStock === 0 || isMaintenance;
+  const isAllInCart = inCartQty > 0 && availableStock === 0 && !isMaintenance;
+  const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
 
   return (
     <div
-      className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl transition-all duration-200 flex flex-col justify-between text-left ${totalGroupInCart > 0
+      className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl transition-all duration-200 flex flex-col justify-between text-left ${
+        isMaintenance
+          ? 'neu-card border border-rose-500/30 bg-rose-950/10 opacity-80'
+          : totalGroupInCart > 0
           ? 'neu-card ring-2 ring-cyan-500 shadow-[0_0_18px_rgba(6,182,212,0.3)] bg-gradient-to-b from-cyan-950/25 to-[#0e1422]'
           : 'neu-card-sm neu-card-hover'
-        }`}
+      }`}
     >
       <div>
         {/* Media Header: Compact 1:1 Thumbnail + Tags */}
@@ -607,16 +611,17 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                   {currentItem.tagCode}
                 </span>
                 <span
-                  className={`text-[8.5px] sm:text-[9.5px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase ${currentItem.lab === 'DIGITAL'
+                  className={`text-[8.5px] sm:text-[9.5px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase ${
+                    currentItem.lab === 'DIGITAL'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
                       : currentItem.lab === 'ECE'
-                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
-                        : currentItem.lab === 'CE'
-                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                          : currentItem.lab === 'CHEM'
-                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                            : 'bg-slate-700/40 text-slate-200'
-                    }`}
+                      ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
+                      : currentItem.lab === 'CE'
+                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                      : currentItem.lab === 'CHEM'
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                      : 'bg-slate-700/40 text-slate-200'
+                  }`}
                 >
                   {currentItem.lab}
                 </span>
@@ -645,12 +650,13 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                   key={v.id}
                   type="button"
                   onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10.5px] font-mono font-bold rounded-lg border transition-all active:scale-95 cursor-pointer flex items-center gap-1 ${isSelected
+                  className={`px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10.5px] font-mono font-bold rounded-lg border transition-all active:scale-95 cursor-pointer flex items-center gap-1 ${
+                    isSelected
                       ? 'bg-cyan-500 text-slate-950 font-black border-cyan-400 shadow-sm'
                       : vIsOut
-                        ? 'neu-btn-raised border-slate-800 text-slate-500 hover:text-slate-400 opacity-60'
-                        : 'neu-btn-raised border-slate-700/80 text-slate-200 hover:text-white'
-                    }`}
+                      ? 'neu-btn-raised border-slate-800 text-slate-500 hover:text-slate-400 opacity-60'
+                      : 'neu-btn-raised border-slate-700/80 text-slate-200 hover:text-white'
+                  }`}
                 >
                   <span>{v.variantLabel}</span>
                   {vQty > 0 && (
@@ -671,28 +677,44 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             <div className="flex items-center gap-1.5 font-mono text-[10px] sm:text-xs font-bold">
               {/* Glowing Pulse Dot */}
               <span className="relative flex h-2 w-2 shrink-0">
-                {isLowStock && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                {(isLowStock || isMaintenance) && (
+                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isMaintenance ? 'bg-rose-500' : 'bg-amber-400'}`} />
                 )}
                 {isAllInCart && (
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
                 )}
                 <span
-                  className={`relative inline-flex rounded-full h-2 w-2 ${isAllInCart
+                  className={`relative inline-flex rounded-full h-2 w-2 ${
+                    isMaintenance
+                      ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]'
+                      : isAllInCart
                       ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
                       : isOutOfStock
-                        ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]'
-                        : isLowStock
-                          ? 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]'
-                          : 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                    }`}
+                      ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]'
+                      : isLowStock
+                      ? 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]'
+                      : 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                  }`}
                 />
               </span>
 
               {/* Status Text with Live Available Count & Total Ratio */}
-              <span className={`tracking-tight ${isAllInCart ? 'text-cyan-300' : isOutOfStock ? 'text-rose-400' : isLowStock ? 'text-amber-300' : 'text-emerald-400'
-                }`}>
-                {isAllInCart ? (
+              <span
+                className={`tracking-tight ${
+                  isMaintenance
+                    ? 'text-rose-400 font-bold'
+                    : isAllInCart
+                    ? 'text-cyan-300'
+                    : isOutOfStock
+                    ? 'text-rose-400'
+                    : isLowStock
+                    ? 'text-amber-300'
+                    : 'text-emerald-400'
+                }`}
+              >
+                {isMaintenance ? (
+                  'Under Maintenance (For Repair)'
+                ) : isAllInCart ? (
                   `Max in Cart (${inCartQty}/${totalStock} ${currentItem.unit || 'pcs'})`
                 ) : isOutOfStock ? (
                   'Out of Stock (0 avail)'
@@ -705,7 +727,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             </div>
 
             {/* Active Reservation Badges */}
-            {totalReservedQty > 0 && (
+            {totalReservedQty > 0 && !isMaintenance && (
               <div className="flex items-center gap-1">
                 <span className="text-[9px] sm:text-[10px] font-mono font-bold text-amber-300 neu-inset-amber px-1.5 sm:px-2 py-0.5 rounded-md flex items-center gap-1">
                   <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
@@ -722,30 +744,52 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
         {/* Reserve Button */}
         <button
           type="button"
+          disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className="h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-btn-raised text-amber-400 hover:text-amber-300 text-[11px] sm:text-xs font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 shrink-0 w-full min-w-0"
-          title="Reserve equipment"
+          className={`h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 shrink-0 w-full min-w-0 ${
+            isMaintenance
+              ? 'opacity-30 cursor-not-allowed bg-slate-800 text-slate-500'
+              : 'neu-btn-raised text-amber-400 hover:text-amber-300 cursor-pointer active:scale-95'
+          }`}
+          title={isMaintenance ? 'Item Under Maintenance - Booking Locked' : 'Reserve equipment'}
         >
           <Calendar className="w-3.5 h-3.5 shrink-0" />
-          <span className="truncate">Reserve</span>
+          <span className="truncate">{isMaintenance ? 'Locked' : 'Reserve'}</span>
         </button>
 
         {/* Add to Cart Button */}
         <button
           type="button"
           onClick={() => onAddToCart(currentItem)}
-          disabled={isOutOfStock || isAllInCart}
-          className={`h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 shrink-0 w-full min-w-0 ${isOutOfStock || isAllInCart
+          disabled={isOutOfStock || isAllInCart || isMaintenance}
+          className={`h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 shrink-0 w-full min-w-0 ${
+            isMaintenance || isOutOfStock || isAllInCart
               ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-500'
               : inCartQty > 0
-                ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 font-black shadow-md'
-                : 'neu-btn-primary text-slate-950 font-black'
-            }`}
-          title={isOutOfStock ? 'Out of Stock' : isAllInCart ? 'Max quantity reached in cart' : 'Add to borrow cart'}
+              ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 font-black shadow-md cursor-pointer active:scale-95'
+              : 'neu-btn-primary text-slate-950 font-black cursor-pointer active:scale-95'
+          }`}
+          title={
+            isMaintenance
+              ? 'Item Under Maintenance - For Repair'
+              : isOutOfStock
+              ? 'Out of Stock'
+              : isAllInCart
+              ? 'Max quantity reached in cart'
+              : 'Add to borrow cart'
+          }
         >
           <Plus className="w-3.5 h-3.5 shrink-0" />
           <span className="truncate">
-            {isAllInCart ? 'Max' : isOutOfStock ? '0 Left' : inCartQty > 0 ? `Add (${inCartQty})` : 'Add'}
+            {isMaintenance
+              ? 'For Repair'
+              : isAllInCart
+              ? 'Max'
+              : isOutOfStock
+              ? '0 Left'
+              : inCartQty > 0
+              ? `Add (${inCartQty})`
+              : 'Add'}
           </span>
         </button>
       </div>
@@ -762,16 +806,19 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
 
   const inCartQty = getItemCartQty(currentItem.id);
   const totalStock = currentItem.stock || 0;
+  const isMaintenance = currentItem.status === 'Under Maintenance' || (currentItem.condition && currentItem.condition !== 'Functional' && currentItem.condition !== 'Passed Inspection');
   const availableStock = Math.max(0, totalStock - inCartQty);
-  const isOutOfStock = totalStock <= 0;
-  const isAllInCart = inCartQty >= totalStock && totalStock > 0;
-  const isLowStock = availableStock > 0 && availableStock <= 3;
+  const isOutOfStock = totalStock <= 0 || isMaintenance;
+  const isAllInCart = inCartQty >= totalStock && totalStock > 0 && !isMaintenance;
+  const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
 
   const activeReservations = getItemActiveReservations(currentItem.id);
   const totalReservedQty = activeReservations.reduce((sum, r) => sum + (r.quantity || 1), 0);
 
   return (
-    <div className="neu-card-sm rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none">
+    <div className={`neu-card-sm rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none ${
+      isMaintenance ? 'border border-rose-500/30 bg-rose-950/10 opacity-80' : ''
+    }`}>
       {/* Left Info */}
       <div className="min-w-0 flex-1">
         <div className="flex flex-col">
@@ -780,31 +827,39 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
               {currentItem.tagCode}
             </span>
             <span
-              className={`text-[9.5px] sm:text-[10.5px] font-mono font-bold flex items-center gap-1.5 truncate ${isAllInCart
+              className={`text-[9.5px] sm:text-[10.5px] font-mono font-bold flex items-center gap-1.5 truncate ${
+                isMaintenance
+                  ? 'text-rose-400'
+                  : isAllInCart
                   ? 'text-cyan-300'
                   : isOutOfStock
-                    ? 'text-rose-400'
-                    : isLowStock
-                      ? 'text-amber-300'
-                      : 'text-emerald-400'
-                }`}
+                  ? 'text-rose-400'
+                  : isLowStock
+                  ? 'text-amber-300'
+                  : 'text-emerald-400'
+              }`}
             >
               <span
-                className={`w-1.5 h-1.5 rounded-full shrink-0 ${isAllInCart
+                className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                  isMaintenance
+                    ? 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
+                    : isAllInCart
                     ? 'bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]'
                     : isOutOfStock
-                      ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
-                      : isLowStock
-                        ? 'bg-amber-400 animate-pulse shadow-[0_0_6px_rgba(245,158,11,0.8)]'
-                        : 'bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]'
-                  }`}
+                    ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
+                    : isLowStock
+                    ? 'bg-amber-400 animate-pulse shadow-[0_0_6px_rgba(245,158,11,0.8)]'
+                    : 'bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]'
+                }`}
               />
               <span className="truncate">
-                {isAllInCart
+                {isMaintenance
+                  ? 'Under Maintenance (Repair)'
+                  : isAllInCart
                   ? `Max (${inCartQty}/${totalStock})`
                   : isOutOfStock
-                    ? '0 stock'
-                    : `Stock: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`}
+                  ? '0 stock'
+                  : `Stock: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`}
               </span>
             </span>
           </div>
@@ -821,8 +876,9 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
                   key={v.id}
                   type="button"
                   onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-1.5 py-0.5 text-[8.5px] font-mono font-bold rounded border shrink-0 ${v.id === currentItem.id ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 border-slate-700 text-slate-300'
-                    }`}
+                  className={`px-1.5 py-0.5 text-[8.5px] font-mono font-bold rounded border shrink-0 ${
+                    v.id === currentItem.id ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 border-slate-700 text-slate-300'
+                  }`}
                 >
                   {v.variantLabel}
                 </button>
@@ -836,23 +892,25 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
       <div className="flex items-center gap-1.5 shrink-0">
         <button
           type="button"
+          disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className="p-1.5 rounded-lg neu-btn-raised text-amber-300 active:scale-95 shrink-0"
-          title="Reserve"
+          className="p-1.5 rounded-lg neu-btn-raised text-amber-300 active:scale-95 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
+          title={isMaintenance ? 'Under Maintenance' : 'Reserve'}
         >
           <Calendar className="w-3.5 h-3.5" />
         </button>
 
         <button
           type="button"
-          disabled={isOutOfStock}
+          disabled={isOutOfStock || isMaintenance}
           onClick={() => onAddToCart(currentItem)}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${inCartQty > 0 ? 'neu-btn-primary text-slate-950 font-black' : 'neu-btn-raised text-slate-200'
-            }`}
+          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${
+            inCartQty > 0 ? 'neu-btn-primary text-slate-950 font-black' : 'neu-btn-raised text-slate-200'
+          }`}
         >
           <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-          <span>{isOutOfStock ? (isAllInCart ? 'Max' : '0') : 'Add'}</span>
-          {inCartQty > 0 && <span className="text-[9px] font-black font-mono">({inCartQty})</span>}
+          <span>{isMaintenance ? 'Locked' : isOutOfStock ? (isAllInCart ? 'Max' : '0') : 'Add'}</span>
+          {inCartQty > 0 && !isMaintenance && <span className="text-[9px] font-black font-mono">({inCartQty})</span>}
         </button>
       </div>
     </div>

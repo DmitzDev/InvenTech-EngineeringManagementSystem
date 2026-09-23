@@ -1,4 +1,10 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import {
+  getIncidentLogs,
+  createIncidentLog,
+  resolveIncidentLog,
+  updateInventoryItem,
+} from '../data/equipmentData';
 
 const TransactionContext = createContext();
 
@@ -12,44 +18,17 @@ const getInitialDateStrings = () => {
   };
 };
 
-const RESERVATIONS_STORAGE_KEY = 'udd_kiosk_reservations';
+const RESERVATIONS_STORAGE_KEY = 'udd_kiosk_reservations_v2';
+const TRANSACTIONS_STORAGE_KEY = 'udd_kiosk_transactions_v2';
 
-const DEFAULT_SAMPLE_RESERVATIONS = [
-  {
-    id: 'RES-2026-8801',
-    itemId: 'ce-001',
-    tagCode: 'CE-SLP-01',
-    name: 'Slump Cone Mold with Base Plate',
-    reserveDate: '2026-08-30',
-    timeSlot: '10:00 AM - 12:00 NN',
-    qty: 2,
-    unit: 'set',
-    studentName: 'Juan Dela Cruz',
-    program: 'BSCE',
-    groupNo: '2',
-    instructor: 'Engr. Rolando De Guzman',
-    courseCode: 'CEMAT1L',
-    status: 'PENDING', // 'PENDING' | 'PREPARED' | 'COMPLETED' | 'CANCELLED'
-    createdAt: 'Aug 29, 2026 • 09:30 AM',
-  },
-  {
-    id: 'RES-2026-8802',
-    itemId: 'dig-001',
-    tagCode: 'ECE-BRD-01',
-    name: 'Solderless Breadboard (830 Points)',
-    reserveDate: '2026-08-30',
-    timeSlot: '01:00 PM - 03:00 PM',
-    qty: 4,
-    unit: 'pc',
-    studentName: 'Maria Nicole Reyes',
-    program: 'BSCpE',
-    groupNo: '4',
-    instructor: 'Engr. Jin Benir Macaranas',
-    courseCode: 'CPE-LOGIC',
-    status: 'PENDING',
-    createdAt: 'Aug 29, 2026 • 11:15 AM',
-  },
-];
+// Clean old test cache keys
+try {
+  ['udd_kiosk_reservations', 'udd_kiosk_transactions', 'udd_kiosk_transactions_v1'].forEach((k) => {
+    localStorage.removeItem(k);
+  });
+} catch {
+  // ignore
+}
 
 export const getStoredReservations = () => {
   try {
@@ -58,9 +37,7 @@ export const getStoredReservations = () => {
   } catch {
     // fallback
   }
-  // Initialize with sample reservations on first run
-  localStorage.setItem(RESERVATIONS_STORAGE_KEY, JSON.stringify(DEFAULT_SAMPLE_RESERVATIONS));
-  return DEFAULT_SAMPLE_RESERVATIONS;
+  return [];
 };
 
 export const saveStoredReservations = (reservations) => {
@@ -71,14 +48,15 @@ export const saveStoredReservations = (reservations) => {
   }
 };
 
-const TRANSACTIONS_STORAGE_KEY = 'udd_kiosk_transactions';
-
 export const getStoredTransactions = () => {
   try {
     const data = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
-    if (data) return JSON.parse(data);
+    if (data) {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) return parsed;
+    }
   } catch {
-    // start empty if error
+    // fallback
   }
   return [];
 };
@@ -126,6 +104,7 @@ const initialState = {
   reservations: getStoredReservations(),
   activeTransactions: getStoredTransactions(),
   activeClearanceRecord: null,
+  incidentLogs: getIncidentLogs(),
   transactionId: null,
   timestamp: null,
   toast: null,
@@ -516,7 +495,7 @@ function transactionReducer(state, action) {
       });
 
       const hasIncidents = returnedItems.some(
-        (i) => i.returnCondition === 'damaged' || i.returnCondition === 'lost'
+        (i) => i.returnCondition === 'damaged' || i.returnCondition === 'needs_repair' || i.returnCondition === 'lost'
       );
 
       const status = hasIncidents ? 'INCIDENT_REPORTED' : 'RETURNED_CLEARED';
@@ -539,14 +518,91 @@ function transactionReducer(state, action) {
 
       saveStoredTransactions(updatedTransactions);
 
+      // Automatically update inventory item status & create incident logs for any damaged / repair items
+      returnedItems.forEach((item) => {
+        if (item.returnCondition && item.returnCondition !== 'good') {
+          const conditionLabel =
+            item.returnCondition === 'needs_repair'
+              ? 'Needs Calibration / Repair'
+              : item.returnCondition === 'lost'
+                ? 'Missing / Lost Parts'
+                : 'Damaged / Broken Parts';
+
+          const note = item.damageDescription || custodianNotes || `Marked as ${conditionLabel} upon return`;
+
+          // 1. Update inventory item to Under Maintenance
+          updateInventoryItem(item.id, {
+            status: 'Under Maintenance',
+            condition: conditionLabel,
+            maintenanceNotes: note,
+            lastIncidentTxId: txId,
+            lastIncidentDate: returnTimestamp,
+          });
+
+          // 2. Create official incident log entry
+          createIncidentLog({
+            txId,
+            itemId: item.id,
+            itemName: item.name,
+            tagCode: item.tagCode,
+            condition: item.returnCondition,
+            damageDescription: item.damageDescription || '',
+            severity: item.severity || 'Moderate',
+            borrowerName: updatedRecord?.borrower?.groupLeader || 'Unknown',
+            borrowerProgram: updatedRecord?.borrower?.program || 'N/A',
+            borrowerCourse: updatedRecord?.borrower?.courseCode || 'N/A',
+            instructor: updatedRecord?.borrower?.instructor || 'N/A',
+            custodianNotes: custodianNotes || '',
+            timestamp: returnTimestamp,
+            status: 'OPEN_INVESTIGATION',
+          });
+        }
+      });
+
+      const updatedLogs = getIncidentLogs();
+
       return {
         ...state,
         activeTransactions: updatedTransactions,
         activeClearanceRecord: updatedRecord,
+        incidentLogs: updatedLogs,
+        toast: {
+          id: Date.now(),
+          type: hasIncidents ? 'warning' : 'success',
+          message: hasIncidents
+            ? `Equipment Returned! Incidents logged & compromised items flagged Under Maintenance.`
+            : `Equipment Returned! Borrower clearance generated (CLEARED)`,
+        },
+      };
+    }
+
+    case 'RESTORE_INVENTORY_ITEM': {
+      const { itemId, resolutionNotes } = action.payload;
+
+      // Reset inventory item status to Passed Inspection & Functional
+      updateInventoryItem(itemId, {
+        status: 'Passed Inspection',
+        condition: 'Functional',
+        maintenanceNotes: resolutionNotes || 'Repaired and restored to active service',
+        restoredAt: new Date().toLocaleString('en-US'),
+      });
+
+      // Find and resolve any open incident logs for this item
+      const currentLogs = getIncidentLogs();
+      const targetLog = currentLogs.find((l) => l.itemId === itemId && l.status !== 'RESOLVED_REPAIRED');
+      if (targetLog) {
+        resolveIncidentLog(targetLog.id, resolutionNotes || 'Repaired and restored to active inventory');
+      }
+
+      const updatedLogs = getIncidentLogs();
+
+      return {
+        ...state,
+        incidentLogs: updatedLogs,
         toast: {
           id: Date.now(),
           type: 'success',
-          message: `Equipment Returned! Borrower clearance generated (${status})`,
+          message: `Apparatus restored! Unlocked for Kiosk borrowing.`,
         },
       };
     }
@@ -713,6 +769,124 @@ export function TransactionProvider({ children }) {
     };
   };
 
+  // Instant validation check for overdue or unreturned apparatus and active clearance holds
+  const checkStudentOverdueClearance = (studentName, studentId) => {
+    const sName = (studentName || '').trim().toLowerCase();
+    const rawSId = (studentId || '').trim().toLowerCase();
+    const cleanSId = rawSId.replace(/[^a-z0-9]/gi, '');
+
+    if (!sName && !cleanSId) {
+      return { isRestricted: false, overdueCount: 0, overdueItems: [], reason: '', unreturnedTxs: [] };
+    }
+
+    // 1. Query active unreturned transactions in activeTransactions
+    const unreturnedTxs = (state.activeTransactions || []).filter((tx) => {
+      if (tx.status !== 'BORROWED') return false;
+      const txBorrowerName = (tx.borrower?.groupLeader || '').trim().toLowerCase();
+      const rawTxId = (tx.borrower?.studentId || '').trim().toLowerCase();
+      const cleanTxId = rawTxId.replace(/[^a-z0-9]/gi, '');
+
+      const idMatch =
+        cleanSId &&
+        cleanTxId &&
+        (cleanTxId === cleanSId ||
+          cleanTxId.includes(cleanSId) ||
+          cleanSId.includes(cleanTxId));
+
+      const nameMatch =
+        sName &&
+        txBorrowerName &&
+        (txBorrowerName === sName ||
+          txBorrowerName.includes(sName) ||
+          sName.includes(txBorrowerName));
+
+      return Boolean(idMatch || nameMatch);
+    });
+
+    // 2. Query administrative clearance holds
+    const matchedClearanceHolds = (state.studentClearanceHolds || []).filter((h) => {
+      const holdName = (h.studentName || '').trim().toLowerCase();
+      const rawHoldId = (h.studentId || '').trim().toLowerCase();
+      const cleanHoldId = rawHoldId.replace(/[^a-z0-9]/gi, '');
+
+      const idMatch =
+        cleanSId &&
+        cleanHoldId &&
+        (cleanHoldId === cleanSId ||
+          cleanHoldId.includes(cleanSId) ||
+          cleanSId.includes(cleanHoldId));
+
+      const nameMatch =
+        sName &&
+        holdName &&
+        (holdName === sName ||
+          holdName.includes(sName) ||
+          sName.includes(holdName));
+
+      return Boolean(idMatch || nameMatch);
+    });
+
+    const overdueItems = [];
+    unreturnedTxs.forEach((tx) => {
+      (tx.items || []).forEach((item) => {
+        overdueItems.push({
+          txId: tx.txId,
+          itemId: item.id,
+          name: item.name,
+          tagCode: item.tagCode,
+          qty: item.qty || 1,
+          date: tx.borrower?.date || tx.borrowedAt || 'Previous Session',
+          dueDate: tx.borrower?.date || tx.borrowedAt || 'Previous Session',
+          instructor: tx.borrower?.instructor || 'Lab Custodian',
+          labTime: tx.borrower?.labTime || '',
+        });
+      });
+    });
+
+    matchedClearanceHolds.forEach((hold) => {
+      if (Array.isArray(hold.items) && hold.items.length > 0) {
+        hold.items.forEach((item, idx) => {
+          overdueItems.push({
+            txId: hold.id || `HOLD-${idx + 1}`,
+            name: item.name || hold.reason || 'Unreturned Equipment',
+            tagCode: item.tagCode || 'HOLD-TAG',
+            qty: item.qty || 1,
+            date: item.dueDate || hold.date || 'Active Term',
+            dueDate: item.dueDate || hold.date || 'Active Term',
+            instructor: 'Lab Custodian Office',
+          });
+        });
+      } else {
+        overdueItems.push({
+          txId: hold.id || 'HOLD-ADM',
+          name: hold.reason || 'Administrative Clearance Lockout',
+          tagCode: 'CLEARANCE-HOLD',
+          qty: 1,
+          date: hold.date || 'Active Term',
+          dueDate: hold.date || 'Active Term',
+          instructor: 'Lab Custodian Office',
+        });
+      }
+    });
+
+    const isRestricted = overdueItems.length > 0 || matchedClearanceHolds.length > 0;
+
+    let reason = '';
+    if (isRestricted) {
+      const firstItem = overdueItems[0];
+      reason = `Borrowing Restricted: You have ${overdueItems.length} unreturned item(s) (${firstItem?.name || 'Apparatus'} - Due ${firstItem?.dueDate || firstItem?.date || 'Prior Session'}). Please settle with the lab custodian.`;
+    }
+
+    return {
+      isRestricted,
+      overdueCount: overdueItems.length,
+      overdueItems,
+      reason,
+      unreturnedTxs,
+      clearanceHold: matchedClearanceHolds[0] || null,
+    };
+  };
+
   const value = {
     ...state,
     toggleTheme: () => dispatch({ type: 'TOGGLE_THEME' }),
@@ -746,9 +920,16 @@ export function TransactionProvider({ children }) {
       dispatch({ type: 'PREPARE_RESERVATION_TO_SLIP', payload: reservation }),
     returnEquipmentTransaction: (payload) =>
       dispatch({ type: 'RETURN_EQUIPMENT_TRANSACTION', payload }),
+    restoreInventoryItem: (itemId, resolutionNotes) =>
+      dispatch({ type: 'RESTORE_INVENTORY_ITEM', payload: { itemId, resolutionNotes } }),
     setActiveClearanceRecord: (record) =>
       dispatch({ type: 'SET_ACTIVE_CLEARANCE_RECORD', payload: record }),
+    addClearanceHold: (hold) =>
+      dispatch({ type: 'ADD_CLEARANCE_HOLD', payload: hold }),
+    removeClearanceHold: (id) =>
+      dispatch({ type: 'REMOVE_CLEARANCE_HOLD', payload: id }),
     checkReservationConflict,
+    checkStudentOverdueClearance,
     commitTransaction: () => dispatch({ type: 'COMMIT_TRANSACTION' }),
     resetTransaction: () => dispatch({ type: 'RESET_TRANSACTION' }),
     goToWelcome: () => dispatch({ type: 'GO_TO_WELCOME' }),
