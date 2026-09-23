@@ -4112,6 +4112,128 @@ export function resolveIncidentLog(id, resolutionNotes = 'Repaired and restored 
   return updated;
 }
 
+// --- STUDENT OVERDUE / CLEARANCE HOLDS MANAGEMENT ---
+const CLEARANCE_HOLDS_STORAGE_KEY = 'udd_student_clearance_holds_v2';
+
+export const DEFAULT_STUDENT_CLEARANCE_HOLDS = [
+  {
+    id: 'HOLD-001',
+    studentId: '21-0482-119',
+    studentName: 'MARK JOSHUA DELA CRUZ',
+    reason: 'Unreturned Digital Multimeter & Oscilloscope Probe (Due Sept 18)',
+    date: 'Sept 18, 2026',
+    status: 'ACTIVE_LOCKOUT',
+    items: [
+      { name: 'Digital Multimeter', tagCode: 'ENG-EQ-DMM-001-26', qty: 1, dueDate: 'Sept 18, 2026' },
+      { name: 'Oscilloscope Probe Kit', tagCode: 'ENG-EQ-OSCP-012-26', qty: 1, dueDate: 'Sept 18, 2026' }
+    ]
+  },
+  {
+    id: 'HOLD-002',
+    studentId: '20-1102-045',
+    studentName: 'CHRISTIAN PAUL SANTOS',
+    reason: 'Unreturned Concrete Slump Cone Apparatus (Due Sept 20)',
+    date: 'Sept 20, 2026',
+    status: 'ACTIVE_LOCKOUT',
+    items: [
+      { name: 'Concrete Slump Cone', tagCode: 'ENG-EQ-SLMP-104-26', qty: 1, dueDate: 'Sept 20, 2026' }
+    ]
+  }
+];
+
+export function getStudentClearanceHolds() {
+  try {
+    const stored = localStorage.getItem(CLEARANCE_HOLDS_STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {
+    console.warn('Failed to load clearance holds from localStorage', e);
+  }
+  return DEFAULT_STUDENT_CLEARANCE_HOLDS;
+}
+
+export function saveStudentClearanceHolds(holds) {
+  try {
+    localStorage.setItem(CLEARANCE_HOLDS_STORAGE_KEY, JSON.stringify(holds));
+  } catch (e) {
+    console.warn('Failed to save clearance holds to localStorage', e);
+  }
+}
+
+export function addStudentClearanceHold(hold) {
+  const holds = getStudentClearanceHolds();
+  const newHold = {
+    id: hold.id || `HOLD-${Date.now()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
+    timestamp: hold.timestamp || new Date().toLocaleString('en-US'),
+    status: 'ACTIVE_LOCKOUT',
+    ...hold,
+  };
+  const updated = [newHold, ...holds];
+  saveStudentClearanceHolds(updated);
+  return updated;
+}
+
+export function removeStudentClearanceHold(holdId) {
+  const holds = getStudentClearanceHolds();
+  const updated = holds.filter((h) => h.id !== holdId && h.studentId !== holdId);
+  saveStudentClearanceHolds(updated);
+  return updated;
+}
+
+/**
+ * Standard Institutional Subjects for Engineering Laboratories
+ */
+export const ENGINEERING_SUBJECTS = [
+  { code: 'CPE 311', name: 'Microprocessors & Microcontrollers Lab', program: 'BSCPE' },
+  { code: 'CPE 321', name: 'Logic Circuits & Switching Theory', program: 'BSCPE' },
+  { code: 'CPE 411', name: 'Embedded Systems Design', program: 'BSCPE' },
+  { code: 'EE 221', name: 'Electrical Circuits 1 & Network Analysis', program: 'BSEE' },
+  { code: 'EE 311', name: 'Electrical Machines & Transformers Lab', program: 'BSEE' },
+  { code: 'ECE 302', name: 'Signals, Spectra & Signal Processing', program: 'BSECE' },
+  { code: 'ECE 312', name: 'Electronic Devices & Circuits Lab', program: 'BSECE' },
+  { code: 'ECE 411', name: 'Communications Engineering & RF Lab', program: 'BSECE' },
+  { code: 'CE 311', name: 'Surveying & Geomatics Field Practice', program: 'BSCE' },
+  { code: 'CE 321', name: 'Soil Mechanics & Geotechnical Testing', program: 'BSCE' },
+  { code: 'CE 412', name: 'Concrete Technology & Materials Testing', program: 'BSCE' },
+  { code: 'PHYS 101L', name: 'University Physics 1 (Mechanics & Heat)', program: 'ALL' },
+  { code: 'PHYS 102L', name: 'University Physics 2 (Electricity & Magnetism)', program: 'ALL' },
+  { code: 'CHEM 101L', name: 'General Chemistry Laboratory', program: 'ALL' },
+  { code: 'ENGR 111', name: 'Engineering Workshop & Safety Practice', program: 'ALL' },
+];
+
+/**
+ * Helper to determine if an inventory apparatus is Consumable (issued) or Returnable (must return)
+ */
+export function isItemConsumable(item) {
+  if (!item) return false;
+  if (typeof item.isConsumable === 'boolean') return item.isConsumable;
+  const name = (item.name || '').toLowerCase();
+  const category = (item.category || '').toLowerCase();
+  
+  return Boolean(
+    name.includes('solder') ||
+    name.includes('lead') ||
+    name.includes('jumper') ||
+    name.includes('resistor') ||
+    name.includes('capacitor') ||
+    name.includes('fuse') ||
+    name.includes('ribbon') ||
+    name.includes('filter paper') ||
+    name.includes('ph paper') ||
+    name.includes('chemical') ||
+    name.includes('reagent') ||
+    name.includes('silicate') ||
+    name.includes('acid') ||
+    name.includes('sandpaper') ||
+    name.includes('nichrome') ||
+    (name.includes('wire') && !name.includes('gauze')) ||
+    category.includes('consumable') ||
+    category.includes('chemical')
+  );
+}
+
 export function getItemImage(item) {
   if (!item) return null;
   if (item.image) return item.image;

@@ -6,6 +6,7 @@ import DashboardOverview from './DashboardOverview';
 import InventoryManager from './InventoryManager';
 import ReservationManager from './ReservationManager';
 import TransactionHistory from './TransactionHistory';
+import AuditReports from './AuditReports';
 
 export default function AdminPanel() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,6 +30,8 @@ export default function AdminPanel() {
         return <ReservationManager />;
       case 'transactions':
         return <TransactionHistory />;
+      case 'reports':
+        return <AuditReports />;
       default:
         return <DashboardOverview onNavigateTab={setActiveTab} />;
     }

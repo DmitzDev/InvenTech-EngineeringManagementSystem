@@ -1,33 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useTransaction } from '../../context/TransactionContext';
-import JsBarcode from 'jsbarcode';
 
 export default function BorrowerSheet({ isScreenPreview = false }) {
-  const { borrower, cart, transactionId, timestamp } = useTransaction();
-  const barcodeRef = useRef(null);
+  const { borrower, cart, transactionId } = useTransaction();
 
   const activeTxCode = transactionId || 'UDD-DIGITAL-20260826-5725';
-
-  // Render authentic Code128 Barcode for Transaction ID (Always active & visible)
-  useEffect(() => {
-    if (barcodeRef.current) {
-      try {
-        JsBarcode(barcodeRef.current, activeTxCode, {
-          format: 'CODE128',
-          lineColor: '#000000',
-          width: 1.0,
-          height: 22,
-          displayValue: true,
-          fontSize: 8.5,
-          textMargin: 1,
-          margin: 0,
-          font: 'monospace',
-        });
-      } catch (e) {
-        console.error('Barcode render error', e);
-      }
-    }
-  }, [activeTxCode]);
 
   // Create exactly 15 rows as per ISO format
   const rows = Array.from({ length: 15 }, (_, i) => {
@@ -36,13 +13,13 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
       index: i + 1,
       qtyRequested: item ? `${item.qty} ${item.unit || ''}` : '',
       description: item
-        ? `${item.name} (${item.tagCode}) • [${item.lab === 'DIGITAL' ? 'Digital Lab' : item.lab === 'ECE' ? 'ECE Lab' : item.lab === 'CE' ? 'CE Lab' : item.lab === 'CHEM' ? 'Chem Lab' : item.lab === 'PHYSICS' ? 'Physics Lab' : `${item.lab} Lab`}]${item.isDamaged ? ' [FLAGGED DAMAGE]' : ''}`
+        ? `${item.name} (${item.tagCode}) • [${item.lab === 'DIGITAL' ? 'Digital Lab' : item.lab === 'ECE' ? 'ECE Lab' : item.lab === 'CE' ? 'CE Lab' : item.lab === 'CHEM' ? 'Chem Lab' : item.lab === 'PHYSICS' ? 'Physics Lab' : `${item.lab} Lab`}]${item.isDamaged ? ' [FLAGGED PRE-EXISTING ISSUE]' : ''}`
         : '',
       dateBorrowed: item ? borrower.date : '',
       dateReturned: '',
       qtyReturned: '',
-      isDamaged: item?.isDamaged || false,
-      isGood: item ? !item.isDamaged : false,
+      isDamaged: false,
+      isGood: false,
     };
   });
 
@@ -116,9 +93,9 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
           <tr>
             <td className="border border-black p-1 font-bold bg-gray-50">Group No.:</td>
             <td className="border border-black p-1">Group {borrower.groupNo || '1'}</td>
-            <td className="border border-black p-1 font-bold bg-gray-50">Group Leader:</td>
+            <td className="border border-black p-1 font-bold bg-gray-50">Student Name / ID:</td>
             <td className="border border-black p-1 uppercase font-bold" colSpan={3}>
-              {borrower.groupLeader || '_______________________________'}
+              {borrower.groupLeader || '_______________________________'} {borrower.studentId ? `(${borrower.studentId})` : ''}
             </td>
           </tr>
           <tr>
@@ -236,27 +213,6 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
             </div>
             <p className="text-[8px] text-gray-600 mt-0.5">Laboratory Custodian's Signature</p>
           </div>
-        </div>
-      </div>
-
-      {/* Official Scannable Barcode & Footer Block (Always Rendered & Centered) */}
-      <div className="border-t border-black pt-1.5 mt-1.5 text-center flex flex-col items-center justify-center space-y-0.5">
-        {/* Crisp Centered Code128 Barcode with Transaction ID */}
-        <div className="flex justify-center py-0.5">
-          <svg ref={barcodeRef} style={{ minHeight: '26px' }}></svg>
-        </div>
-
-        {/* Compact Centered Footer Instructions */}
-        <div className="text-[7.5px] text-gray-600 leading-tight space-y-0.5 max-w-[440px] mx-auto text-center">
-          <p className="font-bold text-black uppercase tracking-wider text-[8px]">
-            OFFICIAL EQUIPMENT RETURN BARCODE:
-          </p>
-          <p className="text-[7.5px] text-gray-700">
-            Scan this barcode at the Custodian Counter upon returning apparatus for instant digital clearance check-in.
-          </p>
-          <p className="text-[7px] text-gray-500 font-mono pt-0.5">
-            Issued: {borrower.date} • {timestamp || 'SYSTEM OFFICIAL'}
-          </p>
         </div>
       </div>
     </div>

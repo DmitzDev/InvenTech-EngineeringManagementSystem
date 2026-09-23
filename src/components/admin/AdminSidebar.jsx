@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Package, ScrollText, Calendar, Lock, X, ChevronRight, Shield } from 'lucide-react';
+import { LayoutDashboard, Package, ScrollText, Calendar, Lock, X, ChevronRight, Shield, FileSpreadsheet } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { getInventory } from '../../data/equipmentData';
 
@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { id: 'inventory', label: 'Equipment Inventory', icon: Package, desc: '335 Master Items' },
   { id: 'reservations', label: 'Advance Bookings', icon: Calendar, desc: 'Student Requests' },
   { id: 'transactions', label: 'Transaction History', icon: ScrollText, desc: 'Audit & Clearances' },
+  { id: 'reports', label: 'Audit Reports & Logs', icon: FileSpreadsheet, desc: 'CHED / PACUCOA Data' },
 ];
 
 export default function AdminSidebar({ activeTab, onTabChange, onLock, isMobileOpen, onCloseMobile }) {

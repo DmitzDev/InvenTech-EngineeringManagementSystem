@@ -74,10 +74,10 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
     }));
   };
 
-  // Simulate USB Barcode Gun Scan
-  const handleSimulateBarcodeScan = (tx) => {
+  // Select Active Transaction
+  const handleSelectTransaction = (tx) => {
     setSelectedTxId(tx.txId);
-    showToast(`*BEEP!* Barcode Scanned: ${tx.txId} (${tx.borrower.groupLeader})`, 'success');
+    showToast(`Selected Session: ${tx.txId} (${tx.borrower.groupLeader})`, 'info');
   };
 
   const handleConfirmReturn = (e) => {
@@ -123,7 +123,7 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
               <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
                 <span>Equipment Return & Clearance Station</span>
                 <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full neu-inset-sm text-emerald-400 font-bold">
-                  BARCODE READY
+                  ACTIVE SESSIONS
                 </span>
               </h3>
               <p className="text-xs text-slate-400">
@@ -144,13 +144,13 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
 
         {/* Modal Body */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
-          {/* Barcode Scanner Gun Simulation Bar */}
+          {/* Quick Active Student Registry Bar */}
           <div className="p-3.5 rounded-2xl neu-inset bg-emerald-950/20 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <ScanLine className="w-5 h-5 text-emerald-400 animate-pulse" />
+              <User className="w-5 h-5 text-emerald-400" />
               <div>
-                <span className="text-xs font-bold text-emerald-300">USB Barcode Scanner Auto-Listener Active</span>
-                <p className="text-[11px] text-slate-400">Scan paper barcode or tap a simulated barcode card below:</p>
+                <span className="text-xs font-bold text-emerald-300">Active Student Return Registry</span>
+                <p className="text-[11px] text-slate-400">Select an active student transaction to check in apparatus:</p>
               </div>
             </div>
 
@@ -159,12 +159,12 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
                 <button
                   key={tx.txId}
                   type="button"
-                  onClick={() => handleSimulateBarcodeScan(tx)}
+                  onClick={() => handleSelectTransaction(tx)}
                   className="px-2.5 py-1 rounded-lg neu-btn-raised text-[10px] font-mono font-bold text-cyan-300 flex items-center gap-1 hover:text-white"
-                  title="Simulate Barcode Gun Scan"
+                  title="Select Transaction"
                 >
-                  <ScanLine className="w-3 h-3 text-emerald-400" />
-                  <span>Scan {tx.borrower.groupLeader.split(' ')[0]}</span>
+                  <User className="w-3 h-3 text-emerald-400" />
+                  <span>{tx.borrower.groupLeader.split(' ')[0]} ({tx.borrower.studentId || tx.txId.slice(-4)})</span>
                 </button>
               ))}
             </div>
@@ -411,7 +411,7 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
           ) : (
             <div className="py-8 text-center text-slate-500">
               <p className="text-sm font-bold text-slate-300">No Active Borrowing Session Selected</p>
-              <p className="text-xs text-slate-500 mt-1">Scan a paper slip barcode or tap one of the active student slips above.</p>
+              <p className="text-xs text-slate-500 mt-1">Select an active student transaction above or use the search bar.</p>
             </div>
           )}
         </div>
