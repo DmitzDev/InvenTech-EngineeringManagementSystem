@@ -34,8 +34,10 @@ import {
   ChevronDown,
   MapPin,
   Shield,
-  Clock
+  Clock,
+  Wrench
 } from 'lucide-react';
+import { useTransaction } from '../../context/TransactionContext';
 import {
   getInventory,
   addInventoryItem,
@@ -65,11 +67,12 @@ const CATEGORIES = [
 ];
 
 export default function InventoryManager() {
+  const { restoreInventoryItem } = useTransaction();
   const [inventory, setInventory] = useState(() => getInventory());
   const [search, setSearch] = useState('');
   const [filterLab, setFilterLab] = useState('ALL');
   const [filterCategory, setFilterCategory] = useState('ALL');
-  const [filterStock, setFilterStock] = useState('ALL'); // 'ALL' | 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK'
+  const [filterStock, setFilterStock] = useState('ALL'); // 'ALL' | 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK' | 'MAINTENANCE'
   const [sortBy, setSortBy] = useState('name-asc'); // 'name-asc' | 'name-desc' | 'stock-desc' | 'stock-asc' | 'tag-asc'
   const [viewMode, setViewMode] = useState('table'); // 'table' | 'grid'
 
@@ -108,17 +111,24 @@ export default function InventoryManager() {
   }, [inventory]);
 
   // Overall KPIs in single O(N) pass
-  const { totalUnits, lowCount, outCount } = useMemo(() => {
+  const { totalUnits, lowCount, outCount, maintenanceCount } = useMemo(() => {
     let units = 0;
     let low = 0;
     let out = 0;
+    let maintenance = 0;
     for (let i = 0; i < inventory.length; i++) {
       const s = inventory[i].stock || 0;
+      const isM =
+        inventory[i].status === 'Under Maintenance' ||
+        (inventory[i].condition &&
+          inventory[i].condition !== 'Functional' &&
+          inventory[i].condition !== 'Passed Inspection');
       units += s;
+      if (isM) maintenance++;
       if (s === 0) out++;
       else if (s <= 3) low++;
     }
-    return { totalUnits: units, lowCount: low, outCount: out };
+    return { totalUnits: units, lowCount: low, outCount: out, maintenanceCount: maintenance };
   }, [inventory]);
 
   // Fast Filter & Sort Pipeline
@@ -129,6 +139,11 @@ export default function InventoryManager() {
 
     for (let i = 0; i < inventory.length; i++) {
       const item = inventory[i];
+      const isM =
+        item.status === 'Under Maintenance' ||
+        (item.condition &&
+          item.condition !== 'Functional' &&
+          item.condition !== 'Passed Inspection');
 
       // Lab filter
       if (filterLab !== 'ALL' && item.lab !== filterLab) continue;
@@ -136,11 +151,12 @@ export default function InventoryManager() {
       // Category filter
       if (filterCategory !== 'ALL' && item.category !== filterCategory) continue;
 
-      // Stock filter
+      // Stock & Maintenance filter
       const s = item.stock || 0;
-      if (filterStock === 'IN_STOCK' && s <= 3) continue;
-      if (filterStock === 'LOW_STOCK' && (s === 0 || s > 3)) continue;
-      if (filterStock === 'OUT_OF_STOCK' && s !== 0) continue;
+      if (filterStock === 'MAINTENANCE' && !isM) continue;
+      if (filterStock === 'IN_STOCK' && (s <= 3 || isM)) continue;
+      if (filterStock === 'LOW_STOCK' && (s === 0 || s > 3 || isM)) continue;
+      if (filterStock === 'OUT_OF_STOCK' && (s !== 0 || isM)) continue;
 
       // Search query
       if (hasSearch) {
@@ -167,6 +183,13 @@ export default function InventoryManager() {
 
     return result;
   }, [inventory, search, filterLab, filterCategory, filterStock, sortBy]);
+
+  // Handle Restoring an item to active service
+  const handleRestoreItem = (id, name) => {
+    restoreInventoryItem(id);
+    refreshInventory();
+    showToast(`Restored "${name}" to active service & cleared maintenance flag.`);
+  };
 
   // Paginated Items Slice
   const totalPages = pageSize === 'ALL' ? 1 : Math.max(1, Math.ceil(filteredAndSorted.length / Number(pageSize)));
@@ -382,7 +405,7 @@ export default function InventoryManager() {
       </div>
 
       {/* 2. Glassmorphic KPI Command Strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {/* Total Unique Items */}
         <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border border-cyan-500/20 shadow-md relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition-all" />
@@ -394,7 +417,7 @@ export default function InventoryManager() {
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black font-mono text-cyan-300">{inventory.length}</span>
-            <span className="text-[10px] text-slate-500 font-medium">apparatus types</span>
+            <span className="text-[10px] text-slate-500 font-medium">types</span>
           </div>
         </div>
 
@@ -409,37 +432,60 @@ export default function InventoryManager() {
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black font-mono text-emerald-300">{totalUnits}</span>
-            <span className="text-[10px] text-slate-500 font-medium">units across 5 labs</span>
+            <span className="text-[10px] text-slate-500 font-medium">units</span>
+          </div>
+        </div>
+
+        {/* Under Maintenance / Incident Flagged */}
+        <div
+          onClick={() => setFilterStock(filterStock === 'MAINTENANCE' ? 'ALL' : 'MAINTENANCE')}
+          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#1c0c16] to-[#0d0710] border shadow-md relative overflow-hidden cursor-pointer transition-all ${
+            filterStock === 'MAINTENANCE'
+              ? 'border-rose-400 ring-2 ring-rose-400/40 bg-rose-950/40'
+              : 'border-rose-500/30 hover:border-rose-400'
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-rose-300">Under Maintenance</span>
+            <span className="p-1.5 rounded-lg bg-rose-500/20 text-rose-400">
+              <Wrench className="w-4 h-4" />
+            </span>
+          </div>
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl font-black font-mono text-rose-300">{maintenanceCount}</span>
+            <span className="text-[10px] text-rose-400/80 font-medium">for repair</span>
           </div>
         </div>
 
         {/* Low Stock Alert */}
         <div
           onClick={() => setFilterStock(filterStock === 'LOW_STOCK' ? 'ALL' : 'LOW_STOCK')}
-          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border shadow-md relative overflow-hidden cursor-pointer transition-all ${filterStock === 'LOW_STOCK'
+          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border shadow-md relative overflow-hidden cursor-pointer transition-all ${
+            filterStock === 'LOW_STOCK'
               ? 'border-amber-400 ring-2 ring-amber-400/40'
               : 'border-amber-500/20 hover:border-amber-500/40'
-            }`}
+          }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-amber-400">Low Stock Alert (≤3)</span>
+            <span className="text-xs font-bold text-amber-400">Low Stock (≤3)</span>
             <span className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400">
               <AlertTriangle className="w-4 h-4" />
             </span>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black font-mono text-amber-300">{lowCount}</span>
-            <span className="text-[10px] text-slate-500 font-medium">items need restock</span>
+            <span className="text-[10px] text-slate-500 font-medium">need restock</span>
           </div>
         </div>
 
         {/* Out of Stock Alert */}
         <div
           onClick={() => setFilterStock(filterStock === 'OUT_OF_STOCK' ? 'ALL' : 'OUT_OF_STOCK')}
-          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border shadow-md relative overflow-hidden cursor-pointer transition-all ${filterStock === 'OUT_OF_STOCK'
+          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border shadow-md relative overflow-hidden cursor-pointer transition-all ${
+            filterStock === 'OUT_OF_STOCK'
               ? 'border-rose-400 ring-2 ring-rose-400/40'
               : 'border-rose-500/20 hover:border-rose-500/40'
-            }`}
+          }`}
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-rose-400">Out of Stock (0)</span>
@@ -449,7 +495,7 @@ export default function InventoryManager() {
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black font-mono text-rose-300">{outCount}</span>
-            <span className="text-[10px] text-slate-500 font-medium">currently depleted</span>
+            <span className="text-[10px] text-slate-500 font-medium">depleted</span>
           </div>
         </div>
       </div>
@@ -713,10 +759,17 @@ export default function InventoryManager() {
 
                       {/* Condition & Safety */}
                       <div className="space-y-0.5 min-w-0">
-                        <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-semibold">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] shrink-0" />
-                          <span className="truncate">{item.condition || 'Functional'}</span>
-                        </div>
+                        {item.status === 'Under Maintenance' || (item.condition && item.condition !== 'Functional' && item.condition !== 'Passed Inspection') ? (
+                          <div className="flex items-center gap-1.5 text-[11px] text-rose-400 font-bold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.8)] animate-ping shrink-0" />
+                            <span className="truncate">Under Maintenance</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-semibold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] shrink-0" />
+                            <span className="truncate">{item.condition || 'Functional'}</span>
+                          </div>
+                        )}
                         <span className="text-[10px] text-slate-500 truncate block">
                           {item.safetyClearance || 'Safe for Use'}
                         </span>
@@ -781,6 +834,17 @@ export default function InventoryManager() {
 
                       {/* Action Buttons */}
                       <div className="flex items-center justify-center gap-1.5">
+                        {(item.status === 'Under Maintenance' || (item.condition && item.condition !== 'Functional' && item.condition !== 'Passed Inspection')) && (
+                          <button
+                            type="button"
+                            onClick={() => handleRestoreItem(item.id, item.name)}
+                            className="p-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/60 text-emerald-300 hover:bg-emerald-500/20 hover:text-emerald-200 transition-all cursor-pointer flex items-center gap-1 font-bold text-[10px]"
+                            title="Mark Repaired / Restore to Active Service"
+                          >
+                            <Wrench className="w-3.5 h-3.5 text-emerald-400" />
+                            <span className="hidden xl:inline">Restore</span>
+                          </button>
+                        )}
                         <button
                           type="button"
                           onClick={() => setQuickViewItem(item)}
@@ -828,11 +892,18 @@ export default function InventoryManager() {
               const stockBadge = getStockBadge(item.stock);
               const labBadge = getLabBadgeStyle(item.lab);
               const isQuickEditing = editingStockId === item.id;
+              const isM =
+                item.status === 'Under Maintenance' ||
+                (item.condition &&
+                  item.condition !== 'Functional' &&
+                  item.condition !== 'Passed Inspection');
 
               return (
                 <div
                   key={item.id}
-                  className="p-4 rounded-3xl bg-[#08101d] border border-slate-800/90 hover:border-cyan-500/50 hover:shadow-xl hover:-translate-y-0.5 transition-all space-y-3.5 shadow-md flex flex-col justify-between group"
+                  className={`p-4 rounded-3xl bg-[#08101d] border hover:shadow-xl hover:-translate-y-0.5 transition-all space-y-3.5 shadow-md flex flex-col justify-between group ${
+                    isM ? 'border-rose-500/40 bg-rose-950/10' : 'border-slate-800/90 hover:border-cyan-500/50'
+                  }`}
                 >
                   <div className="space-y-2.5">
                     {/* Top Row: Tag Code & Department */}
@@ -840,9 +911,16 @@ export default function InventoryManager() {
                       <span className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/80 px-2.5 py-0.5 rounded-lg border border-cyan-500/30 truncate">
                         {item.tagCode}
                       </span>
-                      <span className={`text-[10.5px] font-bold px-2 py-0.5 rounded-lg border ${labBadge}`}>
-                        {LAB_MAP[item.lab]?.short || item.lab}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        {isM && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse">
+                            MAINTENANCE
+                          </span>
+                        )}
+                        <span className={`text-[10.5px] font-bold px-2 py-0.5 rounded-lg border ${labBadge}`}>
+                          {LAB_MAP[item.lab]?.short || item.lab}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Title & Description */}
@@ -865,8 +943,17 @@ export default function InventoryManager() {
                         <span className="truncate">{item.room || 'Engineering Lab'}</span>
                       </div>
                       <div className="px-2 py-1 rounded-lg bg-[#050b14] border border-slate-800/80 text-slate-300 truncate flex items-center gap-1 font-medium">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
-                        <span className="truncate">{item.condition || 'Functional'}</span>
+                        {isM ? (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0 shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
+                            <span className="truncate text-rose-400 font-bold">For Repair</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+                            <span className="truncate">{item.condition || 'Functional'}</span>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -928,6 +1015,16 @@ export default function InventoryManager() {
 
                     {/* Actions */}
                     <div className="flex items-center gap-1">
+                      {isM && (
+                        <button
+                          type="button"
+                          onClick={() => handleRestoreItem(item.id, item.name)}
+                          className="p-1.5 rounded-xl bg-emerald-950 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-500/20 transition-colors cursor-pointer"
+                          title="Mark Repaired / Restore to Service"
+                        >
+                          <Wrench className="w-3.5 h-3.5 text-emerald-400" />
+                        </button>
+                      )}
                       <button
                         type="button"
                         onClick={() => setQuickViewItem(item)}

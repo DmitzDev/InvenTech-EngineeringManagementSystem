@@ -126,21 +126,30 @@ export default function ReturnClearanceModal({ isOpen, onClose }) {
                         <td className="p-2.5">
                           <div className="font-bold text-slate-100">{item.name}</div>
                           <div className="text-[10px] font-mono text-cyan-400">{item.tagCode}</div>
+                          {item.damageNote && (
+                            <div className="text-[10px] text-amber-300 italic mt-0.5">
+                              Issue: {item.damageNote} {item.damageSeverity ? `(${item.damageSeverity} Severity)` : ''}
+                            </div>
+                          )}
                         </td>
                         <td className="p-2.5 text-center font-mono font-bold text-slate-100">
-                          {item.qtyReturned ?? item.qty} {item.unit}
+                          {item.qtyReturned ?? item.qty} {item.unit || 'pcs'}
                         </td>
                         <td className="p-2.5 text-center font-bold text-[11px]">
-                          {item.returnCondition === 'damaged' ? (
-                            <span className="text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/40">
-                              ⚠️ Damaged
+                          {item.returnCondition === 'needs_repair' ? (
+                            <span className="text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/40 inline-block">
+                              ⚠️ Needs Repair / Calib
+                            </span>
+                          ) : item.returnCondition === 'damaged' ? (
+                            <span className="text-rose-300 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-500/40 inline-block">
+                              🔴 Damaged / Defective
                             </span>
                           ) : item.returnCondition === 'lost' ? (
-                            <span className="text-rose-300 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-500/40">
-                              ❌ Missing
+                            <span className="text-rose-300 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-500/40 inline-block">
+                              ❌ Missing Parts
                             </span>
                           ) : (
-                            <span className="text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/40">
+                            <span className="text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/40 inline-block">
                               ✓ Good Order
                             </span>
                           )}
