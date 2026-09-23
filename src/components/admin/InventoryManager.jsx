@@ -14,27 +14,16 @@ import {
   Atom,
   Download,
   RotateCcw,
-  SlidersHorizontal,
   LayoutGrid,
   Table as TableIcon,
   Eye,
-  ShieldCheck,
-  Layers,
-  ArrowUpDown,
   ArrowUp,
   ArrowDown,
-  Sparkles,
   PackageCheck,
   CheckCircle2,
   Boxes,
   ChevronLeft,
   ChevronRight,
-  FileText,
-  FileSpreadsheet,
-  ChevronDown,
-  MapPin,
-  Shield,
-  Clock,
   Wrench
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
@@ -43,9 +32,7 @@ import {
   addInventoryItem,
   updateInventoryItem,
   deleteInventoryItem,
-  resetMasterInventory,
-  LAB_OPTIONS,
-  EQUIPMENT_ITEMS
+  resetMasterInventory
 } from '../../data/equipmentData';
 import AddItemModal from './AddItemModal';
 import EditItemModal from './EditItemModal';

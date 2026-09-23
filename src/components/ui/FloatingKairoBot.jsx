@@ -32,7 +32,7 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
   const [studentName, setStudentName] = useState(borrower.groupLeader || '');
   const [program, setProgram] = useState(borrower.program || 'BSCE');
   const [courseCode, setCourseCode] = useState(borrower.courseCode || 'CEMAT1L');
-  const [groupNo, setGroupNo] = useState(borrower.groupNo || '1');
+  const groupNo = borrower.groupNo || '1';
   const [instructor, setInstructor] = useState(borrower.instructor || 'Engr. Jin Benir Macaranas');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedRef, setSubmittedRef] = useState('');
