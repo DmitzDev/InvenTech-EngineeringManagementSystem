@@ -18,8 +18,12 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
       <div className="p-3.5 sm:p-4 border-b border-slate-800/80 bg-[#111a2c] shrink-0 space-y-2.5 sm:space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl neu-inset flex items-center justify-center text-cyan-400">
-              <ShoppingBag className="w-4 h-4" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl neu-inset flex items-center justify-center overflow-hidden p-1">
+              <img
+                src="/images/engrCartLogo.jpg"
+                alt="Engineering Cart"
+                className="w-full h-full object-contain rounded-lg"
+              />
             </div>
             <div>
               <div className="flex items-center gap-1.5 sm:gap-2">

@@ -361,7 +361,11 @@ export default function EquipmentCatalog() {
               className="w-auto flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl neu-btn-raised border border-cyan-500/30 text-slate-200 hover:text-white hover:border-cyan-400 transition-all active:scale-95 cursor-pointer shadow-md"
               title="Open Borrow Cart"
             >
-              <ShoppingBag className="w-4 h-4 text-cyan-400" />
+              <img
+                src="/images/engrCartLogo.jpg"
+                alt="Engineering Cart"
+                className="w-5 h-5 rounded-full object-contain shadow-xs"
+              />
               <span className="text-xs sm:text-sm font-bold">Borrow Cart</span>
               <span className="px-2 py-0.5 rounded-full text-xs font-mono font-extrabold bg-cyan-500 text-slate-950">
                 {totalUnitsCount}
@@ -626,7 +630,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
       }`}
     >
       <div>
-        {/* Hero Image Showcase Stage (Full-Bleed Fitted Image, Zero Dead Space) */}
+        {/* Hero Image Showcase Stage (Unobstructed View + Bottom-Left Stock Capsule) */}
         <div className="relative w-full aspect-[4/3] sm:aspect-[4/3] rounded-xl overflow-hidden bg-[#070c14] border border-slate-800/80 mb-2 group/img">
           {/* Full-bleed Object-Cover Image that fills the entire container */}
           {itemImg ? (
@@ -642,32 +646,70 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             </div>
           )}
 
-          {/* Subtle Top Gradient for Contrast on Badges */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-transparent to-transparent pointer-events-none" />
-
-          {/* Floating Top Badges */}
-          <div className="absolute top-1.5 left-1.5 right-1.5 z-10 flex items-center justify-between gap-1 pointer-events-none">
-            {/* Tag Code Badge */}
-            <span className="text-[9px] sm:text-[9.5px] font-mono font-bold text-slate-200 bg-slate-950/85 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 shadow-sm truncate max-w-[95px] sm:max-w-none">
-              {currentItem.tagCode}
+          {/* Bottom-Left Live Stock Indicator Capsule (Frosted Glass Pill) */}
+          <div className="absolute bottom-1.5 left-1.5 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-950/85 backdrop-blur-md border border-white/10 shadow-md font-mono text-[9px] sm:text-[10px] font-bold pointer-events-none">
+            <span
+              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full shrink-0 ${
+                isMaintenance
+                  ? 'bg-rose-500'
+                  : isAllInCart
+                  ? 'bg-cyan-400'
+                  : isOutOfStock
+                  ? 'bg-rose-400'
+                  : isLowStock
+                  ? 'bg-amber-400 animate-pulse'
+                  : 'bg-emerald-400'
+              }`}
+            />
+            <span
+              className={`truncate ${
+                isMaintenance
+                  ? 'text-rose-400'
+                  : isAllInCart
+                  ? 'text-cyan-300'
+                  : isOutOfStock
+                  ? 'text-rose-400'
+                  : isLowStock
+                  ? 'text-amber-300'
+                  : 'text-slate-200'
+              }`}
+            >
+              {isMaintenance
+                ? 'Repair'
+                : isAllInCart
+                ? `Max (${inCartQty})`
+                : isOutOfStock
+                ? '0 stock'
+                : `${availableStock} left`}
             </span>
-
-            {/* Lab & Type Pills */}
-            <div className="flex items-center gap-1">
-              <span className={`text-[8px] sm:text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${accent.badge}`}>
-                {currentItem.lab}
+            {totalReservedQty > 0 && !isMaintenance && (
+              <span className="text-[8px] sm:text-[8.5px] text-amber-400 font-mono shrink-0">
+                • {totalReservedQty} rsv
               </span>
-              <span
-                className={`text-[8px] sm:text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${
-                  isItemConsumable(currentItem)
-                    ? 'bg-amber-500/25 text-amber-200 border-amber-400/40'
-                    : 'bg-blue-500/25 text-blue-200 border-blue-400/40'
-                }`}
-              >
-                {isItemConsumable(currentItem) ? 'Consumable' : 'Tool'}
-              </span>
-            </div>
+            )}
           </div>
+        </div>
+
+        {/* Clean Categorization Badges Row (Below Image, Zero Obstruction on Photo) */}
+        <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+          {/* Tag Code Badge */}
+          <span className="text-[9px] sm:text-[9.5px] font-mono font-bold text-slate-300 bg-slate-900/90 px-1.5 py-0.5 rounded border border-slate-800 shadow-xs">
+            {currentItem.tagCode}
+          </span>
+
+          {/* Lab & Type Pills */}
+          <span className={`text-[8px] sm:text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${accent.badge}`}>
+            {currentItem.lab}
+          </span>
+          <span
+            className={`text-[8px] sm:text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${
+              isItemConsumable(currentItem)
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                : 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+            }`}
+          >
+            {isItemConsumable(currentItem) ? 'Consumable' : 'Tool'}
+          </span>
         </div>
 
         {/* Equipment Name & Subtitle */}
@@ -714,93 +756,47 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
         )}
       </div>
 
-      {/* Card Footer: Live Stock Indicator & Clean Action Buttons */}
-      <div className="mt-2.5 pt-2 border-t border-slate-800/70 flex items-center justify-between gap-2">
-        {/* Left: Stock Status */}
-        <div className="min-w-0 flex items-center gap-1.5 font-mono text-[10.5px] sm:text-[11.5px]">
-          {/* Status Dot */}
-          <span
-            className={`w-2 h-2 rounded-full shrink-0 ${
-              isMaintenance
-                ? 'bg-rose-500'
-                : isAllInCart
-                ? 'bg-cyan-400'
-                : isOutOfStock
-                ? 'bg-rose-400'
-                : isLowStock
-                ? 'bg-amber-400 animate-pulse'
-                : 'bg-emerald-400'
-            }`}
-          />
-          <span
-            className={`font-semibold truncate ${
-              isMaintenance
-                ? 'text-rose-400'
-                : isAllInCart
-                ? 'text-cyan-300'
-                : isOutOfStock
-                ? 'text-rose-400'
-                : isLowStock
-                ? 'text-amber-300'
-                : 'text-slate-300'
-            }`}
-          >
+      {/* Card Footer: Spacious Clean Action Buttons */}
+      <div className="mt-2.5 pt-2 border-t border-slate-800/70 flex items-center gap-2">
+        {/* Reserve Button */}
+        <button
+          type="button"
+          disabled={isMaintenance}
+          onClick={() => onReserve(currentItem)}
+          className="h-7.5 sm:h-8 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-amber-300 flex items-center justify-center gap-1 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+          title={isMaintenance ? 'Item Locked' : 'Reserve Equipment'}
+        >
+          <Calendar className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline text-[10.5px] font-bold">Reserve</span>
+        </button>
+
+        {/* Add to Cart Button (Spacious Full-flex Button) */}
+        <button
+          type="button"
+          onClick={() => onAddToCart(currentItem)}
+          disabled={isOutOfStock || isAllInCart || isMaintenance}
+          className={`flex-1 h-7.5 sm:h-8 px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer shadow-sm ${
+            isMaintenance || isOutOfStock || isAllInCart
+              ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-400'
+              : inCartQty > 0
+              ? 'bg-cyan-500 text-slate-950 font-extrabold hover:bg-cyan-400 shadow-sm'
+              : 'bg-white hover:bg-slate-100 text-slate-950 font-extrabold shadow-sm'
+          }`}
+          title="Add apparatus to cart"
+        >
+          <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+          <span>
             {isMaintenance
-              ? 'Repair'
+              ? 'Locked'
               : isAllInCart
-              ? `Max (${inCartQty})`
+              ? 'Max'
               : isOutOfStock
-              ? '0 stock'
-              : `${availableStock} left`}
+              ? '0 Stock'
+              : inCartQty > 0
+              ? `Add (${inCartQty})`
+              : 'Add'}
           </span>
-          {totalReservedQty > 0 && !isMaintenance && (
-            <span className="text-[9px] text-amber-400 font-mono shrink-0">
-              ({totalReservedQty} rsv)
-            </span>
-          )}
-        </div>
-
-        {/* Right: Actions */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          {/* Reserve Button */}
-          <button
-            type="button"
-            disabled={isMaintenance}
-            onClick={() => onReserve(currentItem)}
-            className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-amber-300 flex items-center justify-center active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-            title={isMaintenance ? 'Item Locked' : 'Reserve Equipment'}
-          >
-            <Calendar className="w-3.5 h-3.5" />
-          </button>
-
-          {/* Add to Cart Button */}
-          <button
-            type="button"
-            onClick={() => onAddToCart(currentItem)}
-            disabled={isOutOfStock || isAllInCart || isMaintenance}
-            className={`h-7 sm:h-7.5 px-2.5 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center gap-1 active:scale-95 cursor-pointer ${
-              isMaintenance || isOutOfStock || isAllInCart
-                ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-400'
-                : inCartQty > 0
-                ? 'bg-cyan-500 text-slate-950 font-extrabold hover:bg-cyan-400 shadow-sm'
-                : 'bg-white hover:bg-slate-100 text-slate-950 font-extrabold shadow-sm'
-            }`}
-            title="Add apparatus to cart"
-          >
-            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>
-              {isMaintenance
-                ? 'Locked'
-                : isAllInCart
-                ? 'Max'
-                : isOutOfStock
-                ? '0'
-                : inCartQty > 0
-                ? `Add (${inCartQty})`
-                : 'Add'}
-            </span>
-          </button>
-        </div>
+        </button>
       </div>
     </div>
   );
