@@ -552,9 +552,47 @@ export default function EquipmentCatalog() {
       )}
     </div>
   );
-}
+}// ----------------------------------------------------------------------
+// Helper: Professional Laboratory Accent System (Clean Institutional UI)
+// ----------------------------------------------------------------------
+const getLabAccent = (lab) => {
+  switch (lab) {
+    case 'DIGITAL':
+      return {
+        badge: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+        dot: 'bg-cyan-400',
+        activeRing: 'ring-cyan-500/40 border-cyan-500/50',
+      };
+    case 'ECE':
+      return {
+        badge: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
+        dot: 'bg-indigo-400',
+        activeRing: 'ring-indigo-500/40 border-indigo-500/50',
+      };
+    case 'CE':
+      return {
+        badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+        dot: 'bg-amber-400',
+        activeRing: 'ring-amber-500/40 border-amber-500/50',
+      };
+    case 'CHEM':
+      return {
+        badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+        dot: 'bg-emerald-400',
+        activeRing: 'ring-emerald-500/40 border-emerald-500/50',
+      };
+    default:
+      return {
+        badge: 'bg-slate-700/30 text-slate-300 border-slate-600/30',
+        dot: 'bg-slate-400',
+        activeRing: 'ring-slate-500/40 border-slate-500/50',
+      };
+  }
+};
 
-// 1. Standard 2-Column Grid Card (Optimized without nested double box for variants)
+// ----------------------------------------------------------------------
+// 1. EquipmentCard: Clean, High-End Institutional Card Layout
+// ----------------------------------------------------------------------
 function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemActiveReservations }) {
   const [selectedVariantId, setSelectedVariantId] = useState(group.variants[0].id);
 
@@ -575,74 +613,74 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
   const isAllInCart = inCartQty > 0 && availableStock === 0 && !isMaintenance;
   const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
 
+  const accent = getLabAccent(currentItem.lab);
+
   return (
     <div
-      className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl transition-all duration-200 flex flex-col justify-between text-left ${
+      className={`group relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 flex flex-col justify-between text-left select-none bg-[#0e1522] border border-slate-800/90 shadow-sm hover:shadow-lg hover:border-slate-700 ${
         isMaintenance
-          ? 'neu-card border border-rose-500/30 bg-rose-950/10 opacity-80'
+          ? 'opacity-80 border-rose-500/30 bg-rose-950/10'
           : totalGroupInCart > 0
-          ? 'neu-card ring-2 ring-cyan-500 shadow-[0_0_18px_rgba(6,182,212,0.3)] bg-gradient-to-b from-cyan-950/25 to-[#0e1422]'
-          : 'neu-card-sm neu-card-hover'
+          ? 'ring-2 ring-cyan-500/50 border-cyan-500/40 bg-gradient-to-b from-[#111e30] to-[#0e1522]'
+          : ''
       }`}
     >
       <div>
-        {/* Media Header: Compact 1:1 Thumbnail + Tags */}
-        <div className="flex items-start gap-2 sm:gap-2.5 mb-1 sm:mb-1.5">
-          {itemImg && (
-            <div className="w-11 h-11 sm:w-16 sm:h-16 rounded-lg sm:rounded-xl overflow-hidden bg-slate-950 border border-slate-800/90 shrink-0 relative flex items-center justify-center shadow-md group">
-              <img
-                src={itemImg}
-                alt={currentItem.name}
-                className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-200"
-                loading="lazy"
-              />
+        {/* Hero Image Showcase Stage (Full-Bleed Fitted Image, Zero Dead Space) */}
+        <div className="relative w-full aspect-[4/3] sm:aspect-[4/3] rounded-xl overflow-hidden bg-[#070c14] border border-slate-800/80 mb-2 group/img">
+          {/* Full-bleed Object-Cover Image that fills the entire container */}
+          {itemImg ? (
+            <img
+              src={itemImg}
+              alt={currentItem.name}
+              className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-slate-600 bg-slate-900/50">
+              <ShoppingBag className="w-8 h-8" />
             </div>
           )}
 
-          <div className="flex-1 min-w-0">
-            {/* Tag Code & Lab Pill */}
-            <div className="flex items-center justify-between mb-1 gap-1">
-              <div className="flex items-center gap-1 flex-wrap">
-                <span className="text-[9.5px] sm:text-[10.5px] font-mono font-bold text-cyan-300 neu-inset-sm px-1.5 py-0.5 rounded truncate max-w-[85px] sm:max-w-none tracking-tight">
-                  {currentItem.tagCode}
-                </span>
-                <span
-                  className={`text-[8.5px] sm:text-[9.5px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase ${
-                    currentItem.lab === 'DIGITAL'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                      : currentItem.lab === 'ECE'
-                      ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
-                      : currentItem.lab === 'CE'
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                      : currentItem.lab === 'CHEM'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                      : 'bg-slate-700/40 text-slate-200'
-                  }`}
-                >
-                  {currentItem.lab}
-                </span>
-                <span
-                  className={`text-[8px] sm:text-[9px] font-mono font-extrabold px-1.5 py-0.5 rounded uppercase ${
-                    isItemConsumable(currentItem)
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                      : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
-                  }`}
-                >
-                  {isItemConsumable(currentItem) ? 'Consumable' : 'Returnable'}
-                </span>
-              </div>
-            </div>
+          {/* Subtle Top Gradient for Contrast on Badges */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-transparent to-transparent pointer-events-none" />
 
-            {/* Equipment Base Name */}
-            <h3 className="text-xs sm:text-[14px] font-extrabold text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug line-clamp-1">
-              {group.baseName}
-            </h3>
+          {/* Floating Top Badges */}
+          <div className="absolute top-1.5 left-1.5 right-1.5 z-10 flex items-center justify-between gap-1 pointer-events-none">
+            {/* Tag Code Badge */}
+            <span className="text-[9px] sm:text-[9.5px] font-mono font-bold text-slate-200 bg-slate-950/85 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 shadow-sm truncate max-w-[95px] sm:max-w-none">
+              {currentItem.tagCode}
+            </span>
+
+            {/* Lab & Type Pills */}
+            <div className="flex items-center gap-1">
+              <span className={`text-[8px] sm:text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${accent.badge}`}>
+                {currentItem.lab}
+              </span>
+              <span
+                className={`text-[8px] sm:text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${
+                  isItemConsumable(currentItem)
+                    ? 'bg-amber-500/25 text-amber-200 border-amber-400/40'
+                    : 'bg-blue-500/25 text-blue-200 border-blue-400/40'
+                }`}
+              >
+                {isItemConsumable(currentItem) ? 'Consumable' : 'Tool'}
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Clean Spec / Size Option Pills (Direct option buttons, no outer double box) */}
+        {/* Equipment Name & Subtitle */}
+        <h3 className="text-xs sm:text-[13.5px] font-bold text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug line-clamp-1">
+          {group.baseName}
+        </h3>
+        <p className="text-[10px] sm:text-[11px] text-slate-400 line-clamp-1 leading-normal mt-0.5">
+          {currentItem.description || `${currentItem.category} • ${currentItem.lab} Laboratory`}
+        </p>
+
+        {/* Variant Pills (if multiple options exist) */}
         {group.variants.length > 1 && (
-          <div className="my-1.5 flex items-center gap-1.5 flex-wrap">
+          <div className="my-1.5 flex items-center gap-1 flex-wrap">
             {group.variants.map((v) => {
               const isSelected = v.id === currentItem.id;
               const vQty = getItemCartQty(v.id);
@@ -655,17 +693,17 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                   key={v.id}
                   type="button"
                   onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-2 py-0.5 sm:py-1 text-[9px] sm:text-[10.5px] font-mono font-bold rounded-lg border transition-all active:scale-95 cursor-pointer flex items-center gap-1 ${
+                  className={`px-2 py-0.5 text-[8.5px] sm:text-[9.5px] font-mono font-bold rounded-md transition-all active:scale-95 cursor-pointer flex items-center gap-1 ${
                     isSelected
-                      ? 'bg-cyan-500 text-slate-950 font-black border-cyan-400 shadow-sm'
+                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm'
                       : vIsOut
-                      ? 'neu-btn-raised border-slate-800 text-slate-500 hover:text-slate-400 opacity-60'
-                      : 'neu-btn-raised border-slate-700/80 text-slate-200 hover:text-white'
+                      ? 'bg-slate-900 border border-slate-800 text-slate-600 opacity-60'
+                      : 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60'
                   }`}
                 >
                   <span>{v.variantLabel}</span>
                   {vQty > 0 && (
-                    <span className={`px-1 py-0.2 rounded-full text-[8px] font-black ${isSelected ? 'bg-slate-950 text-cyan-300' : 'bg-cyan-500/20 text-cyan-300'}`}>
+                    <span className={`px-1 py-0.2 rounded text-[7.5px] font-bold ${isSelected ? 'bg-slate-950 text-cyan-300' : 'bg-cyan-500/20 text-cyan-300'}`}>
                       {vQty}
                     </span>
                   )}
@@ -674,136 +712,102 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             })}
           </div>
         )}
-
-        {/* Improved Real-Time Stocks & Inventory Status Indicator - Clean Text with Dot (NO BOX) */}
-        <div className="mt-2 pt-1.5 border-t border-slate-800/60">
-          <div className="flex items-center justify-between text-[10px] sm:text-xs font-semibold flex-wrap gap-1">
-            {/* Live Color-Coded Stock Status Text with Dot Indicator */}
-            <div className="flex items-center gap-1.5 font-mono text-[10px] sm:text-xs font-bold">
-              {/* Glowing Pulse Dot */}
-              <span className="relative flex h-2 w-2 shrink-0">
-                {(isLowStock || isMaintenance) && (
-                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isMaintenance ? 'bg-rose-500' : 'bg-amber-400'}`} />
-                )}
-                {isAllInCart && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-                )}
-                <span
-                  className={`relative inline-flex rounded-full h-2 w-2 ${
-                    isMaintenance
-                      ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]'
-                      : isAllInCart
-                      ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
-                      : isOutOfStock
-                      ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]'
-                      : isLowStock
-                      ? 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]'
-                      : 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                  }`}
-                />
-              </span>
-
-              {/* Status Text with Live Available Count & Total Ratio */}
-              <span
-                className={`tracking-tight ${
-                  isMaintenance
-                    ? 'text-rose-400 font-bold'
-                    : isAllInCart
-                    ? 'text-cyan-300'
-                    : isOutOfStock
-                    ? 'text-rose-400'
-                    : isLowStock
-                    ? 'text-amber-300'
-                    : 'text-emerald-400'
-                }`}
-              >
-                {isMaintenance ? (
-                  'Under Maintenance (For Repair)'
-                ) : isAllInCart ? (
-                  `Max in Cart (${inCartQty}/${totalStock} ${currentItem.unit || 'pcs'})`
-                ) : isOutOfStock ? (
-                  'Out of Stock (0 avail)'
-                ) : isLowStock ? (
-                  `Low: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`
-                ) : (
-                  `Stock: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`
-                )}
-              </span>
-            </div>
-
-            {/* Active Reservation Badges */}
-            {totalReservedQty > 0 && !isMaintenance && (
-              <div className="flex items-center gap-1">
-                <span className="text-[9px] sm:text-[10px] font-mono font-bold text-amber-300 neu-inset-amber px-1.5 sm:px-2 py-0.5 rounded-md flex items-center gap-1">
-                  <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                  <span>{totalReservedQty} Booked</span>
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
       </div>
 
-      {/* Card Actions: Clean Responsive 2-Column Button Grid (Zero Overflow on Mobile) */}
-      <div className="mt-2 sm:mt-3 pt-2 sm:pt-2.5 border-t border-slate-800/80 grid grid-cols-2 gap-1 sm:gap-2 w-full">
-        {/* Reserve Button */}
-        <button
-          type="button"
-          disabled={isMaintenance}
-          onClick={() => onReserve(currentItem)}
-          className={`h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 shrink-0 w-full min-w-0 ${
-            isMaintenance
-              ? 'opacity-30 cursor-not-allowed bg-slate-800 text-slate-500'
-              : 'neu-btn-raised text-amber-400 hover:text-amber-300 cursor-pointer active:scale-95'
-          }`}
-          title={isMaintenance ? 'Item Under Maintenance - Booking Locked' : 'Reserve equipment'}
-        >
-          <Calendar className="w-3.5 h-3.5 shrink-0" />
-          <span className="truncate">{isMaintenance ? 'Locked' : 'Reserve'}</span>
-        </button>
-
-        {/* Add to Cart Button */}
-        <button
-          type="button"
-          onClick={() => onAddToCart(currentItem)}
-          disabled={isOutOfStock || isAllInCart || isMaintenance}
-          className={`h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 shrink-0 w-full min-w-0 ${
-            isMaintenance || isOutOfStock || isAllInCart
-              ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-500'
-              : inCartQty > 0
-              ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 font-black shadow-md cursor-pointer active:scale-95'
-              : 'neu-btn-primary text-slate-950 font-black cursor-pointer active:scale-95'
-          }`}
-          title={
-            isMaintenance
-              ? 'Item Under Maintenance - For Repair'
-              : isOutOfStock
-              ? 'Out of Stock'
-              : isAllInCart
-              ? 'Max quantity reached in cart'
-              : 'Add to borrow cart'
-          }
-        >
-          <Plus className="w-3.5 h-3.5 shrink-0" />
-          <span className="truncate">
+      {/* Card Footer: Live Stock Indicator & Clean Action Buttons */}
+      <div className="mt-2.5 pt-2 border-t border-slate-800/70 flex items-center justify-between gap-2">
+        {/* Left: Stock Status */}
+        <div className="min-w-0 flex items-center gap-1.5 font-mono text-[10.5px] sm:text-[11.5px]">
+          {/* Status Dot */}
+          <span
+            className={`w-2 h-2 rounded-full shrink-0 ${
+              isMaintenance
+                ? 'bg-rose-500'
+                : isAllInCart
+                ? 'bg-cyan-400'
+                : isOutOfStock
+                ? 'bg-rose-400'
+                : isLowStock
+                ? 'bg-amber-400 animate-pulse'
+                : 'bg-emerald-400'
+            }`}
+          />
+          <span
+            className={`font-semibold truncate ${
+              isMaintenance
+                ? 'text-rose-400'
+                : isAllInCart
+                ? 'text-cyan-300'
+                : isOutOfStock
+                ? 'text-rose-400'
+                : isLowStock
+                ? 'text-amber-300'
+                : 'text-slate-300'
+            }`}
+          >
             {isMaintenance
-              ? 'For Repair'
+              ? 'Repair'
               : isAllInCart
-              ? 'Max'
+              ? `Max (${inCartQty})`
               : isOutOfStock
-              ? '0 Left'
-              : inCartQty > 0
-              ? `Add (${inCartQty})`
-              : 'Add'}
+              ? '0 stock'
+              : `${availableStock} left`}
           </span>
-        </button>
+          {totalReservedQty > 0 && !isMaintenance && (
+            <span className="text-[9px] text-amber-400 font-mono shrink-0">
+              ({totalReservedQty} rsv)
+            </span>
+          )}
+        </div>
+
+        {/* Right: Actions */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* Reserve Button */}
+          <button
+            type="button"
+            disabled={isMaintenance}
+            onClick={() => onReserve(currentItem)}
+            className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-amber-300 flex items-center justify-center active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+            title={isMaintenance ? 'Item Locked' : 'Reserve Equipment'}
+          >
+            <Calendar className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Add to Cart Button */}
+          <button
+            type="button"
+            onClick={() => onAddToCart(currentItem)}
+            disabled={isOutOfStock || isAllInCart || isMaintenance}
+            className={`h-7 sm:h-7.5 px-2.5 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center gap-1 active:scale-95 cursor-pointer ${
+              isMaintenance || isOutOfStock || isAllInCart
+                ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-400'
+                : inCartQty > 0
+                ? 'bg-cyan-500 text-slate-950 font-extrabold hover:bg-cyan-400 shadow-sm'
+                : 'bg-white hover:bg-slate-100 text-slate-950 font-extrabold shadow-sm'
+            }`}
+            title="Add apparatus to cart"
+          >
+            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+            <span>
+              {isMaintenance
+                ? 'Locked'
+                : isAllInCart
+                ? 'Max'
+                : isOutOfStock
+                ? '0'
+                : inCartQty > 0
+                ? `Add (${inCartQty})`
+                : 'Add'}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 // ----------------------------------------------------------------------
-// EquipmentCompactRow: Phone-Optimized Single Horizontal Strip View
+// 2. EquipmentCompactRow: Clean Mobile Strip View
 // ----------------------------------------------------------------------
 function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) {
   const [selectedVariantId, setSelectedVariantId] = useState(group.variants[0]?.id);
@@ -816,78 +820,71 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
   const isOutOfStock = totalStock <= 0 || isMaintenance;
   const isAllInCart = inCartQty >= totalStock && totalStock > 0 && !isMaintenance;
   const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
+  const itemImg = getItemImage(currentItem);
+
+  const accent = getLabAccent(currentItem.lab);
 
   return (
-    <div className={`neu-card-sm rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none ${
-      isMaintenance ? 'border border-rose-500/30 bg-rose-950/10 opacity-80' : ''
-    }`}>
-      {/* Left Info */}
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-col">
+    <div
+      className={`rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none bg-[#0e1522] border border-slate-800/90 shadow-sm ${
+        isMaintenance ? 'border-rose-500/30 opacity-80' : ''
+      }`}
+    >
+      {/* Thumbnail + Left Info */}
+      <div className="min-w-0 flex-1 flex items-center gap-2.5">
+        {itemImg && (
+          <div className="w-11 h-11 rounded-lg bg-[#070c14] border border-slate-800/80 shrink-0 overflow-hidden flex items-center justify-center">
+            <img src={itemImg} alt={currentItem.name} className="w-full h-full object-cover object-center" />
+          </div>
+        )}
+
+        <div className="min-w-0 flex-1 flex flex-col">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[9px] font-mono font-bold text-cyan-300 neu-inset-sm px-1.5 py-0.2 rounded shrink-0">
+            <span className="text-[9px] font-mono font-bold text-slate-200 bg-slate-900 px-1.5 py-0.2 rounded border border-slate-700/60 shrink-0">
               {currentItem.tagCode}
             </span>
-            <span
-              className={`text-[8px] font-mono font-extrabold px-1.5 py-0.2 rounded uppercase shrink-0 ${
-                isItemConsumable(currentItem)
-                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                  : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
-              }`}
-            >
-              {isItemConsumable(currentItem) ? 'Consumable' : 'Returnable'}
+            <span className={`text-[8px] font-mono font-bold px-1.5 py-0.2 rounded uppercase shrink-0 border ${accent.badge}`}>
+              {currentItem.lab}
             </span>
-            <span
-              className={`text-[9.5px] sm:text-[10.5px] font-mono font-bold flex items-center gap-1.5 truncate ${
-                isMaintenance
-                  ? 'text-rose-400'
-                  : isAllInCart
-                  ? 'text-cyan-300'
-                  : isOutOfStock
-                  ? 'text-rose-400'
-                  : isLowStock
-                  ? 'text-amber-300'
-                  : 'text-emerald-400'
-              }`}
-            >
+            <span className="text-[9.5px] font-mono font-semibold text-slate-300 truncate flex items-center gap-1">
               <span
                 className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                   isMaintenance
-                    ? 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
+                    ? 'bg-rose-500'
                     : isAllInCart
-                    ? 'bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.8)]'
+                    ? 'bg-cyan-400'
                     : isOutOfStock
-                    ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
+                    ? 'bg-rose-400'
                     : isLowStock
-                    ? 'bg-amber-400 animate-pulse shadow-[0_0_6px_rgba(245,158,11,0.8)]'
-                    : 'bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]'
+                    ? 'bg-amber-400'
+                    : 'bg-emerald-400'
                 }`}
               />
               <span className="truncate">
                 {isMaintenance
-                  ? 'Under Maintenance (Repair)'
+                  ? 'Repair'
                   : isAllInCart
                   ? `Max (${inCartQty}/${totalStock})`
                   : isOutOfStock
                   ? '0 stock'
-                  : `Stock: ${availableStock} / ${totalStock} ${currentItem.unit || 'pcs'}`}
+                  : `${availableStock}/${totalStock} left`}
               </span>
             </span>
           </div>
 
-          <h4 className="text-xs font-extrabold text-slate-100 truncate leading-tight mt-0.5">
+          <h4 className="text-xs font-bold text-slate-100 truncate leading-tight mt-0.5">
             {group.baseName}
           </h4>
 
-          {/* Variants row if any (Direct buttons without outer double box) */}
+          {/* Variants row if any */}
           {group.variants.length > 1 && (
-            <div className="flex items-center gap-1 mt-0.5 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-1 mt-1 overflow-x-auto no-scrollbar">
               {group.variants.map((v) => (
                 <button
                   key={v.id}
                   type="button"
                   onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-1.5 py-0.5 text-[8.5px] font-mono font-bold rounded border shrink-0 ${
+                  className={`px-1.5 py-0.2 text-[8px] font-mono font-bold rounded border shrink-0 transition-all ${
                     v.id === currentItem.id ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 border-slate-700 text-slate-300'
                   }`}
                 >
@@ -899,13 +896,13 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
         </div>
       </div>
 
-      {/* Action Buttons */}
+      {/* Actions */}
       <div className="flex items-center gap-1.5 shrink-0">
         <button
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className="p-1.5 rounded-lg neu-btn-raised text-amber-300 active:scale-95 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-7 h-7 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-amber-300 flex items-center justify-center active:scale-95 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
           title={isMaintenance ? 'Under Maintenance' : 'Reserve'}
         >
           <Calendar className="w-3.5 h-3.5" />
@@ -915,13 +912,15 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
           type="button"
           disabled={isOutOfStock || isMaintenance}
           onClick={() => onAddToCart(currentItem)}
-          className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${
-            inCartQty > 0 ? 'neu-btn-primary text-slate-950 font-black' : 'neu-btn-raised text-slate-200'
+          className={`h-7 px-2.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${
+            inCartQty > 0
+              ? 'bg-cyan-500 text-slate-950 font-extrabold'
+              : 'bg-white text-slate-950 hover:bg-slate-100 font-extrabold'
           }`}
         >
           <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
           <span>{isMaintenance ? 'Locked' : isOutOfStock ? (isAllInCart ? 'Max' : '0') : 'Add'}</span>
-          {inCartQty > 0 && !isMaintenance && <span className="text-[9px] font-black font-mono">({inCartQty})</span>}
+          {inCartQty > 0 && !isMaintenance && <span className="text-[8.5px] font-bold font-mono">({inCartQty})</span>}
         </button>
       </div>
     </div>
