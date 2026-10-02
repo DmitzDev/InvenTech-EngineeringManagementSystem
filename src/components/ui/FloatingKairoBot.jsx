@@ -532,59 +532,49 @@ export default function FloatingKairoBot() {
 
   return (
     <>
-      {/* 1. FLOATING KAIRO AI 3D ROBOT HEAD + FLOATING CART DOCK (Side-by-side) */}
+      {/* 1. FLOATING KAIRO AI + FLOATING CART DOCK (Pure Circle Icons, Zero Dead Space) */}
       {!isOpen && (
         <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 select-none flex items-center gap-2.5">
-          {/* Mobile-Only Floating Cart Button: Positioned right beside Kairo AI Bot (Hidden on 15" Kiosk Screen) */}
+          {/* Mobile-Only Floating Cart Button */}
           {currentStep === 3 && (
-            <button
-              type="button"
-              onClick={openCartDrawer}
-              title="Open Borrow Cart"
-              className="sm:hidden group relative w-11 h-11 rounded-full neu-btn-raised bg-[#0f172a] border border-cyan-500/40 shadow-[0_4px_16px_rgba(0,0,0,0.6)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shrink-0 overflow-hidden p-1.5"
-            >
-              <img
-                src="/images/engrCartLogo.jpg"
-                alt="Engineering Cart"
-                className="w-full h-full object-contain rounded-full group-hover:scale-110 transition-transform"
-              />
+            <div className="sm:hidden relative shrink-0">
+              <button
+                type="button"
+                onClick={openCartDrawer}
+                title="Open Borrow Cart"
+                className="group relative w-11 h-11 rounded-full border border-cyan-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.6)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer overflow-hidden bg-white"
+              >
+                <img
+                  src="/images/engrCartLogo.jpg"
+                  alt="Engineering Cart"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </button>
 
               {totalUnitsInCart > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-mono font-black text-[10px] flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.6)] border border-slate-950 animate-fade-in z-10">
+                <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-mono font-black text-[10px] flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.6)] border border-slate-950 animate-fade-in z-20 pointer-events-none">
                   {totalUnitsInCart}
                 </span>
               )}
-            </button>
+            </div>
           )}
 
-          {/* Kairo AI Trigger Button */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            title="Chat with Kairo AI (Engineering Assistant)"
-            className="group relative flex items-center gap-2 p-1.5 pr-3.5 rounded-full font-black hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer neu-btn-raised bg-[#0f172a] border border-cyan-500/30 shadow-lg shrink-0"
-          >
-            {/* Single Clean Avatar (No double nested circle border) */}
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden shrink-0">
+          {/* Kairo AI Trigger Button: Pure Edge-to-Edge Circle Icon */}
+          <div className="relative shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              title="Chat with Kairo AI (Engineering Assistant)"
+              className="group relative w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-cyan-400/50 shadow-[0_4px_16px_rgba(0,0,0,0.6)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer overflow-hidden bg-slate-900 flex items-center justify-center"
+            >
               <img
                 src="/images/kairo_avatar.png"
                 alt="Kairo AI Avatar"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-950" />
-            </div>
-
-            {/* Contrast Text Label */}
-            <div className="text-left leading-tight pr-1 hidden xs:block">
-              <div className="text-xs font-black tracking-tight flex items-center gap-1 text-cyan-300">
-                <span>Kairo AI</span>
-                <Sparkles className="w-3 h-3 text-cyan-400 animate-pulse" />
-              </div>
-              <div className="text-[10px] font-bold text-slate-400">
-                Lab Assistant
-              </div>
-            </div>
-          </button>
+            </button>
+            <span className="absolute top-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-slate-950 pointer-events-none z-20 shadow-xs" />
+          </div>
         </div>
       )}
 
