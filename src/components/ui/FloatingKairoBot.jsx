@@ -541,12 +541,16 @@ export default function FloatingKairoBot() {
               type="button"
               onClick={openCartDrawer}
               title="Open Borrow Cart"
-              className="sm:hidden group relative w-11 h-11 rounded-full neu-btn-raised bg-[#0f172a] border border-cyan-500/40 shadow-[0_4px_16px_rgba(0,0,0,0.6)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shrink-0"
+              className="sm:hidden group relative w-11 h-11 rounded-full neu-btn-raised bg-[#0f172a] border border-cyan-500/40 shadow-[0_4px_16px_rgba(0,0,0,0.6)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shrink-0 overflow-hidden p-1.5"
             >
-              <ShoppingBag className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform" />
+              <img
+                src="/images/engrCartLogo.jpg"
+                alt="Engineering Cart"
+                className="w-full h-full object-contain rounded-full group-hover:scale-110 transition-transform"
+              />
 
               {totalUnitsInCart > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-mono font-black text-[10px] flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.6)] border border-slate-950 animate-fade-in">
+                <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-mono font-black text-[10px] flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.6)] border border-slate-950 animate-fade-in z-10">
                   {totalUnitsInCart}
                 </span>
               )}
