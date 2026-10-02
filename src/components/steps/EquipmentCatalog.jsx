@@ -361,11 +361,13 @@ export default function EquipmentCatalog() {
               className="w-auto flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl neu-btn-raised border border-cyan-500/30 text-slate-200 hover:text-white hover:border-cyan-400 transition-all active:scale-95 cursor-pointer shadow-md"
               title="Open Borrow Cart"
             >
-              <img
-                src="/images/engrCartLogo.jpg"
-                alt="Engineering Cart"
-                className="w-5 h-5 rounded-full object-contain shadow-xs"
-              />
+              <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-xs">
+                <img
+                  src="/images/engrCartLogo.jpg"
+                  alt="Engineering Cart"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <span className="text-xs sm:text-sm font-bold">Borrow Cart</span>
               <span className="px-2 py-0.5 rounded-full text-xs font-mono font-extrabold bg-cyan-500 text-slate-950">
                 {totalUnitsCount}
