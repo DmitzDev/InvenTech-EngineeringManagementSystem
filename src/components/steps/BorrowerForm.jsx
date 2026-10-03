@@ -170,6 +170,22 @@ export default function BorrowerForm() {
     }
   }, [borrower.courseCode, borrower.program, selectedYear, selectedSem, selectedSection, setBorrowerField]);
 
+  // Reset local state if borrower session is cleared / reset
+  useEffect(() => {
+    if (!borrower.program && !borrower.courseCode && !borrower.studentId && !borrower.groupLeader) {
+      setSelectedYear('');
+      setSelectedSem('');
+      setSelectedSection('');
+      setIsOtherProgram(false);
+      setCustomProgram('');
+      setStartHour('');
+      setStartMinute('');
+      setEndHour('');
+      setEndMinute('');
+      setErrors({});
+    }
+  }, [borrower.program, borrower.courseCode, borrower.studentId, borrower.groupLeader]);
+
   const validate = () => {
     const errs = {};
     if (!borrower.program?.trim()) errs.program = 'Select or specify a Program';

@@ -24,7 +24,7 @@
 
   body {
     transition: background-color 0.25s ease, color 0.25s ease;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-kiosk, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
     font-optical-sizing: auto;
     font-feature-settings: 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv11' 1, 'tnum' 1;
     -webkit-font-smoothing: antialiased;
@@ -59,15 +59,18 @@
 }
 
 /* =========================================================
-   1. RESPONSIVE TOUCH KIOSK & FULLSCREEN SCALING (15" TOUCH POS)
+   1. PLATINUM + INTER SKEUOMORPHIC UI & TOUCH KIOSK SCALING
    ========================================================= */
 :root {
   font-size: 16px;
-  /* 4-Color Ergonomic Dark Palette Variables */
-  --kiosk-dark-canvas: #0c1017;      /* Color 1: Midnight Charcoal Base (Zero Eye Strain) */
-  --kiosk-dark-surface: #151e2c;     /* Color 2: Velvet Elevated Slate (Gentle Hierarchy) */
-  --kiosk-dark-accent: #38bdf8;      /* Color 3: Soothing Sky Azure (Primary Interactive Glow) */
-  --kiosk-dark-status: #34d399;      /* Color 4: Soft Mint Emerald (Relaxing Functional Success) */
+  /* Permanent Theme: Inter Variable + Platinum Bone White */
+  --font-kiosk: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --kiosk-accent: #f8fafc;           /* Platinum Bone White (replaces skyblue) */
+  --kiosk-accent-hover: #ffffff;
+  --kiosk-accent-dark: #94a3b8;
+  --kiosk-accent-glow: rgba(248, 250, 252, 0.4);
+  --kiosk-dark-canvas: #0a0e17;      /* Deep Obsidian Rack Base */
+  --kiosk-dark-surface: #131b28;     /* Console Metal Slate */
 }
 
 @media screen and (min-width: 1024px) {
@@ -94,29 +97,29 @@
 }
 
 /* =========================================================
-   2. EYE-FRIENDLY 4-COLOR DARK THEME (ZERO GLARE & MAXIMUM COMFORT)
+   2. DARK SKEUOMORPHISM (TACTILE HARDWARE LAB CONSOLE DARK THEME)
    ========================================================= */
 :root,
 [data-theme="dark"] body {
-  background-color: #0c1017;
+  background-color: var(--kiosk-dark-canvas);
   color: #f1f5f9;
 }
 
 [data-theme="dark"] .kiosk-shell {
-  background-color: #0c1017;
+  background-color: var(--kiosk-dark-canvas);
 }
 
-/* Dark Neomorphic Raised Cards - Color 2 Surface with soft ambient depth */
+/* Dark Skeuomorphic Raised Panels (Tactile Lab Console Chassis) */
 [data-theme="dark"] .neu-card {
-  background: #151e2c;
-  box-shadow: 4px 4px 12px #070a10, -4px -4px 12px #1f2a3e;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, #1d283a 0%, #141c2a 60%, #0e1520 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="dark"] .neu-card-sm {
-  background: #151e2c;
-  box-shadow: 3px 3px 8px #070a10, -3px -3px 8px #1f2a3e;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, #1d283a 0%, #141c2a 60%, #0e1520 100%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 [data-theme="dark"] .neu-card-hover {
@@ -124,108 +127,135 @@
 }
 
 [data-theme="dark"] .neu-card-hover:hover {
-  box-shadow: 6px 6px 16px #06090e, -6px -6px 16px #24324a;
-  transform: translateY(-1px);
+  background: linear-gradient(180deg, #223046 0%, #182334 60%, #121a28 100%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7), 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-/* Dark Neomorphic Insets (Inputs & Recessed Displays) */
+/* Dark Skeuomorphic Inset (Recessed Gauges & Digital Channels) */
 [data-theme="dark"] .neu-inset {
-  background: #0f1522;
-  box-shadow: inset 3px 3px 7px #070a10, inset -3px -3px 7px #1b2537;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #080d16;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.85), inset 0 -1px 0 rgba(255, 255, 255, 0.04), 0 1px 0 rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   color: #f1f5f9;
 }
 
 [data-theme="dark"] .neu-inset-sm {
-  background: #0f1522;
-  box-shadow: inset 2px 2px 5px #070a10, inset -2px -2px 5px #1b2537;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #080d16;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Color 3: Soothing Sky Azure Recessed Glow */
-[data-theme="dark"] .neu-inset-cyan {
-  background: #0d1e2e;
-  box-shadow: inset 2.5px 2.5px 6px #050d15, inset -2.5px -2.5px 6px #15334d, 0 0 10px rgba(56, 189, 248, 0.18);
-  border: 1px solid rgba(56, 189, 248, 0.45);
-}
-
-/* Color 4: Soft Mint Emerald Recessed Glow */
+/* Active Highlight Inset with dynamic accent color */
+[data-theme="dark"] .neu-inset-cyan,
 [data-theme="dark"] .neu-inset-emerald,
 [data-theme="dark"] .neu-inset-amber {
-  background: #0d241c;
-  box-shadow: inset 2.5px 2.5px 6px #05140f, inset -2.5px -2.5px 6px #153d2f, 0 0 10px rgba(52, 211, 153, 0.18);
-  border: 1px solid rgba(52, 211, 153, 0.45);
+  background: #081514;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.85), inset 0 0 12px var(--kiosk-accent-glow);
+  border: 1px solid var(--kiosk-accent);
 }
 
-/* Dark Neomorphic Raised Buttons */
+/* Dark Skeuomorphic Raised Buttons (Realistic 3D Plastic/Metal Console Switches) */
 [data-theme="dark"] .neu-btn-raised {
-  background: #151e2c;
-  box-shadow: 3px 3px 8px #070a10, -3px -3px 8px #223048;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, #243248 0%, #192334 60%, #121a26 100%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: #e2e8f0;
+  font-weight: 600;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"] .neu-btn-raised:hover {
-  background: #1a2538;
-  box-shadow: 4px 4px 10px #06090e, -4px -4px 10px #263650;
+  background: linear-gradient(180deg, #2b3b55 0%, #1f2b3e 60%, #152030 100%);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.24);
   color: #ffffff;
 }
 
 [data-theme="dark"] .neu-btn-raised:active {
-  background: #0f1522;
-  box-shadow: inset 2.5px 2.5px 5px #070a10, inset -2.5px -2.5px 5px #1c273a;
-  transform: scale(0.97);
+  background: linear-gradient(180deg, #0d1420 0%, #121a26 100%);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.85), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  transform: translateY(2px) scale(0.98);
 }
 
-/* Color 3: Soothing Sky Azure Primary Action Button */
+/* Tactile 3D Primary Button (Glowing Enamel Hardware Switch) */
 [data-theme="dark"] .neu-btn-primary {
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35), 3px 3px 8px #070a10;
-  color: #0c1017;
+  background: linear-gradient(180deg, var(--kiosk-accent-hover) 0%, var(--kiosk-accent) 60%, var(--kiosk-accent-dark) 100%);
+  box-shadow: 0 4px 14px var(--kiosk-accent-glow), 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.6), inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #080d16;
   font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"] .neu-btn-primary:hover {
-  background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
-  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.5), 4px 4px 10px #06090e;
+  box-shadow: 0 6px 20px var(--kiosk-accent-glow), 0 3px 6px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  filter: brightness(1.08);
 }
 
 [data-theme="dark"] .neu-btn-primary:active {
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4), inset -2px -2px 5px rgba(255, 255, 255, 0.2);
-  transform: scale(0.97);
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.65), inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(2px) scale(0.98);
 }
 
-/* Color 4: Soft Mint Emerald Secondary Action Button */
+/* Tactile 3D Secondary Button */
 [data-theme="dark"] .neu-btn-secondary {
-  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
-  box-shadow: 0 4px 14px rgba(52, 211, 153, 0.35), 3px 3px 8px #070a10;
-  color: #0c1017;
+  background: linear-gradient(180deg, #34d399 0%, #10b981 60%, #059669 100%);
+  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.35), 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #080d16;
   font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"] .neu-btn-secondary:hover {
-  background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);
-  box-shadow: 0 6px 18px rgba(52, 211, 153, 0.5), 4px 4px 10px #06090e;
+  filter: brightness(1.08);
+  box-shadow: 0 6px 18px rgba(52, 211, 153, 0.5);
 }
 
 [data-theme="dark"] .neu-btn-secondary:active {
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4), inset -2px -2px 5px rgba(255, 255, 255, 0.2);
-  transform: scale(0.97);
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.6);
+  transform: translateY(2px) scale(0.98);
 }
 
-/* Subtle Danger Button with low optical fatigue */
+/* Tactile Danger Button */
 [data-theme="dark"] .neu-btn-danger {
-  background: #1d141a;
-  box-shadow: 3px 3px 8px #070a10, -3px -3px 8px #261922;
+  background: linear-gradient(180deg, #2a141b 0%, #1c0e13 100%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(244, 63, 94, 0.25);
   color: #fca5a5;
-  border: 1px solid rgba(244, 63, 94, 0.25);
+  border: 1px solid rgba(244, 63, 94, 0.3);
 }
 
 [data-theme="dark"] .neu-btn-danger:active {
-  background: #140d12;
-  transform: scale(0.97);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8);
+  transform: translateY(2px) scale(0.98);
+}
+
+/* Dynamic Accent Text & Border Mapping (Replaces Sky Blue with active theme accent, preserving INVEN TECH brand) */
+[data-theme="dark"] .text-sky-400:not(.keep-brand),
+[data-theme="dark"] .text-cyan-400:not(.keep-brand) {
+  color: var(--kiosk-accent) !important;
+}
+
+[data-theme="dark"] .keep-brand {
+  color: #38bdf8 !important;
+}
+
+[data-theme="dark"] .text-sky-300:not(.keep-brand),
+[data-theme="dark"] .text-cyan-300:not(.keep-brand) {
+  color: var(--kiosk-accent-hover) !important;
+}
+
+[data-theme="dark"] .border-cyan-500,
+[data-theme="dark"] .border-cyan-400,
+[data-theme="dark"] .border-sky-500,
+[data-theme="dark"] .border-sky-400 {
+  border-color: var(--kiosk-accent) !important;
+}
+
+[data-theme="dark"] .ring-cyan-400,
+[data-theme="dark"] .ring-sky-400,
+[data-theme="dark"] .focus\:ring-cyan-500:focus {
+  --tw-ring-color: var(--kiosk-accent) !important;
 }
 
 /* =========================================================

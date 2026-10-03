@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, FileCheck, Clock, ShieldCheck, RotateCcw, Maximize2 } from 'lucide-react';
+import { ArrowRight, Sparkles, FileCheck, Clock, RotateCcw, Maximize2 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 import ReturnEquipmentModal from './ReturnEquipmentModal';
@@ -188,14 +188,16 @@ export default function WelcomeScreen() {
                   ? 'text-orange-400 drop-shadow-[0_0_24px_rgba(251,146,60,0.6)]'
                   : 'text-sky-500 drop-shadow-[0_0_24px_rgba(14,165,233,0.5)]'
                 }`}
+              style={{ color: isDark ? '#fb923c' : '#0ea5e9' }}
             >
               INVEN
             </span>
             <span
-              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
-                  ? 'text-sky-400 drop-shadow-[0_0_24px_rgba(56,189,248,0.6)]'
+              className={`keep-brand text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
+                  ? 'text-sky-400 drop-shadow-[0_0_24px_rgba(56,189,248,0.7)]'
                   : 'text-orange-500 drop-shadow-[0_0_24px_rgba(249,115,22,0.5)]'
                 }`}
+              style={{ color: isDark ? '#38bdf8' : '#f97316' }}
             >
               TECH
             </span>
@@ -256,17 +258,6 @@ export default function WelcomeScreen() {
             <RotateCcw className="w-4 h-4" />
             <span>Return Equipment / Custodian Clearance Station</span>
           </button>
-        </div>
-      </div>
-
-      {/* 3. Footer Info */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-1.5 pt-2 border-t border-slate-800/80 text-[10px] sm:text-[11px] text-slate-500 w-full relative z-10 shrink-0">
-        <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-          <span>Universidad de Dagupan • Arellano St., Dagupan City, Pangasinan</span>
-        </div>
-        <div className="font-mono text-slate-400">
-          Document Code: UdD-FM-LM-01A-01 (Rev. 0)
         </div>
       </div>
 

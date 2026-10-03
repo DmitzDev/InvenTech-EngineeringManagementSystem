@@ -147,6 +147,7 @@ export default function Header() {
                 ? 'text-orange-400 drop-shadow-[0_0_16px_rgba(251,146,60,0.55)]'
                 : 'text-sky-500 drop-shadow-[0_0_16px_rgba(14,165,233,0.45)]'
             }`}
+            style={{ color: isDark ? '#fb923c' : '#0ea5e9' }}
           >
             INVEN
           </span>
@@ -183,11 +184,12 @@ export default function Header() {
           </button>
 
           <span
-            className={`text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
+            className={`keep-brand text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
               isDark
-                ? 'text-sky-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.55)]'
+                ? 'text-sky-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.75)]'
                 : 'text-orange-500 drop-shadow-[0_0_16px_rgba(249,115,22,0.45)]'
             }`}
+            style={{ color: isDark ? '#38bdf8' : '#f97316' }}
           >
             TECH
           </span>
@@ -204,22 +206,22 @@ export default function Header() {
 
             {/* Floating Rudder Action Menu Dock (Animated slide-down) */}
             <div className="absolute top-[calc(100%+6px)] sm:top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-50 select-none pointer-events-auto w-[calc(100%-16px)] sm:w-auto sm:max-w-[96vw]">
-              <div className="animate-slide-down bg-[#09101d]/95 border border-cyan-500/50 backdrop-blur-2xl px-2 sm:px-5 py-2 sm:py-2.5 rounded-2xl sm:rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex items-center justify-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
+              <div className="animate-slide-down bg-[#09101d]/95 border border-slate-700/80 backdrop-blur-2xl px-2 sm:px-5 py-2 sm:py-2.5 rounded-2xl sm:rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex items-center justify-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
                 {/* Item 1: Exit Fullscreen / Fullscreen Toggle */}
                 <button
                   type="button"
                   onClick={handleToggleFullscreen}
-                  className="h-8 sm:h-11 px-2 sm:px-4 rounded-lg sm:rounded-xl neu-btn-raised text-cyan-400 hover:text-cyan-300 text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
+                  className="h-8 sm:h-11 px-2 sm:px-4 rounded-lg sm:rounded-xl neu-btn-raised text-slate-200 hover:text-white text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
                   title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                 >
                   {isFullscreen ? (
                     <>
-                      <Minimize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
+                      <Minimize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 shrink-0" />
                       <span className="whitespace-nowrap hidden xs:inline">Exit Full</span>
                     </>
                   ) : (
                     <>
-                      <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
+                      <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 shrink-0" />
                       <span className="whitespace-nowrap hidden xs:inline">Fullscreen</span>
                     </>
                   )}
@@ -232,14 +234,14 @@ export default function Header() {
                   className="h-8 sm:h-11 px-2 sm:px-4 rounded-lg sm:rounded-xl neu-btn-raised text-slate-200 hover:text-white text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
                   title="Return to Welcome Screen"
                 >
-                  <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
+                  <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 shrink-0" />
                   <span>Home</span>
                 </button>
 
                 {/* Item 3 (GITNA / CENTER): The InvenTech Logo right in the middle of the 4 buttons! */}
                 <div
                   onClick={() => setIsOpen(false)}
-                  className="w-8 h-8 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-full p-0.5 sm:p-1 bg-[#0a1324] border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.85)] flex items-center justify-center relative shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                  className="w-8 h-8 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-full p-0.5 sm:p-1 bg-[#0a1324] border-2 border-slate-300/80 shadow-[0_0_24px_rgba(248,250,252,0.35)] flex items-center justify-center relative shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-all"
                   title="InvenTech Core Logo (Tap to close)"
                 >
                   <img

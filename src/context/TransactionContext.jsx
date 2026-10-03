@@ -109,6 +109,7 @@ const initialState = {
   cart: [], // [{ id, name, tagCode, category, qty, unit, description, isConsumable, isDamaged, damageNote }]
   isCartDrawerOpen: false,
   safetyAgreement: false,
+  isTransactionCommitted: false,
   reservations: getStoredReservations(),
   activeTransactions: getStoredTransactions(),
   activeClearanceRecord: null,
@@ -195,11 +196,45 @@ function transactionReducer(state, action) {
       };
     }
 
-    case 'SET_STEP':
+    case 'SET_STEP': {
+      let stagedTxId = state.transactionId;
+      let stagedTimestamp = state.timestamp;
+      if (action.payload === 4 && !stagedTxId) {
+        const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+        const today = new Date();
+        const dateCode = today.toISOString().slice(0, 10).replace(/-/g, '');
+        stagedTxId = `UDD-${state.selectedLab || 'ENG'}-${dateCode}-${randomSuffix}`;
+        stagedTimestamp = today.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
+      }
       return {
         ...state,
         currentStep: action.payload,
+        transactionId: stagedTxId,
+        timestamp: stagedTimestamp,
       };
+    }
+
+    case 'PREPARE_TRANSACTION_REVIEW': {
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      const today = new Date();
+      const dateCode = today.toISOString().slice(0, 10).replace(/-/g, '');
+      const txId = state.transactionId || `UDD-${state.selectedLab || 'ENG'}-${dateCode}-${randomSuffix}`;
+      const timeStr = state.timestamp || today.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+      return {
+        ...state,
+        transactionId: txId,
+        timestamp: timeStr,
+        currentStep: 4,
+      };
+    }
 
     case 'SET_BORROWER_FIELD':
       return {
@@ -676,11 +711,15 @@ function transactionReducer(state, action) {
       };
 
     case 'COMMIT_TRANSACTION': {
+      if (state.isTransactionCommitted) {
+        return state;
+      }
+
       const randomSuffix = Math.floor(1000 + Math.random() * 9000);
       const today = new Date();
       const dateCode = today.toISOString().slice(0, 10).replace(/-/g, '');
-      const txId = `UDD-${state.selectedLab || 'ENG'}-${dateCode}-${randomSuffix}`;
-      const timeStr = today.toLocaleTimeString('en-US', {
+      const txId = state.transactionId || `UDD-${state.selectedLab || 'ENG'}-${dateCode}-${randomSuffix}`;
+      const timeStr = state.timestamp || today.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
@@ -704,7 +743,13 @@ function transactionReducer(state, action) {
         transactionId: txId,
         timestamp: timeStr,
         activeTransactions: updatedTransactions,
+        isTransactionCommitted: true,
         currentStep: 4,
+        toast: {
+          id: Date.now(),
+          type: 'success',
+          message: `Official Slip Printed! Transaction recorded: ${txId}`,
+        },
       };
     }
 
@@ -715,6 +760,7 @@ function transactionReducer(state, action) {
         reservations: state.reservations,
         activeTransactions: state.activeTransactions,
         currentStep: 1,
+        isTransactionCommitted: false,
         borrower: {
           ...initialState.borrower,
           ...getInitialDateStrings(),
@@ -733,6 +779,7 @@ function transactionReducer(state, action) {
         reservations: state.reservations,
         activeTransactions: state.activeTransactions,
         currentStep: 0,
+        isTransactionCommitted: false,
         borrower: {
           ...initialState.borrower,
           ...getInitialDateStrings(),
@@ -986,6 +1033,7 @@ export function TransactionProvider({ children }) {
       dispatch({ type: 'REMOVE_CLEARANCE_HOLD', payload: id }),
     checkReservationConflict,
     checkStudentOverdueClearance,
+    prepareTransactionReview: () => dispatch({ type: 'PREPARE_TRANSACTION_REVIEW' }),
     commitTransaction: () => dispatch({ type: 'COMMIT_TRANSACTION' }),
     setSafetyAgreement: (val) => dispatch({ type: 'SET_SAFETY_AGREEMENT', payload: val }),
     toggleSafetyAgreement: () => dispatch({ type: 'TOGGLE_SAFETY_AGREEMENT' }),
