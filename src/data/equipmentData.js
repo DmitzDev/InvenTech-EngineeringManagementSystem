@@ -4211,7 +4211,7 @@ export function isItemConsumable(item) {
   if (typeof item.isConsumable === 'boolean') return item.isConsumable;
   const name = (item.name || '').toLowerCase();
   const category = (item.category || '').toLowerCase();
-  
+
   return Boolean(
     name.includes('solder') ||
     name.includes('lead') ||
@@ -4319,6 +4319,105 @@ export function getItemImage(item) {
 
   if (lab === 'CHEM') {
     return '/images/equipment/chemistry/beaker.jpg';
+  }
+
+  // ==========================================
+  // DIGITAL LABORATORY (USER'S MANUAL IMAGES)
+  // ==========================================
+  if (lab === 'DIGITAL') {
+    // 1. 74xx TTL Logic Integrated Circuits
+    if (name.includes('74138')) return '/images/equipment/digital/74138.png';
+    if (name.includes('74169')) return '/images/equipment/digital/74169.png';
+    if (name.includes('7400')) return '/images/equipment/digital/7400.png';
+    if (name.includes('7402')) return '/images/equipment/digital/7402.png';
+    if (name.includes('7404')) return '/images/equipment/digital/7404.png';
+    if (name.includes('7405')) return '/images/equipment/digital/7405.png';
+    if (name.includes('7432')) return '/images/equipment/digital/7432.png';
+    if (name.includes('7445')) return '/images/equipment/digital/7445.png';
+    if (name.includes('7449')) return '/images/equipment/digital/7449.png';
+    if (name.includes('7473')) return '/images/equipment/digital/7473.png';
+    if (name.includes('7476')) return '/images/equipment/digital/7476.png';
+    if (name.includes('7477')) return '/images/equipment/digital/7477.png';
+    if (name.includes('7485')) return '/images/equipment/digital/7485.png';
+    if (name.includes('7490')) return '/images/equipment/digital/7490.png';
+    if (name.includes('7492')) return '/images/equipment/digital/7492.png';
+    if (name.includes('7493')) return '/images/equipment/digital/7493.png';
+    if (name.includes('74ls01')) return '/images/equipment/digital/74LS01.png';
+    if (name.includes('74ls02')) return '/images/equipment/digital/74LS02.png';
+    if (name.includes('74ls04')) return '/images/equipment/digital/74LS04.png';
+    if (name.includes('74ls32')) return '/images/equipment/digital/74LS32.png';
+
+    // 2. Diodes, Bridge Rectifiers & 7-Segment
+    if (name.includes('10a10')) return '/images/equipment/digital/10A10 DIODE.png';
+    if (name.includes('1n5402')) return '/images/equipment/digital/1N5402 DIODE.png';
+    if (name.includes('kbpc601') || name.includes('kbpc')) return '/images/equipment/digital/KBPC601 6.png';
+    if (name.includes('wo2m')) return '/images/equipment/digital/WO2M 20.png';
+    if (name.includes('7seg') || name.includes('els511') || name.includes('display')) return '/images/equipment/digital/ELS511 7SEG 5.png';
+
+    // 3. LEDs
+    if (name.includes('led blu') || name.includes('blue')) return '/images/equipment/digital/LED BLU.png';
+    if (name.includes('led grn') || name.includes('green')) return '/images/equipment/digital/LED GRN.png';
+    if (name.includes('led red')) return '/images/equipment/digital/LED RED.png';
+    if (name.includes('led transp') || name.includes('clear')) return '/images/equipment/digital/LED TRANSP.png';
+    if (name.includes('led std') || name.includes('led')) return '/images/equipment/digital/LED STD.png';
+
+    // 4. Transistors & Linear Op-Amps
+    if (name.includes('2n2222')) return '/images/equipment/digital/2N2222A.png';
+    if (name.includes('2n2907')) return '/images/equipment/digital/2N2907.png';
+    if (name.includes('2n3904')) return '/images/equipment/digital/2N3904.png';
+    if (name.includes('2n3906')) return '/images/equipment/digital/2N3906.png';
+    if (name.includes('bd139')) return '/images/equipment/digital/BD139.png';
+    if (name.includes('tip32')) return '/images/equipment/digital/TIP32.png';
+    if (name.includes('tip41')) return '/images/equipment/digital/TIP41.png';
+    if (name.includes('tip42')) return '/images/equipment/digital/TIP42.png';
+    if (name.includes('tl081')) return '/images/equipment/digital/TL081.png';
+
+    // 5. Relays, Switches & Fuses
+    if (name.includes('relay module')) return '/images/equipment/digital/RELAY MODULE.png';
+    if (name.includes('relay') || name.includes('12v spst')) return '/images/equipment/digital/12V SPST RELAY 5P.png';
+    if (name.includes('dip sw') || name.includes('dip')) return '/images/equipment/digital/DIP SW 4P.png';
+    if (name.includes('pb sw no')) return '/images/equipment/digital/PB SW NO.png';
+    if (name.includes('pb sw nc')) return '/images/equipment/digital/PB SW NC.png';
+    if (name.includes('fuse')) return '/images/equipment/digital/FUSE STD SIZE.png';
+    if (name.includes('irrx') || name.includes('irtx') || name.includes('ir')) return '/images/equipment/digital/IRRX.png';
+
+    // 6. Capacitors (50V & 450V)
+    if (name.includes('1000uf')) return '/images/equipment/digital/1000UF-50V.png';
+    if (name.includes('2200uf')) return '/images/equipment/digital/2200UF-50V.png';
+    if (name.includes('4700uf')) return '/images/equipment/digital/4700UF-50.png';
+    if (name.includes('1.2uf')) return '/images/equipment/digital/1.2UF-450V.png';
+    if (name.includes('1.5uf')) return '/images/equipment/digital/1.5UF-450V.png';
+    if (name.includes('1.7uf')) return '/images/equipment/digital/1.7UF-450V.png';
+    if (name.includes('1uf') || name.includes('1ufd')) return '/images/equipment/digital/1UFD-450V.png';
+    if (name.includes('2.5uf')) return '/images/equipment/digital/2.5UF-450V.png';
+    if (name.includes('2uf')) return '/images/equipment/digital/2UF-450V.png';
+    if (name.includes('3uf')) return '/images/equipment/digital/3UF-450V.png';
+    if (name.includes('4uf')) return '/images/equipment/digital/4UF-450V.png';
+    if (name.includes('6uf')) return '/images/equipment/digital/6UF-450V.png';
+
+    return '/images/equipment/digital/7400.png';
+  }
+
+  // ==========================================
+  // ECE LABORATORY EQUIPMENT
+  // ==========================================
+  if (lab === 'ECE') {
+    if (name.includes('oscilloscope') || name.includes('gds1052') || name.includes('gds-1052') || name.includes('gwinstek')) {
+      return '/images/equipment/ece/gwinstek_oscilloscope.jpg';
+    }
+    if (name.includes('power supply') || name.includes('wps303') || name.includes('dc source') || name.includes('split dc')) {
+      return '/images/equipment/ece/wheeler_dc_power_supply.jpg';
+    }
+    if (name.includes('function generator') || name.includes('audio generator') || name.includes('fg2020') || name.includes('ls3005') || name.includes('wag808') || name.includes('signal generator')) {
+      return '/images/equipment/ece/loadstar_function_generator.jpg';
+    }
+    if (name.includes('etek') || name.includes('mod') || name.includes('trainer') || name.includes('optical fiber') || name.includes('modulator') || name.includes('multiplexer') || name.includes('converter') || name.includes('encoder') || name.includes('filter')) {
+      return '/images/equipment/ece/etek_modular_trainer.jpg';
+    }
+    if (name.includes('ammeter') || name.includes('voltmeter') || name.includes('meter')) {
+      return '/images/equipment/ece/analog_dc_meter.jpg';
+    }
+    return '/images/equipment/ece/gwinstek_oscilloscope.jpg';
   }
 
   return null;
