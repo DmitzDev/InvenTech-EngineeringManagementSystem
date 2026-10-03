@@ -38,7 +38,7 @@ export default function LabSelector() {
   };
 
   return (
-    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-3.5 sm:p-5 lg:p-6 pb-6 sm:pb-8 lg:pb-8 flex flex-col justify-between select-none">
+    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-3.5 sm:p-5 lg:p-6 pb-6 sm:pb-8 lg:pb-8 flex flex-col md:justify-between select-none">
       {/* 1. Step Header (Pixel-aligned with Step 1) */}
       <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5 shrink-0">
         <div>
@@ -58,7 +58,7 @@ export default function LabSelector() {
       </div>
 
       {/* 2. 3 Large Neumorphic Department Selection Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 my-auto py-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mt-3 sm:mt-4 md:mt-0 md:my-auto py-3">
         {LAB_OPTIONS.map((lab) => {
           const Icon = ICON_MAP[lab.iconName] || Building2;
           const isSelected = selectedLab === lab.id;
@@ -124,7 +124,7 @@ export default function LabSelector() {
       </div>
 
       {/* 3. Bottom Navigation (Elevated with comfortable margin from bottom bezel) */}
-      <div className="pt-3 sm:pt-4 mb-2 border-t border-slate-800/80 flex flex-col-reverse sm:flex-row items-center justify-between gap-3 sm:gap-4 shrink-0">
+      <div className="mt-auto md:mt-0 pt-3 sm:pt-4 mb-2 border-t border-slate-800/80 flex flex-col-reverse sm:flex-row items-center justify-between gap-3 sm:gap-4 shrink-0">
         <TouchButton
           variant="secondary"
           size="md"

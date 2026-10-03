@@ -339,7 +339,7 @@ export default function EquipmentCatalog() {
             </div>
 
             {/* Category Filter Chips (ALL, APPARATUS, INSTRUMENTS, CONSUMABLES...) */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar flex-1 min-w-0">
+            <div className="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1 scroll-smooth snap-x touch-pan-x flex-1 min-w-0">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat;
                 return (
@@ -347,7 +347,7 @@ export default function EquipmentCatalog() {
                     key={cat}
                     type="button"
                     onClick={() => setActiveCategory(cat)}
-                    className={`min-h-[34px] sm:min-h-[40px] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-[10.5px] sm:text-xs font-bold transition-all whitespace-nowrap active:scale-95 cursor-pointer flex items-center justify-center shrink-0 ${isActive
+                    className={`min-h-[34px] sm:min-h-[40px] px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-[10.5px] sm:text-xs font-bold transition-all whitespace-nowrap active:scale-95 cursor-pointer flex items-center justify-center shrink-0 snap-start ${isActive
                         ? 'neu-btn-primary shadow-md text-slate-950 font-black'
                         : 'neu-btn-raised text-slate-300 hover:text-white'
                       }`}
@@ -477,7 +477,7 @@ export default function EquipmentCatalog() {
         id="equipment-scroll-area"
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 min-h-0 overflow-y-auto pr-1 pb-16 sm:pb-6 scroll-smooth"
+        className="flex-1 min-h-0 overflow-y-auto pr-1 pb-28 md:pb-6 scroll-smooth"
       >
         {groupedEquipment.length === 0 ? (
           <div className="h-48 sm:h-64 flex flex-col items-center justify-center text-center p-6 text-slate-500 space-y-2">
@@ -530,18 +530,18 @@ export default function EquipmentCatalog() {
         </button>
       )}
 
-      {/* 5. Slide-Over Cart Drawer Modal */}
+      {/* 5. Mobile Bottom Sheet / Desktop Slide-Over Cart Drawer */}
       {isCartDrawerOpen &&
         createPortal(
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end animate-fade-in touch-none">
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end md:items-stretch justify-center md:justify-end animate-fade-in touch-none">
             {/* Overlay Click to Close */}
             <div
               className="absolute inset-0 cursor-pointer"
               onClick={closeCartDrawer}
             />
 
-            {/* Slide-in Cart Container */}
-            <div className="relative z-10 w-full sm:max-w-md md:max-w-lg h-full h-[100dvh] max-h-[100dvh] bg-[#0e1422] sm:border-l border-slate-800 shadow-2xl flex flex-col animate-slide-left overflow-hidden">
+            {/* Mobile Bottom Sheet (< md:) / Desktop Side Drawer (md:) Container */}
+            <div className="relative z-10 w-full max-h-[85vh] h-auto rounded-t-2xl md:rounded-none md:rounded-l-3xl md:h-full md:max-h-[100dvh] md:max-w-lg bg-[#0e1422] border-t md:border-t-0 md:border-l border-slate-800 shadow-2xl flex flex-col animate-slide-up md:animate-slide-left overflow-hidden">
               <BorrowCart
                 onClose={closeCartDrawer}
                 onProceed={() => {

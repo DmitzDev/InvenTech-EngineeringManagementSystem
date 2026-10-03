@@ -13,7 +13,10 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
   const damagedCount = cart.filter((i) => i.isDamaged).length;
 
   return (
-    <div className="w-full h-full max-h-[100dvh] flex flex-col justify-between overflow-hidden shadow-2xl bg-[#0e1422] rounded-none sm:rounded-l-3xl">
+    <div className="w-full h-full max-h-[85vh] md:max-h-[100dvh] flex flex-col justify-between overflow-hidden shadow-2xl bg-[#0e1422] rounded-t-2xl md:rounded-none md:rounded-l-3xl">
+      {/* Mobile-Native Drag Handle Pill */}
+      <div className="w-12 h-1.5 bg-slate-600/80 rounded-full mx-auto my-2 md:hidden shrink-0" />
+
       {/* 1. Cart Header */}
       <div className="p-3.5 sm:p-4 border-b border-slate-800/80 bg-[#111a2c] shrink-0 space-y-2.5 sm:space-y-3">
         <div className="flex items-center justify-between">
