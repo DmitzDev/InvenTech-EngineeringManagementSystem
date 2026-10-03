@@ -59,13 +59,74 @@ export default function ChevronProgressBar() {
     return false;
   };
 
+  const currentStepData = STEPS.find((s) => s.id === currentStep) || STEPS[0];
+  const StepIconMobile = currentStepData.icon;
+
   return (
     <div
-      className="w-full py-1.5 sm:py-2.5 px-2 sm:px-4 lg:px-8 shrink-0 select-none z-10 relative"
+      className="w-full py-1 sm:py-2.5 px-2.5 sm:px-4 lg:px-8 shrink-0 select-none z-10 relative"
       aria-label="Engineering Process Telemetry Bar"
     >
-      {/* Individual Standalone Step Boxes (No underlying track/plate layer) */}
-      <div className="max-w-6xl xl:max-w-7xl mx-auto flex items-stretch gap-1.5 sm:gap-2.5 lg:gap-3">
+      {/* Mobile-Native Compact Stepper (< md:) */}
+      <div className="md:hidden max-w-md mx-auto">
+        <div className="neu-card-sm px-3 py-2 rounded-2xl border border-slate-800/80 flex flex-col gap-1.5 shadow-md">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-6 h-6 rounded-lg bg-cyan-500/15 neu-inset flex items-center justify-center text-cyan-400 shrink-0">
+                <StepIconMobile className="w-3.5 h-3.5" />
+              </div>
+              <div className="flex items-center gap-1.5 min-w-0 truncate">
+                <span className="text-[10px] font-mono text-cyan-400 font-extrabold uppercase tracking-wider shrink-0">
+                  Step 0{currentStep}/04
+                </span>
+                <span className="text-slate-600 text-xs">•</span>
+                <span className="text-xs font-bold text-slate-100 uppercase tracking-tight truncate">
+                  {currentStepData.title}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 shrink-0">
+              {currentStep === 3 && cart.length > 0 && (
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full neu-inset text-cyan-300 font-extrabold">
+                  {cart.length} {cart.length === 1 ? 'item' : 'items'}
+                </span>
+              )}
+              <span className="text-[10px] font-mono text-slate-400">
+                {currentStepData.code}
+              </span>
+            </div>
+          </div>
+
+          {/* 4-Step Interactive Pill Track */}
+          <div className="grid grid-cols-4 gap-1.5 pt-0.5">
+            {STEPS.map((step) => {
+              const isActive = currentStep === step.id;
+              const isCompleted = currentStep > step.id;
+              const isClickable = canNavigateTo(step.id) && step.id <= currentStep;
+              return (
+                <button
+                  key={step.id}
+                  type="button"
+                  disabled={!isClickable}
+                  onClick={() => isClickable && setStep(step.id)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    isActive
+                      ? 'bg-gradient-to-r from-cyan-400 to-blue-500 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
+                      : isCompleted
+                      ? 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)] cursor-pointer'
+                      : 'bg-slate-800/90'
+                  }`}
+                  title={`${step.code}: ${step.title}`}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop/Tablet 15" Kiosk Hardware Stepper (hidden md:flex) */}
+      <div className="hidden md:flex max-w-6xl xl:max-w-7xl mx-auto items-stretch gap-1.5 sm:gap-2.5 lg:gap-3">
         {STEPS.map((step, index) => {
           const isActive = currentStep === step.id;
           const isCompleted = currentStep > step.id;

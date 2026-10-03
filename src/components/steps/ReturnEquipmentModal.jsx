@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { RotateCcw, Search, CheckCircle2, AlertTriangle, XCircle, ShieldCheck, X, User, Clock, FileText, Check, QrCode, ScanLine } from 'lucide-react';
+import { RotateCcw, Search, CheckCircle2, AlertTriangle, XCircle, ShieldCheck, X, User, Clock, FileText, Check, QrCode, ScanLine, Trash2 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 
 export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance }) {
-  const { activeTransactions, returnEquipmentTransaction, showToast } = useTransaction();
+  const { activeTransactions, returnEquipmentTransaction, showToast, clearAllTransactions } = useTransaction();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTxId, setSelectedTxId] = useState(
@@ -167,6 +167,24 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
                   <span>{tx.borrower.groupLeader.split(' ')[0]} ({tx.borrower.studentId || tx.txId.slice(-4)})</span>
                 </button>
               ))}
+
+              {activePendingTransactions.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm('Clear and reset all active test borrowing records?')) {
+                      clearAllTransactions();
+                      setSelectedTxId(null);
+                      showToast('All test transactions cleared.', 'info');
+                    }
+                  }}
+                  className="px-2.5 py-1 rounded-lg neu-btn-raised text-[10px] font-mono font-bold text-rose-400 hover:text-rose-300 flex items-center gap-1 active:scale-95 cursor-pointer ml-auto"
+                  title="Reset test debug records"
+                >
+                  <Trash2 className="w-3 h-3 text-rose-400" />
+                  <span>Reset Test Data</span>
+                </button>
+              )}
             </div>
           </div>
 

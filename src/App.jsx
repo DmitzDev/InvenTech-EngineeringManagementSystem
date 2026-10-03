@@ -34,17 +34,17 @@ function KioskContent() {
   };
 
   return (
-    <div className="min-h-screen lg:h-screen w-full bg-[#0c1017] text-slate-100 flex flex-col overflow-x-hidden relative select-none">
+    <div className="min-h-screen h-auto md:h-screen w-full bg-[#0c1017] text-slate-100 flex flex-col overflow-x-hidden overflow-y-auto md:overflow-hidden relative select-none">
       {/* On-screen Kiosk Interactive Shell */}
-      <div className="no-print min-h-screen lg:min-h-0 lg:h-full w-full flex flex-col overflow-x-hidden max-w-[1920px] mx-auto">
+      <div className="no-print min-h-screen h-auto md:h-full w-full flex flex-col overflow-x-hidden overflow-y-auto md:overflow-hidden max-w-[1920px] mx-auto">
         {/* Top Header Bar (renders on steps 1-4) */}
         <Header />
 
         {/* Universal Chevron Ribbon Process Bar (Directly below Top Header on all devices) */}
         <ChevronProgressBar />
 
-        {/* Dynamic Step Viewport */}
-        <main className="flex-1 flex flex-col animate-fade-in relative bg-[#0c1017] min-h-0 overflow-y-auto">
+        {/* Dynamic Step Viewport: Natural Mobile Scroll vs Kiosk Locked Height */}
+        <main className="flex-1 flex flex-col animate-fade-in relative bg-[#0c1017] min-h-0 overflow-visible md:overflow-y-auto">
           {renderCurrentStep()}
         </main>
 

@@ -157,8 +157,15 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
           {/* Received in good condition */}
           <div className="space-y-4">
             <p className="font-semibold">Received in good condition:</p>
-            <div className="border-b border-black text-center pt-2 font-bold uppercase text-[9px]">
-              {borrower.groupLeader || '______________________________'}
+            <div className="border-b border-black text-center pt-2 font-bold uppercase text-[9px] relative min-h-[22px] flex items-center justify-center">
+              {borrower.signature && (
+                <img
+                  src={borrower.signature}
+                  alt="Student Digital Signature"
+                  className="h-8 max-w-[120px] object-contain absolute -top-4 pointer-events-none"
+                />
+              )}
+              <span>{borrower.groupLeader || '______________________________'}</span>
             </div>
             <p className="text-center text-[8px] text-gray-600">Group Leader's Signature Over Printed Name</p>
           </div>
@@ -201,8 +208,15 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
 
         <div className="grid grid-cols-2 gap-8 pt-1">
           <div className="text-center">
-            <div className="border-b border-black pb-1 font-bold uppercase text-[9px]">
-              {borrower.groupLeader || '_________________________________'}
+            <div className="border-b border-black pb-1 font-bold uppercase text-[9px] relative min-h-[22px] flex items-center justify-center">
+              {borrower.signature && (
+                <img
+                  src={borrower.signature}
+                  alt="Student Digital Signature"
+                  className="h-8 max-w-[120px] object-contain absolute -top-4 pointer-events-none"
+                />
+              )}
+              <span>{borrower.groupLeader || '_________________________________'}</span>
             </div>
             <p className="text-[8px] text-gray-600 mt-0.5">Group Leader's Signature Over Printed Name</p>
           </div>

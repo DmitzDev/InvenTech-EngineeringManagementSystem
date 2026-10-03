@@ -214,7 +214,7 @@ export default function BorrowerForm() {
   };
 
   return (
-    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-2.5 sm:p-5 lg:p-6 pb-2.5 sm:pb-8 flex flex-col justify-between select-none min-h-0">
+    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-2.5 sm:p-5 lg:p-6 pb-2.5 sm:pb-8 flex flex-col md:justify-between select-none min-h-0">
       {/* 1. Step Header */}
       <div className="flex items-center justify-between border-b border-slate-800/80 pb-1.5 sm:pb-2.5 shrink-0">
         <div>
@@ -272,9 +272,9 @@ export default function BorrowerForm() {
       )}
 
       {/* 2. Form Grid with Neumorphic Raised Panels (Compact on Mobile, Spacious on 15" Kiosk) */}
-      <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 sm:gap-6 my-auto py-1 sm:py-2 min-h-0">
+      <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 my-2 sm:my-3 md:my-auto py-1 min-h-0">
         {/* Left Column: Academic & Course Code Builder */}
-        <div className="neu-card rounded-2xl sm:rounded-3xl p-3 sm:p-5 lg:p-6 space-y-2.5 sm:space-y-3.5">
+        <div className="neu-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5">
           <h2 className="text-xs sm:text-base font-bold text-slate-200 flex items-center gap-2 pb-1 sm:pb-2 border-b border-slate-800/80 uppercase tracking-wider">
             <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 shrink-0" />
             <span>Program & Course</span>
@@ -388,7 +388,7 @@ export default function BorrowerForm() {
             </div>
           </div>
 
-          {/* Course Code Input */}
+            {/* Course Code Input */}
           <div>
             <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
               Course Code
@@ -398,6 +398,7 @@ export default function BorrowerForm() {
               value={borrower.courseCode}
               onChange={(e) => setBorrowerField('courseCode', e.target.value.toUpperCase())}
               placeholder="e.g. 41-BSCPE-01"
+              enterKeyHint="next"
               className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
                 errors.courseCode ? 'ring-2 ring-rose-500' : ''
               }`}
@@ -409,7 +410,7 @@ export default function BorrowerForm() {
         </div>
 
         {/* Right Column: Student Details & Schedule */}
-        <div className="neu-card rounded-2xl sm:rounded-3xl p-3 sm:p-5 lg:p-6 space-y-2.5 sm:space-y-3.5">
+        <div className="neu-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5">
           <h2 className="text-xs sm:text-base font-bold text-slate-200 flex items-center gap-2 pb-1 sm:pb-2 border-b border-slate-800/80 uppercase tracking-wider">
             <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 shrink-0" />
             <span>Student & Schedule</span>
@@ -426,6 +427,7 @@ export default function BorrowerForm() {
                 value={borrower.groupLeader}
                 onChange={(e) => setBorrowerField('groupLeader', e.target.value.toUpperCase())}
                 placeholder="e.g. JASON CAYABYAB"
+                enterKeyHint="next"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-sm font-bold uppercase placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
                   errors.groupLeader ? 'ring-2 ring-rose-500' : ''
                 }`}
@@ -451,6 +453,8 @@ export default function BorrowerForm() {
                 value={borrower.studentId || ''}
                 onChange={(e) => setBorrowerField('studentId', e.target.value.toUpperCase())}
                 placeholder="e.g. 21-0482-119"
+                inputMode="numeric"
+                enterKeyHint="next"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset font-mono text-xs sm:text-sm font-extrabold transition-all uppercase placeholder:text-slate-600/70 ${
                   clearanceStatus.isRestricted
                     ? 'text-rose-400 border border-rose-500 bg-rose-950/40 ring-2 ring-rose-500'
@@ -503,6 +507,7 @@ export default function BorrowerForm() {
                 value={borrower.instructor}
                 onChange={(e) => setBorrowerField('instructor', e.target.value)}
                 placeholder="e.g. Engr. Jin Benir Macaranas"
+                enterKeyHint="done"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
                   errors.instructor ? 'ring-2 ring-rose-500' : ''
                 }`}
@@ -609,7 +614,7 @@ export default function BorrowerForm() {
       </form>
 
       {/* 3. Bottom Action CTA Bar (Side by side on mobile for zero scrolling) */}
-      <div className="pt-2 sm:pt-4 border-t border-slate-800/80 flex items-center justify-between gap-2 sm:gap-4 shrink-0">
+      <div className="mt-auto md:mt-0 pt-2.5 sm:pt-4 pb-1 sm:pb-0 border-t border-slate-800/80 flex items-center justify-between gap-2 sm:gap-4 shrink-0">
         <TouchButton
           variant="secondary"
           size="sm"

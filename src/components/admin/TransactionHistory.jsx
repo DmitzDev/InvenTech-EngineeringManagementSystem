@@ -12,6 +12,7 @@ import {
   Layers,
   Filter,
   FileSpreadsheet,
+  Trash2,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 
@@ -37,7 +38,7 @@ const STATUS_BADGE = {
 };
 
 export default function TransactionHistory() {
-  const { activeTransactions, showToast } = useTransaction();
+  const { activeTransactions, showToast, clearAllTransactions } = useTransaction();
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
   const [expandedTx, setExpandedTx] = useState(null);
@@ -139,15 +140,34 @@ export default function TransactionHistory() {
           </p>
         </div>
 
-        {/* CSV Export Button */}
-        <button
-          type="button"
-          onClick={handleExportCSV}
-          className="px-4 py-2.5 rounded-xl bg-[#0e192d] hover:bg-[#13233f] border border-cyan-500/30 text-xs sm:text-sm font-bold text-cyan-300 hover:text-cyan-200 transition-all flex items-center gap-2 shadow-sm shrink-0 cursor-pointer active:scale-95"
-        >
-          <FileSpreadsheet className="w-4 h-4 text-cyan-400" />
-          <span>Export Audit Log (CSV)</span>
-        </button>
+        {/* Actions: CSV Export & Clear Test Data */}
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
+          <button
+            type="button"
+            onClick={handleExportCSV}
+            className="px-4 py-2.5 rounded-xl bg-[#0e192d] hover:bg-[#13233f] border border-cyan-500/30 text-xs sm:text-sm font-bold text-cyan-300 hover:text-cyan-200 transition-all flex items-center gap-2 shadow-sm shrink-0 cursor-pointer active:scale-95"
+          >
+            <FileSpreadsheet className="w-4 h-4 text-cyan-400" />
+            <span>Export Audit Log (CSV)</span>
+          </button>
+
+          {activeTransactions.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                if (window.confirm('Are you sure you want to permanently clear all test transaction history?')) {
+                  clearAllTransactions();
+                  showToast('All test transactions cleared.', 'info');
+                }
+              }}
+              className="px-3.5 py-2.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/40 text-xs sm:text-sm font-bold text-rose-300 hover:text-white transition-all flex items-center gap-1.5 shadow-sm shrink-0 cursor-pointer active:scale-95"
+              title="Reset all test debug logs"
+            >
+              <Trash2 className="w-4 h-4 text-rose-400" />
+              <span>Reset Test Data</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* KPI Summary Cards */}
