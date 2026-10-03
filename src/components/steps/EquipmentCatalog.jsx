@@ -11,6 +11,7 @@ import {
   ArrowUp,
   LayoutGrid,
   List,
+  ChevronDown,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { getInventory, LAB_OPTIONS, getItemImage, isItemConsumable } from '../../data/equipmentData';
@@ -122,8 +123,13 @@ export default function EquipmentCatalog() {
 
       const normName = item.name.trim();
 
+      // 0. Digital & ECE: TTL Logic Gate ICs (7400, 7402, 7404, 7405, 7432, 7445, 7449, 7473, 7476, 7477, 7485, 7490, 74138, 74169, 74LS...)
+      if (/^74(LS)?\d+/i.test(normName) || (normName.startsWith('74') && normName.length <= 7)) {
+        baseName = 'TTL Logic Gate IC (74xx Series)';
+        variantLabel = normName;
+      }
       // 1. Digital & ECE: LEDs (Red, Blue, Green, Transparent, Standard 5mm)
-      if (/^LED\s+/i.test(normName) || normName.toUpperCase() === 'LED STD SIZE' || normName.toUpperCase().startsWith('LED ')) {
+      else if (/^LED\s+/i.test(normName) || normName.toUpperCase() === 'LED STD SIZE' || normName.toUpperCase().startsWith('LED ')) {
         baseName = 'LED (Light Emitting Diode)';
         let clean = normName.replace(/^LED\s*/i, '').trim().toUpperCase();
         if (clean === 'RED') variantLabel = 'Red';
@@ -620,6 +626,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
   const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
 
   const accent = getLabAccent(currentItem.lab);
+  const isWhiteBg = itemImg && (itemImg.includes('/digital/') || itemImg.endsWith('.png'));
 
   return (
     <div
@@ -632,14 +639,19 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
       }`}
     >
       <div>
-        {/* Hero Image Showcase Stage (Unobstructed View + Bottom-Left Stock Capsule) */}
-        <div className="relative w-full aspect-[4/3] sm:aspect-[4/3] rounded-xl overflow-hidden bg-[#070c14] border border-slate-800/80 mb-2 group/img">
-          {/* Full-bleed Object-Cover Image that fills the entire container */}
+        {/* Hero Image Showcase Stage (Edge-to-Edge Fitted Container + Bottom-Left Stock Capsule) */}
+        <div
+          className={`relative w-full aspect-[4/3] sm:aspect-[4/3] rounded-xl overflow-hidden mb-2 group/img flex items-center justify-center border transition-colors ${
+            isWhiteBg ? 'bg-white border-slate-700/60' : 'bg-[#070c14] border-slate-800/80'
+          }`}
+        >
+          {/* Smooth Fade-in Switching Image that fits edge-to-edge seamlessly */}
           {itemImg ? (
             <img
+              key={itemImg}
               src={itemImg}
               alt={currentItem.name}
-              className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-300"
+              className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-300 animate-fade-in"
               loading="lazy"
             />
           ) : (
@@ -722,38 +734,30 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           {currentItem.description || `${currentItem.category} • ${currentItem.lab} Laboratory`}
         </p>
 
-        {/* Variant Pills (if multiple options exist) */}
+        {/* Variant Selector: Unified Modern Dropdown for all multi-variant items */}
         {group.variants.length > 1 && (
-          <div className="my-1.5 flex items-center gap-1 flex-wrap">
-            {group.variants.map((v) => {
-              const isSelected = v.id === currentItem.id;
-              const vQty = getItemCartQty(v.id);
-              const vTotalStock = v.stock || 10;
-              const vAvail = Math.max(0, vTotalStock - vQty);
-              const vIsOut = vAvail === 0;
-
-              return (
-                <button
-                  key={v.id}
-                  type="button"
-                  onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-2 py-0.5 text-[8.5px] sm:text-[9.5px] font-mono font-bold rounded-md transition-all active:scale-95 cursor-pointer flex items-center gap-1 ${
-                    isSelected
-                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm'
-                      : vIsOut
-                      ? 'bg-slate-900 border border-slate-800 text-slate-600 opacity-60'
-                      : 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60'
-                  }`}
-                >
-                  <span>{v.variantLabel}</span>
-                  {vQty > 0 && (
-                    <span className={`px-1 py-0.2 rounded text-[7.5px] font-bold ${isSelected ? 'bg-slate-950 text-cyan-300' : 'bg-cyan-500/20 text-cyan-300'}`}>
-                      {vQty}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
+          <div className="my-2 relative">
+            <div className="relative">
+              <select
+                value={selectedVariantId}
+                onChange={(e) => setSelectedVariantId(e.target.value)}
+                className="w-full h-8 pl-2.5 pr-8 rounded-xl bg-slate-900/90 hover:bg-slate-900 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 font-mono text-[10.5px] sm:text-[11px] font-bold appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 transition-all shadow-sm truncate"
+              >
+                {group.variants.map((v) => {
+                  const vQty = getItemCartQty(v.id);
+                  const vStock = v.stock || 10;
+                  const vAvail = Math.max(0, vStock - vQty);
+                  return (
+                    <option key={v.id} value={v.id} className="bg-[#0f172a] text-slate-200 py-1.5 font-mono">
+                      {v.variantLabel} {vQty > 0 ? `(${vQty} in cart)` : ''} — {vAvail === 0 ? 'Out of stock' : `${vAvail} left`}
+                    </option>
+                  );
+                })}
+              </select>
+              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-400">
+                <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -831,8 +835,15 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
       {/* Thumbnail + Left Info */}
       <div className="min-w-0 flex-1 flex items-center gap-2.5">
         {itemImg && (
-          <div className="w-11 h-11 rounded-lg bg-[#070c14] border border-slate-800/80 shrink-0 overflow-hidden flex items-center justify-center">
-            <img src={itemImg} alt={currentItem.name} className="w-full h-full object-cover object-center" />
+          <div className="w-11 h-11 rounded-lg bg-[#070c14] border border-slate-800/80 shrink-0 overflow-hidden flex items-center justify-center p-0.5">
+            <img
+              key={itemImg}
+              src={itemImg}
+              alt={currentItem.name}
+              className={`w-full h-full ${
+                itemImg.toLowerCase().endsWith('.png') ? 'object-contain' : 'object-cover'
+              } object-center animate-fade-in`}
+            />
           </div>
         )}
 
@@ -874,21 +885,28 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
             {group.baseName}
           </h4>
 
-          {/* Variants row if any */}
+          {/* Variants dropdown in compact row if multiple variants exist */}
           {group.variants.length > 1 && (
-            <div className="flex items-center gap-1 mt-1 overflow-x-auto no-scrollbar">
-              {group.variants.map((v) => (
-                <button
-                  key={v.id}
-                  type="button"
-                  onClick={() => setSelectedVariantId(v.id)}
-                  className={`px-1.5 py-0.2 text-[8px] font-mono font-bold rounded border shrink-0 transition-all ${
-                    v.id === currentItem.id ? 'bg-cyan-500 text-slate-950 border-cyan-400' : 'bg-slate-900 border-slate-700 text-slate-300'
-                  }`}
-                >
-                  {v.variantLabel}
-                </button>
-              ))}
+            <div className="mt-1 relative max-w-[170px] sm:max-w-[200px]">
+              <select
+                value={selectedVariantId}
+                onChange={(e) => setSelectedVariantId(e.target.value)}
+                className="w-full h-6 pl-2 pr-6 rounded-lg bg-slate-900 border border-cyan-500/40 text-cyan-300 font-mono text-[9px] font-bold appearance-none cursor-pointer focus:outline-none focus:border-cyan-400 truncate"
+              >
+                {group.variants.map((v) => {
+                  const vQty = getItemCartQty(v.id);
+                  const vStock = v.stock || 10;
+                  const vAvail = Math.max(0, vStock - vQty);
+                  return (
+                    <option key={v.id} value={v.id} className="bg-[#0f172a] text-slate-200">
+                      {v.variantLabel} {vQty > 0 ? `(${vQty})` : ''} — {vAvail} left
+                    </option>
+                  );
+                })}
+              </select>
+              <div className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-400">
+                <ChevronDown className="w-3 h-3 stroke-[2.5]" />
+              </div>
             </div>
           )}
         </div>
