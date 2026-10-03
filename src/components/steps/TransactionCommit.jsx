@@ -28,6 +28,9 @@ export default function TransactionCommit() {
     resetTransaction,
     setStep,
     theme,
+    commitTransaction,
+    isTransactionCommitted,
+    goToWelcome,
   } = useTransaction();
 
   const isDark = theme === 'dark';
@@ -35,10 +38,13 @@ export default function TransactionCommit() {
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   const damagedItems = cart.filter((i) => i.isDamaged);
 
-  // Print Slip manually triggered on button click
+  // Print Slip manually triggered on button click - commits transaction to persistent storage ONLY upon print!
   const handleManualPrint = () => {
     if (!safetyAgreement) return;
     try {
+      if (!isTransactionCommitted) {
+        commitTransaction();
+      }
       window.print();
     } catch (e) {
       console.error('Print error', e);
@@ -244,6 +250,34 @@ export default function TransactionCommit() {
             </div>
           </div>
         </div>
+
+        {/* Official Commit & Printed Status Confirmation Banner */}
+        {isTransactionCommitted && (
+          <div className="p-4 rounded-2xl neu-inset bg-emerald-950/40 border border-emerald-500/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-emerald-300 animate-fade-in shadow-[0_0_24px_rgba(16,185,129,0.2)]">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 border border-emerald-500/40 shadow-sm">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="font-extrabold text-sm text-emerald-200">
+                  Borrower Slip Printed & Transaction Officially Recorded!
+                </div>
+                <div className="text-xs text-emerald-300/80">
+                  Ref Code: <span className="font-mono font-bold text-white">{transactionId}</span> • Please submit the signed printed slip to the Laboratory Custodian.
+                </div>
+              </div>
+            </div>
+            <TouchButton
+              variant="primary"
+              size="md"
+              icon={RotateCcw}
+              onClick={goToWelcome}
+              className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold shrink-0"
+            >
+              Finish & Return Home
+            </TouchButton>
+          </div>
+        )}
       </div>
 
       {/* Action Toolbar */}
@@ -255,7 +289,10 @@ export default function TransactionCommit() {
             size="md"
             icon={ArrowLeft}
             onClick={() => setStep(3)}
-            className="flex-1 sm:flex-initial text-xs sm:text-sm font-bold"
+            disabled={isTransactionCommitted}
+            className={`flex-1 sm:flex-initial text-xs sm:text-sm font-bold ${
+              isTransactionCommitted ? 'opacity-40 cursor-not-allowed' : ''
+            }`}
           >
             Modify Cart
           </TouchButton>
@@ -288,7 +325,7 @@ export default function TransactionCommit() {
               !safetyAgreement ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            Print Borrower Slip
+            {isTransactionCommitted ? 'Reprint Borrower Slip' : 'Print Borrower Slip'}
           </TouchButton>
         </div>
       </div>

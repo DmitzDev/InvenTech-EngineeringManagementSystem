@@ -25,7 +25,7 @@ export default function EquipmentCatalog() {
     cart,
     addToCart,
     setStep,
-    commitTransaction,
+    prepareTransactionReview,
     reservations,
     isCartDrawerOpen,
     openCartDrawer,
@@ -288,13 +288,13 @@ export default function EquipmentCatalog() {
           </div>
 
           {/* Phone-Only: View Mode Toggle (Grid vs Ultra-Compact List Strip) */}
-          <div className="sm:hidden flex items-center gap-1 bg-[#09101d] p-0.5 rounded-xl border border-slate-800 shrink-0">
+          <div className="sm:hidden flex items-center gap-1 neu-inset p-1 rounded-xl shrink-0">
             <button
               type="button"
               onClick={() => setMobileViewMode('grid')}
               title="2-Column Grid View"
               className={`p-1.5 rounded-lg transition-all ${mobileViewMode === 'grid'
-                  ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                  ? 'neu-btn-primary text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
                 }`}
             >
@@ -305,7 +305,7 @@ export default function EquipmentCatalog() {
               onClick={() => setMobileViewMode('compact')}
               title="Compact Single-Line List View (Faster Scrolling)"
               className={`p-1.5 rounded-lg transition-all ${mobileViewMode === 'compact'
-                  ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                  ? 'neu-btn-primary text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
                 }`}
             >
@@ -325,7 +325,7 @@ export default function EquipmentCatalog() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search apparatus..."
-                className="w-full min-h-[36px] sm:min-h-[42px] pl-9 pr-8 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="w-full min-h-[36px] sm:min-h-[42px] pl-9 pr-8 rounded-xl neu-inset text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-white"
               />
               {searchQuery && (
                 <button
@@ -364,7 +364,7 @@ export default function EquipmentCatalog() {
             <button
               type="button"
               onClick={openCartDrawer}
-              className="w-auto flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl neu-btn-raised border border-cyan-500/30 text-slate-200 hover:text-white hover:border-cyan-400 transition-all active:scale-95 cursor-pointer shadow-md"
+              className="w-auto flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl neu-btn-raised text-slate-200 hover:text-white transition-all active:scale-95 cursor-pointer shadow-md"
               title="Open Borrow Cart"
             >
               <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-xs">
@@ -375,7 +375,7 @@ export default function EquipmentCatalog() {
                 />
               </div>
               <span className="text-xs sm:text-sm font-bold">Borrow Cart</span>
-              <span className="px-2 py-0.5 rounded-full text-xs font-mono font-extrabold bg-cyan-500 text-slate-950">
+              <span className="px-2 py-0.5 rounded-full text-xs font-mono font-extrabold bg-white text-slate-950 shadow-sm">
                 {totalUnitsCount}
               </span>
             </button>
@@ -546,7 +546,7 @@ export default function EquipmentCatalog() {
                 onClose={closeCartDrawer}
                 onProceed={() => {
                   closeCartDrawer();
-                  commitTransaction();
+                  prepareTransactionReview();
                 }}
               />
             </div>
@@ -630,19 +630,19 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
 
   return (
     <div
-      className={`group relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 flex flex-col justify-between text-left select-none bg-[#0e1522] border border-slate-800/90 shadow-sm hover:shadow-lg hover:border-slate-700 ${
+      className={`neu-card neu-card-hover group relative rounded-2xl p-2.5 sm:p-3 transition-all duration-200 flex flex-col justify-between text-left select-none ${
         isMaintenance
-          ? 'opacity-80 border-rose-500/30 bg-rose-950/10'
+          ? 'opacity-80 border-rose-500/40 bg-rose-950/20'
           : totalGroupInCart > 0
-          ? 'ring-2 ring-cyan-500/50 border-cyan-500/40 bg-gradient-to-b from-[#111e30] to-[#0e1522]'
+          ? 'ring-2 ring-white/60 border-white/60 shadow-[0_0_20px_rgba(255,255,255,0.2)]'
           : ''
       }`}
     >
       <div>
         {/* Hero Image Showcase Stage (Edge-to-Edge Fitted Container + Bottom-Left Stock Capsule) */}
         <div
-          className={`relative w-full aspect-[4/3] sm:aspect-[4/3] rounded-xl overflow-hidden mb-2 group/img flex items-center justify-center border transition-colors ${
-            isWhiteBg ? 'bg-white border-slate-700/60' : 'bg-[#070c14] border-slate-800/80'
+          className={`neu-inset-sm relative w-full aspect-[4/3] sm:aspect-[4/3] rounded-xl overflow-hidden mb-2 group/img flex items-center justify-center transition-colors ${
+            isWhiteBg ? 'bg-white border-slate-700/60' : 'bg-[#060a12]'
           }`}
         >
           {/* Smooth Fade-in Switching Image that fits edge-to-edge seamlessly */}
@@ -741,20 +741,20 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
               <select
                 value={selectedVariantId}
                 onChange={(e) => setSelectedVariantId(e.target.value)}
-                className="w-full h-8 pl-2.5 pr-8 rounded-xl bg-slate-900/90 hover:bg-slate-900 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 font-mono text-[10.5px] sm:text-[11px] font-bold appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 transition-all shadow-sm truncate"
+                className="neu-inset w-full h-8 pl-2.5 pr-8 rounded-xl font-mono text-[10.5px] sm:text-[11px] font-bold appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-white transition-all shadow-inner truncate text-slate-100"
               >
                 {group.variants.map((v) => {
                   const vQty = getItemCartQty(v.id);
                   const vStock = v.stock || 10;
                   const vAvail = Math.max(0, vStock - vQty);
                   return (
-                    <option key={v.id} value={v.id} className="bg-[#0f172a] text-slate-200 py-1.5 font-mono">
+                    <option key={v.id} value={v.id} className="bg-[#131b28] text-slate-100 py-1.5 font-mono">
                       {v.variantLabel} {vQty > 0 ? `(${vQty} in cart)` : ''} — {vAvail === 0 ? 'Out of stock' : `${vAvail} left`}
                     </option>
                   );
                 })}
               </select>
-              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-400">
+              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                 <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
               </div>
             </div>
@@ -763,13 +763,13 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
       </div>
 
       {/* Card Footer: Spacious Clean Action Buttons */}
-      <div className="mt-2.5 pt-2 border-t border-slate-800/70 flex items-center gap-2">
+      <div className="mt-2.5 pt-2 border-t border-slate-700/60 flex items-center gap-2">
         {/* Reserve Button */}
         <button
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className="h-7.5 sm:h-8 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-amber-300 flex items-center justify-center gap-1 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+          className="neu-btn-raised h-7.5 sm:h-8 px-2.5 rounded-lg text-amber-300 flex items-center justify-center gap-1 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
           title={isMaintenance ? 'Item Locked' : 'Reserve Equipment'}
         >
           <Calendar className="w-3.5 h-3.5" />
@@ -781,12 +781,12 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           type="button"
           onClick={() => onAddToCart(currentItem)}
           disabled={isOutOfStock || isAllInCart || isMaintenance}
-          className={`flex-1 h-7.5 sm:h-8 px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer shadow-sm ${
+          className={`flex-1 h-7.5 sm:h-8 px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer ${
             isMaintenance || isOutOfStock || isAllInCart
-              ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-400'
+              ? 'opacity-40 cursor-not-allowed neu-inset text-slate-400'
               : inCartQty > 0
-              ? 'bg-cyan-500 text-slate-950 font-extrabold hover:bg-cyan-400 shadow-sm'
-              : 'bg-white hover:bg-slate-100 text-slate-950 font-extrabold shadow-sm'
+              ? 'neu-btn-secondary text-slate-950 font-black'
+              : 'neu-btn-primary text-slate-950 font-black'
           }`}
           title="Add apparatus to cart"
         >
@@ -828,14 +828,14 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
 
   return (
     <div
-      className={`rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none bg-[#0e1522] border border-slate-800/90 shadow-sm ${
-        isMaintenance ? 'border-rose-500/30 opacity-80' : ''
+      className={`neu-card neu-card-hover rounded-xl p-2.5 flex items-center justify-between gap-2.5 transition-all select-none ${
+        isMaintenance ? 'border-rose-500/40 opacity-80' : ''
       }`}
     >
       {/* Thumbnail + Left Info */}
       <div className="min-w-0 flex-1 flex items-center gap-2.5">
         {itemImg && (
-          <div className="w-11 h-11 rounded-lg bg-[#070c14] border border-slate-800/80 shrink-0 overflow-hidden flex items-center justify-center p-0.5">
+          <div className="neu-inset-sm w-11 h-11 rounded-lg shrink-0 overflow-hidden flex items-center justify-center p-0.5">
             <img
               key={itemImg}
               src={itemImg}
@@ -891,20 +891,20 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
               <select
                 value={selectedVariantId}
                 onChange={(e) => setSelectedVariantId(e.target.value)}
-                className="w-full h-6 pl-2 pr-6 rounded-lg bg-slate-900 border border-cyan-500/40 text-cyan-300 font-mono text-[9px] font-bold appearance-none cursor-pointer focus:outline-none focus:border-cyan-400 truncate"
+                className="neu-inset w-full h-6 pl-2 pr-6 rounded-lg text-slate-100 font-mono text-[9px] font-bold appearance-none cursor-pointer focus:outline-none truncate"
               >
                 {group.variants.map((v) => {
                   const vQty = getItemCartQty(v.id);
                   const vStock = v.stock || 10;
                   const vAvail = Math.max(0, vStock - vQty);
                   return (
-                    <option key={v.id} value={v.id} className="bg-[#0f172a] text-slate-200">
+                    <option key={v.id} value={v.id} className="bg-[#131b28] text-slate-200">
                       {v.variantLabel} {vQty > 0 ? `(${vQty})` : ''} — {vAvail} left
                     </option>
                   );
                 })}
               </select>
-              <div className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-400">
+              <div className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                 <ChevronDown className="w-3 h-3 stroke-[2.5]" />
               </div>
             </div>
@@ -918,7 +918,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className="w-7 h-7 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-amber-300 flex items-center justify-center active:scale-95 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="neu-btn-raised w-7 h-7 rounded-lg text-amber-300 flex items-center justify-center active:scale-95 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
           title={isMaintenance ? 'Under Maintenance' : 'Reserve'}
         >
           <Calendar className="w-3.5 h-3.5" />
@@ -928,11 +928,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty }) 
           type="button"
           disabled={isOutOfStock || isMaintenance}
           onClick={() => onAddToCart(currentItem)}
-          className={`h-7 px-2.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 ${
-            inCartQty > 0
-              ? 'bg-cyan-500 text-slate-950 font-extrabold'
-              : 'bg-white text-slate-950 hover:bg-slate-100 font-extrabold'
-          }`}
+          className={`neu-btn-primary h-7 px-2.5 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 text-slate-950 font-black cursor-pointer`}
         >
           <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
           <span>{isMaintenance ? 'Locked' : isOutOfStock ? (isAllInCart ? 'Max' : '0') : 'Add'}</span>
