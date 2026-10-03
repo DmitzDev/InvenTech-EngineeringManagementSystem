@@ -25,9 +25,28 @@
   body {
     transition: background-color 0.25s ease, color 0.25s ease;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-optical-sizing: auto;
+    font-feature-settings: 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv11' 1, 'tnum' 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  code, kbd, samp, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-feature-settings: 'tnum' 1, 'zero' 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* SEO & Accessibility Friendly Micro-Text Readability */
+  .text-xs,
+  .text-\[10px\],
+  .text-\[11px\],
+  .text-\[12px\],
+  small {
+    letter-spacing: 0.018em;
+    font-weight: 500;
+    text-rendering: geometricPrecision;
   }
 }
 
@@ -44,6 +63,11 @@
    ========================================================= */
 :root {
   font-size: 16px;
+  /* 4-Color Ergonomic Dark Palette Variables */
+  --kiosk-dark-canvas: #0c1017;      /* Color 1: Midnight Charcoal Base (Zero Eye Strain) */
+  --kiosk-dark-surface: #151e2c;     /* Color 2: Velvet Elevated Slate (Gentle Hierarchy) */
+  --kiosk-dark-accent: #38bdf8;      /* Color 3: Soothing Sky Azure (Primary Interactive Glow) */
+  --kiosk-dark-status: #34d399;      /* Color 4: Soft Mint Emerald (Relaxing Functional Success) */
 }
 
 @media screen and (min-width: 1024px) {
@@ -70,29 +94,29 @@
 }
 
 /* =========================================================
-   2. DARK NEOMORPHISM (SOFT UI DARK THEME)
+   2. EYE-FRIENDLY 4-COLOR DARK THEME (ZERO GLARE & MAXIMUM COMFORT)
    ========================================================= */
 :root,
 [data-theme="dark"] body {
-  background-color: #0b111e;
+  background-color: #0c1017;
   color: #f1f5f9;
 }
 
 [data-theme="dark"] .kiosk-shell {
-  background-color: #0b111e;
+  background-color: #0c1017;
 }
 
-/* Dark Neomorphic Raised Cards */
+/* Dark Neomorphic Raised Cards - Color 2 Surface with soft ambient depth */
 [data-theme="dark"] .neu-card {
-  background: #111a2c;
-  box-shadow: 6px 6px 14px #060a12, -6px -6px 14px #1b2842;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #151e2c;
+  box-shadow: 4px 4px 12px #070a10, -4px -4px 12px #1f2a3e;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 [data-theme="dark"] .neu-card-sm {
-  background: #111a2c;
-  box-shadow: 4px 4px 10px #060a12, -4px -4px 10px #1b2842;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #151e2c;
+  box-shadow: 3px 3px 8px #070a10, -3px -3px 8px #1f2a3e;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 [data-theme="dark"] .neu-card-hover {
@@ -100,82 +124,108 @@
 }
 
 [data-theme="dark"] .neu-card-hover:hover {
-  box-shadow: 8px 8px 18px #05080f, -8px -8px 18px #1f2d4b;
+  box-shadow: 6px 6px 16px #06090e, -6px -6px 16px #24324a;
   transform: translateY(-1px);
 }
 
-/* Dark Neomorphic Insets (Inputs & Displays) */
+/* Dark Neomorphic Insets (Inputs & Recessed Displays) */
 [data-theme="dark"] .neu-inset {
-  background: #0d1422;
-  box-shadow: inset 4px 4px 8px #060910, inset -4px -4px 8px #172238;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: #0f1522;
+  box-shadow: inset 3px 3px 7px #070a10, inset -3px -3px 7px #1b2537;
+  border: 1px solid rgba(255, 255, 255, 0.04);
   color: #f1f5f9;
 }
 
 [data-theme="dark"] .neu-inset-sm {
-  background: #0d1422;
-  box-shadow: inset 2.5px 2.5px 5px #060910, inset -2.5px -2.5px 5px #172238;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: #0f1522;
+  box-shadow: inset 2px 2px 5px #070a10, inset -2px -2px 5px #1b2537;
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
+/* Color 3: Soothing Sky Azure Recessed Glow */
 [data-theme="dark"] .neu-inset-cyan {
-  background: #0a1b28;
-  box-shadow: inset 3px 3px 6px #040d14, inset -3px -3px 6px #123046, 0 0 12px rgba(6, 182, 212, 0.2);
-  border: 1px solid rgba(6, 182, 212, 0.4);
+  background: #0d1e2e;
+  box-shadow: inset 2.5px 2.5px 6px #050d15, inset -2.5px -2.5px 6px #15334d, 0 0 10px rgba(56, 189, 248, 0.18);
+  border: 1px solid rgba(56, 189, 248, 0.45);
 }
 
+/* Color 4: Soft Mint Emerald Recessed Glow */
+[data-theme="dark"] .neu-inset-emerald,
 [data-theme="dark"] .neu-inset-amber {
-  background: #21190e;
-  box-shadow: inset 3px 3px 6px #100b05, inset -3px -3px 6px #372814, 0 0 12px rgba(245, 158, 11, 0.2);
-  border: 1px solid rgba(245, 158, 11, 0.4);
+  background: #0d241c;
+  box-shadow: inset 2.5px 2.5px 6px #05140f, inset -2.5px -2.5px 6px #153d2f, 0 0 10px rgba(52, 211, 153, 0.18);
+  border: 1px solid rgba(52, 211, 153, 0.45);
 }
 
 /* Dark Neomorphic Raised Buttons */
 [data-theme="dark"] .neu-btn-raised {
-  background: #141f33;
-  box-shadow: 4px 4px 10px #060a12, -4px -4px 10px #1e2c48;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #151e2c;
+  box-shadow: 3px 3px 8px #070a10, -3px -3px 8px #223048;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   color: #e2e8f0;
 }
 
 [data-theme="dark"] .neu-btn-raised:hover {
-  background: #17233a;
-  box-shadow: 5px 5px 12px #05080f, -5px -5px 12px #223252;
+  background: #1a2538;
+  box-shadow: 4px 4px 10px #06090e, -4px -4px 10px #263650;
+  color: #ffffff;
 }
 
 [data-theme="dark"] .neu-btn-raised:active {
-  background: #0e1524;
-  box-shadow: inset 3px 3px 6px #060a12, inset -3px -3px 6px #1a273e;
-  transform: scale(0.95);
+  background: #0f1522;
+  box-shadow: inset 2.5px 2.5px 5px #070a10, inset -2.5px -2.5px 5px #1c273a;
+  transform: scale(0.97);
 }
 
+/* Color 3: Soothing Sky Azure Primary Action Button */
 [data-theme="dark"] .neu-btn-primary {
-  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  box-shadow: 4px 4px 12px #060a12, -4px -4px 12px #1a2844, 0 0 20px rgba(6, 182, 212, 0.35);
-  color: #020617;
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35), 3px 3px 8px #070a10;
+  color: #0c1017;
   font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="dark"] .neu-btn-primary:hover {
-  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
-  box-shadow: 6px 6px 16px #060a12, -6px -6px 16px #203152, 0 0 24px rgba(6, 182, 212, 0.5);
+  background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.5), 4px 4px 10px #06090e;
 }
 
 [data-theme="dark"] .neu-btn-primary:active {
-  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.5), inset -3px -3px 6px rgba(255, 255, 255, 0.2);
-  transform: scale(0.95);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4), inset -2px -2px 5px rgba(255, 255, 255, 0.2);
+  transform: scale(0.97);
 }
 
+/* Color 4: Soft Mint Emerald Secondary Action Button */
+[data-theme="dark"] .neu-btn-secondary {
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  box-shadow: 0 4px 14px rgba(52, 211, 153, 0.35), 3px 3px 8px #070a10;
+  color: #0c1017;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .neu-btn-secondary:hover {
+  background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);
+  box-shadow: 0 6px 18px rgba(52, 211, 153, 0.5), 4px 4px 10px #06090e;
+}
+
+[data-theme="dark"] .neu-btn-secondary:active {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.4), inset -2px -2px 5px rgba(255, 255, 255, 0.2);
+  transform: scale(0.97);
+}
+
+/* Subtle Danger Button with low optical fatigue */
 [data-theme="dark"] .neu-btn-danger {
-  background: #19141f;
-  box-shadow: 3px 3px 8px #060a12, -3px -3px 8px #1d2538;
-  color: #fda4af;
+  background: #1d141a;
+  box-shadow: 3px 3px 8px #070a10, -3px -3px 8px #261922;
+  color: #fca5a5;
   border: 1px solid rgba(244, 63, 94, 0.25);
 }
 
 [data-theme="dark"] .neu-btn-danger:active {
-  background: #130d17;
-  transform: scale(0.95);
+  background: #140d12;
+  transform: scale(0.97);
 }
 
 /* =========================================================
@@ -789,6 +839,41 @@
   box-shadow: 0 6px 14px rgba(2, 132, 199, 0.5);
 }
 
+/* =========================================================
+   DARK THEME 4-COLOR HARMONIZATION (EYE-FRIENDLY SMOOTH PALETTE)
+   ========================================================= */
+/* Color 1: Midnight Charcoal Base Canvas */
+[data-theme="dark"] .bg-\[\#0b111e\],
+[data-theme="dark"] .bg-\[\#060a14\],
+[data-theme="dark"] .bg-\[\#060a12\],
+[data-theme="dark"] .bg-\[\#080e1c\],
+[data-theme="dark"] .bg-\[\#09101d\] {
+  background-color: #0c1017 !important;
+}
+
+/* Color 2: Velvet Elevated Slate Surface */
+[data-theme="dark"] .bg-\[\#111a2c\],
+[data-theme="dark"] .bg-\[\#0d1422\],
+[data-theme="dark"] .bg-\[\#0e1422\],
+[data-theme="dark"] .bg-\[\#0e1726\],
+[data-theme="dark"] .bg-\[\#0f1728\],
+[data-theme="dark"] .bg-\[\#0e1624\],
+[data-theme="dark"] .bg-\[\#0c1526\],
+[data-theme="dark"] .bg-\[\#0c1527\],
+[data-theme="dark"] .bg-\[\#151c2d\],
+[data-theme="dark"] .bg-\[\#141f33\] {
+  background-color: #151e2c !important;
+}
+
+/* Soft Non-Straining Border Tone for Dark Mode */
+[data-theme="dark"] .border-slate-800,
+[data-theme="dark"] .border-slate-800\/80,
+[data-theme="dark"] .border-slate-800\/60,
+[data-theme="dark"] .border-slate-700\/80,
+[data-theme="dark"] .border-slate-700 {
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
 [data-theme="light"] .border-slate-800,
 [data-theme="light"] .border-slate-800\/80,
 [data-theme="light"] .border-slate-800\/60,
@@ -838,21 +923,25 @@
   border-color: #e2e8f0 !important;
 }
 
-/* Custom subtle scrollbars */
+/* Custom subtle eye-friendly scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-track {
-  background: #0d1422;
-  box-shadow: inset 1px 1px 3px #060910, inset -1px -1px 3px #172238;
+  background: #0c1017;
+  box-shadow: inset 1px 1px 3px #06090e;
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: #24334f;
+  background: #1f2a3e;
   border-radius: 9999px;
-  box-shadow: 1px 1px 3px #060910;
+  box-shadow: 1px 1px 3px #070a10;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #283750;
 }
 
 [data-theme="light"] ::-webkit-scrollbar-track {
