@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
+import { formatStudentId, handleStudentIdChange } from '../../utils/studentIdFormatter';
 
 export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpenClearance }) {
   const { activeTransactions, returnEquipmentTransaction, showToast, theme } = useTransaction();
@@ -152,14 +153,20 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
     }
   }, [loanToolsList]);
 
-  // Handle Numpad / Keypad Input
+  // Handle Numpad / Keypad Input (Automatic dash formatting, max 9 digits)
   const handleNumpadPress = (char) => {
-    if (enteredId.length >= 16) return;
-    setEnteredId((prev) => prev + char);
+    if (!/\d/.test(char)) return; // Only accept digits; dashes are auto-formatted
+    const currentDigits = enteredId.replace(/\D/g, '');
+    if (currentDigits.length >= 9) return; // Strict 9 digits maximum
+    const newDigits = currentDigits + char;
+    setEnteredId(formatStudentId(newDigits));
   };
 
   const handleBackspace = () => {
-    setEnteredId((prev) => prev.slice(0, -1));
+    const currentDigits = enteredId.replace(/\D/g, '');
+    if (!currentDigits) return;
+    const newDigits = currentDigits.slice(0, -1);
+    setEnteredId(formatStudentId(newDigits));
   };
 
   const handleClearInput = () => {
@@ -169,8 +176,13 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
   const handleLookup = (e) => {
     if (e) e.preventDefault();
-    if (!enteredId.trim()) {
+    const digitsOnly = enteredId.replace(/\D/g, '');
+    if (!digitsOnly) {
       showToast('Please enter your Student ID number', 'error');
+      return;
+    }
+    if (digitsOnly.length !== 9) {
+      showToast('Student ID must be exactly 9 digits (e.g. 23-1374-693)', 'error');
       return;
     }
     setLookupAttempted(true);
@@ -356,11 +368,15 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       ref={inputRef}
                       type="text"
                       inputMode="numeric"
-                      pattern="[0-9\-]*"
+                      pattern="[0-9]*"
                       enterKeyHint="done"
+                      maxLength={11}
                       value={enteredId}
-                      onChange={(e) => setEnteredId(e.target.value.toUpperCase())}
-                      placeholder="e.g. 21-0482-119"
+                      onChange={(e) => {
+                        const formatted = handleStudentIdChange(e.target.value, enteredId);
+                        setEnteredId(formatted);
+                      }}
+                      placeholder="e.g. 23-1374-693"
                       className={`w-full h-12 sm:h-14 px-4 pr-12 rounded-xl font-mono text-center text-lg sm:text-xl tracking-widest font-black focus:outline-none transition-all shadow-inner touch-manipulation ${
                         isDark
                           ? 'neu-inset text-cyan-300 placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-400/50'
@@ -402,19 +418,19 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                         {num}
                       </button>
                     ))}
-                    {/* Bottom row: Dash, Zero, Backspace */}
+                    {/* Bottom row: Clear, Zero, Backspace */}
                     <button
                       type="button"
                       onPointerDown={(e) => e.preventDefault()}
-                      onClick={() => handleNumpadPress('-')}
-                      className={`h-10 sm:h-11 rounded-lg font-mono text-base font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+                      onClick={handleClearInput}
+                      className={`h-10 sm:h-11 rounded-lg font-mono text-xs sm:text-sm font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                         isDark
-                          ? 'neu-btn-raised text-cyan-400 font-black'
-                          : 'bg-slate-100 hover:bg-slate-200 border border-slate-200/90 text-slate-900 font-black'
+                          ? 'neu-btn-raised text-amber-400 hover:text-amber-300'
+                          : 'bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-800'
                         }`}
-                      title="Hyphen (-)"
+                      title="Clear All"
                     >
-                      —
+                      CLR
                     </button>
                     <button
                       type="button"

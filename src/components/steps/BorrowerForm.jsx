@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
+import { handleStudentIdChange, isValidStudentId } from '../../utils/studentIdFormatter';
 
 const ENGINEERING_PROGRAMS = ['BSCPE', 'BSCE', 'BSCEE', 'BSECE'];
 const YEAR_LEVELS = [
@@ -194,7 +195,12 @@ export default function BorrowerForm() {
     if (!borrower.program?.trim()) errs.program = 'Select or specify a Program';
     if (!borrower.courseCode?.trim()) errs.courseCode = 'Course Code required (e.g. 41-BSCPE-01)';
     if (!borrower.groupLeader?.trim()) errs.groupLeader = 'Student Name is required';
-    if (!borrower.studentId?.trim()) errs.studentId = 'Student ID Number is required';
+    const cleanId = (borrower.studentId || '').replace(/\D/g, '');
+    if (!cleanId) {
+      errs.studentId = 'Student ID Number is required';
+    } else if (cleanId.length !== 9) {
+      errs.studentId = 'Student ID must be exactly 9 digits (e.g. 23-1374-693)';
+    }
     if (!borrower.instructor?.trim()) errs.instructor = 'Instructor name required';
     if (!borrower.labTime?.trim() || !startHour || !endHour) {
       errs.labTime = 'Please complete the time schedule range';
@@ -514,10 +520,14 @@ export default function BorrowerForm() {
               <input
                 type="text"
                 value={borrower.studentId || ''}
-                onChange={(e) => setBorrowerField('studentId', e.target.value.toUpperCase())}
-                placeholder="e.g. 21-0482-119"
+                onChange={(e) => {
+                  const formatted = handleStudentIdChange(e.target.value, borrower.studentId);
+                  setBorrowerField('studentId', formatted);
+                }}
+                placeholder="e.g. 23-1374-693"
+                maxLength={11}
                 inputMode="numeric"
-                pattern="[0-9\-]*"
+                pattern="[0-9]*"
                 enterKeyHint="next"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-extrabold transition-all uppercase ${
                   clearanceStatus.isRestricted
