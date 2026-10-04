@@ -913,7 +913,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
               ? '0 Stock'
               : inCartQty > 0
               ? `Add (${inCartQty})`
-              : 'Add to Cart'}
+              : 'Add'}
           </span>
         </button>
       </div>
