@@ -4240,9 +4240,6 @@ export function getItemImage(item) {
   const name = (item.name || '').toLowerCase();
   const lab = (item.lab || '').toUpperCase();
 
-  // ==========================================
-  // CIVIL ENGINEERING APPARATUS & EQUIPMENT
-  // ==========================================
   if (lab === 'CE' || name.includes('theodolite') || name.includes('total station') || name.includes('slump') || name.includes('vicat') || name.includes('sieve') || name.includes('cbr') || name.includes('surveying') || name.includes('hydrometer') || name.includes('silicate')) {
     if (name.includes('theodolite') || name.includes('total station') || name.includes('transit') || name.includes('gps') || name.includes('flow (current) meter')) {
       return '/images/equipment/civil/theodolite_total_station.jpg';
