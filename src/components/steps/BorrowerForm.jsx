@@ -223,16 +223,6 @@ export default function BorrowerForm() {
         isDark ? 'border-slate-800/80' : 'border-slate-300'
       }`}>
         <div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <span className={`text-[11px] sm:text-sm font-mono font-black tracking-wider uppercase ${
-              isDark ? 'text-cyan-400' : 'text-slate-900 font-black'
-            }`}>
-              Step 01 of 04
-            </span>
-            <span className={`text-[11px] sm:text-sm font-bold truncate ${
-              isDark ? 'text-slate-400 font-medium' : 'text-slate-700'
-            }`}>• Institutional Clearance</span>
-          </div>
           <h1 className={`text-base sm:text-2xl lg:text-3xl font-black leading-tight ${
             isDark ? 'text-slate-100' : 'text-slate-950 font-black'
           }`}>

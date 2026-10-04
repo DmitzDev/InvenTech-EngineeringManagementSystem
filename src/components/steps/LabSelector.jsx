@@ -52,17 +52,7 @@ export default function LabSelector() {
         isDark ? 'border-slate-800/80' : 'border-slate-200'
       }`}>
         <div>
-          <div className="flex items-center gap-2">
-            <span className={`text-xs sm:text-sm font-mono font-black tracking-wider uppercase ${
-              isDark ? 'text-cyan-400' : 'text-slate-900'
-            }`}>
-              Step 02 of 04
-            </span>
-            <span className={`text-xs sm:text-sm font-medium ${
-              isDark ? 'text-slate-400' : 'text-slate-600'
-            }`}>• Institutional Facility</span>
-          </div>
-          <h1 className={`text-xl sm:text-2xl lg:text-3xl font-extrabold leading-tight mt-0.5 ${
+          <h1 className={`text-xl sm:text-2xl lg:text-3xl font-extrabold leading-tight ${
             isDark ? 'text-slate-100' : 'text-slate-900 font-black'
           }`}>
             Select Laboratory Department
