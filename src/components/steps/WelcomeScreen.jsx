@@ -279,30 +279,19 @@ export default function WelcomeScreen() {
           </div>
 
           {/* Block 4: Primary CTA - Transitions to Mode Selection Hub */}
-          <div className="w-full max-w-lg space-y-2.5 sm:space-y-3 px-2">
+          <div className="w-full max-w-lg px-2">
             <TouchButton
               variant="primary"
               size="lg"
               icon={ArrowRight}
               fullWidth
               onClick={() => setViewMode('mode_select')}
-              className={`font-black tracking-wider py-3.5 sm:py-4 text-sm sm:text-base shadow-xl text-white ${
+              className={`font-black tracking-wider py-4 text-sm sm:text-base shadow-xl text-white ${
                 isDark ? 'shadow-cyan-950/60' : 'shadow-slate-400/30'
               }`}
             >
               TAP TO START / CONTINUE
             </TouchButton>
-
-            <button
-              type="button"
-              onClick={() => setIsSecureReturnOpen(true)}
-              className={`w-full min-h-[42px] sm:min-h-[48px] rounded-2xl neu-btn-raised flex items-center justify-center gap-2 text-xs sm:text-sm font-black transition-transform duration-75 ease-out active:scale-95 touch-manipulation shadow-xs cursor-pointer ${
-                isDark ? 'text-emerald-400 hover:text-emerald-300' : 'text-emerald-800 hover:text-emerald-950'
-              }`}
-            >
-              <RotateCcw className="w-4 h-4 stroke-[2.2]" />
-              <span>Direct Return Equipment Check-In</span>
-            </button>
           </div>
         </div>
       )}
