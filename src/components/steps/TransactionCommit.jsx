@@ -86,7 +86,8 @@ export default function TransactionCommit() {
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
 
-      ctx.strokeStyle = isDark ? '#38bdf8' : '#090e17'; // Sky Blue in dark mode, Deep Obsidian in light mode
+      // Ink Color: Solid dark slate-900 (#0f172a) in light mode, Sky Blue (#38bdf8) in dark mode
+      ctx.strokeStyle = isDark ? '#38bdf8' : '#0f172a';
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -99,7 +100,7 @@ export default function TransactionCommit() {
     updateCanvasScale();
     window.addEventListener('resize', updateCanvasScale);
     return () => window.removeEventListener('resize', updateCanvasScale);
-  }, []);
+  }, [isDark]);
 
   const getCanvasPos = (canvas, clientX, clientY) => {
     const rect = canvas.getBoundingClientRect();
@@ -114,6 +115,10 @@ export default function TransactionCommit() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     isDrawing.current = true;
+    ctx.strokeStyle = isDark ? '#38bdf8' : '#0f172a';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     const pos = getCanvasPos(canvas, clientX, clientY);
@@ -174,29 +179,47 @@ export default function TransactionCommit() {
     <div className="flex-1 p-3 sm:p-5 lg:p-8 pb-16 md:pb-10 max-w-7xl mx-auto w-full flex flex-col justify-between space-y-4 sm:space-y-5 select-none relative min-h-0">
       <div className="space-y-4 sm:space-y-5">
         {/* Top Header: Verification & Audit Bar */}
-        <div className="neu-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.12)]">
+        <div className={`rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border ${
+          isDark
+            ? 'neu-card border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.12)]'
+            : 'bg-white border-slate-200 shadow-sm'
+        }`}>
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-cyan-500/15 neu-inset flex items-center justify-center text-cyan-400 shrink-0 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 ${
+              isDark
+                ? 'bg-cyan-500/15 neu-inset text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                : 'bg-blue-50 text-blue-800 border border-blue-200/60 shadow-xs'
+            }`}>
               <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-sm sm:text-lg font-black text-slate-100 tracking-tight">
+                <h2 className={`text-sm sm:text-lg font-black tracking-tight ${
+                  isDark ? 'text-slate-100' : 'text-slate-900'
+                }`}>
                   Step 04: Verify & Finalize Slip
                 </h2>
-                <span className="text-[9.5px] sm:text-[10px] font-mono px-2 py-0.5 rounded-full neu-inset-sm text-cyan-400 font-bold">
+                <span className={`text-[9.5px] sm:text-[10px] font-mono px-2 py-0.5 rounded-full font-bold ${
+                  isDark
+                    ? 'neu-inset-sm text-cyan-400'
+                    : 'bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold'
+                }`}>
                   UdD-FM-LM-01A-01
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5 leading-relaxed">
+              <p className={`text-[11px] sm:text-xs mt-0.5 leading-relaxed ${
+                isDark ? 'text-slate-300' : 'text-slate-600'
+              }`}>
                 Review borrower information, certify the institutional safety protocol, and print the official slip.
               </p>
             </div>
           </div>
 
-          <div className="text-left sm:text-right font-mono neu-inset px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl shrink-0">
-            <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium">Transaction Reference</div>
-            <div className="text-xs sm:text-sm font-bold text-cyan-400">{transactionId || 'UDD-TX-DRAFT'}</div>
+          <div className={`text-left sm:text-right font-mono px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl shrink-0 border ${
+            isDark ? 'neu-inset border-slate-800/80' : 'bg-slate-50 border-slate-200 shadow-xs'
+          }`}>
+            <div className={`text-[9px] sm:text-[10px] font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Transaction Reference</div>
+            <div className={`text-xs sm:text-sm font-bold ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>{transactionId || 'UDD-TX-DRAFT'}</div>
           </div>
         </div>
 
@@ -331,12 +354,16 @@ export default function TransactionCommit() {
                         </td>
                         <td className="p-2.5">
                           {item.isDamaged ? (
-                            <span className="text-[9.5px] px-2 py-0.5 rounded-full neu-inset-amber text-amber-300 font-bold inline-flex items-center gap-1">
+                            <span className={`text-[9.5px] px-2 py-0.5 rounded-full font-bold inline-flex items-center gap-1 ${
+                              isDark ? 'neu-inset-amber text-amber-300' : 'bg-rose-50 text-rose-800 border border-rose-200/60'
+                            }`}>
                               <AlertTriangle className="w-3 h-3" />
                               <span>Pre-damaged</span>
                             </span>
                           ) : (
-                            <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Good</span>
+                            <span className={`text-[9.5px] px-2 py-0.5 rounded-full font-bold inline-block ${
+                              isDark ? 'text-slate-400' : 'bg-emerald-50 text-emerald-800 border border-emerald-200/60'
+                            }`}>Good</span>
                           )}
                         </td>
                       </tr>
@@ -348,17 +375,25 @@ export default function TransactionCommit() {
 
             {/* Flagged Damaged Items Warning Banner */}
             {damagedItems.length > 0 && (
-              <div className="p-3 sm:p-3.5 rounded-2xl neu-inset-amber border border-amber-500/30 flex items-center justify-between gap-3 text-amber-200">
+              <div className={`p-3 sm:p-3.5 rounded-2xl flex items-center justify-between gap-3 ${
+                isDark
+                  ? 'neu-inset-amber border border-amber-500/30 text-amber-200'
+                  : 'bg-amber-50 text-amber-800 border border-amber-200/60 shadow-sm'
+              }`}>
                 <div className="flex items-center gap-2.5">
-                  <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 shrink-0" />
+                  <AlertTriangle className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${isDark ? 'text-amber-400' : 'text-amber-700'}`} />
                   <div className="text-xs">
                     <span className="font-bold">{damagedItems.length} item(s) flagged for Pre-existing Condition:</span>
-                    <span className="text-amber-300/90 ml-1">
+                    <span className={`ml-1 ${isDark ? 'text-amber-300/90' : 'text-amber-900 font-semibold'}`}>
                       {damagedItems.map((i) => i.name).join(', ')}
                     </span>
                   </div>
                 </div>
-                <span className="text-[9px] font-mono font-bold bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/40 shrink-0">
+                <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border shrink-0 ${
+                  isDark
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                    : 'bg-amber-100 text-amber-900 border-amber-300'
+                }`}>
                   NOTED ON SLIP
                 </span>
               </div>
@@ -369,30 +404,46 @@ export default function TransactionCommit() {
               onClick={toggleSafetyAgreement}
               className={`p-3.5 sm:p-4 rounded-2xl cursor-pointer transition-all border select-none ${
                 safetyAgreement
-                  ? 'neu-inset border-cyan-500/60 bg-cyan-950/20 shadow-[0_0_18px_rgba(6,182,212,0.2)]'
-                  : 'neu-card border-slate-700 hover:border-slate-600 bg-[#111a2c]'
+                  ? isDark
+                    ? 'neu-inset border-cyan-500/60 bg-cyan-950/20 shadow-[0_0_18px_rgba(6,182,212,0.2)]'
+                    : 'bg-blue-50/70 border-2 border-blue-500 shadow-sm'
+                  : isDark
+                    ? 'neu-card border-slate-700 hover:border-slate-600 bg-[#111a2c]'
+                    : 'bg-white border border-slate-200 hover:border-slate-300 shadow-sm'
               }`}
             >
               <div className="flex items-start gap-3">
                 <button
                   type="button"
                   className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-                    safetyAgreement ? 'bg-cyan-500 text-slate-950 shadow-md' : 'neu-inset text-slate-500'
+                    safetyAgreement
+                      ? isDark
+                        ? 'bg-cyan-500 text-slate-950 shadow-md'
+                        : 'bg-blue-600 text-white shadow-sm'
+                      : isDark
+                        ? 'neu-inset text-slate-500'
+                        : 'bg-slate-100 border border-slate-300 text-slate-400'
                   }`}
                 >
                   {safetyAgreement ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
                 </button>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
-                    <span className="text-xs sm:text-sm font-extrabold text-slate-100">
+                    <ShieldCheck className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+                    <span className={`text-xs sm:text-sm font-extrabold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                       Institutional Safety & Laboratory Protocol Agreement
                     </span>
-                    <span className="text-[9px] font-mono text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30 font-bold">
+                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded border font-bold ${
+                      isDark
+                        ? 'text-cyan-300 bg-cyan-950/80 border-cyan-500/30'
+                        : 'bg-blue-50 text-blue-800 border-blue-200/60 font-semibold'
+                    }`}>
                       CHED Compliant
                     </span>
                   </div>
-                  <p className="text-[11px] sm:text-xs text-slate-300 mt-1 leading-relaxed">
+                  <p className={`text-[11px] sm:text-xs mt-1 leading-relaxed ${
+                    isDark ? 'text-slate-300' : 'text-slate-600'
+                  }`}>
                     I certify that all apparatus will be handled in accordance with Universidad de Dagupan Safety Rules. I accept liability for damages or unreturned items.
                   </p>
                 </div>
@@ -401,17 +452,25 @@ export default function TransactionCommit() {
 
             {/* Official Commit & Printed Status Confirmation Banner */}
             {isTransactionCommitted && (
-              <div className="p-3.5 sm:p-4 rounded-2xl neu-inset bg-emerald-950/40 border border-emerald-500/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-emerald-300 animate-fade-in shadow-[0_0_24px_rgba(16,185,129,0.2)]">
+              <div className={`p-3.5 sm:p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 animate-fade-in ${
+                isDark
+                  ? 'neu-inset bg-emerald-950/40 border border-emerald-500/60 text-emerald-300 shadow-[0_0_24px_rgba(16,185,129,0.2)]'
+                  : 'bg-emerald-50 text-emerald-800 border border-emerald-200/60 shadow-sm'
+              }`}>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 border border-emerald-500/40 shadow-sm">
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 border shadow-sm ${
+                    isDark
+                      ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+                      : 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                  }`}>
                     <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div>
-                    <div className="font-extrabold text-xs sm:text-sm text-emerald-200">
+                    <div className={`font-extrabold text-xs sm:text-sm ${isDark ? 'text-emerald-200' : 'text-emerald-950'}`}>
                       Borrower Slip Printed & Transaction Officially Recorded!
                     </div>
-                    <div className="text-[11px] sm:text-xs text-emerald-300/80">
-                      Ref Code: <span className="font-mono font-bold text-white">{transactionId}</span> • Please submit the signed printed slip to the Laboratory Custodian.
+                    <div className={`text-[11px] sm:text-xs ${isDark ? 'text-emerald-300/80' : 'text-emerald-800'}`}>
+                      Ref Code: <span className={`font-mono font-bold ${isDark ? 'text-white' : 'text-emerald-950'}`}>{transactionId}</span> • Please submit the signed printed slip to the Laboratory Custodian.
                     </div>
                   </div>
                 </div>
@@ -434,82 +493,139 @@ export default function TransactionCommit() {
           <div className="w-full md:col-span-5 flex flex-col space-y-4">
             
             {/* 1. Student Credentials & Schedule Card */}
-            <div className="neu-card rounded-2xl p-4 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <GraduationCap className="w-4 h-4 text-cyan-400" />
+            <div className={`rounded-2xl p-4 space-y-3 ${
+              isDark ? 'neu-card' : 'bg-white border border-slate-200 shadow-sm'
+            }`}>
+              <div className={`flex items-center justify-between pb-2 border-b ${
+                isDark ? 'border-slate-800/80' : 'border-slate-200'
+              }`}>
+                <span className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+                  isDark ? 'text-slate-400' : 'text-slate-700'
+                }`}>
+                  <GraduationCap className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
                   <span>Borrower Credentials</span>
                 </span>
-                <span className="text-[10px] font-mono text-cyan-400 font-bold bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+                  isDark
+                    ? 'text-cyan-400 bg-cyan-950/60 border-cyan-500/30'
+                    : 'bg-blue-50 text-blue-800 border-blue-200/60 font-semibold'
+                }`}>
                   Group {borrower.groupNo || '1'}
                 </span>
               </div>
 
               <div className="space-y-1.5 text-xs">
                 <div>
-                  <span className="text-[10px] text-slate-400 uppercase font-semibold block">Student Name</span>
-                  <span className="text-sm font-black text-slate-100 uppercase tracking-tight block truncate">
+                  <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    Student Name
+                  </span>
+                  <span className={`text-sm font-black uppercase tracking-tight block truncate ${
+                    isDark ? 'text-slate-100' : 'text-slate-900'
+                  }`}>
                     {borrower.groupLeader || 'NO NAME PROVIDED'}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/60">
+                <div className={`grid grid-cols-2 gap-2 pt-1 border-t ${
+                  isDark ? 'border-slate-800/60' : 'border-slate-200'
+                }`}>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-semibold block">Student ID</span>
-                    <span className="font-mono text-cyan-300 font-bold">{borrower.studentId || 'N/A'}</span>
+                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Student ID
+                    </span>
+                    <span className={`font-mono font-bold ${isDark ? 'text-cyan-300' : 'text-slate-900'}`}>
+                      {borrower.studentId || 'N/A'}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-semibold block">Program & Code</span>
-                    <span className="font-mono text-slate-200 font-bold truncate block">
+                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Program & Code
+                    </span>
+                    <span className={`font-mono font-bold truncate block ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
                       {borrower.program} ({borrower.courseCode || 'N/A'})
                     </span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/60">
+                <div className={`grid grid-cols-2 gap-2 pt-1 border-t ${
+                  isDark ? 'border-slate-800/60' : 'border-slate-200'
+                }`}>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-semibold block">Instructor</span>
-                    <span className="text-slate-200 font-medium truncate block">{borrower.instructor || 'Lab Custodian'}</span>
+                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Instructor
+                    </span>
+                    <span className={`font-medium truncate block ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+                      {borrower.instructor || 'Lab Custodian'}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-semibold block">Schedule</span>
-                    <span className="font-mono text-slate-300 text-[11px] truncate block">{borrower.labTime || 'Standard'}</span>
+                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                      Schedule
+                    </span>
+                    <span className={`font-mono text-[11px] truncate block ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                      {borrower.labTime || 'Standard'}
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* 2. Purpose of Borrowing Selector Dropdown */}
-            <div className="neu-card rounded-2xl p-4 space-y-2">
-              <div className="flex items-center justify-between pb-1 border-b border-slate-800/80">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Briefcase className="w-3.5 h-3.5 text-cyan-400" />
+            {/* 2. Purpose of Borrowing Quick-Select Chips */}
+            <div className={`neu-card rounded-2xl p-4 space-y-2.5 ${
+              isDark ? '' : 'bg-white border-slate-200 shadow-sm'
+            }`}>
+              <div className={`flex items-center justify-between pb-1.5 border-b ${
+                isDark ? 'border-slate-800/80' : 'border-slate-200'
+              }`}>
+                <span className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+                  isDark ? 'text-slate-400' : 'text-slate-700'
+                }`}>
+                  <Briefcase className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
                   <span>Purpose of Borrowing</span>
                 </span>
-                <span className="text-[9px] font-mono text-cyan-300 bg-cyan-950/70 px-2 py-0.5 rounded border border-cyan-500/30 font-bold">
+                <span className={`text-[9.5px] font-mono px-2 py-0.5 rounded font-bold ${
+                  isDark ? 'text-cyan-300 bg-cyan-950/70 border border-cyan-500/30' : 'bg-slate-100 text-slate-800 border border-slate-200'
+                }`}>
                   Official Record
                 </span>
               </div>
 
-              <select
-                value={borrower.purpose || PURPOSE_OPTIONS[0]}
-                onChange={(e) => setBorrowerField('purpose', e.target.value)}
-                className="w-full h-10 px-3 rounded-xl neu-inset text-xs font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
-              >
-                {PURPOSE_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt} className="bg-[#0e1422] text-slate-100 font-medium">
-                    {opt}
-                  </option>
-                ))}
-              </select>
+              {/* Quick-Select Purpose Chips (Exact UI Spec) */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {PURPOSE_OPTIONS.map((opt) => {
+                  const isSelected = (borrower.purpose || PURPOSE_OPTIONS[0]) === opt;
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setBorrowerField('purpose', opt)}
+                      className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer text-left ${
+                        isSelected
+                          ? 'bg-blue-600 text-white shadow-sm ring-1 ring-blue-700 font-bold'
+                          : isDark
+                          ? 'bg-[#0e1626] text-slate-300 border border-slate-800 hover:bg-[#131f35]'
+                          : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* 3. Digital Signature Canvas (100% Mobile Width, ~16:9 Aspect Ratio) */}
-            <div className="neu-card rounded-2xl p-4 space-y-2.5">
-              <div className="flex items-center justify-between pb-1.5 border-b border-slate-800/80">
+            {/* 3. Digital Signature Canvas (Exact UI Spec: bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg) */}
+            <div className={`neu-card rounded-2xl p-4 space-y-2.5 ${
+              isDark ? '' : 'bg-white border-slate-200 shadow-sm'
+            }`}>
+              <div className={`flex items-center justify-between pb-1.5 border-b ${
+                isDark ? 'border-slate-800/80' : 'border-slate-200'
+              }`}>
                 <div className="flex items-center gap-1.5">
-                  <PenTool className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+                  <PenTool className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
+                  <span className={`text-[11px] font-bold uppercase tracking-wider ${
+                    isDark ? 'text-slate-300' : 'text-slate-900'
+                  }`}>
                     Student Digital Signature
                   </span>
                 </div>
@@ -518,11 +634,15 @@ export default function TransactionCommit() {
                   <span
                     className={`text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
                       hasSignature
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                        : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                        ? isDark
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                          : 'bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-semibold'
+                        : isDark
+                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                          : 'bg-amber-50 text-amber-800 border border-amber-200/60 font-semibold'
                     }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${hasSignature ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'}`} />
+                    <span className={`w-1.5 h-1.5 rounded-full ${hasSignature ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
                     {hasSignature ? 'Signed' : 'Awaiting Sign'}
                   </span>
 
@@ -530,7 +650,9 @@ export default function TransactionCommit() {
                     <button
                       type="button"
                       onClick={handleClearSignature}
-                      className="text-[10px] text-slate-400 hover:text-rose-400 flex items-center gap-1 px-1.5 py-0.5 rounded neu-btn-raised transition-colors active:scale-95 cursor-pointer font-bold"
+                      className={`text-[10px] flex items-center gap-1 px-2 py-0.5 rounded transition-colors active:scale-95 cursor-pointer font-bold ${
+                        isDark ? 'text-slate-400 hover:text-rose-400 neu-btn-raised' : 'text-slate-600 hover:text-rose-600 bg-slate-100 border border-slate-200'
+                      }`}
                       title="Clear Signature"
                     >
                       <Eraser className="w-3 h-3" />
@@ -540,8 +662,12 @@ export default function TransactionCommit() {
                 </div>
               </div>
 
-              {/* Canvas Container with ~16:9 aspect ratio scaling */}
-              <div className="relative w-full overflow-hidden rounded-xl">
+              {/* Canvas Container (Exact Specification: bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg) */}
+              <div className={`relative w-full overflow-hidden ${
+                isDark
+                  ? 'rounded-xl neu-inset bg-[#080d18] border border-slate-800'
+                  : 'bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg'
+              }`}>
                 <canvas
                   ref={canvasRef}
                   onMouseDown={startDrawing}
@@ -560,14 +686,18 @@ export default function TransactionCommit() {
                     e.preventDefault();
                     stopDrawing();
                   }}
-                  className="h-32 w-full touch-none rounded-xl neu-inset bg-[#080d18] border border-slate-800 cursor-crosshair block"
+                  className={`h-32 w-full touch-none cursor-crosshair block ${
+                    isDark ? 'bg-[#080d18]' : 'bg-transparent'
+                  }`}
                   style={{ touchAction: 'none' }}
                 />
 
                 {!hasSignature && (
-                  <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-slate-500/60 select-none">
-                    <PenTool className="w-6 h-6 stroke-1 mb-1 text-slate-600" />
-                    <span className="text-[11px] font-mono font-medium">
+                  <div className={`absolute inset-0 pointer-events-none flex flex-col items-center justify-center select-none ${
+                    isDark ? 'text-slate-500/60' : 'text-slate-400'
+                  }`}>
+                    <PenTool className={`w-6 h-6 stroke-1 mb-1 ${isDark ? 'text-slate-600' : 'text-slate-400'}`} />
+                    <span className={`text-[11px] font-mono font-medium ${isDark ? 'text-slate-400' : 'text-slate-600 font-semibold'}`}>
                       Sign above with finger or stylus
                     </span>
                   </div>

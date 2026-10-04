@@ -207,23 +207,23 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
       {/* Sidebar Drawer on Phone (Slides from Left) / Centered Card on 15" Kiosk */}
       <div className={`relative z-10 w-[90vw] max-w-[380px] sm:max-w-2xl sm:w-full h-[100dvh] sm:h-auto sm:max-h-[92vh] ${
-        isDark ? 'bg-[#0c1424] sm:bg-[#0c1527] border-slate-700/80 text-slate-100' : 'bg-white border-slate-300 text-slate-950 shadow-2xl'
+        isDark ? 'bg-[#0c1424] sm:bg-[#0c1527] border-slate-700/80 text-slate-100' : 'bg-white border-slate-200 text-slate-900 shadow-2xl'
       } border-r sm:border shadow-[10px_0_35px_rgba(0,0,0,0.85)] sm:shadow-2xl sm:rounded-3xl flex flex-col overflow-hidden animate-slide-left-drawer sm:animate-none my-0 sm:my-auto`}>
         {/* Header - Pinned at top */}
         <div className={`px-3.5 py-3 sm:px-6 sm:py-4 border-b ${
-          isDark ? 'border-slate-800/90 bg-[#111a2c]' : 'border-slate-300 bg-slate-100'
+          isDark ? 'border-slate-800/90 bg-[#111a2c]' : 'border-slate-200 bg-white'
         } flex items-center justify-between shrink-0`}>
           <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-            <div className={`w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl neu-inset flex items-center justify-center ${
-              isDark ? 'text-cyan-400' : 'text-slate-950 bg-white border border-slate-300'
+            <div className={`w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center ${
+              isDark ? 'neu-inset text-cyan-400' : 'bg-blue-50 text-blue-800 border border-blue-200/60'
             } shrink-0 shadow-sm`}>
               <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <h3 className={`text-xs sm:text-lg font-black ${isDark ? 'text-slate-100' : 'text-slate-950'} truncate flex items-center gap-1.5`}>
+              <h3 className={`text-xs sm:text-lg font-black ${isDark ? 'text-slate-100' : 'text-slate-900'} truncate flex items-center gap-1.5`}>
                 <span>Advance Reservation</span>
-                <span className={`sm:hidden text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                  isDark ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-200 text-slate-900 border border-slate-300'
+                <span className={`sm:hidden text-[9px] font-mono px-1.5 py-0.5 rounded ${
+                  isDark ? 'bg-cyan-500/20 text-cyan-300 font-bold' : 'bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold'
                 }`}>
                   FORM
                 </span>
@@ -237,9 +237,9 @@ export default function ReservationModal({ item, isOpen, onClose }) {
           <button
             type="button"
             onClick={handleClose}
-            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl neu-btn-raised ${
-              isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-950 font-bold'
-            } flex items-center justify-center active:scale-95 cursor-pointer shrink-0`}
+            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center active:scale-95 cursor-pointer shrink-0 ${
+              isDark ? 'neu-btn-raised text-slate-400 hover:text-white' : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900'
+            }`}
             aria-label="Close form"
             title="Close sidebar"
           >
@@ -252,56 +252,58 @@ export default function ReservationModal({ item, isOpen, onClose }) {
           <>
             <div className="p-4 sm:p-6 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
               <div className="space-y-2 text-center animate-fade-in">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full neu-inset mx-auto flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]">
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full mx-auto flex items-center justify-center ${
+                  isDark ? 'neu-inset text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]' : 'bg-emerald-50 text-emerald-800 border border-emerald-200/60'
+                }`}>
                   <Check className="w-6 h-6 sm:w-7 sm:h-7 stroke-[3]" />
                 </div>
 
                 <div>
-                  <h4 className="text-sm sm:text-lg font-bold text-emerald-500 font-black">Equipment Reserved Successfully!</h4>
-                  <p className={`text-[11px] sm:text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                    Ref ID: <span className={`font-mono font-bold text-xs sm:text-sm ${isDark ? 'text-cyan-400' : 'text-slate-950'}`}>{confirmedReservation.id}</span>
+                  <h4 className={`text-sm sm:text-lg font-bold ${isDark ? 'text-emerald-500 font-black' : 'text-emerald-800 font-black'}`}>Equipment Reserved Successfully!</h4>
+                  <p className={`text-[11px] sm:text-xs ${isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}`}>
+                    Ref ID: <span className={`font-mono font-bold text-xs sm:text-sm ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>{confirmedReservation.id}</span>
                   </p>
                 </div>
 
                 <div className={`rounded-xl sm:rounded-2xl p-3 sm:p-4 text-left space-y-1.5 sm:space-y-2 text-xs sm:text-sm ${
-                  isDark ? 'neu-inset' : 'bg-slate-100 border border-slate-300'
+                  isDark ? 'neu-inset' : 'bg-slate-50 border border-slate-200'
                 }`}>
-                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-300'} pb-1`}>
-                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}>Apparatus:</span>
-                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-950 font-black'} truncate max-w-[180px] sm:max-w-[320px]`}>{confirmedReservation.name}</span>
+                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-200'} pb-1`}>
+                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}>Apparatus:</span>
+                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'} truncate max-w-[180px] sm:max-w-[320px]`}>{confirmedReservation.name}</span>
                   </div>
-                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-300'} pb-1`}>
-                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}>Quantity:</span>
-                    <span className={`font-mono font-bold ${isDark ? 'text-cyan-400' : 'text-slate-950 font-black'}`}>
+                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-200'} pb-1`}>
+                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}>Quantity:</span>
+                    <span className={`font-mono font-bold ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>
                       {confirmedReservation.qty} {confirmedReservation.unit}s
                     </span>
                   </div>
-                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-300'} pb-1`}>
-                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}>Schedule:</span>
-                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-950'} truncate max-w-[180px] sm:max-w-[320px]`}>
+                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-200'} pb-1`}>
+                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}>Schedule:</span>
+                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'} truncate max-w-[180px] sm:max-w-[320px]`}>
                       {confirmedReservation.reserveDate} • {confirmedReservation.timeSlot}
                     </span>
                   </div>
-                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-300'} pb-1`}>
-                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}>Student Leader:</span>
-                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-950'} truncate max-w-[180px] sm:max-w-[320px]`}>
+                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-200'} pb-1`}>
+                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}>Student Leader:</span>
+                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'} truncate max-w-[180px] sm:max-w-[320px]`}>
                       {confirmedReservation.studentName} ({confirmedReservation.program} • G{confirmedReservation.groupNo})
                     </span>
                   </div>
-                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-300'} pb-1`}>
-                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}>Year / Section:</span>
-                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-950'}`}>{confirmedReservation.yearLevel}th Year • Sec {confirmedReservation.section}</span>
+                  <div className={`flex justify-between border-b ${isDark ? 'border-slate-800' : 'border-slate-200'} pb-1`}>
+                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}>Year / Section:</span>
+                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>{confirmedReservation.yearLevel}th Year • Sec {confirmedReservation.section}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}>Instructor:</span>
-                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-950'} truncate max-w-[180px] sm:max-w-[320px]`}>{confirmedReservation.instructor}</span>
+                    <span className={isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}>Instructor:</span>
+                    <span className={`font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'} truncate max-w-[180px] sm:max-w-[320px]`}>{confirmedReservation.instructor}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className={`p-3 sm:p-4 border-t ${
-              isDark ? 'border-slate-800 bg-[#09101d] sm:bg-[#111a2c]' : 'border-slate-300 bg-white'
+              isDark ? 'border-slate-800 bg-[#09101d] sm:bg-[#111a2c]' : 'border-slate-200 bg-white'
             } flex items-center justify-center shrink-0`}>
               <TouchButton variant="primary" size="md" onClick={handleClose} className="w-full sm:w-auto px-6 sm:px-10 py-2.5 sm:py-3 text-xs sm:text-base">
                 Done & Back to Catalog
@@ -314,49 +316,49 @@ export default function ReservationModal({ item, isOpen, onClose }) {
             <div className="p-3.5 sm:p-6 space-y-3 sm:space-y-4 overflow-y-auto flex-1 min-h-0">
               {/* 1. Item Header + Quantity Stepper (With Clean Text + Dot Stock, NO BOX) */}
               <div className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl flex items-center justify-between gap-2.5 sm:gap-4 ${
-                isDark ? 'neu-inset bg-[#09101d]/60' : 'bg-slate-100 border border-slate-300'
+                isDark ? 'neu-inset bg-[#09101d]/60' : 'bg-slate-50 border border-slate-200'
               }`}>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className={`text-[8.5px] sm:text-xs font-mono font-black uppercase px-1.5 sm:px-2 py-0.5 rounded border ${
-                      isDark ? 'text-cyan-400 neu-inset-sm border-transparent' : 'text-slate-900 bg-white border-slate-300'
+                    <span className={`text-[8.5px] sm:text-xs font-mono uppercase px-1.5 sm:px-2 py-0.5 rounded border ${
+                      isDark ? 'text-cyan-400 neu-inset-sm border-transparent font-black' : 'bg-blue-50 text-blue-800 border-blue-200/60 font-semibold'
                     }`}>
                       {item.tagCode}
                     </span>
                     {/* Clean Green Text with Dot Indicator (NO BOX) */}
-                    <div className={`flex items-center gap-1.5 font-mono text-[10px] sm:text-xs font-black ${
+                    <div className={`flex items-center gap-1.5 font-mono text-[10px] sm:text-xs font-bold ${
                       isDark ? 'text-emerald-400' : 'text-emerald-800'
                     }`}>
                       <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)] shrink-0" />
                       <span>Stock: {item.stock} {item.unit || 'pcs'}</span>
                     </div>
                   </div>
-                  <h4 className={`text-xs sm:text-base font-black ${
-                    isDark ? 'text-slate-100' : 'text-slate-950'
+                  <h4 className={`text-xs sm:text-base font-bold ${
+                    isDark ? 'text-slate-100 font-black' : 'text-slate-900'
                   } truncate leading-tight mt-1`}>{item.name}</h4>
                 </div>
 
                 {/* Stepper */}
                 <div className={`flex items-center gap-1 sm:gap-2 rounded-lg sm:rounded-xl p-0.5 sm:p-1 shrink-0 ${
-                  isDark ? 'neu-inset bg-[#070d18]' : 'bg-white border border-slate-300 shadow-sm'
+                  isDark ? 'neu-inset bg-[#070d18]' : 'bg-white border border-slate-200 shadow-2xs'
                 }`}>
                   <button
                     type="button"
                     onClick={() => setQty(Math.max(1, qty - 1))}
-                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised ${
-                      isDark ? 'text-slate-200' : 'text-slate-700 font-bold'
+                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg ${
+                      isDark ? 'neu-btn-raised text-slate-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-bold'
                     } font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer`}
                   >
                     -
                   </button>
-                  <span className={`w-5 sm:w-8 text-center font-mono font-black text-xs sm:text-base ${
-                    isDark ? 'text-cyan-400' : 'text-slate-950'
+                  <span className={`w-5 sm:w-8 text-center font-mono font-bold text-xs sm:text-base ${
+                    isDark ? 'text-cyan-400 font-black' : 'text-slate-900'
                   }`}>{qty}</span>
                   <button
                     type="button"
                     onClick={() => setQty(Math.min(item.stock, qty + 1))}
-                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg neu-btn-raised ${
-                      isDark ? 'text-slate-200' : 'text-slate-700 font-bold'
+                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-md sm:rounded-lg ${
+                      isDark ? 'neu-btn-raised text-slate-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 font-bold'
                     } font-black flex items-center justify-center text-xs sm:text-base active:scale-95 cursor-pointer`}
                   >
                     +
@@ -366,8 +368,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
               {/* Conflict Alert (Shown only if double booking occurs) */}
               {conflictInfo.hasConflict && (
-                <div className="p-2 sm:p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-500 font-bold text-xs flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
+                <div className={`p-2.5 sm:p-3 rounded-xl border text-xs flex items-center gap-2 ${
+                  isDark ? 'bg-rose-500/15 border-rose-500/40 text-rose-400 font-bold' : 'bg-rose-50 border-rose-200/60 text-rose-800 font-semibold'
+                }`}>
+                  <AlertTriangle className="w-4 h-4 shrink-0 text-rose-500" />
                   <span>Double-booking conflict! Only {conflictInfo.availableSlots} units available for this schedule.</span>
                 </div>
               )}
@@ -375,10 +379,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
               {/* 2. Reservation Date & Subject Course Code */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                 <div>
-                  <label className={`block text-[10.5px] sm:text-xs font-bold mb-1 flex items-center gap-1 ${
-                    isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
+                  <label className={`block text-[10.5px] sm:text-xs mb-1 flex items-center gap-1 ${
+                    isDark ? 'text-slate-300 font-bold' : 'text-slate-700 font-medium'
                   }`}>
-                    <Calendar className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'} shrink-0`} />
+                    <Calendar className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-700'} shrink-0`} />
                     <span>Reservation Date *</span>
                   </label>
                   <input
@@ -386,8 +390,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     value={reserveDate}
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setReserveDate(e.target.value)}
-                    className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono focus:outline-none focus:ring-1 ${
-                      isDark ? 'neu-inset text-slate-100 focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 font-bold focus:ring-slate-950'
+                    className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono focus:outline-none transition-all ${
+                      isDark
+                        ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
+                        : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                     style={{ colorScheme: isDark ? 'dark' : 'light' }}
                     required
@@ -395,10 +401,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                 </div>
 
                 <div>
-                  <label className={`block text-[10.5px] sm:text-xs font-bold mb-1 flex items-center gap-1 ${
-                    isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
+                  <label className={`block text-[10.5px] sm:text-xs mb-1 flex items-center gap-1 ${
+                    isDark ? 'text-slate-300 font-bold' : 'text-slate-700 font-medium'
                   }`}>
-                    <BookOpen className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'} shrink-0`} />
+                    <BookOpen className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-700'} shrink-0`} />
                     <span>Subject / Course Code</span>
                   </label>
                   <input
@@ -406,8 +412,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     value={courseCode}
                     onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
                     placeholder="e.g. 41-BSCPE-01"
-                    className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono font-bold focus:outline-none focus:ring-1 ${
-                      isDark ? 'neu-inset text-cyan-300 focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 focus:ring-slate-950'
+                    className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono font-bold focus:outline-none transition-all ${
+                      isDark
+                        ? 'neu-inset text-cyan-300 focus:ring-1 focus:ring-white'
+                        : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                   />
                 </div>
@@ -415,10 +423,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
               {/* 3. Academic Program Selection */}
               <div>
-                <label className={`block text-[10.5px] sm:text-xs font-bold mb-1 flex items-center gap-1 ${
-                  isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
+                <label className={`block text-[10.5px] sm:text-xs mb-1 flex items-center gap-1 ${
+                  isDark ? 'text-slate-300 font-bold' : 'text-slate-700 font-medium'
                 }`}>
-                  <GraduationCap className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'} shrink-0`} />
+                  <GraduationCap className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-700'} shrink-0`} />
                   <span>Academic Program *</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2">
@@ -433,10 +441,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                           isSelected
                             ? isDark
                               ? 'bg-cyan-500 text-slate-950 font-black shadow-md'
-                              : 'neu-btn-primary text-white font-black shadow-md'
+                              : 'bg-blue-600 text-white shadow-sm font-bold'
                             : isDark
                             ? 'neu-btn-raised text-slate-300 hover:text-white'
-                            : 'neu-btn-raised text-slate-700 font-bold'
+                            : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
                       >
                         {progOption}
@@ -452,8 +460,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                       value={customProgram}
                       onChange={(e) => setCustomProgram(e.target.value.toUpperCase())}
                       placeholder="Type your course name (e.g., BSIT, BSCS, BSHM)..."
-                      className={`w-full h-8 sm:h-10 px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold uppercase focus:outline-none focus:ring-1 ${
-                        isDark ? 'neu-inset text-slate-100 focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 focus:ring-slate-950'
+                      className={`w-full h-8 sm:h-10 px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold uppercase focus:outline-none transition-all ${
+                        isDark
+                          ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
+                          : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                       }`}
                       required
                     />
@@ -465,16 +475,18 @@ export default function ReservationModal({ item, isOpen, onClose }) {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                 {/* Year Level */}
                 <div>
-                  <label className={`block text-[10px] sm:text-xs font-bold mb-1 ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>Year Level</label>
+                  <label className={`block text-[10px] sm:text-xs mb-1 ${isDark ? 'text-slate-400 font-bold' : 'text-slate-700 font-medium'}`}>Year Level</label>
                   <select
                     value={selectedYear}
                     onChange={(e) => setSelectedYear(e.target.value)}
-                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none focus:ring-1 ${
-                      isDark ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 focus:ring-slate-950'
+                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none transition-all ${
+                      isDark
+                        ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-1 focus:ring-white'
+                        : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                   >
                     {YEAR_LEVELS.map((y) => (
-                      <option key={y.id} value={y.id} className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-950'}>
+                      <option key={y.id} value={y.id} className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-900'}>
                         {y.label}
                       </option>
                     ))}
@@ -483,32 +495,36 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
                 {/* Semester */}
                 <div>
-                  <label className={`block text-[10px] sm:text-xs font-bold mb-1 ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>Semester</label>
+                  <label className={`block text-[10px] sm:text-xs mb-1 ${isDark ? 'text-slate-400 font-bold' : 'text-slate-700 font-medium'}`}>Semester</label>
                   <select
                     value={selectedSem}
                     onChange={(e) => setSelectedSem(e.target.value)}
-                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none focus:ring-1 ${
-                      isDark ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 focus:ring-slate-950'
+                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none transition-all ${
+                      isDark
+                        ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-1 focus:ring-white'
+                        : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                   >
-                    <option value="1" className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-950'}>1st Sem</option>
-                    <option value="2" className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-950'}>2nd Sem</option>
-                    <option value="3" className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-950'}>Midyear</option>
+                    <option value="1" className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-900'}>1st Sem</option>
+                    <option value="2" className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-900'}>2nd Sem</option>
+                    <option value="3" className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-900'}>Midyear</option>
                   </select>
                 </div>
 
                 {/* Section */}
                 <div>
-                  <label className={`block text-[10px] sm:text-xs font-bold mb-1 ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>Section</label>
+                  <label className={`block text-[10px] sm:text-xs mb-1 ${isDark ? 'text-slate-400 font-bold' : 'text-slate-700 font-medium'}`}>Section</label>
                   <select
                     value={selectedSection}
                     onChange={(e) => setSelectedSection(e.target.value)}
-                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none focus:ring-1 ${
-                      isDark ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 focus:ring-slate-950'
+                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none transition-all ${
+                      isDark
+                        ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-1 focus:ring-white'
+                        : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                   >
                     {SECTIONS.map((s) => (
-                      <option key={s} value={s} className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-950'}>
+                      <option key={s} value={s} className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-900'}>
                         Sec {s}
                       </option>
                     ))}
@@ -517,16 +533,18 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
                 {/* Group No */}
                 <div>
-                  <label className={`block text-[10px] sm:text-xs font-bold mb-1 ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>Group No.</label>
+                  <label className={`block text-[10px] sm:text-xs mb-1 ${isDark ? 'text-slate-400 font-bold' : 'text-slate-700 font-medium'}`}>Group No.</label>
                   <select
                     value={groupNo}
                     onChange={(e) => setGroupNo(e.target.value)}
-                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none focus:ring-1 ${
-                      isDark ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 focus:ring-slate-950'
+                    className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none transition-all ${
+                      isDark
+                        ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-1 focus:ring-white'
+                        : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                   >
                     {GROUP_OPTIONS.map((g) => (
-                      <option key={g} value={g} className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-950'}>
+                      <option key={g} value={g} className={isDark ? 'bg-[#111a2c] text-slate-100' : 'bg-white text-slate-900'}>
                         Group {g}
                       </option>
                     ))}
@@ -536,10 +554,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
               {/* 5. Student Leader / Reserving Student Name */}
               <div>
-                <label className={`block text-[10.5px] sm:text-xs font-bold mb-1 flex items-center gap-1 ${
-                  isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
+                <label className={`block text-[10.5px] sm:text-xs mb-1 flex items-center gap-1 ${
+                  isDark ? 'text-slate-300 font-bold' : 'text-slate-700 font-medium'
                 }`}>
-                  <Users className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'} shrink-0`} />
+                  <Users className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-700'} shrink-0`} />
                   <span>Student Leader / Borrower Name *</span>
                 </label>
                 <input
@@ -547,8 +565,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   value={studentName}
                   onChange={(e) => setStudentName(e.target.value)}
                   placeholder="e.g. Jason Cayabyab"
-                  className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-1 ${
-                    isDark ? 'neu-inset text-slate-100 focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 font-bold focus:ring-slate-950'
+                  className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium focus:outline-none transition-all ${
+                    isDark
+                      ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
+                      : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                   }`}
                   required
                 />
@@ -556,10 +576,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
               {/* 6. Laboratory Instructor */}
               <div>
-                <label className={`block text-[10.5px] sm:text-xs font-bold mb-1 flex items-center gap-1 ${
-                  isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
+                <label className={`block text-[10.5px] sm:text-xs mb-1 flex items-center gap-1 ${
+                  isDark ? 'text-slate-300 font-bold' : 'text-slate-700 font-medium'
                 }`}>
-                  <UserCheck className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'} shrink-0`} />
+                  <UserCheck className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-700'} shrink-0`} />
                   <span>Laboratory Instructor / Professor *</span>
                 </label>
                 <input
@@ -567,8 +587,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   value={instructor}
                   onChange={(e) => setInstructor(e.target.value)}
                   placeholder="e.g. Engr. Jin Benir Macaranas"
-                  className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-1 ${
-                    isDark ? 'neu-inset text-slate-100 focus:ring-cyan-500' : 'bg-slate-100 border border-slate-300 text-slate-950 font-bold focus:ring-slate-950'
+                  className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium focus:outline-none transition-all ${
+                    isDark
+                      ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
+                      : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                   }`}
                   required
                 />
@@ -577,26 +599,26 @@ export default function ReservationModal({ item, isOpen, onClose }) {
               {/* 7. Structured Time of Laboratory Schedule */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className={`text-[10.5px] sm:text-xs font-bold flex items-center gap-1 ${
-                    isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
+                  <label className={`text-[10.5px] sm:text-xs flex items-center gap-1 ${
+                    isDark ? 'text-slate-300 font-bold' : 'text-slate-700 font-medium'
                   }`}>
-                    <Clock className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'} shrink-0`} />
+                    <Clock className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-700'} shrink-0`} />
                     <span>Time Schedule of Laboratory *</span>
                   </label>
-                  <span className={`text-[10px] sm:text-xs font-mono font-extrabold px-2 sm:px-3 py-0.5 rounded-full border truncate ${
-                    isDark ? 'text-cyan-400 bg-cyan-950/70 border-cyan-500/40' : 'text-slate-950 bg-slate-200 border-slate-300 font-black'
+                  <span className={`text-[10px] sm:text-xs font-mono px-2 sm:px-3 py-0.5 rounded-full border truncate ${
+                    isDark ? 'text-cyan-400 bg-cyan-950/70 border-cyan-500/40 font-extrabold' : 'bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold'
                   }`}>
                     {formattedLabTime}
                   </span>
                 </div>
 
                 <div className={`w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl border ${
-                  isDark ? 'neu-inset border-slate-800/80 bg-[#0a111e]' : 'bg-slate-100 border-slate-300'
+                  isDark ? 'neu-inset border-slate-800/80 bg-[#0a111e]' : 'bg-slate-50 border border-slate-200'
                 }`}>
                   <div className="flex items-center justify-between gap-2 sm:gap-3">
                     {/* Start Time */}
                     <div className="flex-1">
-                      <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
+                      <span className={`block text-[9px] sm:text-xs uppercase font-medium mb-0.5 ${
                         isDark ? 'text-slate-400' : 'text-slate-600'
                       }`}>Start</span>
                       <input
@@ -620,17 +642,17 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                             setStartPeriod(period);
                           }
                         }}
-                        className={`w-full h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-extrabold focus:outline-none focus:ring-1 cursor-pointer ${
+                        className={`w-full h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-bold focus:outline-none transition-all cursor-pointer ${
                           isDark
-                            ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-slate-800/80 focus:ring-cyan-500'
-                            : 'bg-white text-slate-950 border border-slate-300 focus:ring-slate-950'
+                            ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-slate-800/80 focus:ring-1 focus:ring-white'
+                            : 'bg-white text-slate-900 border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                         }`}
                         style={{ colorScheme: isDark ? 'dark' : 'light' }}
                       />
                     </div>
 
                     <div className="flex flex-col items-center justify-center pt-3">
-                      <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest px-1 select-none ${
+                      <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-widest px-1 select-none ${
                         isDark ? 'text-slate-400' : 'text-slate-600'
                       }`}>
                         to
@@ -639,7 +661,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
                     {/* End Time */}
                     <div className="flex-1">
-                      <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
+                      <span className={`block text-[9px] sm:text-xs uppercase font-medium mb-0.5 ${
                         isDark ? 'text-slate-400' : 'text-slate-600'
                       }`}>End</span>
                       <input
@@ -663,10 +685,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                             setEndPeriod(period);
                           }
                         }}
-                        className={`w-full h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-extrabold focus:outline-none focus:ring-1 cursor-pointer ${
+                        className={`w-full h-8 sm:h-10 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-bold focus:outline-none transition-all cursor-pointer ${
                           isDark
-                            ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-slate-800/80 focus:ring-cyan-500'
-                            : 'bg-white text-slate-950 border border-slate-300 focus:ring-slate-950'
+                            ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-slate-800/80 focus:ring-1 focus:ring-white'
+                            : 'bg-white text-slate-900 border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                         }`}
                         style={{ colorScheme: isDark ? 'dark' : 'light' }}
                       />
@@ -678,14 +700,14 @@ export default function ReservationModal({ item, isOpen, onClose }) {
 
             {/* Modal / Drawer Footer - Fixed and Always Visible at Bottom */}
             <div className={`px-3.5 py-3 sm:px-6 sm:py-4 border-t ${
-              isDark ? 'border-slate-800/90 bg-[#09101d] sm:bg-[#111a2c]' : 'border-slate-300 bg-white'
+              isDark ? 'border-slate-800/90 bg-[#09101d] sm:bg-[#111a2c]' : 'border-slate-200 bg-white'
             } flex items-center justify-between gap-2.5 sm:gap-4 shrink-0`}>
               <button
                 type="button"
                 onClick={handleClose}
-                className={`h-9 sm:h-11 px-4 sm:px-6 rounded-lg sm:rounded-xl neu-btn-raised text-xs sm:text-sm ${
-                  isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
-                } font-bold cursor-pointer active:scale-95 shrink-0`}
+                className={`h-9 sm:h-11 px-4 sm:px-6 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold cursor-pointer active:scale-95 shrink-0 ${
+                  isDark ? 'neu-btn-raised text-slate-300' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                }`}
               >
                 Cancel
               </button>
