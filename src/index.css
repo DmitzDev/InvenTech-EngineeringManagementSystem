@@ -242,17 +242,13 @@
 }
 
 /* Dynamic Accent Text & Border Mapping (Replaces Sky Blue with active theme accent, preserving INVEN TECH brand) */
-[data-theme="dark"] .text-sky-400:not(.keep-brand),
-[data-theme="dark"] .text-cyan-400:not(.keep-brand) {
+[data-theme="dark"] .text-sky-400:not(.keep-brand, .keep-brand-inven, .keep-brand-tech),
+[data-theme="dark"] .text-cyan-400:not(.keep-brand, .keep-brand-inven, .keep-brand-tech) {
   color: var(--kiosk-accent) !important;
 }
 
-[data-theme="dark"] .keep-brand {
-  color: #38bdf8 !important;
-}
-
-[data-theme="dark"] .text-sky-300:not(.keep-brand),
-[data-theme="dark"] .text-cyan-300:not(.keep-brand) {
+[data-theme="dark"] .text-sky-300:not(.keep-brand, .keep-brand-inven, .keep-brand-tech),
+[data-theme="dark"] .text-cyan-300:not(.keep-brand, .keep-brand-inven, .keep-brand-tech) {
   color: var(--kiosk-accent-hover) !important;
 }
 
@@ -509,20 +505,32 @@
 /* Dedicated INVEN TECH Brand Logo Typography Only:
    Light Mode: INVEN is Orange, TECH is Sky Blue
    Dark Mode:  INVEN is Sky Blue, TECH is Orange */
-[data-theme="light"] .keep-brand-inven {
+[data-theme="light"] .keep-brand-inven,
+.light .keep-brand-inven,
+[data-theme="light"] span.keep-brand-inven {
   color: #ea580c !important;
+  -webkit-text-fill-color: #ea580c !important;
 }
 
-[data-theme="light"] .keep-brand-tech {
+[data-theme="light"] .keep-brand-tech,
+.light .keep-brand-tech,
+[data-theme="light"] span.keep-brand-tech {
   color: #0284c7 !important;
+  -webkit-text-fill-color: #0284c7 !important;
 }
 
-[data-theme="dark"] .keep-brand-inven {
+[data-theme="dark"] .keep-brand-inven,
+.dark .keep-brand-inven,
+[data-theme="dark"] span.keep-brand-inven {
   color: #38bdf8 !important;
+  -webkit-text-fill-color: #38bdf8 !important;
 }
 
-[data-theme="dark"] .keep-brand-tech {
+[data-theme="dark"] .keep-brand-tech,
+.dark .keep-brand-tech,
+[data-theme="dark"] span.keep-brand-tech {
   color: #fb923c !important;
+  -webkit-text-fill-color: #fb923c !important;
 }
 
 /* Preserve crisp white text ONLY on primary dark hardware action buttons, active chips, and keep-white elements */
