@@ -5,7 +5,8 @@ import { getItemImage } from '../../data/equipmentData';
 import TouchButton from '../ui/TouchButton';
 
 export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
-  const { cart, updateCartQty, toggleItemDamage, removeFromCart, clearCart } = useTransaction();
+  const { cart, updateCartQty, toggleItemDamage, removeFromCart, clearCart, theme } = useTransaction();
+  const isDark = theme === 'dark';
 
   const totalUnitsCount = cart.reduce((sum, item) => sum + item.qty, 0);
   const distinctItemCount = cart.length;
@@ -13,12 +14,16 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
   const damagedCount = cart.filter((i) => i.isDamaged).length;
 
   return (
-    <div className="w-full h-full max-h-[85vh] md:max-h-[100dvh] flex flex-col justify-between overflow-hidden shadow-2xl bg-[#0e1422] rounded-t-2xl md:rounded-none md:rounded-l-3xl">
+    <div className={`w-full h-full max-h-[85vh] md:max-h-[100dvh] flex flex-col justify-between overflow-hidden shadow-2xl ${
+      isDark ? 'bg-[#0e1422] text-slate-100' : 'bg-slate-50 text-slate-950'
+    } rounded-t-2xl md:rounded-none md:rounded-l-3xl`}>
       {/* Mobile-Native Drag Handle Pill */}
-      <div className="w-12 h-1.5 bg-slate-600/80 rounded-full mx-auto my-2 md:hidden shrink-0" />
+      <div className={`w-12 h-1.5 ${isDark ? 'bg-slate-600/80' : 'bg-slate-400'} rounded-full mx-auto my-2 md:hidden shrink-0`} />
 
       {/* 1. Cart Header */}
-      <div className="p-3.5 sm:p-4 border-b border-slate-800/80 bg-[#111a2c] shrink-0 space-y-2.5 sm:space-y-3">
+      <div className={`p-3.5 sm:p-4 border-b ${
+        isDark ? 'border-slate-800/80 bg-[#111a2c]' : 'border-slate-300 bg-white'
+      } shrink-0 space-y-2.5 sm:space-y-3`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5 sm:gap-3">
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl neu-inset flex items-center justify-center overflow-hidden bg-white">
@@ -30,15 +35,17 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
             </div>
             <div>
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <h3 className="text-sm sm:text-base font-bold text-slate-100">Borrow Cart</h3>
+                <h3 className={`text-sm sm:text-base font-black ${isDark ? 'text-slate-100' : 'text-slate-950'}`}>Borrow Cart</h3>
                 {distinctItemCount > 0 && (
-                  <span className="px-2 py-0.5 rounded-full neu-inset text-cyan-300 font-mono text-xs font-bold">
+                  <span className={`px-2 py-0.5 rounded-full font-mono text-xs font-bold ${
+                    isDark ? 'neu-inset text-cyan-300' : 'bg-slate-100 text-slate-950 border border-slate-300'
+                  }`}>
                     {distinctItemCount}
                   </span>
                 )}
               </div>
-              <p className="text-[11px] sm:text-xs text-slate-400">
-                {totalUnitsCount} total units • <span className="font-bold text-slate-200">{distinctItemCount}/15</span> maximum slots
+              <p className={`text-[11px] sm:text-xs ${isDark ? 'text-slate-400' : 'text-slate-600 font-medium'}`}>
+                {totalUnitsCount} total units • <span className={`font-bold ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>{distinctItemCount}/15</span> maximum slots
               </p>
             </div>
           </div>
@@ -48,7 +55,7 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
               <button
                 type="button"
                 onClick={clearCart}
-                className="text-xs text-slate-400 hover:text-rose-400 transition-colors px-2 py-1 rounded-lg neu-btn-raised"
+                className={`text-xs ${isDark ? 'text-slate-400 hover:text-rose-400' : 'text-slate-600 hover:text-rose-600 font-bold'} transition-colors px-2 py-1 rounded-lg neu-btn-raised`}
               >
                 Clear
               </button>
@@ -70,10 +77,11 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
         {/* Integrated Capacity Meter */}
         <div className="space-y-1 sm:space-y-1.5">
           <div className="flex items-center justify-between text-[10px] sm:text-[11px]">
-            <span className="text-slate-400 font-semibold">Sheet Capacity:</span>
+            <span className={isDark ? 'text-slate-400 font-semibold' : 'text-slate-700 font-bold'}>Sheet Capacity:</span>
             <span
-              className={`font-mono font-bold ${isLimitReached ? 'text-rose-400' : 'text-cyan-400'
-                }`}
+              className={`font-mono font-bold ${
+                isLimitReached ? 'text-rose-500' : isDark ? 'text-cyan-400' : 'text-slate-950 font-black'
+              }`}
             >
               {distinctItemCount} of 15 Items
             </span>
@@ -124,33 +132,45 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
                       <img
                         src={itemImg}
                         alt={item.name}
-                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover bg-slate-950 border border-slate-800 shrink-0 mt-0.5"
+                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover ${
+                          isDark ? 'bg-slate-950 border border-slate-800' : 'bg-white border border-slate-200'
+                        } shrink-0 mt-0.5`}
                       />
                     ) : (
-                      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-950/80 border border-slate-800/80 flex items-center justify-center text-cyan-400 font-mono font-bold text-xs shrink-0 mt-0.5">
+                      <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg ${
+                        isDark ? 'bg-slate-950/80 border border-slate-800/80 text-cyan-400' : 'bg-slate-100 border border-slate-300 text-slate-950'
+                      } flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5`}>
                         {String(index + 1).padStart(2, '0')}
                       </div>
                     )}
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[9px] font-mono text-cyan-400 font-bold truncate">
+                        <span className={`text-[9px] font-mono font-black px-1.5 py-0.2 rounded border truncate ${
+                          isDark ? 'text-slate-200 bg-slate-900 border-slate-800' : 'text-slate-900 bg-slate-100 border-slate-300'
+                        }`}>
                           {item.tagCode}
                         </span>
                         <span
-                          className={`text-[8px] font-mono font-extrabold px-1.5 py-0.2 rounded uppercase ${
+                          className={`text-[8px] font-mono font-extrabold px-1.5 py-0.2 rounded uppercase border ${
                             item.isConsumable
-                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                              : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                              ? isDark
+                                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                                : 'bg-amber-100 text-amber-950 border-amber-300'
+                              : isDark
+                              ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                              : 'bg-slate-100 text-slate-900 border-slate-300'
                           }`}
                         >
                           {item.isConsumable ? 'Consumable' : 'Returnable'}
                         </span>
                       </div>
-                      <h4 className="text-xs sm:text-sm font-bold text-slate-100 truncate leading-snug">
+                      <h4 className={`text-xs sm:text-sm font-black truncate leading-snug mt-0.5 ${
+                        isDark ? 'text-slate-100' : 'text-slate-950'
+                      }`}>
                         {item.name}
                       </h4>
-                      <span className="text-[10px] text-slate-400 font-mono">
+                      <span className={`text-[10px] font-mono font-bold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                         Unit: {item.unit || 'pc'}
                       </span>
                     </div>
@@ -159,7 +179,7 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
                   <button
                     type="button"
                     onClick={() => removeFromCart(item.id)}
-                    className="w-8 h-8 rounded-lg neu-btn-raised text-slate-500 hover:text-rose-400 flex items-center justify-center shrink-0 transition-colors active:scale-95"
+                    className="w-8 h-8 rounded-lg neu-btn-raised text-slate-500 hover:text-rose-500 flex items-center justify-center shrink-0 transition-colors active:scale-95"
                     title="Remove from Cart"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -175,25 +195,33 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
                 )}
 
                 {/* Row 2: Quantity Controls & Damage Flag */}
-                <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/60">
+                <div className={`flex items-center justify-between gap-2 pt-2 border-t ${
+                  isDark ? 'border-slate-800/60' : 'border-slate-200'
+                }`}>
                   {/* Stepper (+ / -) */}
                   <div className="flex items-center gap-1.5 neu-inset rounded-xl p-1 shrink-0">
                     <button
                       type="button"
                       onClick={() => updateCartQty(item.id, -1)}
-                      className="w-8 h-8 sm:w-10 sm:h-10 min-w-[32px] sm:min-w-[40px] rounded-lg neu-btn-raised text-slate-300 hover:text-rose-400 flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer"
+                      className={`w-8 h-8 sm:w-10 sm:h-10 min-w-[32px] sm:min-w-[40px] rounded-lg neu-btn-raised ${
+                        isDark ? 'text-slate-300 hover:text-rose-400' : 'text-slate-700 hover:text-rose-600 font-bold'
+                      } flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer`}
                     >
                       <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
 
-                    <span className="w-7 sm:w-8 text-center font-mono font-extrabold text-xs sm:text-sm text-cyan-300">
+                    <span className={`w-7 sm:w-8 text-center font-mono font-black text-xs sm:text-sm ${
+                      isDark ? 'text-cyan-300' : 'text-slate-950 font-black'
+                    }`}>
                       {item.qty}
                     </span>
 
                     <button
                       type="button"
                       onClick={() => updateCartQty(item.id, 1)}
-                      className="w-8 h-8 sm:w-10 sm:h-10 min-w-[32px] sm:min-w-[40px] rounded-lg neu-btn-raised text-slate-300 flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer"
+                      className={`w-8 h-8 sm:w-10 sm:h-10 min-w-[32px] sm:min-w-[40px] rounded-lg neu-btn-raised ${
+                        isDark ? 'text-slate-300' : 'text-slate-700 font-bold'
+                      } flex items-center justify-center text-sm font-bold active:scale-95 cursor-pointer`}
                     >
                       <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
@@ -205,7 +233,9 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
                     onClick={() => toggleItemDamage(item.id)}
                     className={`min-h-[36px] sm:min-h-[44px] px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer ${item.isDamaged
                       ? 'neu-inset-amber text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-                      : 'neu-btn-raised text-slate-300 hover:text-amber-300'
+                      : isDark
+                      ? 'neu-btn-raised text-slate-300 hover:text-amber-300'
+                      : 'neu-btn-raised text-slate-700 hover:text-amber-800'
                       }`}
                   >
                     <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
@@ -219,10 +249,14 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
       </div>
 
       {/* 4. Cart Fixed Bottom Checkout Bar (Always visible on mobile without scrolling) */}
-      <div className="p-3.5 sm:p-4 border-t border-slate-800/80 bg-[#111a2c] shrink-0 space-y-2.5 sm:space-y-3 z-20 pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <div className="flex items-center justify-between text-xs text-slate-300 px-1">
-          <span className="font-semibold">Borrow Summary:</span>
-          <span className="font-mono font-bold text-cyan-400 text-xs sm:text-sm">
+      <div className={`p-3.5 sm:p-4 border-t ${
+        isDark ? 'border-slate-800/80 bg-[#111a2c]' : 'border-slate-300 bg-white'
+      } shrink-0 space-y-2.5 sm:space-y-3 z-20 pb-[max(1rem,env(safe-area-inset-bottom))]`}>
+        <div className="flex items-center justify-between text-xs px-1">
+          <span className={`font-bold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Borrow Summary:</span>
+          <span className={`font-mono font-black text-xs sm:text-sm ${
+            isDark ? 'text-cyan-400' : 'text-slate-950'
+          }`}>
             {totalUnitsCount} Units • {distinctItemCount} Apparatus
           </span>
         </div>

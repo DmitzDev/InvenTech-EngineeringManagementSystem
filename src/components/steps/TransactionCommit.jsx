@@ -86,7 +86,7 @@ export default function TransactionCommit() {
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
 
-      ctx.strokeStyle = '#38bdf8'; // Sky Blue digital pen ink
+      ctx.strokeStyle = isDark ? '#38bdf8' : '#090e17'; // Sky Blue in dark mode, Deep Obsidian in light mode
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -278,21 +278,21 @@ export default function TransactionCommit() {
 
             {/* DESKTOP/KIOSK ONLY: Full Itemized Apparatus Verification Table (hidden md:block) */}
             <div className="hidden md:block neu-card rounded-2xl overflow-hidden">
-              <div className="p-3.5 bg-[#111a2c] border-b border-slate-800/80 flex items-center justify-between">
+              <div className={`p-3.5 ${isDark ? 'bg-[#111a2c] border-slate-800/80' : 'bg-white border-slate-300'} border-b flex items-center justify-between`}>
                 <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-cyan-400" />
-                  <span className="text-xs sm:text-sm font-bold text-slate-200">
+                  <FileText className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
+                  <span className={`text-xs sm:text-sm font-bold ${isDark ? 'text-slate-200' : 'text-slate-950'}`}>
                     Itemized Laboratory Slip Preview ({cart.length} of 15 slots)
                   </span>
                 </div>
-                <span className="text-xs font-mono text-cyan-400 font-bold">
+                <span className={`text-xs font-mono font-bold ${isDark ? 'text-cyan-400' : 'text-slate-950'}`}>
                   {totalQty} Total Units
                 </span>
               </div>
 
               <div className="overflow-x-auto max-h-72 overflow-y-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#0e1626] text-slate-400 border-b border-slate-800/80 sticky top-0">
+                  <thead className={`${isDark ? 'bg-[#0e1626] text-slate-400 border-slate-800/80' : 'bg-slate-100 text-slate-950 border-slate-300 font-black'} border-b sticky top-0`}>
                     <tr>
                       <th className="p-2.5 w-10 text-center font-mono">#</th>
                       <th className="p-2.5 w-16">Qty</th>
@@ -302,24 +302,28 @@ export default function TransactionCommit() {
                       <th className="p-2.5 w-28">Condition</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
+                  <tbody className={`divide-y ${isDark ? 'divide-slate-800/60' : 'divide-slate-200'}`}>
                     {cart.map((item, idx) => (
-                      <tr key={item.id} className="hover:bg-slate-800/20">
-                        <td className="p-2.5 text-center font-mono text-slate-400 font-bold">{idx + 1}</td>
-                        <td className="p-2.5 font-mono font-bold text-cyan-400">{item.qty} {item.unit || 'pc'}</td>
-                        <td className="p-2.5 font-mono text-slate-300">{item.tagCode}</td>
-                        <td className="p-2.5 font-semibold text-slate-200">
-                          <div>{item.name}</div>
-                          <div className="text-[10px] font-mono text-cyan-400/90 font-medium">
+                      <tr key={item.id} className={isDark ? 'hover:bg-slate-800/20' : 'hover:bg-slate-100/60'}>
+                        <td className={`p-2.5 text-center font-mono font-bold ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>{idx + 1}</td>
+                        <td className={`p-2.5 font-mono font-black ${isDark ? 'text-cyan-400' : 'text-slate-950'}`}>{item.qty} {item.unit || 'pc'}</td>
+                        <td className={`p-2.5 font-mono font-bold ${isDark ? 'text-slate-300' : 'text-slate-900'}`}>{item.tagCode}</td>
+                        <td className={`p-2.5 font-semibold ${isDark ? 'text-slate-200' : 'text-slate-950'}`}>
+                          <div className="font-bold">{item.name}</div>
+                          <div className={`text-[10px] font-mono font-bold ${isDark ? 'text-cyan-400/90' : 'text-slate-600'}`}>
                             {item.lab === 'DIGITAL' ? 'Digital Lab' : item.lab === 'ECE' ? 'ECE Lab' : item.lab === 'CE' ? 'CE Lab' : item.lab === 'CHEM' ? 'Chemistry Lab' : item.lab === 'PHYSICS' ? 'Physics Lab' : `${item.lab} Lab`}
                           </div>
                         </td>
                         <td className="p-2.5">
                           <span
-                            className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase ${
+                            className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border ${
                               item.isConsumable
-                                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                                : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                                ? isDark
+                                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                                  : 'bg-amber-100 text-amber-950 border-amber-300 font-bold'
+                                : isDark
+                                ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                                : 'bg-slate-100 text-slate-900 border-slate-300 font-bold'
                             }`}
                           >
                             {item.isConsumable ? 'Consumable' : 'Returnable'}
@@ -332,7 +336,7 @@ export default function TransactionCommit() {
                               <span>Pre-damaged</span>
                             </span>
                           ) : (
-                            <span className="text-slate-400 text-xs">Good</span>
+                            <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Good</span>
                           )}
                         </td>
                       </tr>

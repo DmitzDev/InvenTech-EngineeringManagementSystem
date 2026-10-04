@@ -14,7 +14,8 @@ import BorrowerSheet from './components/print/BorrowerSheet';
 import AdminPanel from './components/admin/AdminPanel';
 
 function KioskContent() {
-  const { currentStep } = useTransaction();
+  const { currentStep, theme } = useTransaction();
+  const isDark = theme === 'dark';
 
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -34,7 +35,9 @@ function KioskContent() {
   };
 
   return (
-    <div className="min-h-screen h-auto md:h-screen w-full bg-[#0c1017] text-slate-100 flex flex-col overflow-x-hidden overflow-y-auto md:overflow-hidden relative select-none">
+    <div className={`min-h-screen h-auto md:h-screen w-full flex flex-col overflow-x-hidden overflow-y-auto md:overflow-hidden relative select-none ${
+      isDark ? 'bg-[#0a0e17] text-slate-100' : 'bg-[#e6ecf4] text-slate-900'
+    }`}>
       {/* On-screen Kiosk Interactive Shell */}
       <div className="no-print min-h-screen h-auto md:h-full w-full flex flex-col overflow-x-hidden overflow-y-auto md:overflow-hidden max-w-[1920px] mx-auto">
         {/* Top Header Bar (renders on steps 1-4) */}
@@ -44,7 +47,9 @@ function KioskContent() {
         <ChevronProgressBar />
 
         {/* Dynamic Step Viewport: Natural Mobile Scroll vs Kiosk Locked Height */}
-        <main className="flex-1 flex flex-col animate-fade-in relative bg-[#0c1017] min-h-0 overflow-visible md:overflow-y-auto">
+        <main className={`flex-1 flex flex-col animate-fade-in relative min-h-0 overflow-visible md:overflow-y-auto ${
+          isDark ? 'bg-[#0a0e17]' : 'bg-[#e6ecf4]'
+        }`}>
           {renderCurrentStep()}
         </main>
 

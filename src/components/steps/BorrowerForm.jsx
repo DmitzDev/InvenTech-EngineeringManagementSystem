@@ -28,7 +28,10 @@ export default function BorrowerForm() {
     checkStudentOverdueClearance,
     setStep,
     goToWelcome,
+    theme,
   } = useTransaction();
+
+  const isDark = theme === 'dark';
 
   const [errors, setErrors] = useState({});
   const [selectedYear, setSelectedYear] = useState('');
@@ -216,19 +219,29 @@ export default function BorrowerForm() {
   return (
     <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-2.5 sm:p-5 lg:p-6 pb-2.5 sm:pb-8 flex flex-col md:justify-between select-none min-h-0">
       {/* 1. Step Header */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-1.5 sm:pb-2.5 shrink-0">
+      <div className={`flex items-center justify-between border-b pb-1.5 sm:pb-2.5 shrink-0 ${
+        isDark ? 'border-slate-800/80' : 'border-slate-300'
+      }`}>
         <div>
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <span className="text-[11px] sm:text-sm font-mono text-cyan-400 font-extrabold tracking-wider uppercase">
+            <span className={`text-[11px] sm:text-sm font-mono font-black tracking-wider uppercase ${
+              isDark ? 'text-cyan-400' : 'text-slate-900 font-black'
+            }`}>
               Step 01 of 04
             </span>
-            <span className="text-[11px] sm:text-sm text-slate-400 font-medium truncate">• Institutional Clearance</span>
+            <span className={`text-[11px] sm:text-sm font-bold truncate ${
+              isDark ? 'text-slate-400 font-medium' : 'text-slate-700'
+            }`}>• Institutional Clearance</span>
           </div>
-          <h1 className="text-base sm:text-2xl lg:text-3xl font-extrabold text-slate-100 leading-tight">
+          <h1 className={`text-base sm:text-2xl lg:text-3xl font-black leading-tight ${
+            isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+          }`}>
             Borrower Identification Form
           </h1>
         </div>
-        <p className="text-xs sm:text-sm text-slate-400 hidden md:block">
+        <p className={`text-xs sm:text-sm hidden md:block ${
+          isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+        }`}>
           Select program, academic level, student credentials, and laboratory schedule.
         </p>
       </div>
@@ -275,8 +288,10 @@ export default function BorrowerForm() {
       <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 my-2 sm:my-3 md:my-auto py-1 min-h-0">
         {/* Left Column: Academic & Course Code Builder */}
         <div className="neu-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5">
-          <h2 className="text-xs sm:text-base font-bold text-slate-200 flex items-center gap-2 pb-1 sm:pb-2 border-b border-slate-800/80 uppercase tracking-wider">
-            <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 shrink-0" />
+          <h2 className={`text-xs sm:text-base font-black flex items-center gap-2 pb-1 sm:pb-2 border-b uppercase tracking-wider ${
+            isDark ? 'text-slate-200 border-slate-800/80' : 'text-slate-950 border-slate-300 font-black'
+          }`}>
+            <GraduationCap className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
             <span>Program & Course</span>
           </h2>
 
@@ -411,8 +426,10 @@ export default function BorrowerForm() {
 
         {/* Right Column: Student Details & Schedule */}
         <div className="neu-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5">
-          <h2 className="text-xs sm:text-base font-bold text-slate-200 flex items-center gap-2 pb-1 sm:pb-2 border-b border-slate-800/80 uppercase tracking-wider">
-            <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 shrink-0" />
+          <h2 className={`text-xs sm:text-base font-black flex items-center gap-2 pb-1 sm:pb-2 border-b uppercase tracking-wider ${
+            isDark ? 'text-slate-200 border-slate-800/80' : 'text-slate-950 border-slate-300 font-black'
+          }`}>
+            <Users className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
             <span>Student & Schedule</span>
           </h2>
 
@@ -525,17 +542,23 @@ export default function BorrowerForm() {
                 Time Schedule
               </label>
               {borrower.labTime && (
-                <span className="text-[10px] sm:text-xs font-mono text-cyan-400 font-extrabold bg-cyan-950/70 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-cyan-500/40 truncate max-w-[190px] sm:max-w-[240px]">
+                <span className={`text-[10px] sm:text-xs font-mono font-extrabold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border truncate max-w-[190px] sm:max-w-[240px] ${
+                  isDark ? 'text-cyan-400 bg-cyan-950/70 border-cyan-500/40' : 'text-slate-950 bg-slate-200 border-slate-300 font-black'
+                }`}>
                   {borrower.labTime}
                 </span>
               )}
             </div>
 
-            <div className="w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl neu-inset border border-slate-800/80">
+            <div className={`w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl neu-inset border ${
+              isDark ? 'border-slate-800/80' : 'border-slate-300'
+            }`}>
               <div className="flex items-center justify-between gap-2 sm:gap-3">
                 {/* Start Time */}
                 <div className="flex-1">
-                  <span className="block text-[9px] sm:text-xs uppercase font-bold text-slate-400 mb-0.5">
+                  <span className={`block text-[9px] sm:text-xs uppercase font-black mb-0.5 ${
+                    isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+                  }`}>
                     Start
                   </span>
                   <input
@@ -560,21 +583,27 @@ export default function BorrowerForm() {
                         setStartPeriod(period);
                       }
                     }}
-                    className="w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-[#0e1422] border border-slate-800/80 cursor-pointer"
-                    style={{ colorScheme: 'dark' }}
+                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all cursor-pointer ${
+                      isDark ? 'text-cyan-300 bg-[#0e1422] border-slate-800/80' : 'text-slate-950 bg-white border-slate-300 font-black'
+                    }`}
+                    style={{ colorScheme: isDark ? 'dark' : 'light' }}
                   />
                 </div>
 
                 {/* "to" separator */}
                 <div className="flex flex-col items-center justify-center pt-3 sm:pt-4">
-                  <span className="text-[10px] sm:text-sm font-black text-slate-400 uppercase tracking-widest px-1 shrink-0 select-none">
+                  <span className={`text-[10px] sm:text-sm font-black uppercase tracking-widest px-1 shrink-0 select-none ${
+                    isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+                  }`}>
                     to
                   </span>
                 </div>
 
                 {/* End Time */}
                 <div className="flex-1">
-                  <span className="block text-[9px] sm:text-xs uppercase font-bold text-slate-400 mb-0.5">
+                  <span className={`block text-[9px] sm:text-xs uppercase font-black mb-0.5 ${
+                    isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+                  }`}>
                     End
                   </span>
                   <input
@@ -599,8 +628,10 @@ export default function BorrowerForm() {
                         setEndPeriod(period);
                       }
                     }}
-                    className="w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-[#0e1422] border border-slate-800/80 cursor-pointer"
-                    style={{ colorScheme: 'dark' }}
+                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all cursor-pointer ${
+                      isDark ? 'text-cyan-300 bg-[#0e1422] border-slate-800/80' : 'text-slate-950 bg-white border-slate-300 font-black'
+                    }`}
+                    style={{ colorScheme: isDark ? 'dark' : 'light' }}
                   />
                 </div>
               </div>
