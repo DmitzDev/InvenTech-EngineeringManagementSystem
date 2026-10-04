@@ -265,7 +265,7 @@
    2. LIGHT SKEUOMORPHISM (TACTILE PLATINUM LIGHT THEME)
    ========================================================= */
 [data-theme="light"] {
-  --kiosk-light-canvas: #f8fafc;           /* Subtle off-white anti-glare canvas (bg-slate-50) */
+  --kiosk-light-canvas: #f1f5f9;           /* Subtle cool gray anti-glare canvas (bg-slate-100) */
   --kiosk-light-surface: #ffffff;          /* Crisp pure white surface cards */
   --kiosk-platinum-accent: #0f172a;        /* Deep Titanium Platinum (replaces skyblue/cyan in light mode) */
   --kiosk-platinum-subtle: #334155;
@@ -274,14 +274,14 @@
 }
 
 [data-theme="light"] body {
-  background-color: #f8fafc !important;   /* Anti-glare subtle off-white canvas */
+  background-color: #f1f5f9 !important;   /* Subtle cool gray canvas */
   color: #0f172a !important;              /* text-slate-900 */
   letter-spacing: -0.01em;
   font-feature-settings: 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv11' 1, 'tnum' 1;
 }
 
 [data-theme="light"] .kiosk-shell {
-  background-color: #f8fafc !important;
+  background-color: #f1f5f9 !important;
 }
 
 /* Light Mode Surface Cards (Pure white, defined border-slate-200, subtle shadow-sm elevation) */
