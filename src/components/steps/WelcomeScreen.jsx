@@ -100,23 +100,31 @@ export default function WelcomeScreen() {
     <div className="flex-1 w-full min-h-screen lg:min-h-0 lg:h-full flex flex-col justify-between p-3 sm:p-6 lg:p-7 overflow-y-auto lg:overflow-hidden relative select-none animate-fade-in">
       {/* Toast Feedback for Double-Tap Fullscreen */}
       {fullscreenToast && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-cyan-950/90 border border-cyan-400/60 shadow-[0_0_20px_rgba(6,182,212,0.6)] text-cyan-300 font-mono text-xs font-black tracking-widest uppercase flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200">
-          <Maximize2 className="w-3.5 h-3.5 text-cyan-400" />
+        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full font-mono text-xs font-black tracking-widest uppercase flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200 shadow-xl ${
+          isDark
+            ? 'bg-cyan-950/90 border border-cyan-400/60 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.6)]'
+            : 'bg-slate-900/90 border border-slate-700 text-white'
+        }`}>
+          <Maximize2 className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-white'}`} />
           <span>{fullscreenToast}</span>
         </div>
       )}
 
       {/* Soft Ambient Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] bg-cyan-500/8 blur-[180px] rounded-full pointer-events-none -z-0" />
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] ${
+        isDark ? 'bg-cyan-500/8' : 'bg-slate-300/20'
+      } blur-[180px] rounded-full pointer-events-none -z-0`} />
 
       {/* 1. Top Header Bar (Terminal ID) */}
       <div className="flex items-center justify-between w-full relative z-10 shrink-0 pb-1">
-        <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono text-slate-400">
-          <span className="font-bold tracking-wider text-cyan-400">UDD-POS-ENG</span>
-          <span className="text-slate-600">•</span>
-          <span>Terminal #01</span>
-          <span className="text-slate-600 hidden sm:inline">•</span>
-          <span className="text-slate-500 text-[10px] hidden sm:inline">(Double-touch to Fullscreen)</span>
+        <div className={`flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono ${
+          isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+        }`}>
+          <span className={`font-extrabold tracking-wider ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>UDD-POS-ENG</span>
+          <span className={isDark ? 'text-slate-600' : 'text-slate-400'}>•</span>
+          <span className={isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}>Terminal #01</span>
+          <span className={`${isDark ? 'text-slate-600' : 'text-slate-400'} hidden sm:inline`}>•</span>
+          <span className={`${isDark ? 'text-slate-500' : 'text-slate-600'} text-[10px] hidden sm:inline font-semibold`}>(Double-touch to Fullscreen)</span>
         </div>
       </div>
 
@@ -126,11 +134,13 @@ export default function WelcomeScreen() {
         <div className="flex flex-col items-center gap-2 sm:gap-2.5 mt-0 lg:-mt-8">
 
           {/* Live Digital Clock Pod */}
-          <div className="flex items-center gap-2 sm:gap-2.5 neu-inset px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs font-mono text-slate-300 shadow-sm">
-            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400" />
-            <span className="text-cyan-400 font-bold text-xs sm:text-sm tracking-wider">{time}</span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            <span className="text-slate-400 text-xs hidden sm:inline">{date}</span>
+          <div className={`flex items-center gap-2 sm:gap-2.5 neu-inset px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs font-mono shadow-sm ${
+            isDark ? 'text-slate-300' : 'text-slate-900 font-black bg-white border border-slate-300'
+          }`}>
+            <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
+            <span className={`font-extrabold text-xs sm:text-sm tracking-wider ${isDark ? 'text-cyan-400' : 'text-slate-950 font-black'}`}>{time}</span>
+            <span className={`${isDark ? 'text-slate-600' : 'text-slate-400'} hidden sm:inline`}>•</span>
+            <span className={`${isDark ? 'text-slate-400' : 'text-slate-700 font-bold'} text-xs hidden sm:inline`}>{date}</span>
           </div>
         </div>
 
@@ -141,7 +151,7 @@ export default function WelcomeScreen() {
             {/* UdD Main University Seal */}
             <div className="relative group flex flex-col items-center">
               <div className="w-14 h-14 sm:w-24 sm:h-24 lg:w-30 lg:h-30 rounded-full p-1.5 sm:p-2.5 neu-card transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative shadow-lg">
-                <div className="absolute inset-0 rounded-full border border-cyan-500/20 pointer-events-none" />
+                <div className={`absolute inset-0 rounded-full border ${isDark ? 'border-cyan-500/20' : 'border-slate-300'} pointer-events-none`} />
                 <img
                   src="/images/udd_logo.png"
                   alt="Universidad de Dagupan Seal"
@@ -151,12 +161,16 @@ export default function WelcomeScreen() {
             </div>
 
             {/* Left Divider Accent Line */}
-            <div className="h-10 sm:h-20 w-[1.5px] bg-gradient-to-b from-transparent via-cyan-500/40 to-transparent hidden sm:block" />
+            <div className={`h-10 sm:h-20 w-[1.5px] bg-gradient-to-b ${isDark ? 'from-transparent via-cyan-500/40 to-transparent' : 'from-transparent via-slate-300 to-transparent'} hidden sm:block`} />
 
             {/* Center InvenTech Circular Logo (Grand prominent hero size with rich halo) */}
             <div className="relative group flex flex-col items-center">
-              <div className="w-20 h-20 sm:w-32 sm:h-32 lg:w-42 lg:h-42 rounded-full p-1.5 sm:p-3 bg-[#0c1527] border-2 sm:border-[3px] border-cyan-400/90 shadow-[0_0_35px_rgba(6,182,212,0.65)] transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative">
-                <div className="absolute inset-0 rounded-full border border-cyan-400/30 animate-pulse pointer-events-none" />
+              <div className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-42 lg:h-42 rounded-full p-1.5 sm:p-3 transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative ${
+                isDark
+                  ? 'bg-[#0c1527] border-2 sm:border-[3px] border-cyan-400/90 shadow-[0_0_35px_rgba(6,182,212,0.65)]'
+                  : 'neu-card border-2 sm:border-[3px] border-slate-300 shadow-[0_10px_30px_rgba(148,163,184,0.45)]'
+              }`}>
+                <div className={`absolute inset-0 rounded-full border ${isDark ? 'border-cyan-400/30' : 'border-slate-400/40'} animate-pulse pointer-events-none`} />
                 <img
                   src="/images/inventech_logo.png"
                   alt="InvenTech Brand Logo"
@@ -166,12 +180,12 @@ export default function WelcomeScreen() {
             </div>
 
             {/* Right Divider Accent Line */}
-            <div className="h-10 sm:h-20 w-[1.5px] bg-gradient-to-b from-transparent via-cyan-500/40 to-transparent hidden sm:block" />
+            <div className={`h-10 sm:h-20 w-[1.5px] bg-gradient-to-b ${isDark ? 'from-transparent via-cyan-500/40 to-transparent' : 'from-transparent via-slate-300 to-transparent'} hidden sm:block`} />
 
             {/* School of Engineering Seal */}
             <div className="relative group flex flex-col items-center">
               <div className="w-14 h-14 sm:w-24 sm:h-24 lg:w-30 lg:h-30 rounded-full p-1.5 sm:p-2.5 neu-card transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative shadow-lg">
-                <div className="absolute inset-0 rounded-full border border-cyan-500/20 pointer-events-none" />
+                <div className={`absolute inset-0 rounded-full border ${isDark ? 'border-cyan-500/20' : 'border-slate-300'} pointer-events-none`} />
                 <img
                   src="/images/soe_logo.png"
                   alt="School of Engineering Seal"
@@ -184,20 +198,20 @@ export default function WelcomeScreen() {
           {/* INVEN TECH Brand Text with AM/PM Dynamic Theme Color Switching */}
           <div className="flex items-center justify-center gap-2.5 sm:gap-4 mt-3 sm:mt-4 mb-1.5 sm:mb-2 select-none">
             <span
-              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
+              className={`keep-brand-inven text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
                   ? 'text-orange-400 drop-shadow-[0_0_24px_rgba(251,146,60,0.6)]'
-                  : 'text-sky-500 drop-shadow-[0_0_24px_rgba(14,165,233,0.5)]'
+                  : 'drop-shadow-sm font-black'
                 }`}
-              style={{ color: isDark ? '#fb923c' : '#0ea5e9' }}
+              style={{ color: isDark ? '#fb923c' : '#0284c7' }}
             >
               INVEN
             </span>
             <span
-              className={`keep-brand text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
+              className={`keep-brand-tech text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
                   ? 'text-sky-400 drop-shadow-[0_0_24px_rgba(56,189,248,0.7)]'
-                  : 'text-orange-500 drop-shadow-[0_0_24px_rgba(249,115,22,0.5)]'
+                  : 'drop-shadow-sm font-black'
                 }`}
-              style={{ color: isDark ? '#38bdf8' : '#f97316' }}
+              style={{ color: isDark ? '#38bdf8' : '#ea580c' }}
             >
               TECH
             </span>
@@ -205,10 +219,14 @@ export default function WelcomeScreen() {
 
           {/* Hero Typography */}
           <div className="space-y-1 max-w-2xl px-2">
-            <h1 className="text-base sm:text-2xl md:text-3xl lg:text-[32px] font-extrabold text-slate-100 tracking-tight leading-tight">
+            <h1 className={`text-base sm:text-2xl md:text-3xl lg:text-[32px] font-black tracking-tight leading-tight ${
+              isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+            }`}>
               Engineering Laboratory Management System
             </h1>
-            <p className="text-[11px] sm:text-sm md:text-base text-slate-400 font-medium tracking-wide">
+            <p className={`text-[11px] sm:text-sm md:text-base font-semibold tracking-wide ${
+              isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+            }`}>
               Mobile POS Touchscreen Kiosk • Automated Equipment Borrower's Slip & Inventory Control
             </p>
           </div>
@@ -217,22 +235,22 @@ export default function WelcomeScreen() {
         {/* Block 3: Feature Highlights (2 Features: Kairo AI & Print Slip) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6 w-full max-w-2xl px-2">
           <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-5 rounded-2xl neu-card-sm text-left">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl neu-inset flex items-center justify-center text-cyan-400 shrink-0">
+            <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl neu-inset flex items-center justify-center shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900 font-bold'}`}>
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <div className="text-xs sm:text-sm font-bold text-slate-100">Kairo AI Assistant</div>
-              <div className="text-[10px] sm:text-xs text-slate-400">Lab Syllabus Guidance</div>
+              <div className={`text-xs sm:text-sm font-extrabold ${isDark ? 'text-slate-100' : 'text-slate-900 font-black'}`}>Kairo AI Assistant</div>
+              <div className={`text-[10px] sm:text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}`}>Lab Syllabus Guidance</div>
             </div>
           </div>
 
           <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-5 rounded-2xl neu-card-sm text-left">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl neu-inset flex items-center justify-center text-cyan-400 shrink-0">
+            <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl neu-inset flex items-center justify-center shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900 font-bold'}`}>
               <FileCheck className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <div className="text-xs sm:text-sm font-bold text-slate-100">Print & PDF Slip</div>
-              <div className="text-[10px] sm:text-xs text-slate-400">UdD-FM-LM-01A-01</div>
+              <div className={`text-xs sm:text-sm font-extrabold ${isDark ? 'text-slate-100' : 'text-slate-900 font-black'}`}>Print & PDF Slip</div>
+              <div className={`text-[10px] sm:text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}`}>UdD-FM-LM-01A-01</div>
             </div>
           </div>
         </div>
@@ -245,7 +263,9 @@ export default function WelcomeScreen() {
             icon={ArrowRight}
             fullWidth
             onClick={handleStart}
-            className="font-extrabold tracking-wider py-3 sm:py-4 text-sm sm:text-base shadow-xl shadow-cyan-950/60"
+            className={`font-black tracking-wider py-3 sm:py-4 text-sm sm:text-base shadow-xl text-white ${
+              isDark ? 'shadow-cyan-950/60' : 'shadow-slate-400/30'
+            }`}
           >
             TAP TO CONTINUE (BORROW)
           </TouchButton>
@@ -253,7 +273,9 @@ export default function WelcomeScreen() {
           <button
             type="button"
             onClick={() => setIsReturnModalOpen(true)}
-            className="w-full min-h-[42px] sm:min-h-[50px] rounded-2xl neu-btn-raised flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-emerald-400 hover:text-emerald-300 transition-all active:scale-98 shadow-sm"
+            className={`w-full min-h-[42px] sm:min-h-[50px] rounded-2xl neu-btn-raised flex items-center justify-center gap-2 text-xs sm:text-sm font-black transition-all active:scale-98 shadow-sm ${
+              isDark ? 'text-emerald-400 hover:text-emerald-300' : 'text-emerald-800 hover:text-emerald-950'
+            }`}
           >
             <RotateCcw className="w-4 h-4" />
             <span>Return Equipment / Custodian Clearance Station</span>

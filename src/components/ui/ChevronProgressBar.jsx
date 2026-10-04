@@ -148,7 +148,7 @@ export default function ChevronProgressBar() {
           } else {
             nodeStyles = isDark
               ? 'bg-gradient-to-b from-[#141c2a] to-[#0e1522] border border-slate-800/90 text-slate-400 opacity-60 z-0 shadow-[0_3px_8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]'
-              : 'bg-gradient-to-b from-[#e8eff8] to-[#d8e4f2] border border-slate-300 text-slate-400 opacity-60 z-0 shadow-sm';
+              : 'bg-gradient-to-b from-[#f8fafc] to-[#e2e8f0] border border-slate-300 text-slate-700 z-0 shadow-sm';
           }
 
           return (
@@ -166,12 +166,12 @@ export default function ChevronProgressBar() {
                   className={`w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 rounded-md sm:rounded-lg flex items-center justify-center font-mono font-black text-[9px] sm:text-[10px] lg:text-xs shrink-0 transition-all ${isActive
                       ? isDark
                         ? 'bg-slate-950 text-white border border-slate-800 shadow-[inset_0_1px_2px_rgba(0,0,0,0.8)]'
-                        : 'bg-slate-900 text-white border border-slate-950 shadow-md'
+                        : 'bg-slate-950 text-white border border-slate-900 shadow-md keep-white'
                       : isCompleted
                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
                         : isDark
                           ? 'bg-slate-900 text-slate-500 border border-slate-800'
-                          : 'bg-slate-200 text-slate-500 border border-slate-300'
+                          : 'bg-slate-200 text-slate-700 border border-slate-300 font-black'
                     }`}
                 >
                   {isCompleted ? (
@@ -191,7 +191,9 @@ export default function ChevronProgressBar() {
                             : 'text-slate-600'
                           : isCompleted
                             ? 'text-emerald-400'
-                            : 'text-slate-500'
+                            : isDark
+                              ? 'text-slate-500'
+                              : 'text-slate-600 font-bold'
                         }`}
                     >
                       {step.code}
@@ -205,7 +207,9 @@ export default function ChevronProgressBar() {
                             : 'text-slate-900'
                           : isCompleted
                             ? 'text-emerald-400'
-                            : 'text-slate-500'
+                            : isDark
+                              ? 'text-slate-500'
+                              : 'text-slate-700'
                         }`}
                     />
                   </div>
@@ -214,14 +218,14 @@ export default function ChevronProgressBar() {
                     className={`truncate text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-black tracking-tight leading-tight ${isActive
                         ? isDark
                           ? 'text-slate-950 font-black'
-                          : 'text-slate-900 font-black'
+                          : 'text-slate-950 font-black'
                         : isCompleted
                           ? isDark
                             ? 'text-slate-100 font-extrabold'
                             : 'text-slate-900 font-extrabold'
                           : isDark
                             ? 'text-slate-400'
-                            : 'text-slate-500'
+                            : 'text-slate-700 font-black'
                       }`}
                   >
                     {step.title}
@@ -237,7 +241,7 @@ export default function ChevronProgressBar() {
                     className={`hidden xs:flex px-1 sm:px-2 py-0.5 rounded-md font-mono text-[8px] sm:text-[10px] font-black uppercase tracking-wider items-center gap-0.5 sm:gap-1 shadow-sm ${isActive
                         ? isDark
                           ? 'bg-slate-950 text-white border border-slate-800 shadow-inner'
-                          : 'bg-slate-900 text-white border border-slate-950'
+                          : 'bg-slate-900 text-white border border-slate-950 keep-white'
                         : 'bg-slate-200 text-slate-950 font-extrabold'
                       }`}
                   >
@@ -251,7 +255,7 @@ export default function ChevronProgressBar() {
                   <span
                     className={`hidden xl:flex items-center gap-1.5 text-[9.5px] font-mono font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ${isDark
                         ? 'bg-slate-950 text-slate-100 border border-slate-800 shadow-inner'
-                        : 'bg-slate-900 text-white'
+                        : 'bg-slate-950 text-white keep-white'
                       }`}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
