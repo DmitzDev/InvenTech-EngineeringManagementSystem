@@ -273,7 +273,7 @@ export default function WelcomeScreen() {
           <button
             type="button"
             onClick={() => setIsReturnModalOpen(true)}
-            className={`w-full min-h-[42px] sm:min-h-[50px] rounded-2xl neu-btn-raised flex items-center justify-center gap-2 text-xs sm:text-sm font-black transition-all active:scale-98 shadow-sm ${
+            className={`w-full min-h-[42px] sm:min-h-[50px] rounded-2xl neu-btn-raised flex items-center justify-center gap-2 text-xs sm:text-sm font-black transition-transform duration-75 ease-out active:scale-95 touch-manipulation shadow-sm cursor-pointer ${
               isDark ? 'text-emerald-400 hover:text-emerald-300' : 'text-emerald-800 hover:text-emerald-950'
             }`}
           >

@@ -123,13 +123,22 @@
 }
 
 [data-theme="dark"] .neu-card-hover {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: manipulation;
 }
 
-[data-theme="dark"] .neu-card-hover:hover {
-  background: linear-gradient(180deg, #223046 0%, #182334 60%, #121a28 100%);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7), 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="dark"] .neu-card-hover:hover {
+    background: linear-gradient(180deg, #223046 0%, #182334 60%, #121a28 100%);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7), 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+}
+
+[data-theme="dark"] .neu-card-hover:active,
+[data-theme="dark"] .neu-card:active {
+  transform: scale(0.98);
+  transition: transform 75ms ease-out !important;
 }
 
 /* Dark Skeuomorphic Inset (Recessed Gauges & Digital Channels) */
@@ -298,14 +307,23 @@
 }
 
 [data-theme="light"] .neu-card-hover {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: manipulation;
 }
 
-[data-theme="light"] .neu-card-hover:hover {
-  background: #ffffff !important;
-  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -2px rgba(15, 23, 42, 0.08) !important;
-  border-color: #cbd5e1 !important;       /* border-slate-300 on hover */
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .neu-card-hover:hover {
+    background: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -2px rgba(15, 23, 42, 0.08) !important;
+    border-color: #cbd5e1 !important;
+    transform: translateY(-2px);
+  }
+}
+
+[data-theme="light"] .neu-card-hover:active,
+[data-theme="light"] .neu-card:active {
+  transform: scale(0.98);
+  transition: transform 75ms ease-out !important;
 }
 
 /* Light Mode Inset (Recessed Gauges & Digital Channels) */

@@ -32,7 +32,7 @@ export default function LabSelector() {
       }
       return 'bg-white border-2 border-slate-900 ring-2 ring-slate-900/15 shadow-md';
     }
-    return isDark ? 'neu-card neu-card-hover' : 'bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300';
+    return isDark ? 'neu-card neu-card-hover' : 'bg-white border border-slate-200 shadow-sm';
   };
 
   const getIconContainerStyle = (labId) => {
@@ -78,7 +78,7 @@ export default function LabSelector() {
             <div
               key={lab.id}
               onClick={() => handleSelectLab(lab.id)}
-              className={`p-5 sm:p-6 lg:p-7 rounded-3xl cursor-pointer flex flex-col justify-between group active:scale-98 min-h-[200px] sm:min-h-[250px] lg:min-h-[300px] xl:min-h-[340px] transition-all duration-200 ${getAccentCardStyle(
+              className={`p-5 sm:p-6 lg:p-7 rounded-3xl cursor-pointer flex flex-col justify-between group active:scale-95 transition-transform duration-75 ease-out touch-manipulation min-h-[200px] sm:min-h-[250px] lg:min-h-[300px] xl:min-h-[340px] ${getAccentCardStyle(
                 lab
               )}`}
             >

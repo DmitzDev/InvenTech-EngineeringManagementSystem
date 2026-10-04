@@ -13,7 +13,7 @@ export default function TouchButton({
   ...props
 }) {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-150 focus:outline-none disabled:opacity-50 disabled:pointer-events-none select-none active:scale-95 cursor-pointer';
+    'inline-flex items-center justify-center font-medium rounded-xl transition-transform duration-75 ease-out focus:outline-none disabled:opacity-50 disabled:pointer-events-none select-none active:scale-95 cursor-pointer touch-manipulation';
 
   const sizeStyles = {
     sm: 'min-h-[48px] min-w-[48px] px-4 py-2 text-xs gap-2',
