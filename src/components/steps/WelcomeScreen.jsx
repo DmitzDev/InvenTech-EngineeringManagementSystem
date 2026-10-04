@@ -23,10 +23,9 @@ import ReturnClearanceModal from './ReturnClearanceModal';
 export default function WelcomeScreen() {
   const { setStep, theme } = useTransaction();
   const isDark = theme === 'dark';
-  const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'mode_select'
+  const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'mode_select' | 'return'
   const [time, setTime] = useState('');
   const [date, setDate] = useState('');
-  const [isSecureReturnOpen, setIsSecureReturnOpen] = useState(false);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState(false);
   const [fullscreenToast, setFullscreenToast] = useState(null);
@@ -423,7 +422,7 @@ export default function WelcomeScreen() {
             {/* CARD B: RETURN EQUIPMENT */}
             <button
               type="button"
-              onClick={() => setIsSecureReturnOpen(true)}
+              onClick={() => setViewMode('return')}
               className={`group text-left p-5 sm:p-6 rounded-xl flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border ${
                 isDark
                   ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600 shadow-sm'
@@ -523,12 +522,16 @@ export default function WelcomeScreen() {
         </div>
       )}
 
-      {/* Secure Return Station Modal (Student Privacy Guard & ID Verification) */}
-      <SecureReturnStation
-        isOpen={isSecureReturnOpen}
-        onClose={() => setIsSecureReturnOpen(false)}
-        onOpenClearance={() => setIsClearanceModalOpen(true)}
-      />
+      {/* =========================================================================
+          VIEW C: RETURN EQUIPMENT TERMINAL (Full-Screen View, Zero Floating Box)
+         ========================================================================= */}
+      {viewMode === 'return' && (
+        <SecureReturnStation
+          onBack={() => setViewMode('mode_select')}
+          onTimeout={() => setViewMode('landing')}
+          onOpenClearance={() => setIsClearanceModalOpen(true)}
+        />
+      )}
 
       {/* Legacy Return Modal (Available if needed for custodian check-in) */}
       <ReturnEquipmentModal
