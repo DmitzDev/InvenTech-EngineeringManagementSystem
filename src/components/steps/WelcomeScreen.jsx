@@ -304,27 +304,38 @@ export default function WelcomeScreen() {
       {/* =========================================================================
           VIEW B: MODE SELECTION HUB (Industrial Engineering Lab Terminal)
          ========================================================================= */}
+      {/* =========================================================================
+          VIEW B: MODE SELECTION HUB (Industrial Engineering Lab Terminal)
+         ========================================================================= */}
       {viewMode === 'mode_select' && (
         <div className="flex-1 flex flex-col justify-between py-2 sm:py-3.5 max-w-4xl mx-auto w-full relative z-10 animate-fade-in select-none">
           {/* 1. Hub Header & Institutional Telemetry Bar */}
-          <div className="w-full border-b border-slate-200 dark:border-slate-800 pb-3 pt-1">
+          <div className={`w-full border-b pb-3 pt-1 ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2.5 text-left">
-                <div className="w-2.5 h-2.5 rounded-xs bg-blue-600 dark:bg-cyan-400 shrink-0" />
+                <div className={`w-2.5 h-2.5 rounded-xs shrink-0 ${isDark ? 'bg-cyan-400' : 'bg-blue-600'}`} />
                 <div>
-                  <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider uppercase text-slate-900 dark:text-slate-100">
+                  <h2 className={`text-xs sm:text-sm font-mono font-black tracking-wider uppercase ${
+                    isDark ? 'text-slate-100' : 'text-slate-950'
+                  }`}>
                     ENGINEERING LABORATORY MANAGEMENT TERMINAL
                   </h2>
-                  <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                  <p className={`text-[11px] font-mono ${
+                    isDark ? 'text-slate-400' : 'text-slate-600 font-bold'
+                  }`}>
                     SELECT SYSTEM MODULE TO INITIALIZE WORKFLOW
                   </p>
                 </div>
               </div>
 
               {/* Telemetry Snippet */}
-              <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 self-start sm:self-auto font-mono text-[10.5px] sm:text-[11px] text-slate-700 dark:text-slate-300">
+              <div className={`flex items-center gap-2 px-3 py-1 rounded-md self-start sm:self-auto font-mono text-[10.5px] sm:text-[11px] border ${
+                isDark
+                  ? 'bg-slate-800/90 border-slate-700 text-slate-300'
+                  : 'bg-white border-slate-300 text-slate-900 font-bold shadow-xs'
+              }`}>
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                <span className="font-bold tracking-tight">STATUS: ONLINE • READY FOR OPERATOR</span>
+                <span className="tracking-tight">STATUS: ONLINE • READY FOR OPERATOR</span>
               </div>
             </div>
           </div>
@@ -335,17 +346,29 @@ export default function WelcomeScreen() {
             <button
               type="button"
               onClick={handleStartBorrow}
-              className="group text-left p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-white dark:bg-slate-900/90 shadow-sm flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer"
+              className={`group text-left p-5 sm:p-6 rounded-xl flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border ${
+                isDark
+                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600 shadow-sm'
+                  : 'bg-white border-slate-300/90 hover:border-blue-500 shadow-sm hover:shadow-md'
+              }`}
             >
               {/* Top Micro-Header */}
               <div>
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
-                  <span className="font-mono text-[11px] font-bold tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">
+                <div className={`flex items-center justify-between pb-3 mb-3 border-b ${
+                  isDark ? 'border-slate-800/80' : 'border-slate-200'
+                }`}>
+                  <span className={`font-mono text-[11px] tracking-wider transition-colors ${
+                    isDark
+                      ? 'text-slate-400 group-hover:text-cyan-400 font-bold'
+                      : 'text-slate-600 group-hover:text-blue-700 font-black'
+                  }`}>
                     SYS.MOD // 01
                   </span>
                   <div className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                    <span className="font-mono text-[10px] uppercase font-semibold text-blue-600 dark:text-blue-400">
+                    <span className={`font-mono text-[10px] uppercase font-bold ${
+                      isDark ? 'text-blue-400' : 'text-blue-800'
+                    }`}>
                       DISPATCH ACTIVE
                     </span>
                   </div>
@@ -353,14 +376,22 @@ export default function WelcomeScreen() {
 
                 {/* Icon & Title */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200 shrink-0 group-hover:border-blue-500/50 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-all">
-                    <Boxes className="w-6 h-6 stroke-[1.8]" />
+                  <div className={`w-12 h-12 rounded-lg border flex items-center justify-center shrink-0 transition-all ${
+                    isDark
+                      ? 'bg-slate-800 border-slate-700 text-slate-200 group-hover:border-blue-500/50 group-hover:text-cyan-400'
+                      : 'bg-blue-50 border-blue-200 text-blue-700 group-hover:border-blue-400 group-hover:bg-blue-100'
+                  }`}>
+                    <Boxes className="w-6 h-6 stroke-[2]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                    <h3 className={`text-xl font-black tracking-tight leading-tight ${
+                      isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+                    }`}>
                       BORROW EQUIPMENT
                     </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    <p className={`text-xs mt-1 leading-relaxed ${
+                      isDark ? 'text-slate-400 font-normal' : 'text-slate-700 font-bold'
+                    }`}>
                       Browse laboratory inventory, select tools, and request locker compartment dispatch.
                     </p>
                   </div>
@@ -368,13 +399,23 @@ export default function WelcomeScreen() {
               </div>
 
               {/* Bottom Technical Chip */}
-              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-                <span className="font-mono text-[10.5px] font-bold px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/60">
+              <div className={`mt-4 pt-3 border-t flex items-center justify-between ${
+                isDark ? 'border-slate-800/80' : 'border-slate-200'
+              }`}>
+                <span className={`font-mono text-[10.5px] px-2.5 py-1 rounded border ${
+                  isDark
+                    ? 'bg-slate-800 text-slate-300 border-slate-700 font-bold'
+                    : 'bg-slate-100 text-slate-900 border-slate-300 font-black'
+                }`}>
                   [ DIRECT DISPATCH • A1-C6 ]
                 </span>
-                <div className="flex items-center gap-1 text-xs font-mono font-bold text-slate-600 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-cyan-400 group-hover:translate-x-1 transition-all">
+                <div className={`flex items-center gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
+                  isDark
+                    ? 'text-slate-400 group-hover:text-cyan-400'
+                    : 'text-slate-700 group-hover:text-blue-700 font-black'
+                }`}>
                   <span>INITIALIZE</span>
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4 stroke-[2.5]" />
                 </div>
               </div>
             </button>
@@ -383,17 +424,29 @@ export default function WelcomeScreen() {
             <button
               type="button"
               onClick={() => setIsSecureReturnOpen(true)}
-              className="group text-left p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-white dark:bg-slate-900/90 shadow-sm flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer"
+              className={`group text-left p-5 sm:p-6 rounded-xl flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border ${
+                isDark
+                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600 shadow-sm'
+                  : 'bg-white border-slate-300/90 hover:border-emerald-500 shadow-sm hover:shadow-md'
+              }`}
             >
               {/* Top Micro-Header */}
               <div>
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
-                  <span className="font-mono text-[11px] font-bold tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                <div className={`flex items-center justify-between pb-3 mb-3 border-b ${
+                  isDark ? 'border-slate-800/80' : 'border-slate-200'
+                }`}>
+                  <span className={`font-mono text-[11px] tracking-wider transition-colors ${
+                    isDark
+                      ? 'text-slate-400 group-hover:text-emerald-400 font-bold'
+                      : 'text-slate-600 group-hover:text-emerald-700 font-black'
+                  }`}>
                     SYS.MOD // 02
                   </span>
                   <div className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <span className="font-mono text-[10px] uppercase font-semibold text-emerald-600 dark:text-emerald-400">
+                    <span className={`font-mono text-[10px] uppercase font-bold ${
+                      isDark ? 'text-emerald-400' : 'text-emerald-800'
+                    }`}>
                       SECURE CHECK-IN
                     </span>
                   </div>
@@ -401,14 +454,22 @@ export default function WelcomeScreen() {
 
                 {/* Icon & Title */}
                 <div className="flex items-start gap-3.5">
-                  <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200 shrink-0 group-hover:border-emerald-500/50 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-all">
-                    <RotateCcw className="w-6 h-6 stroke-[1.8]" />
+                  <div className={`w-12 h-12 rounded-lg border flex items-center justify-center shrink-0 transition-all ${
+                    isDark
+                      ? 'bg-slate-800 border-slate-700 text-slate-200 group-hover:border-emerald-500/50 group-hover:text-emerald-400'
+                      : 'bg-emerald-50 border-emerald-200 text-emerald-700 group-hover:border-emerald-400 group-hover:bg-emerald-100'
+                  }`}>
+                    <RotateCcw className="w-6 h-6 stroke-[2]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                    <h3 className={`text-xl font-black tracking-tight leading-tight ${
+                      isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+                    }`}>
                       RETURN EQUIPMENT
                     </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    <p className={`text-xs mt-1 leading-relaxed ${
+                      isDark ? 'text-slate-400 font-normal' : 'text-slate-700 font-bold'
+                    }`}>
                       Check in active loans, inspect tool condition, and reconcile assigned storage.
                     </p>
                   </div>
@@ -416,24 +477,40 @@ export default function WelcomeScreen() {
               </div>
 
               {/* Bottom Technical Chip */}
-              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-                <span className="font-mono text-[10.5px] font-bold px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/60">
+              <div className={`mt-4 pt-3 border-t flex items-center justify-between ${
+                isDark ? 'border-slate-800/80' : 'border-slate-200'
+              }`}>
+                <span className={`font-mono text-[10.5px] px-2.5 py-1 rounded border ${
+                  isDark
+                    ? 'bg-slate-800 text-slate-300 border-slate-700 font-bold'
+                    : 'bg-slate-100 text-slate-900 border-slate-300 font-black'
+                }`}>
                   [ STUDENT ID AUTH REQUIRED ]
                 </span>
-                <div className="flex items-center gap-1 text-xs font-mono font-bold text-slate-600 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:translate-x-1 transition-all">
+                <div className={`flex items-center gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
+                  isDark
+                    ? 'text-slate-400 group-hover:text-emerald-400'
+                    : 'text-slate-700 group-hover:text-emerald-700 font-black'
+                }`}>
                   <span>AUTHENTICATE</span>
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4 stroke-[2.5]" />
                 </div>
               </div>
             </button>
           </div>
 
           {/* 3. Bottom Return to Standby Bar */}
-          <div className="pt-2 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+          <div className={`pt-2 flex items-center justify-between border-t text-[11px] font-mono ${
+            isDark ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600 font-bold'
+          }`}>
             <button
               type="button"
               onClick={() => setViewMode('landing')}
-              className="px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono font-bold flex items-center gap-2 transition-all duration-100 ease-out active:scale-95 cursor-pointer shadow-2xs"
+              className={`px-3.5 py-2 rounded-lg border font-mono font-bold flex items-center gap-2 transition-all duration-100 ease-out active:scale-95 cursor-pointer shadow-xs ${
+                isDark
+                  ? 'border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300'
+                  : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-900'
+              }`}
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>[ ESC // STANDBY MODE ]</span>
