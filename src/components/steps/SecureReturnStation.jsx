@@ -248,23 +248,24 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   };
 
   return (
-    <div className="flex-1 w-full min-h-screen lg:min-h-0 lg:h-full flex flex-col justify-between py-2 sm:py-3.5 max-w-4xl mx-auto w-full relative z-10 select-none animate-fade-in">
+    <div className="flex-1 w-full min-h-screen lg:min-h-0 lg:h-full flex flex-col justify-between px-2 sm:px-4 py-2 sm:py-3.5 max-w-4xl mx-auto relative z-10 select-none animate-fade-in">
       {/* 1. Top Telemetry & Security Header Bar */}
       <div
-        className={`w-full border-b pb-3 pt-1 flex items-center justify-between shrink-0 ${
+        className={`w-full border-b pb-2.5 sm:pb-3 pt-1 flex items-center justify-between gap-2 shrink-0 ${
           isDark ? 'border-slate-800' : 'border-slate-200'
         }`}
       >
-        <div className="flex items-center gap-2.5 text-left">
-          <div className={`w-2.5 h-2.5 rounded-xs shrink-0 ${isDark ? 'bg-emerald-400' : 'bg-emerald-600'}`} />
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className={`text-xs sm:text-sm font-mono font-black tracking-wider uppercase ${
+        <div className="flex items-center gap-2 sm:gap-2.5 text-left min-w-0">
+          <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs shrink-0 ${isDark ? 'bg-emerald-400' : 'bg-emerald-600'}`} />
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <h2 className={`text-[11px] sm:text-xs md:text-sm font-mono font-black tracking-wider uppercase truncate ${
                 isDark ? 'text-slate-100' : 'text-slate-950'
               }`}>
-                RETURN EQUIPMENT STATION • CUSTODIAN RECONCILIATION
+                <span className="sm:hidden">RETURN STATION</span>
+                <span className="hidden sm:inline">RETURN EQUIPMENT STATION • CUSTODIAN RECONCILIATION</span>
               </h2>
-              <span className={`hidden sm:inline font-mono text-[10px] px-2 py-0.5 rounded border ${
+              <span className={`hidden md:inline font-mono text-[10px] px-2 py-0.5 rounded border shrink-0 ${
                 isDark
                   ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                   : 'bg-emerald-50 text-emerald-800 border-emerald-200 font-bold'
@@ -272,18 +273,19 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                 ISOLATED SESSION
               </span>
             </div>
-            <p className={`text-[11px] font-mono ${
+            <p className={`text-[10px] sm:text-[11px] font-mono truncate ${
               isDark ? 'text-slate-400' : 'text-slate-600 font-bold'
             }`}>
-              PRIVACY GUARD ACTIVE • ZERO CROSS-RECORD LEAKAGE
+              <span className="sm:hidden">PRIVACY GUARD ACTIVE</span>
+              <span className="hidden sm:inline">PRIVACY GUARD ACTIVE • ZERO CROSS-RECORD LEAKAGE</span>
             </p>
           </div>
         </div>
 
         {/* 30-Second Inactivity Security Timer & Exit Button */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <div
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-mono font-bold border ${
+            className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 rounded-md text-[11px] sm:text-xs font-mono font-bold border whitespace-nowrap shrink-0 ${
               secondsLeft <= 10
                 ? 'bg-rose-500/20 text-rose-400 border-rose-500/40 animate-pulse'
                 : isDark
@@ -292,21 +294,22 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
             }`}
             title="Session automatically clears when unattended to protect student data"
           >
-            <Clock className="w-3.5 h-3.5" />
-            <span>Auto-reset in {secondsLeft}s</span>
+            <Clock className="w-3.5 h-3.5 shrink-0" />
+            <span className="sm:hidden">{secondsLeft}s</span>
+            <span className="hidden sm:inline">Auto-reset in {secondsLeft}s</span>
           </div>
 
           <button
             type="button"
             onClick={() => handleSecurityExit(false)}
-            className={`px-3 py-1.5 rounded-lg border font-mono text-xs font-bold flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer shadow-xs ${
+            className={`p-1.5 sm:px-3 sm:py-1.5 rounded-lg border font-mono text-xs font-bold flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer shadow-xs shrink-0 ${
               isDark
                 ? 'border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300'
                 : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-900'
             }`}
             title="Return to Mode Selection"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden sm:inline">BACK</span>
           </button>
         </div>
@@ -651,7 +654,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                   </div>
 
                   <span
-                    className={`text-[11px] font-mono ${
+                    className={`hidden sm:inline text-[11px] font-mono ${
                       isDark ? 'text-slate-400' : 'text-slate-600'
                     }`}
                   >
