@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
 @layer base {
   * {
     -webkit-tap-highlight-color: transparent;
