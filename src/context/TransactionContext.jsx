@@ -850,9 +850,14 @@ function transactionReducer(state, action) {
 export function TransactionProvider({ children }) {
   const [state, dispatch] = useReducer(transactionReducer, initialState);
 
-  // Sync data-theme attribute on root HTML
+  // Sync data-theme attribute and dark class on root HTML
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', state.theme);
+    if (state.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, [state.theme]);
 
   // Real-Time Philippine Time (Asia/Manila) Automated Theme Engine

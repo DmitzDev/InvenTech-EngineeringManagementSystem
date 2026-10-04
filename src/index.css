@@ -261,35 +261,40 @@
 /* =========================================================
    2. LIGHT SKEUOMORPHISM (TACTILE PLATINUM LIGHT THEME)
    ========================================================= */
+/* =========================================================
+   2. LIGHT SKEUOMORPHISM (TACTILE PLATINUM LIGHT THEME)
+   ========================================================= */
 [data-theme="light"] {
-  --kiosk-light-canvas: #e6ecf4;
-  --kiosk-light-surface: #f8fafc;
+  --kiosk-light-canvas: #f8fafc;           /* Subtle off-white anti-glare canvas (bg-slate-50) */
+  --kiosk-light-surface: #ffffff;          /* Crisp pure white surface cards */
   --kiosk-platinum-accent: #0f172a;        /* Deep Titanium Platinum (replaces skyblue/cyan in light mode) */
   --kiosk-platinum-subtle: #334155;
-  --kiosk-platinum-border: #94a3b8;
-  --kiosk-platinum-glow: rgba(148, 163, 184, 0.35);
+  --kiosk-platinum-border: #e2e8f0;        /* Defined border-slate-200 */
+  --kiosk-platinum-glow: rgba(15, 23, 42, 0.12);
 }
 
 [data-theme="light"] body {
-  background-color: #e6ecf4;
-  color: #0f172a;
+  background-color: #f8fafc !important;   /* Anti-glare subtle off-white canvas */
+  color: #0f172a !important;              /* text-slate-900 */
+  letter-spacing: -0.01em;
+  font-feature-settings: 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv11' 1, 'tnum' 1;
 }
 
 [data-theme="light"] .kiosk-shell {
-  background-color: #e6ecf4;
+  background-color: #f8fafc !important;
 }
 
-/* Light Skeuomorphic Raised Panels (Platinum Aluminum Lab Console Chassis) */
+/* Light Mode Surface Cards (Pure white, defined border-slate-200, subtle shadow-sm elevation) */
 [data-theme="light"] .neu-card {
-  background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 60%, #e8eff7 100%);
-  box-shadow: 0 8px 20px rgba(160, 175, 196, 0.45), 0 2px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 #ffffff, inset 0 -1px 0 rgba(203, 213, 225, 0.8);
-  border: 1px solid #cbd5e1;
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08) !important;
+  border: 1px solid #e2e8f0 !important;   /* border-slate-200 */
 }
 
 [data-theme="light"] .neu-card-sm {
-  background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 60%, #e8eff7 100%);
-  box-shadow: 0 4px 10px rgba(160, 175, 196, 0.35), inset 0 1px 0 #ffffff, inset 0 -1px 0 rgba(203, 213, 225, 0.6);
-  border: 1px solid #cbd5e1;
+  background: #ffffff !important;
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid #e2e8f0 !important;   /* border-slate-200 */
 }
 
 [data-theme="light"] .neu-card-hover {
@@ -297,164 +302,177 @@
 }
 
 [data-theme="light"] .neu-card-hover:hover {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 60%, #edf3fa 100%);
-  box-shadow: 0 12px 26px rgba(145, 162, 185, 0.55), 0 4px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 #ffffff;
+  background: #ffffff !important;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -2px rgba(15, 23, 42, 0.08) !important;
+  border-color: #cbd5e1 !important;       /* border-slate-300 on hover */
   transform: translateY(-2px);
 }
 
-/* Light Skeuomorphic Inset (Recessed Gauges & Digital Channels) */
+/* Light Mode Inset (Recessed Gauges & Digital Channels) */
 [data-theme="light"] .neu-inset {
-  background: #e9eff6;
-  box-shadow: inset 0 2px 6px rgba(100, 116, 139, 0.22), inset 0 -1px 0 #ffffff, 0 1px 0 #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #0f172a;
+  background: #f8fafc !important;
+  box-shadow: inset 0 1px 2px 0 rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
 }
 
 [data-theme="light"] .neu-inset-sm {
-  background: #e9eff6;
-  box-shadow: inset 0 1.5px 4px rgba(100, 116, 139, 0.18), inset 0 -1px 0 #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #0f172a;
+  background: #f8fafc !important;
+  box-shadow: inset 0 1px 2px 0 rgba(15, 23, 42, 0.05) !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
 }
 
 /* Active Highlight Insets with Platinum / Semantic accents */
 [data-theme="light"] .neu-inset-cyan {
-  background: #edf2f7;
-  box-shadow: inset 0 2px 5px rgba(15, 23, 42, 0.12), 0 0 10px rgba(148, 163, 184, 0.35);
-  border: 1.5px solid #0f172a;
-  color: #0f172a;
+  background: #eff6ff !important;
+  box-shadow: inset 0 1px 2px 0 rgba(30, 64, 175, 0.1) !important;
+  border: 1.5px solid #2563eb !important;
+  color: #1e40af !important;
 }
 
 [data-theme="light"] .neu-inset-emerald {
-  background: #f0fdf4;
-  box-shadow: inset 0 2px 5px rgba(22, 101, 52, 0.15), 0 0 8px rgba(34, 197, 94, 0.2);
-  border: 1.5px solid #16a34a;
-  color: #15803d;
+  background: #ecfdf5 !important;
+  box-shadow: inset 0 1px 2px 0 rgba(6, 95, 70, 0.1) !important;
+  border: 1.5px solid #059669 !important;
+  color: #065f46 !important;
 }
 
 [data-theme="light"] .neu-inset-amber {
-  background: #fffbeb;
-  box-shadow: inset 0 2px 5px rgba(180, 83, 9, 0.15), 0 0 8px rgba(245, 158, 11, 0.2);
-  border: 1.5px solid #d97706;
-  color: #92400e;
+  background: #fffbeb !important;
+  box-shadow: inset 0 1px 2px 0 rgba(146, 64, 14, 0.1) !important;
+  border: 1.5px solid #d97706 !important;
+  color: #92400e !important;
 }
 
-/* Light Skeuomorphic Raised Buttons (Milled Platinum Silver Console Switches) */
+/* Light Skeuomorphic Raised Buttons (Milled Console Action Switches) */
 [data-theme="light"] .neu-btn-raised {
-  background: linear-gradient(180deg, #ffffff 0%, #edf2f8 60%, #dfe7f2 100%);
-  box-shadow: 0 4px 8px rgba(150, 168, 190, 0.35), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 #ffffff, inset 0 -1px 0 rgba(203, 213, 225, 0.7);
-  border: 1px solid #cbd5e1;
-  color: #0f172a;
+  background: #ffffff !important;
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.08) !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
   font-weight: 600;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="light"] .neu-btn-raised:hover {
-  background: linear-gradient(180deg, #ffffff 0%, #f4f8fc 60%, #e7eff8 100%);
-  box-shadow: 0 6px 12px rgba(140, 160, 185, 0.45), inset 0 1px 0 #ffffff;
-  color: #020617;
+  background: #f8fafc !important;
+  box-shadow: 0 2px 4px 0 rgba(15, 23, 42, 0.1) !important;
+  color: #020617 !important;
 }
 
 [data-theme="light"] .neu-btn-raised:active {
-  background: #d8e2ee;
-  box-shadow: inset 0 3px 6px rgba(140, 160, 185, 0.7);
-  transform: translateY(2px) scale(0.98);
+  background: #f1f5f9 !important;
+  box-shadow: inset 0 1px 2px 0 rgba(15, 23, 42, 0.1) !important;
+  transform: translateY(1px);
 }
 
-/* Tactile 3D Primary Button (PLATINUM TITANIUM HARDWARE SWITCH FOR LIGHT THEME) */
+/* Tactile 3D Primary Button (DEEP HARDWARE SWITCH FOR LIGHT THEME) */
 [data-theme="light"] .neu-btn-primary {
-  background: linear-gradient(180deg, #1e293b 0%, #0f172a 60%, #020617 100%);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35), 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 -1px 1px rgba(0, 0, 0, 0.6);
-  border: 1px solid #334155;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 60%, #020617 100%) !important;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+  border: 1px solid #0f172a !important;
   color: #ffffff !important;
   font-weight: 700;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="light"] .neu-btn-primary:hover {
-  background: linear-gradient(180deg, #334155 0%, #1e293b 60%, #0f172a 100%);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  background: linear-gradient(180deg, #334155 0%, #1e293b 60%, #0f172a 100%) !important;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
   color: #ffffff !important;
-  filter: brightness(1.05);
 }
 
 [data-theme="light"] .neu-btn-primary:active {
-  background: #020617;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.1);
-  transform: translateY(2px) scale(0.98);
+  background: #020617 !important;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6) !important;
+  transform: translateY(1px);
 }
 
 /* Tactile 3D Secondary Button */
 [data-theme="light"] .neu-btn-secondary {
-  background: linear-gradient(180deg, #34d399 0%, #10b981 60%, #059669 100%);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3), inset 0 1px 1px #ffffff;
-  border: 1px solid #059669;
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%) !important;
+  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid #047857 !important;
   color: #ffffff !important;
   font-weight: 700;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="light"] .neu-btn-secondary:hover {
-  filter: brightness(1.08);
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+  filter: brightness(1.06);
+  box-shadow: 0 6px 14px rgba(5, 150, 105, 0.35) !important;
 }
 
 [data-theme="light"] .neu-btn-secondary:active {
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
-  transform: translateY(2px) scale(0.98);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(1px);
 }
 
 /* Tactile Danger Button */
 [data-theme="light"] .neu-btn-danger {
-  background: linear-gradient(180deg, #fee2e2 0%, #fecaca 100%);
-  box-shadow: 0 3px 6px rgba(239, 68, 68, 0.25), inset 0 1px 0 #ffffff;
-  color: #991b1b;
-  border: 1px solid #f87171;
+  background: #fee2e2 !important;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.15) !important;
+  color: #991b1b !important;
+  border: 1px solid #fca5a5 !important;
   font-weight: 700;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="light"] .neu-btn-danger:active {
-  box-shadow: inset 0 3px 6px rgba(239, 68, 68, 0.4);
-  transform: translateY(2px) scale(0.98);
+  box-shadow: inset 0 2px 4px rgba(239, 68, 68, 0.25) !important;
+  transform: translateY(1px);
 }
 
 /* =========================================================
-   LIGHT THEME 4-COLOR SKEUOMORPHIC HARMONY (PLATINUM LAB CONSOLE)
-   =========================================================
-   Color 1: Chassis Canvas (Matte Platinum Base) -> #e6ecf4
-   Color 2: Milled Elevated Cards & Panels       -> #ffffff
-   Color 3: Precision Recessed Insets & Inputs   -> #f1f5f9
-   Color 4: Deep Titanium Charcoal Typography    -> #090e17 / #1e293b / #334155
-   Strict Rule: Sky Blue & Orange fonts are EXCLUSIVELY for INVEN TECH brand logo!
+   LIGHT THEME WCAG AA CONTRAST & TYPOGRAPHY HIERARCHY
    ========================================================= */
 
-/* Typography Enhancements for Light Mode (SEO & Eyeglass Wearers Readability) */
-[data-theme="light"] {
-  --font-kiosk: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --kiosk-accent: #0f172a;
-  --kiosk-accent-hover: #1e293b;
-  --kiosk-accent-dark: #020617;
-  --kiosk-accent-glow: rgba(15, 23, 42, 0.25);
-}
-
-[data-theme="light"] body {
-  background-color: #e6ecf4 !important;
-  color: #090e17 !important;
-  letter-spacing: -0.01em;
-  font-feature-settings: 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv11' 1, 'tnum' 1;
-}
-
+/* Primary Headings & Tool Titles: high-contrast text-slate-900 with bold/black weights */
 [data-theme="light"] h1,
 [data-theme="light"] h2,
 [data-theme="light"] h3,
-[data-theme="light"] h4 {
-  color: #090e17 !important;
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6 {
+  color: #0f172a !important;       /* text-slate-900 */
   font-weight: 800 !important;
   letter-spacing: -0.02em;
 }
 
-/* Strict Brand Isolation: Convert all cyan/sky/orange utility text to Deep Titanium Charcoal EXCEPT INVEN TECH */
+/* Secondary & Muted Text: Replace all washed-out text-slate-400 / text-gray-400 with text-slate-600 */
+[data-theme="light"] .text-slate-400:not(.keep-brand, .keep-white, .keep-white *, .neu-btn-primary, .neu-btn-primary *),
+[data-theme="light"] .text-gray-400:not(.keep-brand, .keep-white, .keep-white *, .neu-btn-primary, .neu-btn-primary *),
+[data-theme="light"] .text-slate-500:not(.keep-brand, .keep-white, .keep-white *, .neu-btn-primary, .neu-btn-primary *) {
+  color: #475569 !important;       /* text-slate-600 */
+  font-weight: 500;
+}
+
+[data-theme="light"] .text-slate-600 {
+  color: #475569 !important;       /* text-slate-600 */
+}
+
+/* Form Labels & Helper Text: Set to text-slate-700 font-medium */
+[data-theme="light"] label,
+[data-theme="light"] .form-label {
+  color: #334155 !important;       /* text-slate-700 */
+  font-weight: 500 !important;
+}
+
+[data-theme="light"] .text-slate-700 {
+  color: #334155 !important;       /* text-slate-700 */
+}
+
+/* Primary text representations */
+[data-theme="light"] .text-slate-900,
+[data-theme="light"] .text-slate-950,
+[data-theme="light"] .text-slate-100:not(.keep-white, .keep-white *, .neu-btn-primary, .neu-btn-primary *, .bg-emerald-600, .bg-emerald-600 *, .bg-blue-600, .bg-blue-600 *),
+[data-theme="light"] .text-slate-200:not(.keep-white, .keep-white *, .neu-btn-primary, .neu-btn-primary *, .bg-emerald-600, .bg-emerald-600 *, .bg-blue-600, .bg-blue-600 *),
+[data-theme="light"] .text-slate-300:not(.keep-white, .keep-white *, .neu-btn-primary, .neu-btn-primary *, .bg-emerald-600, .bg-emerald-600 *, .bg-blue-600, .bg-blue-600 *) {
+  color: #0f172a !important;       /* text-slate-900 */
+}
+
+/* Strict Brand Isolation: Convert all cyan/sky/orange utility text to text-slate-900 EXCEPT INVEN TECH */
 [data-theme="light"] .text-sky-400:not(.keep-brand-inven, .keep-brand-tech),
 [data-theme="light"] .text-cyan-400:not(.keep-brand-inven, .keep-brand-tech),
 [data-theme="light"] .text-sky-300:not(.keep-brand-inven, .keep-brand-tech),
@@ -464,7 +482,7 @@
 [data-theme="light"] .text-orange-400:not(.keep-brand-inven, .keep-brand-tech),
 [data-theme="light"] .text-orange-500:not(.keep-brand-inven, .keep-brand-tech),
 [data-theme="light"] .text-orange-600:not(.keep-brand-inven, .keep-brand-tech) {
-  color: #090e17 !important;
+  color: #0f172a !important;
   font-weight: 700;
 }
 
@@ -475,6 +493,33 @@
 
 [data-theme="light"] .keep-brand-tech {
   color: #ea580c !important;
+}
+
+/* Preserve crisp white text ONLY on primary dark hardware action buttons, active chips, and keep-white elements */
+[data-theme="light"] .neu-btn-primary,
+[data-theme="light"] .neu-btn-primary *,
+[data-theme="light"] .keep-white,
+[data-theme="light"] .keep-white *,
+[data-theme="light"] .bg-blue-600,
+[data-theme="light"] .bg-blue-600 *,
+[data-theme="light"] .bg-emerald-600,
+[data-theme="light"] .bg-emerald-600 * {
+  color: #ffffff !important;
+}
+
+/* Dividers & Borders: Upgrade light hairline borders from border-slate-100 to border-slate-200 */
+[data-theme="light"] .border-slate-100,
+[data-theme="light"] .border-slate-800,
+[data-theme="light"] .border-slate-800\/80,
+[data-theme="light"] .border-slate-800\/60,
+[data-theme="light"] .border-slate-800\/70,
+[data-theme="light"] .border-slate-700,
+[data-theme="light"] .border-slate-700\/60 {
+  border-color: #e2e8f0 !important; /* border-slate-200 */
+}
+
+[data-theme="light"] .border-slate-200 {
+  border-color: #e2e8f0 !important;
 }
 
 [data-theme="light"] .border-cyan-500,
@@ -488,95 +533,100 @@
 [data-theme="light"] .border-cyan-500\/20,
 [data-theme="light"] .border-sky-500,
 [data-theme="light"] .border-sky-400 {
-  border-color: #94a3b8 !important;
+  border-color: #cbd5e1 !important; /* border-slate-300 */
 }
 
-[data-theme="light"] .ring-cyan-400,
-[data-theme="light"] .ring-sky-400,
-[data-theme="light"] .focus\:ring-cyan-500:focus {
-  --tw-ring-color: #0f172a !important;
+/* =========================================================
+   3. STATUS BADGES & PILL TOKENS (EXACT WCAG AA SPEC)
+   =========================================================
+   - Available / Good: bg-emerald-50 text-emerald-800 border border-emerald-200/60
+   - Borrowed / In Use: bg-amber-50 text-amber-800 border border-amber-200/60
+   - Maintenance / Damaged: bg-rose-50 text-rose-800 border border-rose-200/60
+   - Locker Location Tags: bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold
+   ========================================================= */
+[data-theme="light"] .badge-available,
+[data-theme="light"] .badge-good,
+[data-theme="light"] .bg-emerald-50 {
+  background-color: #ecfdf5 !important;
+  color: #065f46 !important;
+  border-color: rgba(167, 243, 208, 0.6) !important;
 }
 
-/* Light Theme Universal 4-Color High-Contrast Text Hierarchy */
-[data-theme="light"] .text-slate-100,
-[data-theme="light"] .text-white:not(.keep-white, .keep-white *, .neu-btn-primary, .neu-btn-primary *, .bg-emerald-600, .bg-emerald-600 *) {
-  color: #090e17 !important;
-  font-weight: 800;
+[data-theme="light"] .badge-borrowed,
+[data-theme="light"] .badge-in-use,
+[data-theme="light"] .bg-amber-50 {
+  background-color: #fffbeb !important;
+  color: #92400e !important;
+  border-color: rgba(253, 230, 138, 0.6) !important;
 }
 
-[data-theme="light"] .text-slate-200 {
-  color: #090e17 !important;
-  font-weight: 700;
+[data-theme="light"] .badge-maintenance,
+[data-theme="light"] .badge-damaged,
+[data-theme="light"] .bg-rose-50 {
+  background-color: #fff1f2 !important;
+  color: #9f1239 !important;
+  border-color: rgba(254, 205, 211, 0.6) !important;
 }
 
-[data-theme="light"] .text-slate-300 {
-  color: #1e293b !important;
-  font-weight: 700;
+[data-theme="light"] .badge-locker-tag,
+[data-theme="light"] .badge-location-tag,
+[data-theme="light"] .bg-blue-50 {
+  background-color: #eff6ff !important;
+  color: #1e40af !important;
+  border-color: rgba(191, 219, 254, 0.6) !important;
 }
 
-[data-theme="light"] .text-slate-400 {
-  color: #334155 !important;
-  font-weight: 600;
+[data-theme="light"] .text-emerald-800 { color: #065f46 !important; }
+[data-theme="light"] .text-amber-800 { color: #92400e !important; }
+[data-theme="light"] .text-rose-800 { color: #9f1239 !important; }
+[data-theme="light"] .text-blue-800 { color: #1e40af !important; }
+
+[data-theme="light"] .border-emerald-200\/60 { border-color: rgba(167, 243, 208, 0.6) !important; }
+[data-theme="light"] .border-amber-200\/60 { border-color: rgba(253, 230, 138, 0.6) !important; }
+[data-theme="light"] .border-rose-200\/60 { border-color: rgba(254, 205, 211, 0.6) !important; }
+[data-theme="light"] .border-blue-200\/60 { border-color: rgba(191, 219, 254, 0.6) !important; }
+
+/* =========================================================
+   4. FORM FIELDS & INTERACTIVE TOUCH ELEMENTS
+   =========================================================
+   - Input Boxes & Selects: bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100
+   - Quick-Select Purpose Chips: Default unselected: bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200; Active: bg-blue-600 text-white shadow-sm
+   - Signature Canvas: bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg with solid dark ink (#0f172a)
+   ========================================================= */
+[data-theme="light"] input:not([type="checkbox"], [type="radio"]),
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;        /* border-slate-300 */
+  color: #0f172a !important;               /* text-slate-900 */
 }
 
-[data-theme="light"] .text-slate-500 {
-  color: #475569 !important;
-  font-weight: 600;
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #94a3b8 !important;               /* placeholder:text-slate-400 */
 }
 
-/* Preserve crisp white text ONLY on primary dark hardware action buttons */
-[data-theme="light"] .neu-btn-primary,
-[data-theme="light"] .neu-btn-primary *,
-[data-theme="light"] .keep-white,
-[data-theme="light"] .keep-white * {
-  color: #ffffff !important;
+[data-theme="light"] input:focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] textarea:focus {
+  border-color: #3b82f6 !important;        /* focus:border-blue-500 */
+  outline: none;
+  box-shadow: 0 0 0 2px #dbeafe !important; /* focus:ring-2 focus:ring-blue-100 */
 }
 
-/* Light Theme Laboratory Accent Badges (Strictly No Orange or Sky Blue Fonts) */
-[data-theme="light"] .bg-amber-100 {
-  background-color: #fef3c7 !important;
-}
-[data-theme="light"] .text-amber-950 {
-  color: #78350f !important;
-}
-[data-theme="light"] .border-amber-300 {
-  border-color: #fcd34d !important;
-}
-[data-theme="light"] .bg-emerald-100 {
-  background-color: #d1fae5 !important;
-}
-[data-theme="light"] .text-emerald-950 {
-  color: #064e3b !important;
-}
-[data-theme="light"] .border-emerald-300 {
-  border-color: #6ee7b7 !important;
-}
-[data-theme="light"] .bg-indigo-100 {
-  background-color: #e0e7ff !important;
-}
-[data-theme="light"] .text-indigo-950 {
-  color: #1e1b4b !important;
-}
-[data-theme="light"] .border-indigo-300 {
-  border-color: #a5b4fc !important;
-}
-[data-theme="light"] .bg-rose-100 {
-  background-color: #ffe4e6 !important;
-}
-[data-theme="light"] .text-rose-950 {
-  color: #881337 !important;
-}
-[data-theme="light"] .border-rose-300 {
-  border-color: #fda4af !important;
-}
-
-/* Ensure strong contrast for stock numbers and tags in light mode */
-[data-theme="light"] .text-slate-950 {
-  color: #090e17 !important;
-}
-[data-theme="light"] .text-amber-900 {
-  color: #78350f !important;
-}
+/* Light Theme Laboratory Accent Badges (Clean contrast) */
+[data-theme="light"] .bg-amber-100 { background-color: #fef3c7 !important; }
+[data-theme="light"] .text-amber-950 { color: #78350f !important; }
+[data-theme="light"] .border-amber-300 { border-color: #fcd34d !important; }
+[data-theme="light"] .bg-emerald-100 { background-color: #d1fae5 !important; }
+[data-theme="light"] .text-emerald-950 { color: #064e3b !important; }
+[data-theme="light"] .border-emerald-300 { border-color: #6ee7b7 !important; }
+[data-theme="light"] .bg-indigo-100 { background-color: #e0e7ff !important; }
+[data-theme="light"] .text-indigo-950 { color: #1e1b4b !important; }
+[data-theme="light"] .border-indigo-300 { border-color: #a5b4fc !important; }
+[data-theme="light"] .bg-rose-100 { background-color: #ffe4e6 !important; }
+[data-theme="light"] .text-rose-950 { color: #881337 !important; }
+[data-theme="light"] .border-rose-300 { border-color: #fda4af !important; }
 
 /* =========================================================
    LIGHT MODE ADMIN COMMAND CENTER (SKEUOMORPHIC HARMONY)

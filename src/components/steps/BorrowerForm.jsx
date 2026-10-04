@@ -248,33 +248,51 @@ export default function BorrowerForm() {
 
       {/* Overdue / Clearance Hold Lockout Alert Banner */}
       {clearanceStatus.isRestricted && (
-        <div className="my-2 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-rose-950/80 border-2 border-rose-500/80 text-rose-100 shadow-xl animate-fade-in shrink-0">
+        <div className={`my-2 p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 shadow-xl animate-fade-in shrink-0 ${
+          isDark
+            ? 'bg-rose-950/80 border-rose-500/80 text-rose-100'
+            : 'bg-rose-50 border-rose-300 text-rose-900 shadow-sm'
+        }`}>
           <div className="flex items-start gap-3">
-            <ShieldAlert className="w-6 h-6 sm:w-7 sm:h-7 text-rose-400 shrink-0 mt-0.5 animate-pulse" />
+            <ShieldAlert className={`w-6 h-6 sm:w-7 sm:h-7 shrink-0 mt-0.5 animate-pulse ${
+              isDark ? 'text-rose-400' : 'text-rose-600'
+            }`} />
             <div className="flex-1">
               <div className="flex items-center justify-between flex-wrap gap-1">
-                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-rose-300">
+                <span className={`text-xs sm:text-sm font-extrabold uppercase tracking-wider ${
+                  isDark ? 'text-rose-300' : 'text-rose-900'
+                }`}>
                   ⛔ BORROWING RESTRICTED — Clearance Lockout Active
                 </span>
-                <span className="text-[10px] sm:text-xs font-mono bg-rose-900/90 px-2 py-0.5 rounded border border-rose-400/40 text-rose-200">
+                <span className={`text-[10px] sm:text-xs font-mono px-2 py-0.5 rounded border ${
+                  isDark
+                    ? 'bg-rose-900/90 border-rose-400/40 text-rose-200'
+                    : 'bg-rose-100 border-rose-200 text-rose-800 font-semibold'
+                }`}>
                   Hold Reference: {clearanceStatus.clearanceHold?.id || 'UNRETURNED_SESSION'}
                 </span>
               </div>
-              <p className="text-xs sm:text-sm font-bold text-rose-100 mt-1">
+              <p className={`text-xs sm:text-sm font-bold mt-1 ${
+                isDark ? 'text-rose-100' : 'text-rose-800'
+              }`}>
                 {clearanceStatus.reason}
               </p>
 
               {/* Unreturned Items Breakdown */}
-              <div className="mt-2.5 pt-2 border-t border-rose-800/60 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div className={`mt-2.5 pt-2 border-t grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs ${
+                isDark ? 'border-rose-800/60' : 'border-rose-200'
+              }`}>
                 {clearanceStatus.overdueItems.slice(0, 4).map((item, idx) => (
-                  <div key={idx} className="bg-rose-900/40 p-2 rounded-lg border border-rose-700/40 flex items-center justify-between">
+                  <div key={idx} className={`p-2 rounded-lg border flex items-center justify-between ${
+                    isDark ? 'bg-rose-900/40 border-rose-700/40' : 'bg-white border-rose-200 shadow-xs'
+                  }`}>
                     <div>
-                      <span className="font-extrabold text-rose-200">{item.name}</span>
-                      <div className="text-[10px] text-rose-300 font-mono">Tag: {item.tagCode || 'N/A'}</div>
+                      <span className={`font-extrabold ${isDark ? 'text-rose-200' : 'text-rose-900'}`}>{item.name}</span>
+                      <div className={`text-[10px] font-mono ${isDark ? 'text-rose-300' : 'text-rose-700'}`}>Tag: {item.tagCode || 'N/A'}</div>
                     </div>
                     <div className="text-right">
-                      <span className="text-[10px] font-bold text-amber-300">Due: {item.dueDate || item.date}</span>
-                      <div className="text-[10px] text-rose-300">Qty: {item.qty}</div>
+                      <span className={`text-[10px] font-bold ${isDark ? 'text-amber-300' : 'text-amber-800'}`}>Due: {item.dueDate || item.date}</span>
+                      <div className={`text-[10px] ${isDark ? 'text-rose-300' : 'text-rose-700'}`}>Qty: {item.qty}</div>
                     </div>
                   </div>
                 ))}
@@ -284,12 +302,14 @@ export default function BorrowerForm() {
         </div>
       )}
 
-      {/* 2. Form Grid with Neumorphic Raised Panels (Compact on Mobile, Spacious on 15" Kiosk) */}
+      {/* 2. Form Grid with Raised Surface Panels (Pure white with border-slate-200 in Light Mode) */}
       <form onSubmit={handleNext} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 my-2 sm:my-3 md:my-auto py-1 min-h-0">
         {/* Left Column: Academic & Course Code Builder */}
-        <div className="neu-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5">
+        <div className={`rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5 ${
+          isDark ? 'neu-card' : 'bg-white border border-slate-200 shadow-sm'
+        }`}>
           <h2 className={`text-xs sm:text-base font-black flex items-center gap-2 pb-1 sm:pb-2 border-b uppercase tracking-wider ${
-            isDark ? 'text-slate-200 border-slate-800/80' : 'text-slate-950 border-slate-300 font-black'
+            isDark ? 'text-slate-200 border-slate-800/80' : 'text-slate-900 border-slate-200 font-black'
           }`}>
             <GraduationCap className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
             <span>Program & Course</span>
@@ -299,23 +319,29 @@ export default function BorrowerForm() {
           <div className="grid grid-cols-2 gap-2 sm:gap-3 items-start">
             {/* 1. Academic Program */}
             <div>
-              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Program
               </label>
               <select
                 value={isOtherProgram ? 'OTHERS' : borrower.program}
                 onChange={(e) => handleProgramChange(e.target.value)}
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer ${
-                  !borrower.program ? 'text-slate-400/50' : 'text-slate-100 font-bold'
-                } ${errors.program ? 'ring-2 ring-rose-500' : ''}`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm cursor-pointer transition-all ${
+                  isDark
+                    ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
+                    : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                } ${!borrower.program ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')} ${
+                  errors.program ? 'ring-2 ring-rose-500' : ''
+                }`}
               >
-                <option value="" className="bg-[#0e1422] text-slate-500/70">Select Program</option>
+                <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Program</option>
                 {ENGINEERING_PROGRAMS.map((prog) => (
-                  <option key={prog} value={prog} className="bg-[#0e1422] text-slate-100 font-bold">
+                  <option key={prog} value={prog} className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>
                     {prog}
                   </option>
                 ))}
-                <option value="OTHERS" className="bg-[#0e1422] text-amber-300 font-bold">
+                <option value="OTHERS" className={isDark ? 'bg-[#0e1422] text-amber-300 font-bold' : 'bg-white text-amber-800 font-bold'}>
                   Others
                 </option>
               </select>
@@ -328,32 +354,40 @@ export default function BorrowerForm() {
                     value={customProgram}
                     onChange={(e) => handleCustomProgramChange(e.target.value)}
                     placeholder="Type course..."
-                    className="w-full h-8 sm:h-11 px-2.5 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-bold text-xs sm:text-sm placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all uppercase bg-[#0e1422] border border-amber-500/40"
+                    className={`w-full h-8 sm:h-11 px-2.5 sm:px-3.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all uppercase ${
+                      isDark
+                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-amber-500/40 placeholder:text-slate-600/70 focus:ring-1 focus:ring-cyan-500'
+                        : 'bg-white border border-amber-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                    }`}
                     autoFocus
                   />
                 </div>
               )}
 
               {errors.program && (
-                <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.program}</p>
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.program}</p>
               )}
             </div>
 
             {/* 2. Year Level */}
             <div>
-              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Year Level
               </label>
               <select
                 value={selectedYear}
                 onChange={(e) => handleYearChange(e.target.value)}
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer ${
-                  !selectedYear ? 'text-slate-400/50' : 'text-slate-100 font-bold'
-                }`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm cursor-pointer transition-all ${
+                  isDark
+                    ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
+                    : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                } ${!selectedYear ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
               >
-                <option value="" className="bg-[#0e1422] text-slate-500/70">Select Year</option>
+                <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Year</option>
                 {YEAR_LEVELS.map((y) => (
-                  <option key={y.id} value={y.id} className="bg-[#0e1422] text-slate-100 font-bold">
+                  <option key={y.id} value={y.id} className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>
                     {y.label}
                   </option>
                 ))}
@@ -362,40 +396,48 @@ export default function BorrowerForm() {
 
             {/* 3. Term / Semester */}
             <div>
-              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Semester
               </label>
               <select
                 value={selectedSem}
                 onChange={(e) => handleSemChange(e.target.value)}
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer ${
-                  !selectedSem ? 'text-slate-400/50' : 'text-slate-100 font-bold'
-                }`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm cursor-pointer transition-all ${
+                  isDark
+                    ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
+                    : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                } ${!selectedSem ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
               >
-                <option value="" className="bg-[#0e1422] text-slate-500/70">Select Semester</option>
-                <option value="1" className="bg-[#0e1422] text-slate-100 font-bold">1st Semester</option>
-                <option value="2" className="bg-[#0e1422] text-slate-100 font-bold">2nd Semester</option>
+                <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Semester</option>
+                <option value="1" className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>1st Semester</option>
+                <option value="2" className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>2nd Semester</option>
                 {(selectedYear === '2' || selectedYear === '3') && (
-                  <option value="3" className="bg-[#0e1422] text-amber-300 font-bold">Summer Term</option>
+                  <option value="3" className={isDark ? 'bg-[#0e1422] text-amber-300 font-bold' : 'bg-white text-amber-800 font-bold'}>Summer Term</option>
                 )}
               </select>
             </div>
 
             {/* 4. Class Section */}
             <div>
-              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Section
               </label>
               <select
                 value={selectedSection}
                 onChange={(e) => handleSectionChange(e.target.value)}
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl neu-inset text-xs sm:text-sm font-mono bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer ${
-                  !selectedSection ? 'text-slate-400/50 font-sans' : 'text-slate-100 font-bold'
-                }`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono cursor-pointer transition-all ${
+                  isDark
+                    ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
+                    : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                } ${!selectedSection ? (isDark ? 'text-slate-400/50 font-sans' : 'text-slate-400 font-sans') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
               >
-                <option value="" className="bg-[#0e1422] text-slate-500/70 font-sans">Select Section</option>
+                <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500 font-sans' : 'bg-white text-slate-400 font-sans'}>Select Section</option>
                 {SECTIONS.map((sec) => (
-                  <option key={sec} value={sec} className="bg-[#0e1422] text-slate-100 font-mono font-bold">
+                  <option key={sec} value={sec} className={isDark ? 'bg-[#0e1422] text-slate-100 font-mono font-bold' : 'bg-white text-slate-900 font-mono font-bold'}>
                     Section {sec}
                   </option>
                 ))}
@@ -403,9 +445,11 @@ export default function BorrowerForm() {
             </div>
           </div>
 
-            {/* Course Code Input */}
+          {/* Course Code Input */}
           <div>
-            <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+            <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+              isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+            }`}>
               Course Code
             </label>
             <input
@@ -414,20 +458,24 @@ export default function BorrowerForm() {
               onChange={(e) => setBorrowerField('courseCode', e.target.value.toUpperCase())}
               placeholder="e.g. 41-BSCPE-01"
               enterKeyHint="next"
-              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-cyan-300 font-mono text-xs sm:text-base font-extrabold placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
-                errors.courseCode ? 'ring-2 ring-rose-500' : ''
-              }`}
+              className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all ${
+                isDark
+                  ? 'neu-inset text-cyan-300 placeholder:text-slate-600/70 focus:ring-1 focus:ring-cyan-500'
+                  : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+              } ${errors.courseCode ? 'ring-2 ring-rose-500' : ''}`}
             />
             {errors.courseCode && (
-              <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.courseCode}</p>
+              <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.courseCode}</p>
             )}
           </div>
         </div>
 
         {/* Right Column: Student Details & Schedule */}
-        <div className="neu-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5">
+        <div className={`rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-6 space-y-3 sm:space-y-3.5 ${
+          isDark ? 'neu-card' : 'bg-white border border-slate-200 shadow-sm'
+        }`}>
           <h2 className={`text-xs sm:text-base font-black flex items-center gap-2 pb-1 sm:pb-2 border-b uppercase tracking-wider ${
-            isDark ? 'text-slate-200 border-slate-800/80' : 'text-slate-950 border-slate-300 font-black'
+            isDark ? 'text-slate-200 border-slate-800/80' : 'text-slate-900 border-slate-200 font-black'
           }`}>
             <Users className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
             <span>Student & Schedule</span>
@@ -436,7 +484,9 @@ export default function BorrowerForm() {
           {/* Student Name & Student ID Number (Grid on 15" screen) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             <div>
-              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Student Name
               </label>
               <input
@@ -445,22 +495,28 @@ export default function BorrowerForm() {
                 onChange={(e) => setBorrowerField('groupLeader', e.target.value.toUpperCase())}
                 placeholder="e.g. JASON CAYABYAB"
                 enterKeyHint="next"
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-sm font-bold uppercase placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
-                  errors.groupLeader ? 'ring-2 ring-rose-500' : ''
-                }`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold uppercase transition-all ${
+                  isDark
+                    ? 'neu-inset text-slate-100 placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500'
+                    : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                } ${errors.groupLeader ? 'ring-2 ring-rose-500' : ''}`}
               />
               {errors.groupLeader && (
-                <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.groupLeader}</p>
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.groupLeader}</p>
               )}
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-[10.5px] sm:text-sm font-bold text-slate-300">
+                <label className={`text-[10.5px] sm:text-sm font-medium ${
+                  isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+                }`}>
                   Student ID Number
                 </label>
                 {borrower.studentId && !clearanceStatus.isRestricted && (
-                  <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-0.5">
+                  <span className={`text-[10px] font-bold flex items-center gap-0.5 ${
+                    isDark ? 'text-emerald-400' : 'text-emerald-700'
+                  }`}>
                     <CheckCircle2 className="w-3 h-3" /> Cleared
                   </span>
                 )}
@@ -472,14 +528,18 @@ export default function BorrowerForm() {
                 placeholder="e.g. 21-0482-119"
                 inputMode="numeric"
                 enterKeyHint="next"
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset font-mono text-xs sm:text-sm font-extrabold transition-all uppercase placeholder:text-slate-600/70 ${
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-extrabold transition-all uppercase ${
                   clearanceStatus.isRestricted
-                    ? 'text-rose-400 border border-rose-500 bg-rose-950/40 ring-2 ring-rose-500'
-                    : 'text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-500'
+                    ? isDark
+                      ? 'text-rose-400 border border-rose-500 bg-rose-950/40 ring-2 ring-rose-500'
+                      : 'text-rose-900 border-2 border-rose-400 bg-rose-50 ring-2 ring-rose-200'
+                    : isDark
+                      ? 'neu-inset text-cyan-300 placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500'
+                      : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                 } ${errors.studentId ? 'ring-2 ring-rose-500' : ''}`}
               />
               {errors.studentId && (
-                <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.studentId}</p>
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.studentId}</p>
               )}
             </div>
           </div>
@@ -487,20 +547,28 @@ export default function BorrowerForm() {
           {/* Group No. & Instructor */}
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
             <div>
-              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Group No.
               </label>
-              <div className="flex items-center neu-inset rounded-lg sm:rounded-xl h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-1 sm:px-2">
+              <div className={`flex items-center rounded-lg sm:rounded-xl h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-1 sm:px-2 ${
+                isDark ? 'neu-inset' : 'bg-slate-50 border border-slate-300 shadow-xs'
+              }`}>
                 <button
                   type="button"
                   onClick={() =>
                     setBorrowerField('groupNo', String(Math.max(1, parseInt(borrower.groupNo || 1) - 1)))
                   }
-                  className="w-7 h-7 sm:w-10 sm:h-10 min-w-[28px] sm:min-w-[38px] min-h-[28px] sm:min-h-[38px] rounded neu-btn-raised text-slate-200 font-bold flex items-center justify-center text-sm sm:text-lg active:scale-95 cursor-pointer shrink-0"
+                  className={`w-7 h-7 sm:w-10 sm:h-10 min-w-[28px] sm:min-w-[38px] min-h-[28px] sm:min-h-[38px] rounded font-bold flex items-center justify-center text-sm sm:text-lg active:scale-95 cursor-pointer shrink-0 ${
+                    isDark ? 'neu-btn-raised text-slate-200' : 'bg-white text-slate-800 border border-slate-200 shadow-xs hover:bg-slate-100'
+                  }`}
                 >
                   -
                 </button>
-                <span className="flex-1 text-center font-mono font-extrabold text-cyan-400 text-sm sm:text-lg">
+                <span className={`flex-1 text-center font-mono font-extrabold text-sm sm:text-lg ${
+                  isDark ? 'text-cyan-400' : 'text-slate-900 font-black'
+                }`}>
                   {borrower.groupNo || '1'}
                 </span>
                 <button
@@ -508,7 +576,9 @@ export default function BorrowerForm() {
                   onClick={() =>
                     setBorrowerField('groupNo', String(Math.min(12, parseInt(borrower.groupNo || 1) + 1)))
                   }
-                  className="w-7 h-7 sm:w-10 sm:h-10 min-w-[28px] sm:min-w-[38px] min-h-[28px] sm:min-h-[38px] rounded neu-btn-raised text-slate-200 font-bold flex items-center justify-center text-sm sm:text-lg active:scale-95 cursor-pointer shrink-0"
+                  className={`w-7 h-7 sm:w-10 sm:h-10 min-w-[28px] sm:min-w-[38px] min-h-[28px] sm:min-h-[38px] rounded font-bold flex items-center justify-center text-sm sm:text-lg active:scale-95 cursor-pointer shrink-0 ${
+                    isDark ? 'neu-btn-raised text-slate-200' : 'bg-white text-slate-800 border border-slate-200 shadow-xs hover:bg-slate-100'
+                  }`}
                 >
                   +
                 </button>
@@ -516,7 +586,9 @@ export default function BorrowerForm() {
             </div>
 
             <div className="col-span-2">
-              <label className="block text-[10.5px] sm:text-sm font-bold text-slate-300 mb-1">
+              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Instructor
               </label>
               <input
@@ -525,12 +597,14 @@ export default function BorrowerForm() {
                 onChange={(e) => setBorrowerField('instructor', e.target.value)}
                 placeholder="e.g. Engr. Jin Benir Macaranas"
                 enterKeyHint="done"
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl neu-inset text-slate-100 text-xs sm:text-base font-bold placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all ${
-                  errors.instructor ? 'ring-2 ring-rose-500' : ''
-                }`}
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-base font-bold transition-all ${
+                  isDark
+                    ? 'neu-inset text-slate-100 placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500'
+                    : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                } ${errors.instructor ? 'ring-2 ring-rose-500' : ''}`}
               />
               {errors.instructor && (
-                <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.instructor}</p>
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.instructor}</p>
               )}
             </div>
           </div>
@@ -538,26 +612,28 @@ export default function BorrowerForm() {
           {/* Time Schedule */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-[10.5px] sm:text-sm font-bold text-slate-300">
+              <label className={`text-[10.5px] sm:text-sm font-medium ${
+                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+              }`}>
                 Time Schedule
               </label>
               {borrower.labTime && (
                 <span className={`text-[10px] sm:text-xs font-mono font-extrabold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border truncate max-w-[190px] sm:max-w-[240px] ${
-                  isDark ? 'text-cyan-400 bg-cyan-950/70 border-cyan-500/40' : 'text-slate-950 bg-slate-200 border-slate-300 font-black'
+                  isDark ? 'text-cyan-400 bg-cyan-950/70 border-cyan-500/40' : 'bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold'
                 }`}>
                   {borrower.labTime}
                 </span>
               )}
             </div>
 
-            <div className={`w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl neu-inset border ${
-              isDark ? 'border-slate-800/80' : 'border-slate-300'
+            <div className={`w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl border ${
+              isDark ? 'neu-inset border-slate-800/80' : 'bg-slate-50 border border-slate-200 shadow-xs'
             }`}>
               <div className="flex items-center justify-between gap-2 sm:gap-3">
                 {/* Start Time */}
                 <div className="flex-1">
-                  <span className={`block text-[9px] sm:text-xs uppercase font-black mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
+                    isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
                     Start
                   </span>
@@ -583,8 +659,10 @@ export default function BorrowerForm() {
                         setStartPeriod(period);
                       }
                     }}
-                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all cursor-pointer ${
-                      isDark ? 'text-cyan-300 bg-[#0e1422] border-slate-800/80' : 'text-slate-950 bg-white border-slate-300 font-black'
+                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
+                      isDark
+                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
+                        : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                     style={{ colorScheme: isDark ? 'dark' : 'light' }}
                   />
@@ -593,7 +671,7 @@ export default function BorrowerForm() {
                 {/* "to" separator */}
                 <div className="flex flex-col items-center justify-center pt-3 sm:pt-4">
                   <span className={`text-[10px] sm:text-sm font-black uppercase tracking-widest px-1 shrink-0 select-none ${
-                    isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+                    isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
                     to
                   </span>
@@ -601,8 +679,8 @@ export default function BorrowerForm() {
 
                 {/* End Time */}
                 <div className="flex-1">
-                  <span className={`block text-[9px] sm:text-xs uppercase font-black mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
+                    isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
                     End
                   </span>
@@ -628,8 +706,10 @@ export default function BorrowerForm() {
                         setEndPeriod(period);
                       }
                     }}
-                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl neu-inset font-mono text-xs sm:text-base font-extrabold focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all cursor-pointer ${
-                      isDark ? 'text-cyan-300 bg-[#0e1422] border-slate-800/80' : 'text-slate-950 bg-white border-slate-300 font-black'
+                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
+                      isDark
+                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
+                        : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                     style={{ colorScheme: isDark ? 'dark' : 'light' }}
                   />
@@ -638,7 +718,7 @@ export default function BorrowerForm() {
             </div>
 
             {errors.labTime && (
-              <p className="text-[10px] sm:text-xs text-rose-400 mt-0.5 font-semibold">{errors.labTime}</p>
+              <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.labTime}</p>
             )}
           </div>
         </div>
