@@ -248,7 +248,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   };
 
   return (
-    <div className="flex-1 w-full min-h-screen lg:min-h-0 lg:h-full flex flex-col justify-between px-2 sm:px-4 py-2 sm:py-3.5 max-w-4xl mx-auto relative z-10 select-none animate-fade-in">
+    <div className="flex-1 w-full min-h-[100dvh] lg:min-h-0 lg:h-full flex flex-col justify-between px-2.5 sm:px-4 py-2 sm:py-3.5 max-w-4xl mx-auto relative z-10 select-none animate-fade-in">
       {/* 1. Top Telemetry & Security Header Bar */}
       <div
         className={`w-full border-b pb-2.5 sm:pb-3 pt-1 flex items-center justify-between gap-2 shrink-0 ${
@@ -285,7 +285,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
         {/* 30-Second Inactivity Security Timer & Exit Button */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <div
-            className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 rounded-md text-[11px] sm:text-xs font-mono font-bold border whitespace-nowrap shrink-0 ${
+            className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold border whitespace-nowrap shrink-0 ${
               secondsLeft <= 10
                 ? 'bg-rose-500/20 text-rose-400 border-rose-500/40 animate-pulse'
                 : isDark
@@ -302,27 +302,27 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
           <button
             type="button"
             onClick={() => handleSecurityExit(false)}
-            className={`p-1.5 sm:px-3 sm:py-1.5 rounded-lg border font-mono text-xs font-bold flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer shadow-xs shrink-0 ${
+            className={`px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border font-mono text-xs font-bold flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer shadow-xs shrink-0 ${
               isDark
-                ? 'border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300'
-                : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-900'
+                ? 'border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200'
+                : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-900 shadow-xs'
             }`}
             title="Return to Mode Selection"
           >
-            <ArrowLeft className="w-3.5 h-3.5 shrink-0" />
-            <span className="hidden sm:inline">BACK</span>
+            <ArrowLeft className="w-4 h-4 shrink-0 stroke-[2.5]" />
+            <span className="font-bold">BACK</span>
           </button>
         </div>
       </div>
 
       {/* Main Viewport: Step Switching (Direct Full-Screen Content, Zero Floating Box) */}
-      <div className="flex-1 flex flex-col min-h-0 overflow-y-auto py-3 sm:py-4">
+      <div className="flex-1 flex flex-col min-h-0 overflow-y-auto py-2 sm:py-4">
           {/* =========================================================================
               VIEW 1: ID INPUT & VERIFICATION SCREEN (Initial State)
              ========================================================================= */}
           {!lookupAttempted && (
             <div className="my-auto flex flex-col items-center justify-center max-w-md mx-auto w-full py-2 sm:py-4">
-              <div className="text-center space-y-1 mb-3 sm:mb-4">
+              <div className="text-center space-y-1 mb-2.5 sm:mb-4">
                 <div
                   className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl mx-auto flex items-center justify-center shadow-sm mb-2 ${
                     isDark
@@ -349,7 +349,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
               </div>
 
               {/* ID Input Box & Digital Display */}
-              <div className="w-full space-y-2 mb-3">
+              <div className="w-full space-y-2 mb-2.5">
                 <form onSubmit={handleLookup} className="relative">
                   <div className="relative">
                     <input
@@ -411,7 +411,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                         isDark
                           ? 'neu-btn-raised text-cyan-400 font-black'
                           : 'bg-slate-100 hover:bg-slate-200 border border-slate-200/90 text-slate-900 font-black'
-                      }`}
+                        }`}
                       title="Hyphen (-)"
                     >
                       —
@@ -445,13 +445,27 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="w-full space-y-2">
+              {/* Action Buttons: Unified ergonomic row on mobile so NO scrolling is needed! */}
+              <div className="w-full flex items-center gap-2 mt-1">
+                <button
+                  type="button"
+                  onClick={() => handleSecurityExit(false)}
+                  className={`h-11 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer shrink-0 shadow-xs border ${
+                    isDark
+                      ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+                      : 'border-slate-300 bg-white text-slate-800 hover:bg-slate-100 shadow-xs'
+                  }`}
+                  title="Return to Mode Selection"
+                >
+                  <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                  <span>BACK</span>
+                </button>
+
                 <button
                   type="button"
                   onClick={handleLookup}
                   disabled={!enteredId.trim()}
-                  className={`w-full h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                  className={`flex-1 h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                     isDark
                       ? 'neu-btn-primary text-slate-950 font-black'
                       : 'bg-slate-900 hover:bg-slate-800 text-white font-bold'
@@ -459,19 +473,6 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                 >
                   <Search className="w-4 h-4 stroke-[2.5]" />
                   <span>Look Up Borrowed Tools</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleSecurityExit(false)}
-                  className={`w-full h-9 sm:h-10 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
-                    isDark
-                      ? 'neu-btn-raised text-slate-300'
-                      : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Cancel / Return</span>
                 </button>
               </div>
             </div>
