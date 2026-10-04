@@ -64,11 +64,11 @@ export default function ChevronProgressBar() {
 
   return (
     <div
-      className="w-full py-1 sm:py-2.5 px-2.5 sm:px-4 lg:px-8 shrink-0 select-none z-10 relative"
+      className="w-full max-w-full overflow-hidden py-1 sm:py-2.5 px-2.5 sm:px-4 lg:px-8 shrink-0 select-none z-10 relative"
       aria-label="Engineering Process Telemetry Bar"
     >
       {/* Mobile-Native Compact Stepper (< md:) */}
-      <div className="md:hidden max-w-md mx-auto">
+      <div className="md:hidden w-full max-w-md mx-auto">
         <div className="neu-card-sm px-3 py-2 rounded-2xl border border-slate-800/80 flex flex-col gap-1.5 shadow-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 min-w-0">

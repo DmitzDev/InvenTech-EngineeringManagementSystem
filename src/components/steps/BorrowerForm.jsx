@@ -217,7 +217,7 @@ export default function BorrowerForm() {
   };
 
   return (
-    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-2.5 sm:p-5 lg:p-6 pb-2.5 sm:pb-8 flex flex-col md:justify-between select-none min-h-0">
+    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full max-w-full overflow-x-hidden p-2.5 sm:p-5 lg:p-6 pb-2.5 sm:pb-8 flex flex-col md:justify-between select-none min-h-0">
       {/* 1. Step Header */}
       <div className={`flex items-center justify-between border-b pb-1.5 sm:pb-2.5 shrink-0 ${
         isDark ? 'border-slate-800/80' : 'border-slate-300'

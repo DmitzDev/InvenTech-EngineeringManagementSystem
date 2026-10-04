@@ -9,13 +9,29 @@
   }
 
   html,
+  body {
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none;
+    max-width: 100vw;
+    width: 100%;
+    position: relative;
+    touch-action: manipulation;
+  }
+
+  html,
   body,
   #root,
   .kiosk-shell {
-    touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+  }
+
+  #root {
+    max-width: 100vw;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
   }
 
   input,

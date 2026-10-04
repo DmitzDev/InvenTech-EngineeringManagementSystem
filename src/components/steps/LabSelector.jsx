@@ -46,7 +46,7 @@ export default function LabSelector() {
   };
 
   return (
-    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full p-3.5 sm:p-5 lg:p-6 pb-6 sm:pb-8 lg:pb-8 flex flex-col md:justify-between select-none">
+    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full max-w-full overflow-x-hidden p-3.5 sm:p-5 lg:p-6 pb-6 sm:pb-8 lg:pb-8 flex flex-col md:justify-between select-none min-h-0">
       {/* 1. Step Header (Pixel-aligned with Step 1) */}
       <div className={`flex items-center justify-between border-b pb-2.5 shrink-0 ${
         isDark ? 'border-slate-800/80' : 'border-slate-200'
