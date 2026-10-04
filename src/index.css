@@ -506,13 +506,23 @@
   font-weight: 700;
 }
 
-/* Dedicated INVEN TECH Brand Logo Typography Only */
+/* Dedicated INVEN TECH Brand Logo Typography Only:
+   Light Mode: INVEN is Orange, TECH is Sky Blue
+   Dark Mode:  INVEN is Sky Blue, TECH is Orange */
 [data-theme="light"] .keep-brand-inven {
-  color: #0284c7 !important;
+  color: #ea580c !important;
 }
 
 [data-theme="light"] .keep-brand-tech {
-  color: #ea580c !important;
+  color: #0284c7 !important;
+}
+
+[data-theme="dark"] .keep-brand-inven {
+  color: #38bdf8 !important;
+}
+
+[data-theme="dark"] .keep-brand-tech {
+  color: #fb923c !important;
 }
 
 /* Preserve crisp white text ONLY on primary dark hardware action buttons, active chips, and keep-white elements */

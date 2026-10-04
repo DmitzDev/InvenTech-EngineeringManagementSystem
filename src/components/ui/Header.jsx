@@ -142,16 +142,16 @@ export default function Header() {
         </div>
 
         {/* Center: Absolute 100% Dead-Center Dynamic Theme-Responsive INVEN • [Logo / X Trigger] • TECH 
-            AM (Light Mode): INVEN is Sky Blue, TECH is Orange
-            PM (Dark Mode): INVEN is Orange, TECH is Sky Blue */}
+            Light Mode: INVEN is Orange (#ea580c), TECH is Sky Blue (#0284c7)
+            Dark Mode:  INVEN is Sky Blue (#38bdf8), TECH is Orange (#fb923c) */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-3 md:gap-4 select-none z-30">
           <span
             className={`keep-brand-inven text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
               isDark
-                ? 'text-orange-400 drop-shadow-[0_0_16px_rgba(251,146,60,0.55)]'
-                : 'drop-shadow-sm font-black'
+                ? 'text-sky-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.75)]'
+                : 'text-orange-600 drop-shadow-sm font-black'
             }`}
-            style={{ color: isDark ? '#fb923c' : '#0284c7' }}
+            style={{ color: isDark ? '#38bdf8' : '#ea580c' }}
           >
             INVEN
           </span>
@@ -192,10 +192,10 @@ export default function Header() {
           <span
             className={`keep-brand-tech text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
               isDark
-                ? 'text-sky-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.75)]'
-                : 'drop-shadow-sm font-black'
+                ? 'text-orange-400 drop-shadow-[0_0_16px_rgba(251,146,60,0.55)]'
+                : 'text-sky-600 drop-shadow-sm font-black'
             }`}
-            style={{ color: isDark ? '#38bdf8' : '#ea580c' }}
+            style={{ color: isDark ? '#fb923c' : '#0284c7' }}
           >
             TECH
           </span>
