@@ -222,7 +222,7 @@ export default function WelcomeScreen() {
             {/* INVEN TECH Brand Text */}
             <div className="flex items-center justify-center gap-2.5 sm:gap-4 mt-3 sm:mt-4 mb-1.5 sm:mb-2 select-none">
               <span
-                className={`keep-brand-inven text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
+                className={`keep-brand keep-brand-inven text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
                     ? 'text-sky-400 drop-shadow-[0_0_24px_rgba(56,189,248,0.7)]'
                     : 'text-orange-600 drop-shadow-sm font-black'
                   }`}
@@ -231,7 +231,7 @@ export default function WelcomeScreen() {
                 INVEN
               </span>
               <span
-                className={`keep-brand-tech text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
+                className={`keep-brand keep-brand-tech text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans ${isDark
                     ? 'text-orange-400 drop-shadow-[0_0_24px_rgba(251,146,60,0.6)]'
                     : 'text-sky-600 drop-shadow-sm font-black'
                   }`}

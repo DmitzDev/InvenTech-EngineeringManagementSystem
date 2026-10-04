@@ -146,7 +146,7 @@ export default function Header() {
             Dark Mode:  INVEN is Sky Blue (#38bdf8), TECH is Orange (#fb923c) */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-3 md:gap-4 select-none z-30">
           <span
-            className={`keep-brand-inven text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
+            className={`keep-brand keep-brand-inven text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
               isDark
                 ? 'text-sky-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.75)]'
                 : 'text-orange-600 drop-shadow-sm font-black'
@@ -190,7 +190,7 @@ export default function Header() {
           </button>
 
           <span
-            className={`keep-brand-tech text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
+            className={`keep-brand keep-brand-tech text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
               isDark
                 ? 'text-orange-400 drop-shadow-[0_0_16px_rgba(251,146,60,0.55)]'
                 : 'text-sky-600 drop-shadow-sm font-black'
