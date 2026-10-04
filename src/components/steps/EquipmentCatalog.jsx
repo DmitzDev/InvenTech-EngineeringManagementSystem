@@ -326,39 +326,39 @@ export default function EquipmentCatalog() {
         </div>
 
         {/* 2. Fast Search & Category Filter Pills */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-2">
-          <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:flex-1 min-w-0">
-            {/* Instant Search Box */}
-            <div className="relative w-full sm:w-64 lg:w-80 shrink-0">
-              <Search className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 ${
-                isDark ? 'text-slate-400' : 'text-slate-400'
-              }`} />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search apparatus..."
-                className={`w-full min-h-[36px] sm:min-h-[42px] pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
-                  isDark
-                    ? 'neu-inset text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-white'
-                    : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-2.5 w-full">
+          {/* Instant Search Box */}
+          <div className="relative w-full sm:w-60 md:w-64 lg:w-80 shrink-0">
+            <Search className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 ${
+              isDark ? 'text-slate-400' : 'text-slate-400'
+            }`} />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search apparatus..."
+              className={`w-full min-h-[36px] sm:min-h-[40px] pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
+                isDark
+                  ? 'neu-inset text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-white'
+                  : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+              }`}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className={`absolute right-2.5 top-1/2 -translate-y-1/2 text-xs p-1 ${
+                  isDark ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-700'
                 }`}
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className={`absolute right-2.5 top-1/2 -translate-y-1/2 text-xs p-1 ${
-                    isDark ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-700'
-                  }`}
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
 
-            {/* Category Filter Chips (ALL, APPARATUS, INSTRUMENTS, CONSUMABLES...) */}
-            <div className="flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-1 -mx-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch] flex-1 min-w-0">
+          {/* Category Filter Chips (ALL, APPARATUS, INSTRUMENTS, CONSUMABLES...) */}
+          <div className="w-full sm:flex-1 min-w-0 overflow-hidden">
+            <div className="flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch]">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat;
                 return (
@@ -366,7 +366,7 @@ export default function EquipmentCatalog() {
                     key={cat}
                     type="button"
                     onClick={() => setActiveCategory(cat)}
-                    className={`min-h-[38px] sm:min-h-[42px] px-3.5 sm:px-4 py-2 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation cursor-pointer flex items-center justify-center ${
+                    className={`min-h-[36px] sm:min-h-[40px] px-3.5 sm:px-4 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation cursor-pointer flex items-center justify-center ${
                       isActive
                         ? isDark
                           ? 'neu-btn-primary shadow-md text-slate-950 font-black'
