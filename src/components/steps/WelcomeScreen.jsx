@@ -252,47 +252,72 @@ export default function WelcomeScreen() {
             </p>
           </div>
 
-          {/* 2. Primary Mode Selection Cards */}
+          {/* 2. Primary Mode Selection Cards (Rich Tactile Skeuomorphic Engineering Consoles) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full my-auto py-3">
             {/* CARD A: BORROW EQUIPMENT */}
             <button
               type="button"
               onClick={handleStartBorrow}
-              className={`group text-left p-6 sm:p-7 rounded-2xl flex flex-col justify-between min-h-[170px] sm:min-h-[190px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border shadow-sm hover:shadow-md ${
+              className={`group relative text-left p-6 sm:p-7 rounded-2xl sm:rounded-3xl flex flex-col justify-between min-h-[190px] sm:min-h-[220px] transition-all duration-150 ease-out active:scale-[0.985] cursor-pointer select-none overflow-hidden ${
                 isDark
-                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600'
-                  : 'bg-white border-slate-200 hover:border-blue-400'
+                  ? 'bg-gradient-to-b from-[#1c2738] via-[#131b28] to-[#0c1320] border border-slate-700/80 shadow-[0_12px_28px_rgba(0,0,0,0.7),0_3px_6px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.16),inset_0_-2px_4px_rgba(0,0,0,0.6)] hover:border-cyan-400/70 hover:shadow-[0_16px_36px_rgba(6,182,212,0.25),0_4px_12px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.25)]'
+                  : 'bg-gradient-to-b from-[#ffffff] via-[#f8fafc] to-[#edf2f7] border border-slate-300 shadow-[0_10px_24px_-3px_rgba(15,23,42,0.14),0_4px_8px_-2px_rgba(15,23,42,0.08),inset_0_1px_0_#ffffff,inset_0_-2px_3px_rgba(15,23,42,0.05)] hover:border-blue-500/70 hover:shadow-[0_16px_32px_rgba(37,99,235,0.18),0_6px_14px_rgba(15,23,42,0.12),inset_0_1px_0_#ffffff]'
               }`}
             >
-              <div className="flex items-center gap-4">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${
-                  isDark
-                    ? 'neu-inset text-cyan-400'
-                    : 'bg-blue-50 text-blue-700 border border-blue-200/80'
-                }`}>
-                  <Boxes className="w-7 h-7 stroke-[2.2]" />
+              {/* Subtle metallic top highlight bar */}
+              <div className={`absolute top-0 left-0 right-0 h-[2px] ${
+                isDark
+                  ? 'bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent'
+                  : 'bg-gradient-to-r from-transparent via-blue-400/40 to-transparent'
+              }`} />
+
+              <div>
+                {/* Top Telemetry Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className={`text-[10px] font-mono font-black tracking-widest px-2.5 py-0.5 rounded-md ${
+                    isDark
+                      ? 'neu-inset-sm text-cyan-400 border border-cyan-500/30'
+                      : 'bg-blue-50 text-blue-900 border border-blue-200 shadow-2xs'
+                  }`}>
+                    STATION 01 • BORROW
+                  </span>
+                  <span className={`w-2 h-2 rounded-full ${
+                    isDark ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]' : 'bg-blue-600 shadow-xs'
+                  }`} />
                 </div>
-                <div>
-                  <h3 className={`text-lg sm:text-xl font-black tracking-tight ${
-                    isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+
+                {/* Main Content: Skeuomorphic Recessed Well & Title */}
+                <div className="flex items-start gap-4">
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-200 group-hover:scale-105 ${
+                    isDark
+                      ? 'neu-inset border border-cyan-500/30 text-cyan-400 shadow-[inset_0_3px_8px_rgba(0,0,0,0.9),0_1px_0_rgba(255,255,255,0.08)] group-hover:border-cyan-400 group-hover:text-cyan-300'
+                      : 'bg-[#eef4fb] border border-blue-200/90 text-blue-700 shadow-[inset_0_2px_5px_rgba(30,64,175,0.12),0_1px_0_#ffffff] group-hover:border-blue-400 group-hover:text-blue-800'
                   }`}>
-                    Borrow Equipment
-                  </h3>
-                  <p className={`text-xs mt-1 leading-relaxed ${
-                    isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
-                  }`}>
-                    Browse laboratory inventory and borrow tools
-                  </p>
+                    <Boxes className="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className={`text-lg sm:text-xl font-black tracking-tight ${
+                      isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+                    }`}>
+                      Borrow Equipment
+                    </h3>
+                    <p className={`text-xs mt-1 leading-relaxed ${
+                      isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
+                    }`}>
+                      Browse laboratory inventory and checkout tools
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className={`mt-6 pt-3 border-t flex items-center justify-end gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
+              {/* Bottom Tactile Dock */}
+              <div className={`mt-5 px-3.5 py-2 rounded-xl flex items-center justify-between text-xs font-mono font-bold transition-all ${
                 isDark
-                  ? 'border-slate-800/80 text-slate-400 group-hover:text-cyan-400'
-                  : 'border-slate-100 text-slate-600 group-hover:text-blue-700'
+                  ? 'neu-inset-sm border border-white/5 text-slate-400 group-hover:text-cyan-300 group-hover:border-cyan-500/30'
+                  : 'bg-slate-100/90 border border-slate-200/90 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] text-slate-700 group-hover:text-blue-700 group-hover:border-blue-300'
               }`}>
-                <span>Proceed</span>
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                <span>Proceed to Catalog</span>
+                <ChevronRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1 transition-transform" />
               </div>
             </button>
 
@@ -300,41 +325,66 @@ export default function WelcomeScreen() {
             <button
               type="button"
               onClick={() => setViewMode('return')}
-              className={`group text-left p-6 sm:p-7 rounded-2xl flex flex-col justify-between min-h-[170px] sm:min-h-[190px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border shadow-sm hover:shadow-md ${
+              className={`group relative text-left p-6 sm:p-7 rounded-2xl sm:rounded-3xl flex flex-col justify-between min-h-[190px] sm:min-h-[220px] transition-all duration-150 ease-out active:scale-[0.985] cursor-pointer select-none overflow-hidden ${
                 isDark
-                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600'
-                  : 'bg-white border-slate-200 hover:border-slate-400'
+                  ? 'bg-gradient-to-b from-[#1c2738] via-[#131b28] to-[#0c1320] border border-slate-700/80 shadow-[0_12px_28px_rgba(0,0,0,0.7),0_3px_6px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.16),inset_0_-2px_4px_rgba(0,0,0,0.6)] hover:border-emerald-400/70 hover:shadow-[0_16px_36px_rgba(16,185,129,0.25),0_4px_12px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.25)]'
+                  : 'bg-gradient-to-b from-[#ffffff] via-[#f8fafc] to-[#edf2f7] border border-slate-300 shadow-[0_10px_24px_-3px_rgba(15,23,42,0.14),0_4px_8px_-2px_rgba(15,23,42,0.08),inset_0_1px_0_#ffffff,inset_0_-2px_3px_rgba(15,23,42,0.05)] hover:border-emerald-500/70 hover:shadow-[0_16px_32px_rgba(16,185,129,0.18),0_6px_14px_rgba(15,23,42,0.12),inset_0_1px_0_#ffffff]'
               }`}
             >
-              <div className="flex items-center gap-4">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${
-                  isDark
-                    ? 'neu-inset text-slate-300 group-hover:text-cyan-400'
-                    : 'bg-slate-100 text-slate-800 border border-slate-200 group-hover:bg-slate-200'
-                }`}>
-                  <RotateCcw className="w-7 h-7 stroke-[2.2]" />
+              {/* Subtle metallic top highlight bar */}
+              <div className={`absolute top-0 left-0 right-0 h-[2px] ${
+                isDark
+                  ? 'bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent'
+                  : 'bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent'
+              }`} />
+
+              <div>
+                {/* Top Telemetry Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className={`text-[10px] font-mono font-black tracking-widest px-2.5 py-0.5 rounded-md ${
+                    isDark
+                      ? 'neu-inset-sm text-emerald-400 border border-emerald-500/30'
+                      : 'bg-emerald-50 text-emerald-900 border border-emerald-200 shadow-2xs'
+                  }`}>
+                    STATION 02 • RETURN
+                  </span>
+                  <span className={`w-2 h-2 rounded-full ${
+                    isDark ? 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-emerald-600 shadow-xs'
+                  }`} />
                 </div>
-                <div>
-                  <h3 className={`text-lg sm:text-xl font-black tracking-tight ${
-                    isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+
+                {/* Main Content: Skeuomorphic Recessed Well & Title */}
+                <div className="flex items-start gap-4">
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-200 group-hover:scale-105 ${
+                    isDark
+                      ? 'neu-inset border border-emerald-500/30 text-emerald-400 shadow-[inset_0_3px_8px_rgba(0,0,0,0.9),0_1px_0_rgba(255,255,255,0.08)] group-hover:border-emerald-400 group-hover:text-emerald-300'
+                      : 'bg-[#ecfdf5] border border-emerald-200/90 text-emerald-700 shadow-[inset_0_2px_5px_rgba(6,95,70,0.12),0_1px_0_#ffffff] group-hover:border-emerald-400 group-hover:text-emerald-800'
                   }`}>
-                    Return Equipment
-                  </h3>
-                  <p className={`text-xs mt-1 leading-relaxed ${
-                    isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
-                  }`}>
-                    Check in and return borrowed laboratory tools
-                  </p>
+                    <RotateCcw className="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className={`text-lg sm:text-xl font-black tracking-tight ${
+                      isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+                    }`}>
+                      Return Equipment
+                    </h3>
+                    <p className={`text-xs mt-1 leading-relaxed ${
+                      isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
+                    }`}>
+                      Check in and return borrowed laboratory tools
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className={`mt-6 pt-3 border-t flex items-center justify-end gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
+              {/* Bottom Tactile Dock */}
+              <div className={`mt-5 px-3.5 py-2 rounded-xl flex items-center justify-between text-xs font-mono font-bold transition-all ${
                 isDark
-                  ? 'border-slate-800/80 text-slate-400 group-hover:text-cyan-400'
-                  : 'border-slate-100 text-slate-600 group-hover:text-slate-900'
+                  ? 'neu-inset-sm border border-white/5 text-slate-400 group-hover:text-emerald-300 group-hover:border-emerald-500/30'
+                  : 'bg-slate-100/90 border border-slate-200/90 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] text-slate-700 group-hover:text-emerald-700 group-hover:border-emerald-300'
               }`}>
-                <span>Proceed</span>
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                <span>Open Return Station</span>
+                <ChevronRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1 transition-transform" />
               </div>
             </button>
           </div>
@@ -344,14 +394,14 @@ export default function WelcomeScreen() {
             <button
               type="button"
               onClick={() => setViewMode('landing')}
-              className={`px-4 py-2 rounded-xl border text-xs font-bold flex items-center gap-2 transition-all duration-100 ease-out active:scale-95 cursor-pointer shadow-xs ${
+              className={`px-5 py-2.5 rounded-xl border text-xs font-bold flex items-center gap-2 transition-all duration-100 ease-out active:scale-95 cursor-pointer shadow-sm ${
                 isDark
-                  ? 'border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300'
-                  : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-800'
+                  ? 'neu-card-sm border-slate-700/80 hover:border-slate-500 text-slate-300 hover:text-white'
+                  : 'bg-white border-slate-300 hover:bg-slate-50 text-slate-800 shadow-[0_2px_4px_rgba(0,0,0,0.05),inset_0_1px_0_#ffffff]'
               }`}
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back</span>
+              <span>Back to Standby Screen</span>
             </button>
           </div>
         </div>
