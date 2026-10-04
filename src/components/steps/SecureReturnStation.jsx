@@ -248,10 +248,10 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   };
 
   return (
-    <div className="flex-1 w-full min-h-[100dvh] lg:min-h-0 lg:h-full flex flex-col justify-between px-2.5 sm:px-4 py-2 sm:py-3.5 max-w-4xl mx-auto relative z-10 select-none animate-fade-in">
+    <div className="flex-1 w-full max-w-full overflow-x-hidden min-h-[100dvh] lg:min-h-0 lg:h-full flex flex-col justify-between px-2.5 sm:px-4 py-2 sm:py-3.5 max-w-4xl mx-auto relative z-10 select-none animate-fade-in">
       {/* 1. Top Telemetry & Security Header Bar */}
       <div
-        className={`w-full border-b pb-2.5 sm:pb-3 pt-1 flex items-center justify-between gap-2 shrink-0 ${
+        className={`w-full max-w-full overflow-hidden border-b pb-2.5 sm:pb-3 pt-1 flex items-center justify-between gap-2 shrink-0 ${
           isDark ? 'border-slate-800' : 'border-slate-200'
         }`}
       >

@@ -588,7 +588,7 @@ export default function FloatingKairoBot() {
           />
 
           {/* Chat Window Container: 100% Fullscreen on Mobile, Sleek Floating Window on Desktop */}
-          <div className="kairo-chat-shell fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[450px] sm:h-[620px] sm:max-h-[85vh] z-50 rounded-none sm:rounded-3xl flex flex-col overflow-hidden animate-slide-up backdrop-blur-2xl select-none shadow-2xl border-0 sm:border border-slate-700/60">
+          <div className="kairo-chat-shell fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[450px] sm:max-w-[calc(100vw-3rem)] sm:h-[620px] sm:max-h-[85vh] z-50 rounded-none sm:rounded-3xl flex flex-col overflow-hidden animate-slide-up backdrop-blur-2xl select-none shadow-2xl border-0 sm:border border-slate-700/60">
             {/* Mobile Drag Handle & Close Bar */}
             <div className={`sm:hidden w-full pt-3 pb-1 px-4 flex justify-between items-center ${isDark ? 'bg-[#060e1c]' : 'bg-[#f0f9ff]'} border-b border-slate-800/60`}>
               <div className="flex items-center gap-2">

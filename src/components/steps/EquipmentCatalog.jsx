@@ -264,7 +264,7 @@ export default function EquipmentCatalog() {
   const totalUnitsCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
-    <div className="flex-1 max-w-[1720px] mx-auto w-full p-2.5 sm:p-4 lg:p-5 flex flex-col justify-between select-none min-h-0 relative">
+    <div className="flex-1 max-w-[1720px] mx-auto w-full max-w-full overflow-x-hidden p-2.5 sm:p-4 lg:p-5 flex flex-col justify-between select-none min-h-0 relative">
       {/* 1. Top Department Breadcrumb & Mobile View Controls */}
       <div className={`flex flex-col gap-1.5 sm:gap-2 pb-2 mb-1.5 border-b shrink-0 ${
         isDark ? 'border-slate-800/80' : 'border-slate-200'
@@ -357,8 +357,8 @@ export default function EquipmentCatalog() {
           </div>
 
           {/* Category Filter Chips (ALL, APPARATUS, INSTRUMENTS, CONSUMABLES...) */}
-          <div className="w-full sm:flex-1 min-w-0 overflow-hidden">
-            <div className="flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch]">
+          <div className="w-full sm:flex-1 min-w-0 max-w-full overflow-hidden">
+            <div className="flex items-center gap-2 w-full max-w-full overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat;
                 return (
@@ -414,90 +414,94 @@ export default function EquipmentCatalog() {
 
         {/* 3. Sub-Lab Switcher Pills Placed Directly Below Search Bar on Phone */}
         {selectedLab === 'CE_CHEM' && (
-          <div className="sm:hidden flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-1 -mx-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch]">
-            <button
-              type="button"
-              onClick={() => {
-                setMobileLabFilter('ALL');
-                setActiveCategory('ALL');
-              }}
-              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
-                  ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
-                  : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-                }`}
-            >
-              ALL ITEMS ({subLabCounts.total})
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileLabFilter('CE');
-                setActiveCategory('ALL');
-              }}
-              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CE'
-                  ? isDark ? 'bg-amber-500 text-slate-950 font-black shadow-sm' : 'bg-amber-500 text-slate-950 font-bold shadow-sm'
-                  : isDark ? 'neu-btn-raised text-amber-300' : 'bg-white text-amber-800 border border-amber-200 hover:bg-amber-50'
-                }`}
-            >
-              Civil Lab ({subLabCounts.ceCount})
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileLabFilter('CHEM');
-                setActiveCategory('ALL');
-              }}
-              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CHEM'
-                  ? isDark ? 'bg-emerald-500 text-slate-950 font-black shadow-sm' : 'bg-emerald-600 text-white font-bold shadow-sm'
-                  : isDark ? 'neu-btn-raised text-emerald-300' : 'bg-white text-emerald-800 border border-emerald-200 hover:bg-emerald-50'
-                }`}
-            >
-              Chemistry Lab ({subLabCounts.chemCount})
-            </button>
+          <div className="sm:hidden w-full max-w-full overflow-hidden">
+            <div className="flex items-center gap-2 w-full max-w-full overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileLabFilter('ALL');
+                  setActiveCategory('ALL');
+                }}
+                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
+                    ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
+                    : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                  }`}
+              >
+                ALL ITEMS ({subLabCounts.total})
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileLabFilter('CE');
+                  setActiveCategory('ALL');
+                }}
+                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CE'
+                    ? isDark ? 'bg-amber-500 text-slate-950 font-black shadow-sm' : 'bg-amber-500 text-slate-950 font-bold shadow-sm'
+                    : isDark ? 'neu-btn-raised text-amber-300' : 'bg-white text-amber-800 border border-amber-200 hover:bg-amber-50'
+                  }`}
+              >
+                Civil Lab ({subLabCounts.ceCount})
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileLabFilter('CHEM');
+                  setActiveCategory('ALL');
+                }}
+                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CHEM'
+                    ? isDark ? 'bg-emerald-500 text-slate-950 font-black shadow-sm' : 'bg-emerald-600 text-white font-bold shadow-sm'
+                    : isDark ? 'neu-btn-raised text-emerald-300' : 'bg-white text-emerald-800 border border-emerald-200 hover:bg-emerald-50'
+                  }`}
+              >
+                Chemistry Lab ({subLabCounts.chemCount})
+              </button>
+            </div>
           </div>
         )}
 
         {selectedLab === 'DIGITAL_ECE' && (
-          <div className="sm:hidden flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-1 -mx-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch]">
-            <button
-              type="button"
-              onClick={() => {
-                setMobileLabFilter('ALL');
-                setActiveCategory('ALL');
-              }}
-              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
-                  ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
-                  : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-                }`}
-            >
-              ALL ITEMS ({subLabCounts.total})
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileLabFilter('DIGITAL');
-                setActiveCategory('ALL');
-              }}
-              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'DIGITAL'
-                  ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
-                  : isDark ? 'neu-btn-raised text-cyan-300' : 'bg-white text-blue-800 border border-blue-200 hover:bg-blue-50'
-                }`}
-            >
-              Digital Lab ({subLabCounts.digCount})
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileLabFilter('ECE');
-                setActiveCategory('ALL');
-              }}
-              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ECE'
-                  ? isDark ? 'bg-indigo-500 text-slate-950 font-black shadow-sm' : 'bg-indigo-600 text-white font-semibold shadow-sm'
-                  : isDark ? 'neu-btn-raised text-indigo-300' : 'bg-white text-indigo-900 border border-indigo-200 hover:bg-indigo-50'
-                }`}
-            >
-              ECE / Circuits ({subLabCounts.eceCount})
-            </button>
+          <div className="sm:hidden w-full max-w-full overflow-hidden">
+            <div className="flex items-center gap-2 w-full max-w-full overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileLabFilter('ALL');
+                  setActiveCategory('ALL');
+                }}
+                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
+                    ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
+                    : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                  }`}
+              >
+                ALL ITEMS ({subLabCounts.total})
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileLabFilter('DIGITAL');
+                  setActiveCategory('ALL');
+                }}
+                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'DIGITAL'
+                    ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
+                    : isDark ? 'neu-btn-raised text-cyan-300' : 'bg-white text-blue-800 border border-blue-200 hover:bg-blue-50'
+                  }`}
+              >
+                Digital Lab ({subLabCounts.digCount})
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileLabFilter('ECE');
+                  setActiveCategory('ALL');
+                }}
+                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ECE'
+                    ? isDark ? 'bg-indigo-500 text-slate-950 font-black shadow-sm' : 'bg-indigo-600 text-white font-semibold shadow-sm'
+                    : isDark ? 'neu-btn-raised text-indigo-300' : 'bg-white text-indigo-900 border border-indigo-200 hover:bg-indigo-50'
+                  }`}
+              >
+                ECE / Circuits ({subLabCounts.eceCount})
+              </button>
+            </div>
           </div>
         )}
       </div>

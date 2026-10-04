@@ -176,7 +176,7 @@ export default function TransactionCommit() {
   };
 
   return (
-    <div className="flex-1 p-3 sm:p-5 lg:p-8 pb-16 md:pb-10 max-w-7xl mx-auto w-full flex flex-col justify-between space-y-4 sm:space-y-5 select-none relative min-h-0">
+    <div className="flex-1 p-3 sm:p-5 lg:p-8 pb-16 md:pb-10 max-w-7xl mx-auto w-full max-w-full overflow-x-hidden flex flex-col justify-between space-y-4 sm:space-y-5 select-none relative min-h-0">
       <div className="space-y-4 sm:space-y-5">
         {/* Top Header: Verification & Audit Bar */}
         <div className={`rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border ${

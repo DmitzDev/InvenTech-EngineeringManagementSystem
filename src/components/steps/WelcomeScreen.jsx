@@ -59,20 +59,20 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <div className="flex-1 w-full min-h-screen lg:min-h-0 lg:h-full flex flex-col justify-between p-3 sm:p-6 lg:p-7 overflow-y-auto lg:overflow-hidden relative select-none animate-fade-in">
+    <div className="flex-1 w-full max-w-full overflow-x-hidden min-h-screen lg:min-h-0 lg:h-full flex flex-col justify-between p-3 sm:p-6 lg:p-7 overflow-y-auto lg:overflow-hidden relative select-none animate-fade-in">
       {/* Soft Ambient Background Glow */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] ${
         isDark ? 'bg-cyan-500/8' : 'bg-slate-300/20'
       } blur-[180px] rounded-full pointer-events-none -z-0`} />
 
       {/* 1. Top Header Bar (Terminal ID & Mode Indicator) */}
-      <div className="flex items-center justify-between w-full relative z-10 shrink-0 pb-1">
-        <div className={`flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono ${
+      <div className="flex items-center justify-between w-full max-w-full overflow-hidden relative z-10 shrink-0 pb-1">
+        <div className={`flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono min-w-0 truncate ${
           isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
         }`}>
-          <span className={`font-extrabold tracking-wider ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>UDD-POS-ENG</span>
-          <span className={isDark ? 'text-slate-600' : 'text-slate-400'}>•</span>
-          <span className={isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}>Terminal #01</span>
+          <span className={`font-extrabold tracking-wider shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>UDD-POS-ENG</span>
+          <span className={`shrink-0 ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>•</span>
+          <span className={`truncate ${isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}`}>Terminal #01</span>
         </div>
 
         {/* Live Digital Clock Pod */}
