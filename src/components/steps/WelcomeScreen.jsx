@@ -28,7 +28,6 @@ export default function WelcomeScreen() {
   const [date, setDate] = useState('');
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState(false);
-  const [fullscreenToast, setFullscreenToast] = useState(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -55,77 +54,12 @@ export default function WelcomeScreen() {
     return () => clearInterval(interval);
   }, []);
 
-  // Automatic Fullscreen Toggle via Double Touch / Tap (Exclusive to Welcome Screen)
-  useEffect(() => {
-    let lastTapTime = 0;
-    let lastTapX = 0;
-    let lastTapY = 0;
-
-    const handlePointerDown = (e) => {
-      // Ignore if clicking interactive buttons, links, or modals
-      if (e.target.closest('button, a, input, [role="button"], .modal-overlay, .modal-content')) {
-        return;
-      }
-
-      const now = Date.now();
-      const timeDiff = now - lastTapTime;
-      const dist = Math.hypot(e.clientX - lastTapX, e.clientY - lastTapY);
-
-      // Double-tap threshold: between 60ms and 400ms, within 55px radius
-      if (timeDiff > 60 && timeDiff < 400 && dist < 55) {
-        try {
-          if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-            const docEl = document.documentElement;
-            if (docEl.requestFullscreen) {
-              docEl.requestFullscreen();
-            } else if (docEl.webkitRequestFullscreen) {
-              docEl.webkitRequestFullscreen();
-            }
-            setFullscreenToast('FULLSCREEN ENABLED');
-          } else {
-            if (document.exitFullscreen) {
-              document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen();
-            }
-            setFullscreenToast('EXIT FULLSCREEN');
-          }
-          setTimeout(() => setFullscreenToast(null), 2000);
-        } catch (err) {
-          console.warn('Fullscreen toggle failed:', err);
-        }
-        lastTapTime = 0;
-      } else {
-        lastTapTime = now;
-        lastTapX = e.clientX;
-        lastTapY = e.clientY;
-      }
-    };
-
-    window.addEventListener('pointerdown', handlePointerDown);
-    return () => {
-      window.removeEventListener('pointerdown', handlePointerDown);
-    };
-  }, []);
-
   const handleStartBorrow = () => {
     setStep(1);
   };
 
   return (
     <div className="flex-1 w-full min-h-screen lg:min-h-0 lg:h-full flex flex-col justify-between p-3 sm:p-6 lg:p-7 overflow-y-auto lg:overflow-hidden relative select-none animate-fade-in">
-      {/* Toast Feedback for Double-Tap Fullscreen */}
-      {fullscreenToast && (
-        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full font-mono text-xs font-black tracking-widest uppercase flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200 shadow-xl ${
-          isDark
-            ? 'bg-cyan-950/90 border border-cyan-400/60 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.6)]'
-            : 'bg-slate-900/90 border border-slate-700 text-white'
-        }`}>
-          <Maximize2 className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-white'}`} />
-          <span>{fullscreenToast}</span>
-        </div>
-      )}
-
       {/* Soft Ambient Background Glow */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] ${
         isDark ? 'bg-cyan-500/8' : 'bg-slate-300/20'
@@ -139,10 +73,6 @@ export default function WelcomeScreen() {
           <span className={`font-extrabold tracking-wider ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>UDD-POS-ENG</span>
           <span className={isDark ? 'text-slate-600' : 'text-slate-400'}>•</span>
           <span className={isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}>Terminal #01</span>
-          <span className={`${isDark ? 'text-slate-600' : 'text-slate-400'} hidden sm:inline`}>•</span>
-          <span className={`${isDark ? 'text-slate-500' : 'text-slate-600'} text-[10px] hidden sm:inline font-semibold`}>
-            {viewMode === 'mode_select' ? 'Mode Selection Hub' : '(Double-touch to Fullscreen)'}
-          </span>
         </div>
 
         {/* Live Digital Clock Pod */}
@@ -304,118 +234,65 @@ export default function WelcomeScreen() {
           VIEW B: MODE SELECTION HUB (Industrial Engineering Lab Terminal)
          ========================================================================= */}
       {/* =========================================================================
-          VIEW B: MODE SELECTION HUB (Industrial Engineering Lab Terminal)
+          VIEW B: MODE SELECTION HUB (Clean Choice Screen)
          ========================================================================= */}
       {viewMode === 'mode_select' && (
-        <div className="flex-1 flex flex-col justify-between py-2 sm:py-3.5 max-w-4xl mx-auto w-full relative z-10 animate-fade-in select-none">
-          {/* 1. Hub Header & Institutional Telemetry Bar */}
-          <div className={`w-full border-b pb-3 pt-1 ${isDark ? 'border-slate-800' : 'border-slate-200'}`}>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-              <div className="flex items-center gap-2.5 text-left">
-                <div className={`w-2.5 h-2.5 rounded-xs shrink-0 ${isDark ? 'bg-cyan-400' : 'bg-blue-600'}`} />
-                <div>
-                  <h2 className={`text-xs sm:text-sm font-mono font-black tracking-wider uppercase ${
-                    isDark ? 'text-slate-100' : 'text-slate-950'
-                  }`}>
-                    ENGINEERING LABORATORY MANAGEMENT TERMINAL
-                  </h2>
-                  <p className={`text-[11px] font-mono ${
-                    isDark ? 'text-slate-400' : 'text-slate-600 font-bold'
-                  }`}>
-                    SELECT SYSTEM MODULE TO INITIALIZE WORKFLOW
-                  </p>
-                </div>
-              </div>
-
-              {/* Telemetry Snippet */}
-              <div className={`flex items-center gap-2 px-3 py-1 rounded-md self-start sm:self-auto font-mono text-[10.5px] sm:text-[11px] border ${
-                isDark
-                  ? 'bg-slate-800/90 border-slate-700 text-slate-300'
-                  : 'bg-white border-slate-300 text-slate-900 font-bold shadow-xs'
-              }`}>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                <span className="tracking-tight">STATUS: ONLINE • READY FOR OPERATOR</span>
-              </div>
-            </div>
+        <div className="flex-1 flex flex-col justify-between py-3 sm:py-6 max-w-3xl mx-auto w-full relative z-10 animate-fade-in select-none">
+          {/* 1. Hub Header */}
+          <div className="text-center pt-2 pb-1">
+            <h2 className={`text-xl sm:text-2xl font-black tracking-tight ${
+              isDark ? 'text-slate-100' : 'text-slate-950 font-black'
+            }`}>
+              Select Action
+            </h2>
+            <p className={`text-xs sm:text-sm mt-1 ${
+              isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
+            }`}>
+              Choose an operation to proceed
+            </p>
           </div>
 
-          {/* 2. Primary Mode Selection Cards (Enterprise Instrument Panels) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 w-full my-auto py-2 sm:py-3">
+          {/* 2. Primary Mode Selection Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full my-auto py-3">
             {/* CARD A: BORROW EQUIPMENT */}
             <button
               type="button"
               onClick={handleStartBorrow}
-              className={`group text-left p-5 sm:p-6 rounded-xl flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border ${
+              className={`group text-left p-6 sm:p-7 rounded-2xl flex flex-col justify-between min-h-[170px] sm:min-h-[190px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border shadow-sm hover:shadow-md ${
                 isDark
-                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600 shadow-sm'
-                  : 'bg-white border-slate-300/90 hover:border-blue-500 shadow-sm hover:shadow-md'
+                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600'
+                  : 'bg-white border-slate-200 hover:border-blue-400'
               }`}
             >
-              {/* Top Micro-Header */}
-              <div>
-                <div className={`flex items-center justify-between pb-3 mb-3 border-b ${
-                  isDark ? 'border-slate-800/80' : 'border-slate-200'
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${
+                  isDark
+                    ? 'neu-inset text-cyan-400'
+                    : 'bg-blue-50 text-blue-700 border border-blue-200/80'
                 }`}>
-                  <span className={`font-mono text-[11px] tracking-wider transition-colors ${
-                    isDark
-                      ? 'text-slate-400 group-hover:text-cyan-400 font-bold'
-                      : 'text-slate-600 group-hover:text-blue-700 font-black'
-                  }`}>
-                    SYS.MOD // 01
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                    <span className={`font-mono text-[10px] uppercase font-bold ${
-                      isDark ? 'text-blue-400' : 'text-blue-800'
-                    }`}>
-                      DISPATCH ACTIVE
-                    </span>
-                  </div>
+                  <Boxes className="w-7 h-7 stroke-[2.2]" />
                 </div>
-
-                {/* Icon & Title */}
-                <div className="flex items-start gap-3.5">
-                  <div className={`w-12 h-12 rounded-lg border flex items-center justify-center shrink-0 transition-all ${
-                    isDark
-                      ? 'bg-slate-800 border-slate-700 text-slate-200 group-hover:border-blue-500/50 group-hover:text-cyan-400'
-                      : 'bg-blue-50 border-blue-200 text-blue-700 group-hover:border-blue-400 group-hover:bg-blue-100'
+                <div>
+                  <h3 className={`text-lg sm:text-xl font-black tracking-tight ${
+                    isDark ? 'text-slate-100' : 'text-slate-950 font-black'
                   }`}>
-                    <Boxes className="w-6 h-6 stroke-[2]" />
-                  </div>
-                  <div>
-                    <h3 className={`text-xl font-black tracking-tight leading-tight ${
-                      isDark ? 'text-slate-100' : 'text-slate-950 font-black'
-                    }`}>
-                      BORROW EQUIPMENT
-                    </h3>
-                    <p className={`text-xs mt-1 leading-relaxed ${
-                      isDark ? 'text-slate-400 font-normal' : 'text-slate-700 font-bold'
-                    }`}>
-                      Browse laboratory inventory, select tools, and request locker compartment dispatch.
-                    </p>
-                  </div>
+                    Borrow Equipment
+                  </h3>
+                  <p className={`text-xs mt-1 leading-relaxed ${
+                    isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
+                  }`}>
+                    Browse laboratory inventory and borrow tools
+                  </p>
                 </div>
               </div>
 
-              {/* Bottom Technical Chip */}
-              <div className={`mt-4 pt-3 border-t flex items-center justify-between ${
-                isDark ? 'border-slate-800/80' : 'border-slate-200'
+              <div className={`mt-6 pt-3 border-t flex items-center justify-end gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
+                isDark
+                  ? 'border-slate-800/80 text-slate-400 group-hover:text-cyan-400'
+                  : 'border-slate-100 text-slate-600 group-hover:text-blue-700'
               }`}>
-                <span className={`font-mono text-[10.5px] px-2.5 py-1 rounded border ${
-                  isDark
-                    ? 'bg-slate-800 text-slate-300 border-slate-700 font-bold'
-                    : 'bg-slate-100 text-slate-900 border-slate-300 font-black'
-                }`}>
-                  [ DIRECT DISPATCH • A1-C6 ]
-                </span>
-                <div className={`flex items-center gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
-                  isDark
-                    ? 'text-slate-400 group-hover:text-cyan-400'
-                    : 'text-slate-700 group-hover:text-blue-700 font-black'
-                }`}>
-                  <span>INITIALIZE</span>
-                  <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-                </div>
+                <span>Proceed</span>
+                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
               </div>
             </button>
 
@@ -423,101 +300,59 @@ export default function WelcomeScreen() {
             <button
               type="button"
               onClick={() => setViewMode('return')}
-              className={`group text-left p-5 sm:p-6 rounded-xl flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border ${
+              className={`group text-left p-6 sm:p-7 rounded-2xl flex flex-col justify-between min-h-[170px] sm:min-h-[190px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer select-none border shadow-sm hover:shadow-md ${
                 isDark
-                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600 shadow-sm'
-                  : 'bg-white border-slate-300/90 hover:border-emerald-500 shadow-sm hover:shadow-md'
+                  ? 'bg-[#0f172a] border-slate-800 hover:border-slate-600'
+                  : 'bg-white border-slate-200 hover:border-slate-400'
               }`}
             >
-              {/* Top Micro-Header */}
-              <div>
-                <div className={`flex items-center justify-between pb-3 mb-3 border-b ${
-                  isDark ? 'border-slate-800/80' : 'border-slate-200'
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${
+                  isDark
+                    ? 'neu-inset text-slate-300 group-hover:text-cyan-400'
+                    : 'bg-slate-100 text-slate-800 border border-slate-200 group-hover:bg-slate-200'
                 }`}>
-                  <span className={`font-mono text-[11px] tracking-wider transition-colors ${
-                    isDark
-                      ? 'text-slate-400 group-hover:text-emerald-400 font-bold'
-                      : 'text-slate-600 group-hover:text-emerald-700 font-black'
-                  }`}>
-                    SYS.MOD // 02
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <span className={`font-mono text-[10px] uppercase font-bold ${
-                      isDark ? 'text-emerald-400' : 'text-emerald-800'
-                    }`}>
-                      SECURE CHECK-IN
-                    </span>
-                  </div>
+                  <RotateCcw className="w-7 h-7 stroke-[2.2]" />
                 </div>
-
-                {/* Icon & Title */}
-                <div className="flex items-start gap-3.5">
-                  <div className={`w-12 h-12 rounded-lg border flex items-center justify-center shrink-0 transition-all ${
-                    isDark
-                      ? 'bg-slate-800 border-slate-700 text-slate-200 group-hover:border-emerald-500/50 group-hover:text-emerald-400'
-                      : 'bg-emerald-50 border-emerald-200 text-emerald-700 group-hover:border-emerald-400 group-hover:bg-emerald-100'
+                <div>
+                  <h3 className={`text-lg sm:text-xl font-black tracking-tight ${
+                    isDark ? 'text-slate-100' : 'text-slate-950 font-black'
                   }`}>
-                    <RotateCcw className="w-6 h-6 stroke-[2]" />
-                  </div>
-                  <div>
-                    <h3 className={`text-xl font-black tracking-tight leading-tight ${
-                      isDark ? 'text-slate-100' : 'text-slate-950 font-black'
-                    }`}>
-                      RETURN EQUIPMENT
-                    </h3>
-                    <p className={`text-xs mt-1 leading-relaxed ${
-                      isDark ? 'text-slate-400 font-normal' : 'text-slate-700 font-bold'
-                    }`}>
-                      Check in active loans, inspect tool condition, and reconcile assigned storage.
-                    </p>
-                  </div>
+                    Return Equipment
+                  </h3>
+                  <p className={`text-xs mt-1 leading-relaxed ${
+                    isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
+                  }`}>
+                    Check in and return borrowed laboratory tools
+                  </p>
                 </div>
               </div>
 
-              {/* Bottom Technical Chip */}
-              <div className={`mt-4 pt-3 border-t flex items-center justify-between ${
-                isDark ? 'border-slate-800/80' : 'border-slate-200'
+              <div className={`mt-6 pt-3 border-t flex items-center justify-end gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
+                isDark
+                  ? 'border-slate-800/80 text-slate-400 group-hover:text-cyan-400'
+                  : 'border-slate-100 text-slate-600 group-hover:text-slate-900'
               }`}>
-                <span className={`font-mono text-[10.5px] px-2.5 py-1 rounded border ${
-                  isDark
-                    ? 'bg-slate-800 text-slate-300 border-slate-700 font-bold'
-                    : 'bg-slate-100 text-slate-900 border-slate-300 font-black'
-                }`}>
-                  [ STUDENT ID AUTH REQUIRED ]
-                </span>
-                <div className={`flex items-center gap-1 text-xs font-mono font-bold group-hover:translate-x-1 transition-all ${
-                  isDark
-                    ? 'text-slate-400 group-hover:text-emerald-400'
-                    : 'text-slate-700 group-hover:text-emerald-700 font-black'
-                }`}>
-                  <span>AUTHENTICATE</span>
-                  <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-                </div>
+                <span>Proceed</span>
+                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
               </div>
             </button>
           </div>
 
           {/* 3. Bottom Return to Standby Bar */}
-          <div className={`pt-2 flex items-center justify-between border-t text-[11px] font-mono ${
-            isDark ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600 font-bold'
-          }`}>
+          <div className="pt-2 flex items-center justify-center">
             <button
               type="button"
               onClick={() => setViewMode('landing')}
-              className={`px-3.5 py-2 rounded-lg border font-mono font-bold flex items-center gap-2 transition-all duration-100 ease-out active:scale-95 cursor-pointer shadow-xs ${
+              className={`px-4 py-2 rounded-xl border text-xs font-bold flex items-center gap-2 transition-all duration-100 ease-out active:scale-95 cursor-pointer shadow-xs ${
                 isDark
                   ? 'border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300'
-                  : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-900'
+                  : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-800'
               }`}
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>[ ESC // STANDBY MODE ]</span>
+              <span>Back</span>
             </button>
-
-            <span className="hidden sm:inline">
-              TERMINAL SECURE PROTOCOL v2.4 • TOUCH INTERFACE
-            </span>
           </div>
         </div>
       )}

@@ -321,36 +321,35 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
               VIEW 1: ID INPUT & VERIFICATION SCREEN (Initial State)
              ========================================================================= */}
           {!lookupAttempted && (
-            <div className="flex-1 flex flex-col justify-between max-w-xl mx-auto w-full py-1 sm:py-2">
-              <div className="text-center space-y-1.5">
+            <div className="my-auto flex flex-col items-center justify-center max-w-md mx-auto w-full py-2 sm:py-4">
+              <div className="text-center space-y-1 mb-3 sm:mb-4">
                 <div
-                  className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl mx-auto flex items-center justify-center shadow-md mb-2 ${
+                  className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl mx-auto flex items-center justify-center shadow-sm mb-2 ${
                     isDark
                       ? 'neu-inset text-cyan-400'
                       : 'bg-blue-50 text-blue-700 border border-blue-200/80'
                   }`}
                 >
-                  <RotateCcw className="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2]" />
+                  <RotateCcw className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2]" />
                 </div>
                 <h2
-                  className={`text-xl sm:text-2xl font-black tracking-tight ${
+                  className={`text-lg sm:text-2xl font-black tracking-tight ${
                     isDark ? 'text-slate-100' : 'text-slate-950 font-black'
                   }`}
                 >
                   Return Equipment
                 </h2>
                 <p
-                  className={`text-xs sm:text-sm max-w-md mx-auto ${
+                  className={`text-xs sm:text-sm max-w-xs sm:max-w-sm mx-auto ${
                     isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
                   }`}
                 >
-                  Enter your Student ID to retrieve your active borrowed tools. Only your account's
-                  apparatus records will be loaded.
+                  Enter your Student ID to retrieve your active borrowed tools.
                 </p>
               </div>
 
               {/* ID Input Box & Digital Display */}
-              <div className="my-3 space-y-2">
+              <div className="w-full space-y-2 mb-3">
                 <form onSubmit={handleLookup} className="relative">
                   <div className="relative">
                     <input
@@ -362,7 +361,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       value={enteredId}
                       onChange={(e) => setEnteredId(e.target.value.toUpperCase())}
                       placeholder="e.g. 21-0482-119"
-                      className={`w-full h-14 sm:h-16 px-4 pr-12 rounded-2xl font-mono text-center text-xl sm:text-2xl tracking-widest font-black focus:outline-none transition-all shadow-inner touch-manipulation ${
+                      className={`w-full h-12 sm:h-14 px-4 pr-12 rounded-xl font-mono text-center text-lg sm:text-xl tracking-widest font-black focus:outline-none transition-all shadow-inner touch-manipulation ${
                         isDark
                           ? 'neu-inset text-cyan-300 placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-400/50'
                           : 'bg-white border-2 border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100'
@@ -372,10 +371,10 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       <button
                         type="button"
                         onClick={handleClearInput}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-700 cursor-pointer"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 cursor-pointer"
                         title="Clear Input"
                       >
-                        <X className="w-5 h-5" />
+                        <X className="w-4 h-4" />
                       </button>
                     )}
                   </div>
@@ -383,18 +382,18 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
                 {/* Touch-Friendly On-Screen Numpad (Desktop / Kiosk Viewports >= 768px Only - Hidden on Mobile) */}
                 <div
-                  className={`hidden md:block p-2.5 sm:p-3 rounded-2xl border shadow-sm ${
+                  className={`hidden md:block p-2 sm:p-2.5 rounded-xl border shadow-sm ${
                     isDark ? 'bg-[#0d1424] border-slate-800' : 'bg-white border-slate-200'
                   }`}
                 >
-                  <div className="grid grid-cols-3 gap-1.5 sm:gap-2 max-w-sm mx-auto">
+                  <div className="grid grid-cols-3 gap-1.5 max-w-xs mx-auto">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                       <button
                         key={num}
                         type="button"
                         onPointerDown={(e) => e.preventDefault()}
                         onClick={() => handleNumpadPress(String(num))}
-                        className={`h-11 sm:h-12 rounded-xl font-mono text-lg font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+                        className={`h-10 sm:h-11 rounded-lg font-mono text-base font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                           isDark
                             ? 'neu-btn-raised text-slate-200 hover:text-white'
                             : 'bg-slate-100 hover:bg-slate-200 border border-slate-200/90 text-slate-900 shadow-2xs'
@@ -408,7 +407,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       type="button"
                       onPointerDown={(e) => e.preventDefault()}
                       onClick={() => handleNumpadPress('-')}
-                      className={`h-11 sm:h-12 rounded-xl font-mono text-lg font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+                      className={`h-10 sm:h-11 rounded-lg font-mono text-base font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                         isDark
                           ? 'neu-btn-raised text-cyan-400 font-black'
                           : 'bg-slate-100 hover:bg-slate-200 border border-slate-200/90 text-slate-900 font-black'
@@ -421,7 +420,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       type="button"
                       onPointerDown={(e) => e.preventDefault()}
                       onClick={() => handleNumpadPress('0')}
-                      className={`h-11 sm:h-12 rounded-xl font-mono text-lg font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+                      className={`h-10 sm:h-11 rounded-lg font-mono text-base font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                         isDark
                           ? 'neu-btn-raised text-slate-200 hover:text-white'
                           : 'bg-slate-100 hover:bg-slate-200 border border-slate-200/90 text-slate-900 shadow-2xs'
@@ -433,26 +432,26 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       type="button"
                       onPointerDown={(e) => e.preventDefault()}
                       onClick={handleBackspace}
-                      className={`h-11 sm:h-12 rounded-xl font-mono text-base font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+                      className={`h-10 sm:h-11 rounded-lg font-mono text-sm font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                         isDark
                           ? 'neu-btn-raised text-rose-400'
                           : 'bg-rose-50 hover:bg-rose-100 border border-rose-200/80 text-rose-800'
                       }`}
                       title="Backspace"
                     >
-                      <Delete className="w-5 h-5" />
+                      <Delete className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="space-y-2 pt-1">
+              <div className="w-full space-y-2">
                 <button
                   type="button"
                   onClick={handleLookup}
                   disabled={!enteredId.trim()}
-                  className={`w-full h-12 sm:h-13 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                  className={`w-full h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                     isDark
                       ? 'neu-btn-primary text-slate-950 font-black'
                       : 'bg-slate-900 hover:bg-slate-800 text-white font-bold'
@@ -465,14 +464,14 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                 <button
                   type="button"
                   onClick={() => handleSecurityExit(false)}
-                  className={`w-full h-10 sm:h-11 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+                  className={`w-full h-9 sm:h-10 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                     isDark
                       ? 'neu-btn-raised text-slate-300'
                       : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
                   }`}
                 >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Cancel / Return to Welcome Screen</span>
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Cancel / Return</span>
                 </button>
               </div>
             </div>
