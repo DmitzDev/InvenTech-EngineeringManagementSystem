@@ -11,6 +11,8 @@ import {
   PackageCheck,
   ShieldCheck,
   Lock,
+  Boxes,
+  ChevronRight,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
@@ -299,140 +301,147 @@ export default function WelcomeScreen() {
       {/* =========================================================================
           VIEW B: MODE SELECTION HUB (Borrow Equipment vs Return Equipment)
          ========================================================================= */}
+      {/* =========================================================================
+          VIEW B: MODE SELECTION HUB (Industrial Engineering Lab Terminal)
+         ========================================================================= */}
       {viewMode === 'mode_select' && (
-        <div className="flex-1 flex flex-col items-center justify-between text-center py-4 lg:py-6 max-w-4xl mx-auto w-full relative z-10 animate-fade-in">
-          {/* Header Section */}
-          <div className="space-y-2 max-w-xl px-2">
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
-              isDark ? 'neu-inset text-cyan-400' : 'bg-blue-50 text-blue-800 border border-blue-200'
-            }`}>
-              <span>Station Mode Hub</span>
+        <div className="flex-1 flex flex-col justify-between py-2 sm:py-3.5 max-w-4xl mx-auto w-full relative z-10 animate-fade-in select-none">
+          {/* 1. Hub Header & Institutional Telemetry Bar */}
+          <div className="w-full border-b border-slate-200 dark:border-slate-800 pb-3 pt-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2.5 text-left">
+                <div className="w-2.5 h-2.5 rounded-xs bg-blue-600 dark:bg-cyan-400 shrink-0" />
+                <div>
+                  <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider uppercase text-slate-900 dark:text-slate-100">
+                    ENGINEERING LABORATORY MANAGEMENT TERMINAL
+                  </h2>
+                  <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                    SELECT SYSTEM MODULE TO INITIALIZE WORKFLOW
+                  </p>
+                </div>
+              </div>
+
+              {/* Telemetry Snippet */}
+              <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 self-start sm:self-auto font-mono text-[10.5px] sm:text-[11px] text-slate-700 dark:text-slate-300">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <span className="font-bold tracking-tight">STATUS: ONLINE • READY FOR OPERATOR</span>
+              </div>
             </div>
-            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight ${
-              isDark ? 'text-slate-100' : 'text-slate-950 font-black'
-            }`}>
-              What would you like to do?
-            </h2>
-            <p className={`text-xs sm:text-sm font-medium ${
-              isDark ? 'text-slate-400' : 'text-slate-600'
-            }`}>
-              Select an operational mode to begin. All sessions adhere to strict laboratory safety and student privacy standards.
-            </p>
           </div>
 
-          {/* Primary Mode Selection Cards (Card A & Card B) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full max-w-3xl px-3 my-auto">
-            {/* Card A: [ 📦 Borrow Equipment ] */}
+          {/* 2. Primary Mode Selection Cards (Enterprise Instrument Panels) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 w-full my-auto py-2 sm:py-3">
+            {/* CARD A: BORROW EQUIPMENT */}
             <button
               type="button"
               onClick={handleStartBorrow}
-              className={`p-6 sm:p-8 rounded-3xl border flex flex-col items-center text-center justify-between gap-4 transition-all duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer group shadow-md hover:shadow-xl ${
-                isDark
-                  ? 'neu-card hover:border-cyan-400/60 bg-[#0f172a]'
-                  : 'bg-white border-slate-200/90 hover:border-blue-500'
-              }`}
+              className="group text-left p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-white dark:bg-slate-900/90 shadow-sm flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer"
             >
-              <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-200 ${
-                isDark
-                  ? 'neu-inset text-cyan-400'
-                  : 'bg-blue-50 text-blue-700 border border-blue-200/80'
-              }`}>
-                <Package className="w-8 h-8 sm:w-10 sm:h-10 stroke-[2.2]" />
+              {/* Top Micro-Header */}
+              <div>
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
+                  <span className="font-mono text-[11px] font-bold tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">
+                    SYS.MOD // 01
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                    <span className="font-mono text-[10px] uppercase font-semibold text-blue-600 dark:text-blue-400">
+                      DISPATCH ACTIVE
+                    </span>
+                  </div>
+                </div>
+
+                {/* Icon & Title */}
+                <div className="flex items-start gap-3.5">
+                  <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200 shrink-0 group-hover:border-blue-500/50 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-all">
+                    <Boxes className="w-6 h-6 stroke-[1.8]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                      BORROW EQUIPMENT
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                      Browse laboratory inventory, select tools, and request locker compartment dispatch.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <span className={`inline-block font-mono text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
-                  isDark
-                    ? 'bg-cyan-500/20 text-cyan-300'
-                    : 'bg-blue-100 text-blue-900 font-extrabold'
-                }`}>
-                  [ 📦 BORROW EQUIPMENT ]
+              {/* Bottom Technical Chip */}
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                <span className="font-mono text-[10.5px] font-bold px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/60">
+                  [ DIRECT DISPATCH • A1-C6 ]
                 </span>
-                <h3 className={`text-lg sm:text-xl font-black ${
-                  isDark ? 'text-slate-100' : 'text-slate-950 font-black'
-                }`}>
-                  Borrow Apparatus
-                </h3>
-                <p className={`text-xs sm:text-sm font-medium max-w-xs ${
-                  isDark ? 'text-slate-400' : 'text-slate-600'
-                }`}>
-                  Browse the laboratory catalog, add tools, and generate an official borrower's slip.
-                </p>
-              </div>
-
-              <div className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-colors ${
-                isDark
-                  ? 'neu-btn-primary text-slate-950 font-black'
-                  : 'bg-blue-600 text-white group-hover:bg-blue-700 font-bold'
-              }`}>
-                <span>Start Borrowing Flow</span>
-                <ArrowRight className="w-4 h-4" />
+                <div className="flex items-center gap-1 text-xs font-mono font-bold text-slate-600 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-cyan-400 group-hover:translate-x-1 transition-all">
+                  <span>INITIALIZE</span>
+                  <ChevronRight className="w-4 h-4" />
+                </div>
               </div>
             </button>
 
-            {/* Card B: [ 🔄 Return Equipment ] */}
+            {/* CARD B: RETURN EQUIPMENT */}
             <button
               type="button"
               onClick={() => setIsSecureReturnOpen(true)}
-              className={`p-6 sm:p-8 rounded-3xl border flex flex-col items-center text-center justify-between gap-4 transition-all duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer group shadow-md hover:shadow-xl ${
-                isDark
-                  ? 'neu-card hover:border-emerald-400/60 bg-[#0f172a]'
-                  : 'bg-white border-slate-200/90 hover:border-emerald-500'
-              }`}
+              className="group text-left p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-white dark:bg-slate-900/90 shadow-sm flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-100 ease-out active:scale-[0.985] cursor-pointer"
             >
-              <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-200 ${
-                isDark
-                  ? 'neu-inset text-emerald-400'
-                  : 'bg-emerald-50 text-emerald-700 border border-emerald-200/80'
-              }`}>
-                <RotateCcw className="w-8 h-8 sm:w-10 sm:h-10 stroke-[2.2]" />
+              {/* Top Micro-Header */}
+              <div>
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
+                  <span className="font-mono text-[11px] font-bold tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    SYS.MOD // 02
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span className="font-mono text-[10px] uppercase font-semibold text-emerald-600 dark:text-emerald-400">
+                      SECURE CHECK-IN
+                    </span>
+                  </div>
+                </div>
+
+                {/* Icon & Title */}
+                <div className="flex items-start gap-3.5">
+                  <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200 shrink-0 group-hover:border-emerald-500/50 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-all">
+                    <RotateCcw className="w-6 h-6 stroke-[1.8]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                      RETURN EQUIPMENT
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                      Check in active loans, inspect tool condition, and reconcile assigned storage.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <span className={`inline-block font-mono text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
-                  isDark
-                    ? 'bg-emerald-500/20 text-emerald-300'
-                    : 'bg-emerald-100 text-emerald-950 font-extrabold'
-                }`}>
-                  [ 🔄 RETURN EQUIPMENT ]
+              {/* Bottom Technical Chip */}
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                <span className="font-mono text-[10.5px] font-bold px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/60">
+                  [ STUDENT ID AUTH REQUIRED ]
                 </span>
-                <h3 className={`text-lg sm:text-xl font-black ${
-                  isDark ? 'text-slate-100' : 'text-slate-950 font-black'
-                }`}>
-                  Return Equipment
-                </h3>
-                <p className={`text-xs sm:text-sm font-medium max-w-xs ${
-                  isDark ? 'text-slate-400' : 'text-slate-600'
-                }`}>
-                  Secure Student ID verification, itemized tool return checklist, and locker bin check-in.
-                </p>
-              </div>
-
-              <div className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-colors ${
-                isDark
-                  ? 'neu-btn-raised text-emerald-400 font-black'
-                  : 'bg-emerald-600 text-white group-hover:bg-emerald-700 font-bold'
-              }`}>
-                <span>Open Secure Return Flow</span>
-                <RotateCcw className="w-4 h-4" />
+                <div className="flex items-center gap-1 text-xs font-mono font-bold text-slate-600 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:translate-x-1 transition-all">
+                  <span>AUTHENTICATE</span>
+                  <ChevronRight className="w-4 h-4" />
+                </div>
               </div>
             </button>
           </div>
 
-          {/* Back / Cancel Button to return to the idle landing screen */}
-          <div className="pt-2">
+          {/* 3. Bottom Return to Standby Bar */}
+          <div className="pt-2 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400">
             <button
               type="button"
               onClick={() => setViewMode('landing')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
-                isDark
-                  ? 'neu-btn-raised text-slate-300'
-                  : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100'
-              }`}
+              className="px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono font-bold flex items-center gap-2 transition-all duration-100 ease-out active:scale-95 cursor-pointer shadow-2xs"
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back / Return to Idle Screen</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>[ ESC // STANDBY MODE ]</span>
             </button>
+
+            <span className="hidden sm:inline">
+              TERMINAL SECURE PROTOCOL v2.4 • TOUCH INTERFACE
+            </span>
           </div>
         </div>
       )}
