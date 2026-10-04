@@ -517,6 +517,7 @@ export default function BorrowerForm() {
                 onChange={(e) => setBorrowerField('studentId', e.target.value.toUpperCase())}
                 placeholder="e.g. 21-0482-119"
                 inputMode="numeric"
+                pattern="[0-9\-]*"
                 enterKeyHint="next"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-extrabold transition-all uppercase ${
                   clearanceStatus.isRestricted
