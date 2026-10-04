@@ -77,6 +77,13 @@ export default function SecureReturnStation({ isOpen, onClose, onOpenClearance }
     };
   }, [isOpen]);
 
+  // Auto-focus on desktop / kiosk displays only (avoids mobile viewport jump)
+  useEffect(() => {
+    if (isOpen && !lookupAttempted && typeof window !== 'undefined' && window.innerWidth >= 768) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen, lookupAttempted]);
+
   // Clean exit handler (wipes all state for student privacy)
   const handleSecurityExit = (timedOut = false) => {
     setEnteredId('');
@@ -342,11 +349,13 @@ export default function SecureReturnStation({ isOpen, onClose, onOpenClearance }
                     <input
                       ref={inputRef}
                       type="text"
+                      inputMode="numeric"
+                      pattern="[0-9\-]*"
+                      enterKeyHint="done"
                       value={enteredId}
                       onChange={(e) => setEnteredId(e.target.value.toUpperCase())}
                       placeholder="e.g. 21-0482-119"
-                      autoFocus
-                      className={`w-full h-14 sm:h-16 px-4 pr-12 rounded-2xl font-mono text-center text-xl sm:text-2xl tracking-widest font-black focus:outline-none transition-all shadow-inner ${
+                      className={`w-full h-14 sm:h-16 px-4 pr-12 rounded-2xl font-mono text-center text-xl sm:text-2xl tracking-widest font-black focus:outline-none transition-all shadow-inner touch-manipulation ${
                         isDark
                           ? 'neu-inset text-cyan-300 placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-400/50'
                           : 'bg-white border-2 border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100'
@@ -365,9 +374,9 @@ export default function SecureReturnStation({ isOpen, onClose, onOpenClearance }
                   </div>
                 </form>
 
-                {/* Touch-Friendly On-Screen Numpad */}
+                {/* Touch-Friendly On-Screen Numpad (Desktop / Kiosk Viewports >= 768px Only - Hidden on Mobile) */}
                 <div
-                  className={`p-2.5 sm:p-3 rounded-2xl border shadow-sm ${
+                  className={`hidden md:block p-2.5 sm:p-3 rounded-2xl border shadow-sm ${
                     isDark ? 'bg-[#0d1424] border-slate-800' : 'bg-white border-slate-200'
                   }`}
                 >
@@ -376,6 +385,7 @@ export default function SecureReturnStation({ isOpen, onClose, onOpenClearance }
                       <button
                         key={num}
                         type="button"
+                        onPointerDown={(e) => e.preventDefault()}
                         onClick={() => handleNumpadPress(String(num))}
                         className={`h-11 sm:h-12 rounded-xl font-mono text-lg font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                           isDark
@@ -389,6 +399,7 @@ export default function SecureReturnStation({ isOpen, onClose, onOpenClearance }
                     {/* Bottom row: Dash, Zero, Backspace */}
                     <button
                       type="button"
+                      onPointerDown={(e) => e.preventDefault()}
                       onClick={() => handleNumpadPress('-')}
                       className={`h-11 sm:h-12 rounded-xl font-mono text-lg font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                         isDark
@@ -401,6 +412,7 @@ export default function SecureReturnStation({ isOpen, onClose, onOpenClearance }
                     </button>
                     <button
                       type="button"
+                      onPointerDown={(e) => e.preventDefault()}
                       onClick={() => handleNumpadPress('0')}
                       className={`h-11 sm:h-12 rounded-xl font-mono text-lg font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                         isDark
@@ -412,6 +424,7 @@ export default function SecureReturnStation({ isOpen, onClose, onOpenClearance }
                     </button>
                     <button
                       type="button"
+                      onPointerDown={(e) => e.preventDefault()}
                       onClick={handleBackspace}
                       className={`h-11 sm:h-12 rounded-xl font-mono text-base font-bold flex items-center justify-center transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                         isDark
