@@ -224,7 +224,7 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
                         isDark
                           ? 'neu-btn-raised text-slate-300 hover:text-rose-400 font-bold'
                           : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 font-bold shadow-2xs'
-                      } flex items-center justify-center text-sm active:scale-95 cursor-pointer`}
+                      } flex items-center justify-center text-sm active:scale-95 transition-transform duration-75 ease-out touch-manipulation cursor-pointer`}
                     >
                       <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
@@ -242,7 +242,7 @@ export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
                         isDark
                           ? 'neu-btn-raised text-slate-300 font-bold'
                           : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 font-bold shadow-2xs'
-                      } flex items-center justify-center text-sm active:scale-95 cursor-pointer`}
+                      } flex items-center justify-center text-sm active:scale-95 transition-transform duration-75 ease-out touch-manipulation cursor-pointer`}
                     >
                       <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>

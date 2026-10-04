@@ -358,7 +358,7 @@ export default function EquipmentCatalog() {
             </div>
 
             {/* Category Filter Chips (ALL, APPARATUS, INSTRUMENTS, CONSUMABLES...) */}
-            <div className="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1 scroll-smooth snap-x touch-pan-x flex-1 min-w-0">
+            <div className="flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-1 -mx-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch] flex-1 min-w-0">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat;
                 return (
@@ -366,7 +366,7 @@ export default function EquipmentCatalog() {
                     key={cat}
                     type="button"
                     onClick={() => setActiveCategory(cat)}
-                    className={`min-h-[34px] sm:min-h-[38px] px-3 sm:px-4 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap active:scale-95 cursor-pointer flex items-center justify-center shrink-0 snap-start ${
+                    className={`min-h-[38px] sm:min-h-[42px] px-3.5 sm:px-4 py-2 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation cursor-pointer flex items-center justify-center ${
                       isActive
                         ? isDark
                           ? 'neu-btn-primary shadow-md text-slate-950 font-black'
@@ -388,7 +388,7 @@ export default function EquipmentCatalog() {
             <button
               type="button"
               onClick={openCartDrawer}
-              className={`w-auto flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl transition-all active:scale-95 cursor-pointer ${
+              className={`w-auto flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                 isDark
                   ? 'neu-btn-raised text-slate-200 hover:text-white shadow-md'
                   : 'bg-white border border-slate-200 text-slate-800 hover:bg-slate-50 shadow-sm'
@@ -414,14 +414,14 @@ export default function EquipmentCatalog() {
 
         {/* 3. Sub-Lab Switcher Pills Placed Directly Below Search Bar on Phone */}
         {selectedLab === 'CE_CHEM' && (
-          <div className="sm:hidden flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar pt-0.5">
+          <div className="sm:hidden flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-1 -mx-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch]">
             <button
               type="button"
               onClick={() => {
                 setMobileLabFilter('ALL');
                 setActiveCategory('ALL');
               }}
-              className={`px-3 py-1 rounded-xl text-xs font-medium shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'ALL'
+              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
                   ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
                   : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
                 }`}
@@ -434,7 +434,7 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('CE');
                 setActiveCategory('ALL');
               }}
-              className={`px-3 py-1 rounded-xl text-xs font-medium shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'CE'
+              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CE'
                   ? isDark ? 'bg-amber-500 text-slate-950 font-black shadow-sm' : 'bg-amber-500 text-slate-950 font-bold shadow-sm'
                   : isDark ? 'neu-btn-raised text-amber-300' : 'bg-white text-amber-800 border border-amber-200 hover:bg-amber-50'
                 }`}
@@ -447,7 +447,7 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('CHEM');
                 setActiveCategory('ALL');
               }}
-              className={`px-3 py-1 rounded-xl text-xs font-medium shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'CHEM'
+              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CHEM'
                   ? isDark ? 'bg-emerald-500 text-slate-950 font-black shadow-sm' : 'bg-emerald-600 text-white font-bold shadow-sm'
                   : isDark ? 'neu-btn-raised text-emerald-300' : 'bg-white text-emerald-800 border border-emerald-200 hover:bg-emerald-50'
                 }`}
@@ -458,14 +458,14 @@ export default function EquipmentCatalog() {
         )}
 
         {selectedLab === 'DIGITAL_ECE' && (
-          <div className="sm:hidden flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar pt-0.5">
+          <div className="sm:hidden flex items-center gap-2 overflow-x-auto scroll-smooth py-1 px-1 -mx-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch]">
             <button
               type="button"
               onClick={() => {
                 setMobileLabFilter('ALL');
                 setActiveCategory('ALL');
               }}
-              className={`px-3 py-1 rounded-xl text-xs font-medium shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'ALL'
+              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
                   ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
                   : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
                 }`}
@@ -478,7 +478,7 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('DIGITAL');
                 setActiveCategory('ALL');
               }}
-              className={`px-3 py-1 rounded-xl text-xs font-medium shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'DIGITAL'
+              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'DIGITAL'
                   ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
                   : isDark ? 'neu-btn-raised text-cyan-300' : 'bg-white text-blue-800 border border-blue-200 hover:bg-blue-50'
                 }`}
@@ -491,7 +491,7 @@ export default function EquipmentCatalog() {
                 setMobileLabFilter('ECE');
                 setActiveCategory('ALL');
               }}
-              className={`px-3 py-1 rounded-xl text-xs font-medium shrink-0 transition-all active:scale-95 ${mobileLabFilter === 'ECE'
+              className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ECE'
                   ? isDark ? 'bg-indigo-500 text-slate-950 font-black shadow-sm' : 'bg-indigo-600 text-white font-semibold shadow-sm'
                   : isDark ? 'neu-btn-raised text-indigo-300' : 'bg-white text-indigo-900 border border-indigo-200 hover:bg-indigo-50'
                 }`}
@@ -716,8 +716,8 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
       className={`${
         isDark
           ? 'neu-card neu-card-hover'
-          : 'bg-white border border-slate-200/90 rounded-xl shadow-sm hover:shadow-md transition-shadow'
-      } group relative p-2.5 sm:p-3 transition-all duration-200 flex flex-col justify-between text-left select-none ${
+          : 'bg-white border border-slate-200/90 rounded-xl shadow-sm'
+      } group relative p-2.5 sm:p-3 transition-transform duration-75 ease-out active:scale-[0.99] flex flex-col justify-between text-left select-none touch-manipulation ${
         isMaintenance
           ? 'opacity-80 border-rose-500/40 bg-rose-950/20'
           : totalGroupInCart > 0
@@ -876,7 +876,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className={`h-8 sm:h-9 px-2.5 rounded-lg flex items-center justify-center gap-1 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 ${
+          className={`h-8 sm:h-9 px-2.5 rounded-lg flex items-center justify-center gap-1 active:scale-95 active:bg-amber-100 transition-transform duration-75 ease-out touch-manipulation disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 ${
             isDark
               ? 'neu-btn-raised text-amber-300'
               : 'bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-medium text-xs shadow-xs'
@@ -892,7 +892,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           type="button"
           onClick={() => onAddToCart(currentItem)}
           disabled={isOutOfStock || isAllInCart || isMaintenance}
-          className={`flex-1 h-8 sm:h-9 text-xs font-bold py-2 px-3 rounded-lg shadow-sm transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer ${
+          className={`flex-1 h-8 sm:h-9 text-xs font-bold py-2 px-3 rounded-lg shadow-sm transition-transform duration-75 ease-out touch-manipulation flex items-center justify-center gap-1 active:scale-95 cursor-pointer ${
             isMaintenance || isOutOfStock || isAllInCart
               ? 'opacity-40 cursor-not-allowed neu-inset text-slate-400'
               : inCartQty > 0
@@ -944,8 +944,8 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
       className={`${
         isDark
           ? 'neu-card neu-card-hover'
-          : 'bg-white border border-slate-200/90 rounded-xl shadow-sm hover:shadow-md transition-shadow'
-      } p-2.5 flex items-center justify-between gap-2.5 transition-all select-none ${
+          : 'bg-white border border-slate-200/90 rounded-xl shadow-sm'
+      } p-2.5 flex items-center justify-between gap-2.5 transition-transform duration-75 ease-out active:scale-[0.99] select-none touch-manipulation ${
         isMaintenance ? 'border-rose-500/40 opacity-80' : ''
       }`}
     >
@@ -1061,7 +1061,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className={`w-7.5 h-7.5 rounded-lg flex items-center justify-center active:scale-95 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${
+          className={`w-7.5 h-7.5 rounded-lg flex items-center justify-center active:scale-95 active:bg-amber-100 transition-transform duration-75 ease-out touch-manipulation shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${
             isDark
               ? 'neu-btn-raised text-amber-300'
               : 'bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-medium text-xs shadow-xs'
@@ -1075,7 +1075,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
           type="button"
           disabled={isOutOfStock || isMaintenance}
           onClick={() => onAddToCart(currentItem)}
-          className={`h-7.5 px-3 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 cursor-pointer shadow-sm ${
+          className={`h-7.5 px-3 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 transition-transform duration-75 ease-out touch-manipulation disabled:opacity-40 disabled:cursor-not-allowed shrink-0 cursor-pointer shadow-sm ${
             isMaintenance || isOutOfStock
               ? 'opacity-40 cursor-not-allowed neu-inset text-slate-400'
               : inCartQty > 0
