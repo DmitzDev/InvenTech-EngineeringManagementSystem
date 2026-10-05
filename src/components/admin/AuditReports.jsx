@@ -163,19 +163,13 @@ export default function AuditReports() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6 select-none">
       {/* 1. Header with Export & Print Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-slate-300 dark:border-white/10">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-extrabold text-cyan-400 uppercase tracking-wider bg-cyan-950/60 px-2.5 py-0.5 rounded border border-cyan-500/30">
-              PACUCOA / PTC / CHED Accreditation Ready
-            </span>
-            <span className="text-xs text-slate-400">• Institutional Audit Portal</span>
-          </div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 mt-1">
-            Exportable Audit Logs & Reports
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+            Audit Logs & Reports
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-            Real-time equipment utilization analytics, breakage/incident records, and student clearance logs.
+          <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+            Equipment utilization analytics, breakage and incident logs, and student clearances
           </p>
         </div>
 
@@ -184,19 +178,19 @@ export default function AuditReports() {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="px-4 py-2.5 rounded-xl neu-btn-raised text-cyan-300 hover:text-white font-bold text-xs sm:text-sm flex items-center gap-2 active:scale-95 cursor-pointer shadow-md"
+            className="neu-btn-raised px-4 py-2 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm flex items-center gap-2 active:scale-95 cursor-pointer shadow-xs"
           >
-            <Download className="w-4 h-4 text-cyan-400" />
-            <span>Export CSV (Excel)</span>
+            <Download className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+            <span>Export CSV</span>
           </button>
 
           <button
             type="button"
             onClick={handlePrintReport}
-            className="px-4 py-2.5 rounded-xl neu-btn-primary text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2 active:scale-95 cursor-pointer shadow-md"
+            className="neu-btn-primary px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 active:scale-95 cursor-pointer shadow-sm"
           >
             <Printer className="w-4 h-4" />
-            <span>Print Official Report</span>
+            <span>Print Report</span>
           </button>
         </div>
       </div>

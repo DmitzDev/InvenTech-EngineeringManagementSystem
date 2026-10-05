@@ -190,12 +190,9 @@ export default function DashboardOverview({ onNavigateTab }) {
 
   return (
     <div className="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 max-w-[1720px] mx-auto select-none font-sans">
-      {/* 1. Sleek Compact Command Bar (Cleaned up from wordy clutter) */}
+      {/* 1. Sleek Compact Command Bar */}
       <section className="neu-card p-3 sm:p-4 rounded-2xl flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="font-mono text-xs font-black text-cyan-700 dark:text-cyan-300 neu-inset-sm px-2.5 py-1 rounded-lg">
-            SYS.DASH // 01
-          </span>
           <h1 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
             Laboratory Telemetry & Borrowing Console
           </h1>
@@ -227,7 +224,6 @@ export default function DashboardOverview({ onNavigateTab }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
           <StatsCard
             icon={Package}
-            sysTag="[SYS.METRIC // 01]"
             label="Total Inventory"
             value={totalStock.toLocaleString()}
             accent="cyan"
@@ -237,7 +233,6 @@ export default function DashboardOverview({ onNavigateTab }) {
           />
           <StatsCard
             icon={ArrowUpDown}
-            sysTag="[SYS.METRIC // 02]"
             label="Dispatched Loans"
             value={activeBorrowedTxs.length}
             accent="violet"
@@ -247,7 +242,6 @@ export default function DashboardOverview({ onNavigateTab }) {
           />
           <StatsCard
             icon={AlertTriangle}
-            sysTag="[SYS.ALERT // 03]"
             label="Overdue Alerts"
             value={totalOverdueAlerts}
             accent="amber"
@@ -257,7 +251,6 @@ export default function DashboardOverview({ onNavigateTab }) {
           />
           <StatsCard
             icon={Wrench}
-            sysTag="[SYS.STATUS // 04]"
             label="In Maintenance"
             value={inRepairItems.length}
             accent="emerald"

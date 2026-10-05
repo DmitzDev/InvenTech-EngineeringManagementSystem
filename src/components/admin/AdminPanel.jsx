@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminSidebar from './AdminSidebar';
 import AdminHeader from './AdminHeader';
 import DashboardOverview from './DashboardOverview';
 import InventoryManager from './InventoryManager';
@@ -11,7 +10,6 @@ import AuditReports from './AuditReports';
 export default function AdminPanel() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleExit = () => {
     navigate('/');
@@ -35,27 +33,18 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="admin-shell h-screen w-screen bg-[#e2e8f0] dark:bg-[#0a0e17] text-slate-900 dark:text-slate-100 flex overflow-hidden relative select-none">
-      {/* Sidebar: Persistent on Desktop, Slide-over Drawer on Mobile */}
-      <AdminSidebar
+    <div className="admin-shell h-screen w-screen bg-[#e2e8f0] dark:bg-[#0a0e17] text-slate-900 dark:text-slate-100 flex flex-col overflow-hidden relative select-none">
+      {/* Top Navbar with Navigation Tabs & InvenTech Brand */}
+      <AdminHeader
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        onLock={handleExit}
-        isMobileOpen={isMobileMenuOpen}
-        onCloseMobile={() => setIsMobileMenuOpen(false)}
+        onLogout={handleExit}
       />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#e2e8f0] dark:bg-[#0a0e17]">
-        <AdminHeader
-          onToggleMobileMenu={() => setIsMobileMenuOpen((prev) => !prev)}
-          isMobileMenuOpen={isMobileMenuOpen}
-          onLogout={handleExit}
-        />
-        <main className="flex-1 overflow-y-auto min-w-0 bg-[#e2e8f0] dark:bg-[#0a0e17]">
-          {renderContent()}
-        </main>
-      </div>
+      {/* Main Full-Width Content Canvas */}
+      <main className="flex-1 overflow-y-auto min-w-0 bg-[#e2e8f0] dark:bg-[#0a0e17]">
+        {renderContent()}
+      </main>
     </div>
   );
 }

@@ -341,55 +341,50 @@ export default function InventoryManager() {
       )}
 
       {/* 1. Header Command Strip */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-slate-200 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-slate-300 dark:border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-11 h-11 rounded-2xl bg-cyan-600 text-white dark:bg-cyan-500/20 dark:text-cyan-400 flex items-center justify-center shadow-xs shrink-0">
             <Boxes className="w-6 h-6 stroke-[2.5]" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight uppercase">
-                Master Laboratory Inventory
-              </h1>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-200 border-2 border-slate-200 dark:border-slate-700 font-bold">
-                [SYS.CAT // 01]
-              </span>
-            </div>
-            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5">
-              Live central catalog controlling all 5 Engineering Laboratory departments & kiosk borrowings
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+              Master Laboratory Inventory
+            </h1>
+            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+              Live catalog across all 5 Engineering Laboratory departments
             </p>
           </div>
         </div>
 
-        {/* Global Action Buttons */}
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* Global Action Buttons: Clean Single Row */}
+        <div className="flex items-center gap-2.5 flex-wrap">
           <button
             type="button"
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl neu-btn-raised text-slate-200 hover:text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl neu-btn-raised text-slate-700 dark:text-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
             title="Export CSV spreadsheet"
           >
-            <Download className="w-3.5 h-3.5 text-cyan-400" />
+            <Download className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
             <span>Export CSV</span>
           </button>
 
           <button
             type="button"
             onClick={handleReseedMaster}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl neu-btn-raised text-slate-300 hover:text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl neu-btn-raised text-slate-700 dark:text-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
             title="Restore Master 263 items"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden sm:inline">Sync Master</span>
+            <RotateCcw className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+            <span>Sync Master</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-xs font-black shadow-[0_0_16px_rgba(6,182,212,0.35)] transition-all active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl neu-btn-primary text-xs font-black transition-all active:scale-95 cursor-pointer shadow-sm"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
-            <span>+ Add Equipment</span>
+            <span>Add Equipment</span>
           </button>
         </div>
       </div>
