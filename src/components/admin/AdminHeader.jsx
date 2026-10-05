@@ -56,30 +56,33 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
 
   return (
     <header className="neu-card rounded-none h-16 sm:h-20 px-3 sm:px-6 border-b-2 border-slate-300 dark:border-white/10 flex items-center justify-between gap-3 shrink-0 z-30 select-none">
-      {/* 1. Left: Brand with InvenTech Logo */}
+      {/* 1. Left: Brand with InvenTech Logo (Nakalitaw / Raised, perfectly aligned with text) */}
       <div className="flex items-center gap-3 shrink-0">
-        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl neu-inset-sm flex items-center justify-center p-1.5 shrink-0 bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 shadow-xs">
+        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl neu-btn-raised flex items-center justify-center p-1.5 shrink-0 bg-white dark:bg-slate-900 border-2 border-slate-300 dark:border-white/10 shadow-sm transition-transform hover:scale-105">
           <img
             src="/images/inventech_logo.png"
             alt="InvenTech Logo"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain drop-shadow-xs"
           />
         </div>
-        <div className="flex flex-col min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white uppercase whitespace-nowrap">
-              INVENTECH <span className="text-cyan-600 dark:text-cyan-400">ADMIN</span>
+        <div className="flex items-center gap-2">
+          {/* INVEN - TECH with theme color swap:
+              Dark mode: INVEN = Orange (text-orange-500), TECH = Sky Blue (text-sky-400)
+              Light mode: INVEN = Sky Blue (text-sky-600), TECH = Orange (text-orange-600)
+          */}
+          <span className="text-base sm:text-lg font-black tracking-tight uppercase whitespace-nowrap leading-none flex items-center">
+            <span className="text-sky-600 dark:text-orange-500 transition-colors">INVEN</span>
+            <span className="text-orange-600 dark:text-sky-400 transition-colors">TECH</span>
+            <span className="ml-2 px-2 py-0.5 rounded-lg text-xs font-black tracking-wider uppercase bg-slate-900 text-white dark:bg-white/10 dark:text-white border border-slate-700 dark:border-white/20 shadow-xs">
+              ADMIN
             </span>
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.9)] shrink-0 hidden sm:inline-block" />
-          </div>
-          <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden sm:block">
-            Engineering Labs
           </span>
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.9)] shrink-0 hidden sm:inline-block" />
         </div>
       </div>
 
-      {/* 2. Center: Top Navigation Tabs (Replacing the bulky sidebar) */}
-      <nav className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar py-1">
+      {/* 2. Center: Highly tactile, elevated, premium Navigation Bar */}
+      <nav className="flex items-center gap-1.5 p-1 rounded-2xl neu-inset-sm overflow-x-auto no-scrollbar">
         {NAV_TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -91,20 +94,20 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
               key={tab.id}
               type="button"
               onClick={() => onTabChange(tab.id)}
-              className={`min-h-[40px] px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer active:scale-95 shrink-0 ${
+              className={`min-h-[40px] px-3.5 py-1.5 rounded-xl text-xs font-extrabold uppercase tracking-wide transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer active:scale-95 shrink-0 ${
                 isActive
-                  ? 'neu-btn-primary shadow-sm'
-                  : 'neu-btn-raised text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
+                  ? 'neu-btn-primary shadow-md scale-[1.02]'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
               }`}
             >
-              <Icon className="w-4 h-4 shrink-0" />
+              <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
               <span>{tab.label}</span>
               {badgeCount > 0 && (
                 <span
-                  className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-black ${
+                  className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono font-black ${
                     isActive
-                      ? 'bg-black/20 text-white'
-                      : 'bg-amber-500 text-slate-950'
+                      ? 'bg-black/25 text-white'
+                      : 'bg-amber-500 text-slate-950 shadow-xs'
                   }`}
                 >
                   {badgeCount}
