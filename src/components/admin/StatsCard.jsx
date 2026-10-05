@@ -29,7 +29,7 @@ export default function StatsCard({
 
   return (
     <article
-      className="p-5 rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-300 dark:border-slate-700 shadow-xs flex flex-col justify-between select-none relative overflow-hidden transition-all duration-200 hover:border-slate-400 dark:hover:border-slate-500"
+      className="p-5 rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 shadow-xs flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150 hover:border-slate-300 dark:hover:border-slate-700"
       aria-label={`${label}: ${value}`}
     >
       <div>
@@ -40,7 +40,7 @@ export default function StatsCard({
           </span>
           {Icon && (
             <div
-              className={`w-10 h-10 rounded-lg border-2 flex items-center justify-center shrink-0 ${iconAccent}`}
+              className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center shrink-0 ${iconAccent}`}
               aria-hidden="true"
             >
               <Icon className="w-5 h-5" />
@@ -49,13 +49,13 @@ export default function StatsCard({
         </div>
 
         {/* High-Legibility Label */}
-        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 mt-2">
+        <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 mt-3">
           {label}
         </h3>
 
-        {/* High-Contrast Large Value for Older Eyes */}
+        {/* High-Contrast Large Value */}
         <div
-          className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-950 dark:text-white mt-1.5"
+          className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-950 dark:text-white mt-1"
           role="status"
           aria-live="polite"
         >
@@ -65,7 +65,7 @@ export default function StatsCard({
 
       {/* Subtitle & Trend/Status Pill */}
       {(subtitle || trend) && (
-        <div className="mt-4 pt-3 border-t-2 border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs sm:text-sm text-slate-700 dark:text-slate-300 gap-2">
+        <div className="mt-4 pt-3 border-t-2 border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs sm:text-sm text-slate-700 dark:text-slate-300 gap-2">
           <span className="font-medium truncate">{subtitle}</span>
           {trend && (
             <span className={`px-2.5 py-1 rounded-md text-xs tracking-tight shrink-0 ${badgeClasses}`}>
