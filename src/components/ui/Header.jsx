@@ -132,9 +132,14 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Mobile Theme Toggle: Placed beside UdD logo on mobile (< sm) so it never collides with center INVENTECH */}
-          <div className="block sm:hidden shrink-0">
-            <ThemeToggle />
+          {/* Mobile Compact Clock: Swapped to left alongside UdD logo with reduced size so it's not too big */}
+          <div className={`flex sm:hidden items-center gap-1 neu-inset px-2 py-1 rounded-lg shrink-0 ${
+            isDark ? '' : 'bg-slate-100 border border-slate-300'
+          }`}>
+            <Clock className={`w-3 h-3 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
+            <span className={`font-mono text-[10.5px] font-bold tracking-tight shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-950 font-black'}`}>
+              {time || '12:00 PM'}
+            </span>
           </div>
 
           <div className="hidden sm:block min-w-0">
@@ -297,15 +302,10 @@ export default function Header() {
           </>
         )}
 
-        {/* Right: Live Telemetry Cluster (Desktop Theme Toggle & Digital Clock Pod) */}
+        {/* Right: Live Telemetry Cluster (Theme Toggle & Desktop Digital Clock Pod) */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 z-10 shrink-0">
-          {/* Desktop/Tablet Theme Toggle Pill Button (Hidden on mobile where it lives on the left beside UdD logo) */}
-          <div className="hidden sm:block shrink-0">
-            <ThemeToggle />
-          </div>
-
-          {/* Live Digital Clock Pod (Clean, Spacious, Uncluttered) */}
-          <div className={`flex items-center gap-1 sm:gap-3 neu-inset px-2 sm:px-4 lg:px-5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl shrink-0 max-w-full truncate ${
+          {/* Desktop/Tablet Digital Clock Pod (Visible on >= sm; on mobile, clock is placed on the left) */}
+          <div className={`hidden sm:flex items-center gap-1 sm:gap-3 neu-inset px-2 sm:px-4 lg:px-5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl shrink-0 max-w-full truncate ${
             isDark ? '' : 'bg-slate-100 border border-slate-300'
           }`}>
             <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
@@ -315,6 +315,9 @@ export default function Header() {
               {time || '12:00 PM'}
             </span>
           </div>
+
+          {/* Theme Toggle Pill Button (Always visible on the right on mobile and desktop) */}
+          <ThemeToggle />
         </div>
       </header>
 
