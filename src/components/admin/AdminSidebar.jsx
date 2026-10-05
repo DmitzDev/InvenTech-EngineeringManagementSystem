@@ -1,14 +1,14 @@
 import React from 'react';
-import { LayoutDashboard, Package, ScrollText, Calendar, Lock, X, ChevronRight, Shield, FileSpreadsheet } from 'lucide-react';
+import { LayoutDashboard, Package, ScrollText, Calendar, Lock, X, FileSpreadsheet, Shield, LogOut } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { getInventory } from '../../data/equipmentData';
 
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, desc: 'Overview & Metrics' },
-  { id: 'inventory', label: 'Equipment Inventory', icon: Package, desc: '335 Master Items' },
-  { id: 'reservations', label: 'Advance Bookings', icon: Calendar, desc: 'Student Requests' },
-  { id: 'transactions', label: 'Transaction History', icon: ScrollText, desc: 'Audit & Clearances' },
-  { id: 'reports', label: 'Audit Reports & Logs', icon: FileSpreadsheet, desc: 'CHED / PACUCOA Data' },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, desc: 'Live Telemetry & Actions', sysCode: 'SYS.NAV // 01' },
+  { id: 'inventory', label: 'Equipment Inventory', icon: Package, desc: 'Master Apparatus Catalog', sysCode: 'SYS.NAV // 02' },
+  { id: 'reservations', label: 'Advance Bookings', icon: Calendar, desc: 'Student Reservation Queue', sysCode: 'SYS.NAV // 03' },
+  { id: 'transactions', label: 'Transaction History', icon: ScrollText, desc: 'Borrowing & Audit Logs', sysCode: 'SYS.NAV // 04' },
+  { id: 'reports', label: 'Audit Reports & Slips', icon: FileSpreadsheet, desc: 'CHED / PACUCOA Analytics', sysCode: 'SYS.NAV // 05' },
 ];
 
 export default function AdminSidebar({ activeTab, onTabChange, onLock, isMobileOpen, onCloseMobile }) {
@@ -34,44 +34,50 @@ export default function AdminSidebar({ activeTab, onTabChange, onLock, isMobileO
       {isMobileOpen && (
         <div
           onClick={onCloseMobile}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden animate-fade-in"
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-xs z-40 md:hidden animate-fade-in"
+          aria-hidden="true"
         />
       )}
 
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 w-72 bg-[#080e1a] border-r border-slate-800/80 flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out select-none shadow-2xl md:shadow-none ${
+        className={`fixed md:static inset-y-0 left-0 z-50 w-76 bg-slate-50 dark:bg-slate-900 border-r-2 border-slate-300 dark:border-slate-700 flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out select-none shadow-xl md:shadow-none ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
+        aria-label="Admin Navigation Sidebar"
       >
         {/* Header / Brand */}
-        <div className="px-5 py-4 border-b border-slate-800/80 flex items-center justify-between bg-[#060b14]/70">
+        <div className="px-5 py-4 border-b-2 border-slate-300 dark:border-slate-700 flex items-center justify-between bg-white dark:bg-slate-900">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-[#091120] border border-cyan-500/30 flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
-              <img src="/images/udd_logo.png" alt="UdD" className="w-full h-full object-contain" />
+            <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 flex items-center justify-center p-1.5 shadow-xs shrink-0">
+              <img src="/images/udd_logo.png" alt="UdD Seal" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="text-sm font-black text-white tracking-tight">Lab Custodian</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-base font-black text-slate-950 dark:text-white tracking-tight">
+                  UDD CUSTODIAN
+                </span>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" aria-hidden="true" />
               </div>
-              <p className="text-[11px] text-slate-400 font-medium">School of Engineering</p>
+              <p className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate">
+                School of Engineering
+              </p>
             </div>
           </div>
 
           <button
             type="button"
             onClick={onCloseMobile}
-            className="md:hidden p-2 rounded-xl text-slate-400 hover:text-white bg-[#0d1627] border border-slate-800 cursor-pointer"
-            aria-label="Close navigation menu"
+            className="md:hidden min-h-[44px] min-w-[44px] p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white bg-slate-200 dark:bg-slate-800 border border-slate-400 dark:border-slate-600 flex items-center justify-center cursor-pointer"
+            aria-label="Close navigation sidebar"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 p-3.5 space-y-1.5 overflow-y-auto">
-          <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-            Control Navigation
+        <nav className="flex-1 p-3.5 space-y-2 overflow-y-auto">
+          <div className="px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+            [CONSOLE MODULES]
           </div>
 
           {NAV_ITEMS.map((item) => {
@@ -86,49 +92,49 @@ export default function AdminSidebar({ activeTab, onTabChange, onLock, isMobileO
                 key={item.id}
                 type="button"
                 onClick={() => handleSelectTab(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer relative group ${
+                className={`w-full min-h-[50px] flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer relative group border-2 ${
                   isActive
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-cyan-500/5 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/50 border border-transparent'
+                    ? 'bg-cyan-100 dark:bg-cyan-950/90 text-cyan-950 dark:text-cyan-200 border-cyan-600 dark:border-cyan-500 shadow-sm'
+                    : 'text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white bg-white dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-300 dark:border-slate-700/80'
                 }`}
+                aria-current={isActive ? 'page' : undefined}
               >
-                {isActive && (
-                  <span className="absolute left-0 top-2.5 bottom-2.5 w-1.5 bg-cyan-400 rounded-r shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
-                )}
-
                 <div className="flex items-center gap-3 min-w-0">
                   <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                    className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border ${
                       isActive
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                        : 'bg-[#0d1627] text-slate-400 group-hover:text-slate-200 border border-slate-800'
+                        ? 'bg-cyan-600 text-white border-cyan-700 dark:bg-cyan-500 dark:text-slate-950'
+                        : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-600 group-hover:text-slate-950 dark:group-hover:text-white'
                     }`}
+                    aria-hidden="true"
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-5 h-5" />
                   </div>
                   <div className="text-left min-w-0">
-                    <p className={`text-xs sm:text-sm font-bold truncate ${isActive ? 'text-white' : 'text-slate-200'}`}>
+                    <p className="text-sm font-bold truncate leading-tight">
                       {item.label}
                     </p>
-                    <p className="text-[10px] text-slate-500 truncate">{item.desc}</p>
+                    <p className={`text-xs truncate font-medium mt-0.5 ${isActive ? 'text-cyan-900 dark:text-cyan-300' : 'text-slate-600 dark:text-slate-400'}`}>
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
 
-                {/* Counter Badges */}
-                <div className="shrink-0 pl-1">
+                {/* High-Contrast Counter Badges */}
+                <div className="shrink-0 pl-1.5">
                   {isReservation && pendingCount > 0 && (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/25 border border-amber-500/50 text-amber-300 animate-pulse">
+                    <span className="text-xs font-mono font-black px-2 py-0.5 rounded-full bg-amber-200 dark:bg-amber-950 text-amber-950 dark:text-amber-200 border border-amber-600 dark:border-amber-500 animate-pulse">
                       {pendingCount}
                     </span>
                   )}
                   {isInventory && (
-                    <span className="text-[10px] font-mono font-bold text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-700/60">
+                    <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-200 border border-slate-400 dark:border-slate-600">
                       {inventory.length}
                     </span>
                   )}
                   {isTransactions && activeBorrowedCount > 0 && (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
-                      {activeBorrowedCount} In Lab
+                    <span className="text-xs font-mono font-black px-2 py-0.5 rounded bg-cyan-200 dark:bg-cyan-950 text-cyan-950 dark:text-cyan-200 border border-cyan-600 dark:border-cyan-500">
+                      {activeBorrowedCount}
                     </span>
                   )}
                 </div>
@@ -137,23 +143,24 @@ export default function AdminSidebar({ activeTab, onTabChange, onLock, isMobileO
           })}
         </nav>
 
-        {/* Lock Session & Security Footer */}
-        <div className="p-3.5 border-t border-slate-800/80 bg-[#060b14]/70 space-y-2">
-          <div className="px-2 py-1.5 rounded-xl bg-[#091120] border border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+        {/* Exit Console Footer */}
+        <div className="p-4 border-t-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 space-y-2.5">
+          <div className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300">
             <span className="flex items-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Session Secure</span>
+              <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span>Direct Custodian Access</span>
             </span>
-            <span className="font-mono text-[10px] text-emerald-400">ACTIVE</span>
+            <span className="font-mono font-black text-emerald-700 dark:text-emerald-400">ACTIVE</span>
           </div>
 
           <button
             type="button"
-            onClick={handleLock}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-rose-400 hover:bg-rose-500/15 hover:text-rose-300 border border-rose-500/30 transition-all cursor-pointer active:scale-95 shadow-sm"
+            onClick={onLock}
+            className="w-full min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold text-rose-700 dark:text-rose-200 bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900 border-2 border-rose-400 dark:border-rose-600 transition-all cursor-pointer active:scale-95 shadow-xs"
+            aria-label="Exit Admin Console to Student Kiosk"
           >
-            <Lock className="w-4 h-4" />
-            <span>Lock Admin Session</span>
+            <LogOut className="w-4 h-4" />
+            <span>Exit to Student Kiosk</span>
           </button>
         </div>
       </aside>

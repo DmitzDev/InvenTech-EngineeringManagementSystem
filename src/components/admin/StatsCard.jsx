@@ -1,87 +1,79 @@
 import React from 'react';
 
-export default function StatsCard({ icon: Icon, label, value, accent = 'cyan', subtitle, trend }) {
-  const accentMap = {
-    cyan: {
-      bg: 'bg-cyan-500/10',
-      border: 'border-cyan-500/30',
-      text: 'text-cyan-400',
-      valueText: 'text-cyan-300',
-      glow: 'hover:shadow-[0_0_25px_rgba(6,182,212,0.15)]',
-      badge: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
-    },
-    emerald: {
-      bg: 'bg-emerald-500/10',
-      border: 'border-emerald-500/30',
-      text: 'text-emerald-400',
-      valueText: 'text-emerald-300',
-      glow: 'hover:shadow-[0_0_25px_rgba(16,185,129,0.15)]',
-      badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-    },
-    amber: {
-      bg: 'bg-amber-500/10',
-      border: 'border-amber-500/30',
-      text: 'text-amber-400',
-      valueText: 'text-amber-300',
-      glow: 'hover:shadow-[0_0_25px_rgba(245,158,11,0.15)]',
-      badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-    },
-    rose: {
-      bg: 'bg-rose-500/10',
-      border: 'border-rose-500/30',
-      text: 'text-rose-400',
-      valueText: 'text-rose-300',
-      glow: 'hover:shadow-[0_0_25px_rgba(244,63,94,0.15)]',
-      badge: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-    },
-    violet: {
-      bg: 'bg-violet-500/10',
-      border: 'border-violet-500/30',
-      text: 'text-violet-400',
-      valueText: 'text-violet-300',
-      glow: 'hover:shadow-[0_0_25px_rgba(139,92,246,0.15)]',
-      badge: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
-    },
-    blue: {
-      bg: 'bg-blue-500/10',
-      border: 'border-blue-500/30',
-      text: 'text-blue-400',
-      valueText: 'text-blue-300',
-      glow: 'hover:shadow-[0_0_25px_rgba(59,130,246,0.15)]',
-      badge: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
-    },
-  };
+export default function StatsCard({
+  icon: Icon,
+  sysTag = '[SYS.METRIC]',
+  label,
+  value,
+  accent = 'cyan',
+  subtitle,
+  trend,
+  trendType = 'normal', // 'normal' | 'critical' | 'warning'
+}) {
+  const badgeClasses = {
+    normal:
+      'bg-emerald-100 text-emerald-950 border border-emerald-600 dark:bg-emerald-950/90 dark:text-emerald-200 dark:border-emerald-500 font-bold',
+    critical:
+      'bg-rose-100 text-rose-950 border border-rose-600 dark:bg-rose-950/90 dark:text-rose-200 dark:border-rose-500 font-bold animate-pulse',
+    warning:
+      'bg-amber-100 text-amber-950 border border-amber-600 dark:bg-amber-950/90 dark:text-amber-200 dark:border-amber-500 font-bold',
+  }[trendType] || 'bg-slate-200 text-slate-950 border border-slate-400 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 font-bold';
 
-  const colors = accentMap[accent] || accentMap.cyan;
+  const iconAccent = {
+    cyan: 'text-cyan-700 dark:text-cyan-400 bg-cyan-100 dark:bg-cyan-950/80 border-cyan-400 dark:border-cyan-600',
+    violet: 'text-violet-700 dark:text-violet-400 bg-violet-100 dark:bg-violet-950/80 border-violet-400 dark:border-violet-600',
+    amber: 'text-amber-800 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/80 border-amber-500 dark:border-amber-600',
+    rose: 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/80 border-rose-400 dark:border-rose-600',
+    emerald: 'text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80 border-emerald-500 dark:border-emerald-600',
+  }[accent] || 'text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700';
 
   return (
-    <div
-      className={`p-4 sm:p-5 rounded-2xl bg-[#091120] border ${colors.border} flex flex-col justify-between transition-all duration-300 hover:border-slate-600 ${colors.glow} select-none relative overflow-hidden group`}
+    <article
+      className="p-5 rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-300 dark:border-slate-700 shadow-xs flex flex-col justify-between select-none relative overflow-hidden transition-all duration-200 hover:border-slate-400 dark:hover:border-slate-500"
+      aria-label={`${label}: ${value}`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider truncate">{label}</p>
-          <p className={`text-2xl sm:text-3xl font-extrabold font-mono ${colors.valueText} leading-tight mt-1.5`}>
-            {value}
-          </p>
+      <div>
+        {/* Monospace System Micro-Tag & Icon */}
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-mono text-xs font-bold text-slate-700 dark:text-slate-300 tracking-wider">
+            {sysTag}
+          </span>
+          {Icon && (
+            <div
+              className={`w-10 h-10 rounded-lg border-2 flex items-center justify-center shrink-0 ${iconAccent}`}
+              aria-hidden="true"
+            >
+              <Icon className="w-5 h-5" />
+            </div>
+          )}
         </div>
+
+        {/* High-Legibility Label */}
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 mt-2">
+          {label}
+        </h3>
+
+        {/* High-Contrast Large Value for Older Eyes */}
         <div
-          className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl ${colors.bg} border ${colors.border} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105`}
+          className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-950 dark:text-white mt-1.5"
+          role="status"
+          aria-live="polite"
         >
-          {Icon && <Icon className={`w-5 h-5 ${colors.text}`} />}
+          {value}
         </div>
       </div>
 
-      {subtitle && (
-        <div className="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 gap-2">
-          <span className="truncate">{subtitle}</span>
+      {/* Subtitle & Trend/Status Pill */}
+      {(subtitle || trend) && (
+        <div className="mt-4 pt-3 border-t-2 border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs sm:text-sm text-slate-700 dark:text-slate-300 gap-2">
+          <span className="font-medium truncate">{subtitle}</span>
           {trend && (
-            <span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold border ${colors.badge} shrink-0`}>
+            <span className={`px-2.5 py-1 rounded-md text-xs tracking-tight shrink-0 ${badgeClasses}`}>
               {trend}
             </span>
           )}
         </div>
       )}
-    </div>
+    </article>
   );
 }
