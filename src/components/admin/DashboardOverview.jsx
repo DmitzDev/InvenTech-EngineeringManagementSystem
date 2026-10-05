@@ -26,7 +26,8 @@ import {
   MapPin,
   ExternalLink,
   ShieldCheck,
-  ShoppingBag
+  ShoppingBag,
+  RotateCcw
 } from 'lucide-react';
 import { getInventory, getItemImage } from '../../data/equipmentData';
 import { useTransaction } from '../../context/TransactionContext';
@@ -82,20 +83,20 @@ export default function DashboardOverview({ onNavigateTab }) {
 
   const totalOverdueAlerts = overdueTxs.length + (clearanceHolds ? clearanceHolds.length : 0);
 
-  // Compartments / items in repair or maintenance
+  // Items in repair
   const inRepairItems = useMemo(
     () => inventory.filter((i) => i.isDamaged || i.damageNote || i.status === 'MAINTENANCE'),
     [inventory]
   );
 
-  // 2. Department Breakdown (5 Engineering Labs)
+  // 2. Department Breakdown (The 4 iconic lab colors from Kiosk borrow section)
   const labsData = useMemo(() => {
     return [
-      { id: 'CE', name: 'Civil Engineering', code: 'CE', icon: Building2, items: inventory.filter((i) => i.lab === 'CE') },
-      { id: 'DIGITAL', name: 'Digital Logic Lab', code: 'DIGITAL', icon: Cpu, items: inventory.filter((i) => i.lab === 'DIGITAL') },
-      { id: 'ECE', name: 'ECE & Circuits Lab', code: 'ECE', icon: Radio, items: inventory.filter((i) => i.lab === 'ECE') },
-      { id: 'CHEM', name: 'Chemistry Laboratory', code: 'CHEM', icon: FlaskConical, items: inventory.filter((i) => i.lab === 'CHEM') },
-      { id: 'PHYSICS', name: 'Physics Laboratory', code: 'PHYSICS', icon: Atom, items: inventory.filter((i) => i.lab === 'PHYSICS') },
+      { id: 'CE', name: 'Civil Engineering', code: 'CE', icon: Building2, color: 'amber', items: inventory.filter((i) => i.lab === 'CE') },
+      { id: 'DIGITAL', name: 'Digital Logic', code: 'DIGITAL', icon: Cpu, color: 'cyan', items: inventory.filter((i) => i.lab === 'DIGITAL') },
+      { id: 'ECE', name: 'ECE & Circuits', code: 'ECE', icon: Radio, color: 'indigo', items: inventory.filter((i) => i.lab === 'ECE') },
+      { id: 'CHEM', name: 'Chemistry Lab', code: 'CHEM', icon: FlaskConical, color: 'emerald', items: inventory.filter((i) => i.lab === 'CHEM') },
+      { id: 'PHYSICS', name: 'Physics Lab', code: 'PHYSICS', icon: Atom, color: 'slate', items: inventory.filter((i) => i.lab === 'PHYSICS') },
     ].map((lab) => {
       const stock = lab.items.reduce((s, i) => s + (Number(i.stock) || 0), 0);
       const percent = totalStock > 0 ? ((stock / totalStock) * 100).toFixed(1) : 0;
@@ -108,7 +109,6 @@ export default function DashboardOverview({ onNavigateTab }) {
     let rows = [];
 
     if (filterMode === 'LOCKERS') {
-      // Storage Lockers & Apparatus Catalog
       let list = inventory;
       if (subLabFilter !== 'ALL') {
         list = list.filter((i) => i.lab === subLabFilter);
@@ -118,8 +118,8 @@ export default function DashboardOverview({ onNavigateTab }) {
         id: `INV-${item.id}`,
         type: 'STORAGE',
         primaryName: item.name,
-        secondaryInfo: `Category: ${item.category || 'General Apparatus'}`,
-        studentId: 'IN-STOCK CUSTODIAN',
+        secondaryInfo: item.category || 'General Apparatus',
+        studentId: 'IN-STOCK',
         department: `${item.lab} LAB`,
         binLocation: item.location || `BIN [${item.lab}-${String(item.id).slice(-2).padStart(2, '0')}]`,
         status: item.stock > 0 ? (item.stock <= 3 ? 'LOW_STOCK' : 'AVAILABLE') : 'DEPLETED',
@@ -127,25 +127,24 @@ export default function DashboardOverview({ onNavigateTab }) {
         rawItem: item,
       }));
     } else {
-      // Transactions mode (Loans & Borrows)
       rows = (activeTransactions || []).map((tx) => {
         const isOverdue = overdueTxs.some((o) => o.txId === tx.txId);
-        const firstItem = (tx.items && tx.items[0]) ? tx.items[0].name : 'Laboratory Equipment';
+        const firstItem = (tx.items && tx.items[0]) ? tx.items[0].name : 'Equipment';
         const moreCount = tx.items && tx.items.length > 1 ? ` +${tx.items.length - 1} more` : '';
-        const binLoc = (tx.items && tx.items[0] && tx.items[0].location) ? tx.items[0].location : 'LAB DESK // 01';
+        const binLoc = (tx.items && tx.items[0] && tx.items[0].location) ? tx.items[0].location : 'DESK-01';
 
         return {
           id: tx.txId,
           type: 'TRANSACTION',
           primaryName: `${firstItem}${moreCount}`,
-          secondaryInfo: `${tx.borrower?.program || 'ENG'} • Group ${tx.borrower?.groupNo || '1'} • ${tx.borrower?.instructor || 'Instructor Pending'}`,
+          secondaryInfo: `${tx.borrower?.program || 'ENG'} • Group ${tx.borrower?.groupNo || '1'}`,
           studentId: tx.borrower?.studentId || 'NO-ID',
-          leaderName: tx.borrower?.groupLeader || 'Borrower Pending',
+          leaderName: tx.borrower?.groupLeader || 'Student Borrower',
           department: tx.borrower?.courseCode || 'ENG-LAB',
-          binLocation: binLoc.startsWith('BIN') || binLoc.startsWith('LOCKER') ? binLoc : `LOCKER // ${binLoc}`,
+          binLocation: binLoc.startsWith('BIN') || binLoc.startsWith('LOCKER') ? binLoc : `BIN [${binLoc}]`,
           status: tx.status === 'RETURNED_CLEARED' ? 'CLEARED' : (isOverdue ? 'OVERDUE' : 'BORROWED'),
           units: `${(tx.items || []).reduce((s, it) => s + (it.qty || 1), 0)} Units`,
-          borrowedAt: tx.borrowedAt || 'Recent Active',
+          borrowedAt: tx.borrowedAt || 'Recent',
           rawTx: tx,
         };
       });
@@ -190,158 +189,150 @@ export default function DashboardOverview({ onNavigateTab }) {
   };
 
   return (
-    <div className="p-3 sm:p-6 lg:p-8 space-y-6 max-w-[1720px] mx-auto select-none font-sans">
-      {/* 1. Institutional Context Header Bar */}
-      <section className="rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 p-5 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono text-xs font-black text-slate-900 dark:text-white bg-slate-100 dark:bg-[#0B0F19] px-2.5 py-1 rounded-md border-2 border-slate-300 dark:border-slate-700">
-              SYS.PANEL // 01 • OVERVIEW
-            </span>
-            <span className="font-mono text-xs font-bold text-slate-700 dark:text-slate-300">
-              • UNIVERSIDAD DE DAGUPAN
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white mt-2 tracking-tight uppercase">
-            Laboratory Custodian Management Console
+    <div className="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 max-w-[1720px] mx-auto select-none font-sans">
+      {/* 1. Sleek Compact Command Bar (Cleaned up from wordy clutter) */}
+      <section className="neu-card p-3 sm:p-4 rounded-2xl flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <span className="font-mono text-xs font-black text-cyan-700 dark:text-cyan-300 neu-inset-sm px-2.5 py-1 rounded-lg">
+            SYS.DASH // 01
+          </span>
+          <h1 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
+            Laboratory Telemetry & Borrowing Console
           </h1>
-          <p className="text-sm sm:text-base font-semibold text-slate-700 dark:text-slate-300 mt-1">
-            Mission-critical telemetry, live student borrowing records, and high-precision apparatus status.
-          </p>
         </div>
 
-        {/* Tactical Shortcut Buttons with Borrow Kiosk Micro-Feedback */}
-        <div className="flex items-center gap-2.5 flex-wrap">
+        {/* Quick Nav Shortcuts */}
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => onNavigateTab && onNavigateTab('inventory')}
-            className="min-h-[48px] px-4 py-2.5 rounded-xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 text-sm font-bold uppercase tracking-wider text-slate-950 dark:text-white flex items-center gap-2 shadow-xs cursor-pointer active:scale-95 transition-all duration-150"
+            className="neu-btn-raised min-h-[40px] px-3.5 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
           >
-            <Package className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-            <span>Master Inventory</span>
+            <Package className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+            <span className="hidden sm:inline">Inventory</span>
           </button>
           <button
             type="button"
             onClick={() => onNavigateTab && onNavigateTab('reservations')}
-            className="min-h-[48px] px-4 py-2.5 rounded-xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 text-sm font-bold uppercase tracking-wider text-slate-950 dark:text-white flex items-center gap-2 shadow-xs cursor-pointer active:scale-95 transition-all duration-150"
+            className="neu-btn-raised min-h-[40px] px-3.5 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
           >
-            <Calendar className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <span>Student Bookings</span>
+            <Calendar className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+            <span className="hidden sm:inline">Bookings</span>
           </button>
         </div>
       </section>
 
-      {/* 2. Primary 4-Card Industrial KPI Grid (Borrow Kiosk Instrument Panels) */}
+      {/* 2. Primary 4-Card Industrial KPI Grid (The 4 iconic colors: Cyan, Indigo, Amber, Emerald) */}
       <section aria-label="Key Laboratory Telemetry Metrics">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
           <StatsCard
             icon={Package}
             sysTag="[SYS.METRIC // 01]"
-            label="Total Inventory Units"
+            label="Total Inventory"
             value={totalStock.toLocaleString()}
             accent="cyan"
-            subtitle={`${inventory.length} cataloged apparatus types`}
+            subtitle={`${inventory.length} apparatus types`}
             trend="Active Master"
             trendType="normal"
           />
           <StatsCard
             icon={ArrowUpDown}
             sysTag="[SYS.METRIC // 02]"
-            label="Active Dispatched Loans"
+            label="Dispatched Loans"
             value={activeBorrowedTxs.length}
             accent="violet"
-            subtitle={`${totalDispatchedUnits} physical units in laboratories`}
-            trend={activeBorrowedTxs.length > 0 ? `${activeBorrowedTxs.length} Dispatched` : 'All Stored'}
+            subtitle={`${totalDispatchedUnits} units dispatched`}
+            trend={activeBorrowedTxs.length > 0 ? `${activeBorrowedTxs.length} In-Use` : 'All Stored'}
             trendType={activeBorrowedTxs.length > 0 ? 'warning' : 'normal'}
           />
           <StatsCard
             icon={AlertTriangle}
             sysTag="[SYS.ALERT // 03]"
-            label="Critical Overdue Alerts"
+            label="Overdue Alerts"
             value={totalOverdueAlerts}
-            accent="rose"
-            subtitle={totalOverdueAlerts > 0 ? 'Requires immediate student follow-up' : 'All loans within authorized window'}
+            accent="amber"
+            subtitle={totalOverdueAlerts > 0 ? 'Requires attention' : 'All loans cleared'}
             trend={totalOverdueAlerts > 0 ? `${totalOverdueAlerts} Overdue` : 'Zero Overdue'}
             trendType={totalOverdueAlerts > 0 ? 'critical' : 'normal'}
           />
           <StatsCard
             icon={Wrench}
             sysTag="[SYS.STATUS // 04]"
-            label="Compartments In Repair"
+            label="In Maintenance"
             value={inRepairItems.length}
-            accent="amber"
-            subtitle="Damaged apparatus or maintenance bins"
-            trend={inRepairItems.length > 0 ? 'Maintenance Flag' : '100% Operational'}
+            accent="emerald"
+            subtitle="Damaged or offline"
+            trend={inRepairItems.length > 0 ? 'Service Flag' : 'Operational'}
             trendType={inRepairItems.length > 0 ? 'warning' : 'normal'}
           />
         </div>
       </section>
 
-      {/* 3. Senior Custodian Search & Horizontal Swipeable Category Pill Rail */}
+      {/* 3. Search & Horizontal Swipeable Filter Rail (Borrow Kiosk Parity) */}
       <section
-        className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 shadow-sm space-y-4"
+        className="neu-card p-3.5 sm:p-4 rounded-2xl space-y-3"
         aria-label="Table Search and Filters"
       >
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
-          {/* Prominent Search Box (Min 48px Touch Target) */}
-          <div className="relative flex-1 max-w-xl">
-            <Search className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Recessed Skeuomorphic Search Box */}
+          <div className="relative flex-1 max-w-lg">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by student ID, apparatus, slip number, or locker bin..."
-              className="w-full h-12 min-h-[48px] text-base pl-11 pr-11 border-2 border-slate-200 dark:border-slate-800 rounded-xl placeholder:text-slate-500 bg-slate-50 dark:bg-[#0B0F19] text-slate-950 dark:text-white font-medium focus:outline-none focus:border-slate-900 dark:focus:border-white transition-all shadow-inner"
+              placeholder="Search student ID, item, or bin..."
+              className="w-full h-11 text-sm pl-10 pr-9 rounded-xl neu-inset text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-white/30"
               aria-label="Search records"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 min-h-[40px] min-w-[40px] p-2 rounded-lg text-slate-500 hover:text-slate-950 dark:hover:text-white flex items-center justify-center cursor-pointer active:scale-95"
-                aria-label="Clear search query"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-slate-500 hover:text-slate-950 dark:hover:text-white cursor-pointer active:scale-90"
+                aria-label="Clear search"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
 
-          {/* View Mode Switcher: Cards vs Matrix Table */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-800 shrink-0">
+          {/* View Mode Switcher: Cards vs Table */}
+          <div className="flex items-center gap-1.5 p-1 rounded-xl neu-inset-sm shrink-0">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              className={`min-h-[42px] px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all duration-150 cursor-pointer active:scale-95 ${
+              className={`min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'grid'
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm'
-                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
+                  ? 'neu-btn-primary shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <LayoutGrid className="w-4 h-4" />
+              <LayoutGrid className="w-3.5 h-3.5" />
               <span>Cards</span>
             </button>
             <button
               type="button"
               onClick={() => setViewMode('table')}
-              className={`min-h-[42px] px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all duration-150 cursor-pointer active:scale-95 ${
+              className={`min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'table'
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm'
-                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
+                  ? 'neu-btn-primary shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <List className="w-4 h-4" />
-              <span>Matrix Table</span>
+              <List className="w-3.5 h-3.5" />
+              <span>Table</span>
             </button>
           </div>
         </div>
 
-        {/* Horizontal Swipeable Category Pill Rail (Borrow Kiosk Parity) */}
+        {/* Horizontal Swipeable Category Pill Rail */}
         <div className="flex items-center gap-2 overflow-x-auto touch-pan-x overscroll-x-contain pb-1 pt-0.5 no-scrollbar">
           {[
             { id: 'ALL', label: 'All Transactions' },
             { id: 'ACTIVE', label: 'Active Loans' },
-            { id: 'OVERDUE', label: 'Overdue Only' },
-            { id: 'LOCKERS', label: 'Storage Lockers & Apparatus' },
+            { id: 'OVERDUE', label: 'Overdue' },
+            { id: 'LOCKERS', label: 'Locker Apparatus' },
           ].map((btn) => {
             const isActive = filterMode === btn.id;
             return (
@@ -349,10 +340,10 @@ export default function DashboardOverview({ onNavigateTab }) {
                 key={btn.id}
                 type="button"
                 onClick={() => setFilterMode(btn.id)}
-                className={`min-h-[48px] px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider border-2 transition-all duration-150 cursor-pointer active:scale-95 shrink-0 whitespace-nowrap shadow-xs ${
+                className={`min-h-[42px] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer active:scale-95 transition-all ${
                   isActive
-                    ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white shadow-sm'
-                    : 'bg-slate-50 dark:bg-[#0B0F19] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600'
+                    ? isDark ? 'bg-white text-slate-950 font-black shadow-md' : 'bg-slate-900 text-white font-black shadow-md'
+                    : 'neu-btn-raised text-slate-700 dark:text-slate-300'
                 }`}
                 aria-pressed={isActive}
               >
@@ -361,79 +352,53 @@ export default function DashboardOverview({ onNavigateTab }) {
             );
           })}
 
-          {/* Sub-Lab Filter Chips when viewing Storage Lockers */}
+          {/* Sub-Lab Filter Chips when viewing Locker Apparatus */}
           {filterMode === 'LOCKERS' && (
             <>
-              <span className="text-slate-300 dark:text-slate-700 px-1 font-mono">|</span>
-              {['ALL', 'CE', 'DIGITAL', 'ECE', 'CHEM', 'PHYSICS'].map((labId) => {
-                const isSubActive = subLabFilter === labId;
+              <span className="text-slate-400 dark:text-slate-600 px-1 font-mono">|</span>
+              {[
+                { id: 'ALL', label: 'All Labs', color: 'slate' },
+                { id: 'CE', label: 'Civil', color: 'amber' },
+                { id: 'CHEM', label: 'Chem', color: 'emerald' },
+                { id: 'DIGITAL', label: 'Digital', color: 'cyan' },
+                { id: 'ECE', label: 'ECE', color: 'indigo' },
+              ].map((lab) => {
+                const isSubActive = subLabFilter === lab.id;
                 return (
                   <button
-                    key={labId}
+                    key={lab.id}
                     type="button"
-                    onClick={() => setSubLabFilter(labId)}
-                    className={`min-h-[44px] px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold uppercase border transition-all duration-150 cursor-pointer active:scale-95 shrink-0 whitespace-nowrap ${
+                    onClick={() => setSubLabFilter(lab.id)}
+                    className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold uppercase shrink-0 cursor-pointer active:scale-95 transition-all ${
                       isSubActive
-                        ? 'bg-cyan-600 text-white border-cyan-700 dark:bg-cyan-400 dark:text-slate-950 dark:border-cyan-300 font-black'
-                        : 'bg-slate-100 dark:bg-[#0B0F19] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-400'
+                        ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-bold shadow-sm'
+                        : 'neu-btn-raised text-slate-700 dark:text-slate-300'
                     }`}
                   >
-                    {labId === 'ALL' ? 'All Labs' : `${labId} Lab`}
+                    {lab.label}
                   </button>
                 );
               })}
             </>
           )}
         </div>
-
-        {/* Live Filter Indicator Bar */}
-        <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 pt-2 border-t-2 border-slate-100 dark:border-slate-800/80">
-          <span>
-            Verified Records: <strong className="text-slate-950 dark:text-white font-mono text-sm">{displayRows.length}</strong> entries
-            {searchQuery && ` matching "${searchQuery}"`}
-          </span>
-          <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
-            <span>[SYS.DATA // REAL-TIME SYNCED]</span>
-          </span>
-        </div>
       </section>
 
-      {/* 4. Live Records View: Card Grid (Borrow Kiosk Style) or Data Table Matrix */}
-      <section
-        className="rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 shadow-sm overflow-hidden"
-        aria-label="Inventory and Transaction Live Records"
-      >
-        {/* Table/Card Header Title Bar */}
-        <div className="p-4 sm:p-5 border-b-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0B0F19] flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="font-mono text-xs font-black text-slate-900 dark:text-white px-2 py-0.5 rounded-md border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#111827]">
-              SYS.LEDGER // 01
-            </span>
-            <h2 className="text-base sm:text-lg font-black text-slate-950 dark:text-white uppercase tracking-wider">
-              {filterMode === 'LOCKERS'
-                ? 'Storage Lockers & Master Apparatus Inventory'
-                : 'Live Laboratory Borrowing & Clearance Telemetry'}
-            </h2>
-          </div>
-          <span className="text-xs font-bold text-slate-600 dark:text-slate-400 font-mono hidden sm:inline">
-            WCAG 2.1 AAA HIGH CONTRAST MATRIX
-          </span>
-        </div>
-
+      {/* 4. Live Records View: Card Grid (Borrow Kiosk Style) or Table */}
+      <section aria-label="Inventory and Transaction Records">
         {displayRows.length === 0 ? (
-          <div className="p-12 sm:p-16 text-center space-y-3">
-            <CheckCircle2 className="w-12 h-12 mx-auto text-emerald-600 dark:text-emerald-400" />
-            <p className="text-lg font-bold text-slate-950 dark:text-white">No Matching Records Found</p>
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-              There are currently no active transactions or inventory records matching the search query or active filter.
+          <div className="neu-card p-10 sm:p-14 text-center rounded-2xl space-y-2">
+            <CheckCircle2 className="w-10 h-10 mx-auto text-emerald-600 dark:text-emerald-400" />
+            <p className="text-base font-bold text-slate-900 dark:text-white">No Matching Records</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+              There are currently no active transaction or inventory records matching your query.
             </p>
           </div>
         ) : viewMode === 'grid' ? (
           /* ========================================================================= */
-          /* CARD GRID VIEW (100% BORROW KIOSK VISUAL PARITY)                          */
+          /* CARD GRID VIEW (SKEUOMORPHIC BORROW KIOSK CARDS)                          */
           /* ========================================================================= */
-          <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
             {displayRows.map((row) => {
               if (row.type === 'STORAGE') {
                 // RENDER APPARATUS ITEM CARD (Exact Borrow Kiosk Item Card DNA)
@@ -446,11 +411,11 @@ export default function DashboardOverview({ onNavigateTab }) {
                 return (
                   <article
                     key={row.id}
-                    className="rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 p-3.5 flex flex-col justify-between hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-150 shadow-xs group"
+                    className="neu-card neu-card-hover p-3.5 rounded-2xl flex flex-col justify-between group select-none"
                   >
                     <div>
                       {/* Hero Image Stage */}
-                      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-3 bg-slate-100 dark:bg-[#060a12] border-2 border-slate-200/80 dark:border-slate-800 flex items-center justify-center">
+                      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-2.5 neu-inset-sm flex items-center justify-center">
                         {itemImg ? (
                           <img
                             src={itemImg}
@@ -465,9 +430,9 @@ export default function DashboardOverview({ onNavigateTab }) {
                         )}
 
                         {/* Live Stock Indicator Capsule */}
-                        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-950/95 backdrop-blur-md border border-white/15 text-white font-mono text-[10px] font-black shadow-md">
+                        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-950/95 backdrop-blur-md border border-white/15 text-white font-mono text-[9px] font-black shadow-md">
                           <span
-                            className={`w-2 h-2 rounded-full shrink-0 ${
+                            className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                               isUnderRepair
                                 ? 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
                                 : item.stock === 0
@@ -479,42 +444,42 @@ export default function DashboardOverview({ onNavigateTab }) {
                           />
                           <span>
                             {isUnderRepair
-                              ? 'UNDER REPAIR'
+                              ? 'REPAIR'
                               : item.stock === 0
-                              ? '0 IN STOCK'
-                              : `${item.stock} UNITS AVAILABLE`}
+                              ? '0 STOCK'
+                              : `${item.stock} LEFT`}
                           </span>
                         </div>
                       </div>
 
                       {/* Header Badges */}
-                      <div className="flex items-center gap-1.5 mb-2 flex-wrap">
-                        <span className="font-mono text-xs font-black px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100">
-                          [{item.lab}-LAB]
+                      <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+                        <span className="font-mono text-xs font-black px-2 py-0.5 rounded-md neu-inset-sm text-slate-800 dark:text-slate-200">
+                          [{item.lab}]
                         </span>
-                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded-md neu-inset-sm text-slate-700 dark:text-slate-300">
                           {row.binLocation}
                         </span>
                       </div>
 
                       {/* Nomenclature */}
-                      <h3 className="text-base font-bold text-slate-950 dark:text-white leading-snug line-clamp-2">
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug line-clamp-2">
                         {item.name}
                       </h3>
-                      <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5 line-clamp-1">
-                        {item.category || 'General Laboratory Apparatus'}
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">
+                        {item.category || 'General Apparatus'}
                       </p>
                     </div>
 
                     {/* Footer Actions */}
-                    <div className="mt-4 pt-3 border-t-2 border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300 font-mono">
-                        ID: #{item.id}
+                    <div className="mt-3 pt-2.5 border-t border-slate-200 dark:border-white/10 flex items-center justify-between gap-2">
+                      <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+                        #{item.id}
                       </span>
                       <button
                         type="button"
                         onClick={() => onNavigateTab && onNavigateTab('inventory')}
-                        className="min-h-[44px] px-3.5 py-1.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold uppercase tracking-wider border-2 border-slate-900 dark:border-white shadow-xs cursor-pointer active:scale-95 transition-all duration-150"
+                        className="neu-btn-raised min-h-[38px] px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer active:scale-95"
                       >
                         Manage
                       </button>
@@ -531,103 +496,98 @@ export default function DashboardOverview({ onNavigateTab }) {
               return (
                 <article
                   key={row.id}
-                  className="rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 p-4 sm:p-5 flex flex-col justify-between hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-150 shadow-xs space-y-4"
+                  className="neu-card neu-card-hover p-4 rounded-2xl flex flex-col justify-between space-y-3 select-none"
                 >
-                  <div className="space-y-3">
+                  <div className="space-y-2.5">
                     {/* Top Ribbon & Telemetry Tag */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs font-black text-slate-900 dark:text-cyan-300 px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-700">
-                        [TX.REF // {tx.txId}]
+                      <span className="font-mono text-xs font-black text-slate-800 dark:text-cyan-300 neu-inset-sm px-2 py-0.5 rounded-md">
+                        {tx.txId}
                       </span>
 
-                      {/* Status Ribbon */}
+                      {/* Status Badge using the 4 iconic Kiosk colors */}
                       <span
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-black uppercase tracking-wider border-2 shrink-0 ${
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-black uppercase tracking-wider border shrink-0 ${
                           isOverdue
-                            ? 'bg-rose-100 text-rose-950 border-rose-600 dark:bg-rose-950 dark:text-rose-200 dark:border-rose-500 animate-pulse'
+                            ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200 dark:border-amber-600 animate-pulse'
                             : isCleared
-                            ? 'bg-emerald-100 text-emerald-950 border-emerald-600 dark:bg-emerald-950 dark:text-emerald-200 dark:border-emerald-500'
-                            : 'bg-cyan-100 text-cyan-950 border-cyan-600 dark:bg-cyan-950 dark:text-cyan-200 dark:border-cyan-500'
+                            ? 'bg-emerald-100 text-emerald-950 border-emerald-400 dark:bg-emerald-950 dark:text-emerald-200 dark:border-emerald-600'
+                            : 'bg-indigo-100 text-indigo-950 border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200 dark:border-indigo-600'
                         }`}
                       >
                         <span
-                          className={`w-2 h-2 rounded-full ${
-                            isOverdue ? 'bg-rose-600' : isCleared ? 'bg-emerald-600' : 'bg-cyan-600'
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            isOverdue ? 'bg-amber-600' : isCleared ? 'bg-emerald-600' : 'bg-indigo-600'
                           }`}
                         />
-                        <span>{isOverdue ? 'OVERDUE LOAN' : isCleared ? 'CLEARED' : 'ACTIVE LOAN'}</span>
+                        <span>{isOverdue ? 'OVERDUE' : isCleared ? 'CLEARED' : 'ACTIVE'}</span>
                       </span>
                     </div>
 
-                    {/* Borrower Telemetry Module */}
-                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-800 space-y-1.5">
+                    {/* Borrower Capsule (Clean & Minimal) */}
+                    <div className="neu-inset-sm p-3 rounded-xl space-y-1">
                       <div className="flex items-center justify-between gap-1.5">
-                        <span className="font-mono text-xs font-black px-2 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-950 dark:text-white">
+                        <span className="font-mono text-xs font-black text-slate-900 dark:text-white">
                           {row.studentId}
                         </span>
-                        <span className="text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400">
+                        <span className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400">
                           {row.binLocation}
                         </span>
                       </div>
 
-                      <p className="text-sm font-black text-slate-950 dark:text-white uppercase leading-tight pt-0.5">
+                      <p className="text-sm font-black text-slate-900 dark:text-white uppercase leading-tight">
                         {row.leaderName}
                       </p>
-                      <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
                         {row.secondaryInfo}
                       </p>
                     </div>
 
-                    {/* Borrowed Items Telemetry List */}
-                    <div className="space-y-1.5">
-                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block">
-                        Borrowed Apparatus ({tx.items?.length || 0}):
-                      </span>
-                      <div className="space-y-1">
-                        {(tx.items || []).slice(0, 3).map((item, idx) => (
-                          <div
-                            key={idx}
-                            className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 flex items-center justify-between text-xs font-bold"
-                          >
-                            <span className="truncate text-slate-950 dark:text-white pr-2">
-                              {item.name}
-                            </span>
-                            <span className="font-mono text-xs font-black px-2 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 shrink-0">
-                              x{item.qty || 1}
-                            </span>
-                          </div>
-                        ))}
-                        {(tx.items || []).length > 3 && (
-                          <p className="text-[11px] font-mono font-bold text-slate-500 text-center pt-0.5">
-                            +{(tx.items || []).length - 3} more items on slip
-                          </p>
-                        )}
-                      </div>
+                    {/* Borrowed Items */}
+                    <div className="space-y-1">
+                      {(tx.items || []).slice(0, 2).map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="px-2.5 py-1.5 rounded-lg neu-inset-sm flex items-center justify-between text-xs font-semibold"
+                        >
+                          <span className="truncate text-slate-900 dark:text-white pr-2">
+                            {item.name}
+                          </span>
+                          <span className="font-mono text-xs font-bold text-slate-600 dark:text-slate-400 shrink-0">
+                            x{item.qty || 1}
+                          </span>
+                        </div>
+                      ))}
+                      {(tx.items || []).length > 2 && (
+                        <p className="text-[11px] font-mono font-bold text-slate-500 text-center">
+                          +{(tx.items || []).length - 2} more items
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  {/* 48px Tactile 1-Click Action Buttons */}
-                  <div className="pt-3 border-t-2 border-slate-100 dark:border-slate-800/80 flex items-center gap-2">
+                  {/* 1-Click Action Buttons */}
+                  <div className="pt-2 border-t border-slate-200 dark:border-white/10 flex items-center gap-2">
                     {tx.status !== 'RETURNED_CLEARED' && (
                       <button
                         type="button"
                         onClick={() => handleQuickReturn(tx)}
-                        className="flex-1 min-h-[48px] px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase tracking-wider text-xs sm:text-sm flex items-center justify-center gap-1.5 border-2 border-emerald-700 shadow-sm cursor-pointer active:scale-95 transition-all duration-150"
-                        title="Mark equipment returned and clear borrower"
+                        className="flex-1 neu-btn-secondary min-h-[42px] px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                        title="Mark equipment returned"
                       >
-                        <Check className="w-4 h-4 stroke-[3]" />
-                        <span>Returned</span>
+                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        <span>Return</span>
                       </button>
                     )}
 
                     <button
                       type="button"
                       onClick={() => setSelectedSlipModal(tx)}
-                      className="flex-1 min-h-[48px] px-3.5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111827] hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-950 dark:text-white font-bold uppercase tracking-wider text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all duration-150"
-                      title="Inspect official loan record slip"
+                      className="flex-1 neu-btn-raised min-h-[42px] px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                      title="Inspect loan slip"
                     >
-                      <FileText className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                      <span>View Slip</span>
+                      <FileText className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                      <span>Slip</span>
                     </button>
                   </div>
                 </article>
@@ -636,22 +596,21 @@ export default function DashboardOverview({ onNavigateTab }) {
           </div>
         ) : (
           /* ========================================================================= */
-          /* HIGH-DENSITY DATA TABLE MATRIX                                            */
+          /* TABLE VIEW                                                                */
           /* ========================================================================= */
-          <div className="overflow-x-auto">
+          <div className="neu-card rounded-2xl overflow-hidden overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <caption className="sr-only">Live inventory and transaction records table</caption>
               <thead>
-                <tr className="sticky top-0 bg-slate-100 dark:bg-[#0B0F19] text-slate-950 dark:text-white py-3.5 px-4 text-xs font-black tracking-wider uppercase border-b-2 border-slate-200 dark:border-slate-800">
-                  <th scope="col" className="py-3.5 px-4">TRACKING / SLIP ID</th>
-                  <th scope="col" className="py-3.5 px-4">TOOL / APPARATUS NAME</th>
-                  <th scope="col" className="py-3.5 px-4">STUDENT ID & BORROWER</th>
-                  <th scope="col" className="py-3.5 px-4">LOCKER / BIN</th>
+                <tr className="border-b border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 py-3 px-4 text-xs font-black tracking-wider uppercase">
+                  <th scope="col" className="py-3.5 px-4">TRACKING ID</th>
+                  <th scope="col" className="py-3.5 px-4">TOOL / APPARATUS</th>
+                  <th scope="col" className="py-3.5 px-4">BORROWER</th>
+                  <th scope="col" className="py-3.5 px-4">LOCATION</th>
                   <th scope="col" className="py-3.5 px-4">STATUS</th>
-                  <th scope="col" className="py-3.5 px-4 text-right">DIRECT ACTIONS</th>
+                  <th scope="col" className="py-3.5 px-4 text-right">ACTIONS</th>
                 </tr>
               </thead>
-              <tbody className="divide-y-2 divide-slate-100 dark:divide-slate-800/80">
+              <tbody className="divide-y divide-slate-200 dark:divide-white/10">
                 {displayRows.map((row) => {
                   const isOverdue = row.status === 'OVERDUE';
                   const isCleared = row.status === 'CLEARED';
@@ -659,84 +618,66 @@ export default function DashboardOverview({ onNavigateTab }) {
                   return (
                     <tr
                       key={row.id}
-                      className="border-b border-slate-200 dark:border-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                      className="hover:bg-slate-100/60 dark:hover:bg-white/5 transition-colors"
                     >
-                      {/* ID / Slip */}
-                      <td className="py-4 px-4 font-mono text-sm font-bold text-slate-950 dark:text-cyan-300 whitespace-nowrap">
+                      {/* ID */}
+                      <td className="py-3.5 px-4 font-mono text-sm font-bold text-slate-900 dark:text-cyan-300 whitespace-nowrap">
                         {row.id}
-                        {row.borrowedAt && (
-                          <div className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5">
-                            {row.borrowedAt}
-                          </div>
-                        )}
                       </td>
 
-                      {/* Primary Tool Name */}
-                      <td className="py-4 px-4">
-                        <p className="text-base font-bold text-slate-950 dark:text-white leading-snug">
+                      {/* Tool Name */}
+                      <td className="py-3.5 px-4">
+                        <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug">
                           {row.primaryName}
                         </p>
-                        <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
                           {row.secondaryInfo}
                         </p>
                       </td>
 
                       {/* Student ID & Borrower */}
-                      <td className="py-4 px-4">
+                      <td className="py-3.5 px-4">
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="font-mono text-sm font-black text-slate-950 dark:text-white px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-700">
+                          <span className="font-mono text-xs font-black text-slate-900 dark:text-white px-2 py-0.5 rounded neu-inset-sm">
                             {row.studentId}
                           </span>
-                          <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-200 border border-slate-300 dark:border-slate-700 uppercase">
-                            {row.department}
+                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                            {row.leaderName}
                           </span>
                         </div>
-                        {row.leaderName && (
-                          <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1 uppercase">
-                            Leader: {row.leaderName}
-                          </p>
-                        )}
                       </td>
 
-                      {/* Locker / Bin Indicator */}
-                      <td className="py-4 px-4 whitespace-nowrap">
-                        <span className="font-mono text-xs sm:text-sm font-black px-2.5 py-1 rounded-md border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-[#0B0F19] text-slate-950 dark:text-yellow-400">
-                          {row.binLocation}
-                        </span>
+                      {/* Location */}
+                      <td className="py-3.5 px-4 whitespace-nowrap font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
+                        {row.binLocation}
                       </td>
 
-                      {/* Status Badge */}
-                      <td className="py-4 px-4 whitespace-nowrap">
+                      {/* Status */}
+                      <td className="py-3.5 px-4 whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border-2 ${
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider border ${
                             isOverdue
-                              ? 'bg-rose-100 text-rose-950 border-rose-600 dark:bg-rose-950 dark:text-rose-200 dark:border-rose-500 animate-pulse'
+                              ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200'
                               : isCleared
-                              ? 'bg-emerald-100 text-emerald-950 border-emerald-600 dark:bg-emerald-950 dark:text-emerald-200 dark:border-emerald-500'
-                              : 'bg-cyan-100 text-cyan-950 border-cyan-600 dark:bg-cyan-950 dark:text-cyan-200 dark:border-cyan-500'
+                              ? 'bg-emerald-100 text-emerald-950 border-emerald-400 dark:bg-emerald-950 dark:text-emerald-200'
+                              : 'bg-indigo-100 text-indigo-950 border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200'
                           }`}
                         >
-                          <span
-                            className={`w-2 h-2 rounded-full ${
-                              isOverdue ? 'bg-rose-600' : isCleared ? 'bg-emerald-600' : 'bg-cyan-600'
-                            }`}
-                          />
-                          <span>{row.status}</span>
+                          {row.status}
                         </span>
                       </td>
 
-                      {/* Direct 48px Action Buttons */}
-                      <td className="py-4 px-4 text-right whitespace-nowrap">
+                      {/* Actions */}
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <div className="inline-flex items-center gap-2">
                           {row.rawTx && row.status !== 'CLEARED' && (
                             <button
                               type="button"
                               onClick={() => handleQuickReturn(row.rawTx)}
-                              className="min-h-[44px] px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase tracking-wider text-xs sm:text-sm flex items-center gap-1.5 border-2 border-emerald-700 shadow-xs cursor-pointer active:scale-95 transition-all duration-150"
-                              title="Clear and return equipment"
+                              className="neu-btn-secondary min-h-[36px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
                             >
-                              <Check className="w-4 h-4 stroke-[3]" />
-                              <span>Mark Returned</span>
+                              <Check className="w-3.5 h-3.5 stroke-[3]" />
+                              <span>Return</span>
                             </button>
                           )}
 
@@ -744,11 +685,10 @@ export default function DashboardOverview({ onNavigateTab }) {
                             <button
                               type="button"
                               onClick={() => setSelectedSlipModal(row.rawTx)}
-                              className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white dark:bg-[#111827] hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-950 dark:text-white font-bold uppercase tracking-wider text-xs sm:text-sm border-2 border-slate-200 dark:border-slate-800 flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all duration-150"
-                              title="Inspect official slip"
+                              className="neu-btn-raised min-h-[36px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
                             >
-                              <FileText className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                              <span>View Slip</span>
+                              <FileText className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                              <span>Slip</span>
                             </button>
                           )}
 
@@ -756,10 +696,10 @@ export default function DashboardOverview({ onNavigateTab }) {
                             <button
                               type="button"
                               onClick={() => onNavigateTab && onNavigateTab('inventory')}
-                              className="min-h-[44px] px-3.5 py-2 rounded-xl bg-white dark:bg-[#111827] hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-950 dark:text-white font-bold uppercase tracking-wider text-xs sm:text-sm border-2 border-slate-200 dark:border-slate-800 flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all duration-150"
+                              className="neu-btn-raised min-h-[36px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
                             >
-                              <Package className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                              <span>Manage Item</span>
+                              <Package className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                              <span>Manage</span>
                             </button>
                           )}
                         </div>
@@ -773,63 +713,51 @@ export default function DashboardOverview({ onNavigateTab }) {
         )}
       </section>
 
-      {/* 5. Department Laboratory Breakdown (5 Labs - Borrow Kiosk Instrument Cards) */}
-      <section aria-label="Department Laboratories Overview" className="space-y-3.5">
+      {/* 5. Department Breakdown (The 4 iconic lab colors from Kiosk borrow section) */}
+      <section aria-label="Department Laboratories" className="space-y-2.5">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm sm:text-base font-bold text-slate-950 dark:text-white uppercase tracking-wider flex items-center gap-2">
-            <Layers className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
-            <span>Department Laboratory Storage Status (5 Labs)</span>
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+            <Layers className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+            <span>Laboratories Status</span>
           </h2>
-          <span className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">
-            {totalStock} Total Catalog Units
+          <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+            {totalStock} Total Apparatus
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {labsData.map((lab) => {
             const Icon = lab.icon;
             return (
               <div
                 key={lab.id}
                 onClick={() => onNavigateTab && onNavigateTab('inventory')}
-                className="p-4 rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 space-y-3 shadow-xs hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-150 cursor-pointer group select-none active:scale-[0.98]"
+                className="neu-card neu-card-hover p-3 rounded-2xl space-y-2 cursor-pointer group select-none active:scale-[0.98]"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-900 dark:text-white shrink-0">
-                      <Icon className="w-5 h-5" />
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-8 h-8 rounded-lg neu-inset-sm flex items-center justify-center text-slate-800 dark:text-slate-200 shrink-0">
+                      <Icon className="w-4 h-4" />
                     </div>
-                    <span className="text-sm font-bold text-slate-950 dark:text-white truncate">
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
                       {lab.name}
                     </span>
                   </div>
-                  <span className="text-xs font-bold font-mono px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 border-2 border-slate-200 dark:border-slate-700">
+                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded neu-inset-sm text-slate-700 dark:text-slate-300">
                     {lab.code}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-center">
-                  <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-800">
-                    <span className="text-[11px] text-slate-600 dark:text-slate-400 block font-semibold">Types</span>
-                    <p className="text-base font-black font-mono text-slate-950 dark:text-white">{lab.items.length}</p>
-                  </div>
-                  <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-800">
-                    <span className="text-[11px] text-slate-600 dark:text-slate-400 block font-semibold">Stock</span>
-                    <p className="text-base font-black font-mono text-slate-950 dark:text-white">{lab.stock} pcs</p>
-                  </div>
+                <div className="neu-inset-sm p-2 rounded-xl flex items-center justify-between text-xs font-mono font-bold">
+                  <span className="text-slate-500 dark:text-slate-400">Stock</span>
+                  <span className="text-slate-900 dark:text-white">{lab.stock} pcs</span>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-slate-700 dark:text-slate-300 font-mono font-bold">
-                    <span>Stock Ratio</span>
-                    <span>{lab.percent}%</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700">
-                    <div
-                      className="h-full bg-slate-900 dark:bg-white rounded-full"
-                      style={{ width: `${lab.percent}%` }}
-                    />
-                  </div>
+                <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-slate-900 dark:bg-white rounded-full"
+                    style={{ width: `${lab.percent}%` }}
+                  />
                 </div>
               </div>
             );
@@ -837,7 +765,7 @@ export default function DashboardOverview({ onNavigateTab }) {
         </div>
       </section>
 
-      {/* 6. Inspection Slip Modal (Borrow Kiosk Mechanical Parity) */}
+      {/* 6. Inspection Slip Modal (Skeuomorphic Kiosk Parity) */}
       {selectedSlipModal && (
         <div
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 animate-fade-in"
@@ -845,98 +773,97 @@ export default function DashboardOverview({ onNavigateTab }) {
           aria-modal="true"
           aria-labelledby="slip-modal-title"
         >
-          <div className="w-full max-w-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+          <div className="neu-card w-full max-w-xl rounded-2xl overflow-hidden flex flex-col max-h-[90vh]">
             {/* Modal Header */}
-            <div className="p-4 sm:p-5 border-b-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0B0F19] flex items-center justify-between">
+            <div className="p-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
               <div>
-                <span className="font-mono text-xs font-black text-cyan-800 dark:text-cyan-300">
-                  OFFICIAL LABORATORY CLEARANCE SLIP
+                <span className="font-mono text-xs font-bold text-cyan-600 dark:text-cyan-400">
+                  CLEARANCE SLIP
                 </span>
-                <h3 id="slip-modal-title" className="text-lg font-black text-slate-950 dark:text-white mt-0.5">
+                <h3 id="slip-modal-title" className="text-base font-black text-slate-900 dark:text-white">
                   {selectedSlipModal.txId}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedSlipModal(null)}
-                className="min-h-[44px] min-w-[44px] p-2 rounded-xl border-2 border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200 cursor-pointer active:scale-95 transition-all duration-150"
-                aria-label="Close transaction slip details"
+                className="neu-btn-raised min-h-[38px] min-w-[38px] p-2 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-200 cursor-pointer active:scale-95"
+                aria-label="Close"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-4 sm:p-6 overflow-y-auto space-y-4 text-sm font-semibold text-slate-800 dark:text-slate-200">
+            <div className="p-4 sm:p-5 overflow-y-auto space-y-3 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">
               {/* Borrower Details Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-xl bg-slate-50 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-800">
+              <div className="neu-inset-sm p-3.5 rounded-xl grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <span className="text-xs text-slate-600 dark:text-slate-400 block font-bold">STUDENT ID:</span>
-                  <span className="font-mono text-base font-black text-slate-950 dark:text-white">
+                  <span className="text-slate-500 dark:text-slate-400 block font-bold text-[10px]">STUDENT ID</span>
+                  <span className="font-mono font-black text-slate-900 dark:text-white">
                     {selectedSlipModal.borrower?.studentId || 'N/A'}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-600 dark:text-slate-400 block font-bold">GROUP LEADER:</span>
-                  <span className="text-base font-black text-slate-950 dark:text-white uppercase">
+                  <span className="text-slate-500 dark:text-slate-400 block font-bold text-[10px]">BORROWER</span>
+                  <span className="font-black text-slate-900 dark:text-white uppercase truncate block">
                     {selectedSlipModal.borrower?.groupLeader || 'N/A'}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-600 dark:text-slate-400 block font-bold">PROGRAM & COURSE:</span>
-                  <span className="text-sm font-bold text-slate-950 dark:text-white">
+                  <span className="text-slate-500 dark:text-slate-400 block font-bold text-[10px]">PROGRAM</span>
+                  <span className="font-bold text-slate-900 dark:text-white">
                     {selectedSlipModal.borrower?.program} • {selectedSlipModal.borrower?.courseCode}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-600 dark:text-slate-400 block font-bold">INSTRUCTOR & GROUP:</span>
-                  <span className="text-sm font-bold text-slate-950 dark:text-white">
-                    {selectedSlipModal.borrower?.instructor} • Group {selectedSlipModal.borrower?.groupNo}
+                  <span className="text-slate-500 dark:text-slate-400 block font-bold text-[10px]">INSTRUCTOR</span>
+                  <span className="font-bold text-slate-900 dark:text-white">
+                    {selectedSlipModal.borrower?.instructor} • Grp {selectedSlipModal.borrower?.groupNo}
                   </span>
                 </div>
               </div>
 
               {/* Items List */}
-              <div>
-                <h4 className="font-bold text-xs uppercase tracking-wider text-slate-950 dark:text-white mb-2">
-                  Borrowed Apparatus & Components ({selectedSlipModal.items?.length || 0})
-                </h4>
-                <div className="border-2 border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden divide-y-2 divide-slate-100 dark:divide-slate-800/80">
+              <div className="space-y-1.5">
+                <span className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300 block">
+                  Items ({selectedSlipModal.items?.length || 0})
+                </span>
+                <div className="neu-inset-sm rounded-xl overflow-hidden divide-y divide-slate-200 dark:divide-white/10">
                   {(selectedSlipModal.items || []).map((item, idx) => (
-                    <div key={idx} className="p-3 bg-white dark:bg-[#111827] flex items-center justify-between gap-3">
+                    <div key={idx} className="p-2.5 flex items-center justify-between text-xs">
                       <div>
-                        <p className="font-bold text-slate-950 dark:text-white text-sm">
+                        <p className="font-bold text-slate-900 dark:text-white">
                           {item.name}
                         </p>
-                        <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">
-                          {item.tagCode} • Location: {item.location || 'Bin B-01'}
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                          {item.tagCode} • {item.location || 'Bin B-01'}
                         </p>
                       </div>
-                      <span className="font-mono text-sm font-black px-2.5 py-1 rounded-md bg-slate-100 dark:bg-[#0B0F19] border-2 border-slate-200 dark:border-slate-700">
-                        x{item.qty || 1} {item.unit || 'pc'}
+                      <span className="font-mono font-bold px-2 py-0.5 rounded neu-card">
+                        x{item.qty || 1}
                       </span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Custodian Clearance Notes */}
               {selectedSlipModal.custodianNotes && (
-                <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/60 border-2 border-amber-300 dark:border-amber-700 text-amber-950 dark:text-amber-200 text-xs">
-                  <strong>Custodian Remarks:</strong> {selectedSlipModal.custodianNotes}
+                <div className="neu-inset-sm p-3 rounded-xl text-xs text-amber-800 dark:text-amber-300">
+                  <strong>Notes:</strong> {selectedSlipModal.custodianNotes}
                 </div>
               )}
             </div>
 
-            {/* Modal Actions (48px Touch Targets) */}
-            <div className="p-4 border-t-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0B0F19] flex items-center justify-between gap-3">
+            {/* Modal Actions */}
+            <div className="p-4 border-t border-slate-200 dark:border-white/10 flex items-center justify-between gap-2">
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="min-h-[48px] px-4 py-2.5 rounded-xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 text-slate-950 dark:text-white font-bold uppercase tracking-wider text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all duration-150"
+                className="neu-btn-raised min-h-[42px] px-3.5 py-2 rounded-xl font-bold uppercase tracking-wider text-xs flex items-center gap-1.5 cursor-pointer active:scale-95"
               >
                 <Printer className="w-4 h-4" />
-                <span>Print Slip</span>
+                <span>Print</span>
               </button>
 
               <div className="flex items-center gap-2">
@@ -947,16 +874,16 @@ export default function DashboardOverview({ onNavigateTab }) {
                       handleQuickReturn(selectedSlipModal);
                       setSelectedSlipModal(null);
                     }}
-                    className="min-h-[48px] px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase tracking-wider text-xs sm:text-sm flex items-center gap-1.5 border-2 border-emerald-700 shadow-sm cursor-pointer active:scale-95 transition-all duration-150"
+                    className="neu-btn-secondary min-h-[42px] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
                   >
                     <Check className="w-4 h-4 stroke-[3]" />
-                    <span>Confirm Full Return</span>
+                    <span>Clear Return</span>
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={() => setSelectedSlipModal(null)}
-                  className="min-h-[48px] px-4 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-950 dark:text-white font-bold uppercase tracking-wider text-xs sm:text-sm cursor-pointer active:scale-95 transition-all duration-150"
+                  className="neu-btn-raised min-h-[42px] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer active:scale-95"
                 >
                   Close
                 </button>
