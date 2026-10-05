@@ -76,15 +76,15 @@ export default function WelcomeScreen() {
           <span className={`truncate ${isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}`}>Terminal #01</span>
         </div>
 
-        {/* Right: Live Digital Clock Pod & Theme Toggle */}
+        {/* Right: Manual Theme Toggle & Live Digital Clock Pod */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <div className={`flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[10.5px] sm:text-xs font-mono shadow-xs ${
+          <ThemeToggle />
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono shadow-xs ${
             isDark ? 'neu-inset text-cyan-400' : 'bg-white border border-slate-300 text-slate-900 font-bold'
           }`}>
-            <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-            <span className="font-bold sm:font-extrabold tracking-tight sm:tracking-wider">{time}</span>
+            <Clock className="w-3.5 h-3.5" />
+            <span className="font-extrabold tracking-wider">{time}</span>
           </div>
-          <ThemeToggle />
         </div>
       </div>
 

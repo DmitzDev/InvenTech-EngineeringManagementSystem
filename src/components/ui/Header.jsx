@@ -113,8 +113,8 @@ export default function Header() {
           ? 'bg-[#111a2c] shadow-[0_4px_16px_#060a12] border-slate-800/80'
           : 'bg-white/95 backdrop-blur-md shadow-md border-slate-200'
       }`}>
-        {/* Left: Official Logos, University Branding & Mobile Theme Toggle */}
-        <div className="flex items-center gap-1.5 sm:gap-4 z-10 shrink-0 min-w-0">
+        {/* Left: Official Logos & University Branding */}
+        <div className="flex items-center gap-2 sm:gap-4 z-10 shrink-0 min-w-0">
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full p-1 neu-card-sm flex items-center justify-center shrink-0">
               <img
@@ -130,16 +130,6 @@ export default function Header() {
                 className="w-full h-full object-contain"
               />
             </div>
-          </div>
-
-          {/* Mobile Compact Clock: Swapped to left alongside UdD logo with reduced size so it's not too big */}
-          <div className={`flex sm:hidden items-center gap-1 neu-inset px-2 py-1 rounded-lg shrink-0 ${
-            isDark ? '' : 'bg-slate-100 border border-slate-300'
-          }`}>
-            <Clock className={`w-3 h-3 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
-            <span className={`font-mono text-[10.5px] font-bold tracking-tight shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-950 font-black'}`}>
-              {time || '12:00 PM'}
-            </span>
           </div>
 
           <div className="hidden sm:block min-w-0">
@@ -302,22 +292,26 @@ export default function Header() {
           </>
         )}
 
-        {/* Right: Live Telemetry Cluster (Theme Toggle & Desktop Digital Clock Pod) */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 z-10 shrink-0">
-          {/* Desktop/Tablet Digital Clock Pod (Visible on >= sm; on mobile, clock is placed on the left) */}
-          <div className={`hidden sm:flex items-center gap-1 sm:gap-3 neu-inset px-2 sm:px-4 lg:px-5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl shrink-0 max-w-full truncate ${
-            isDark ? '' : 'bg-slate-100 border border-slate-300'
-          }`}>
-            <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
-            <span className={`text-xs sm:text-sm font-medium hidden md:inline truncate ${isDark ? 'text-slate-300' : 'text-slate-700 font-bold'}`}>{date}</span>
-            <span className={`text-xs hidden md:inline ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>|</span>
-            <span className={`font-mono text-xs sm:text-sm font-black tracking-wider shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-950 font-black'}`}>
+        {/* Right: Live Telemetry Cluster (THEME TOGGLE BUTTON - CLOCK TIME) */}
+        <div className="flex items-center gap-1.5 sm:gap-3 z-10 shrink-0">
+          {/* 1. Theme Toggle Pill Button */}
+          <ThemeToggle />
+
+          {/* 2. Independent Boxless Clock Time (Completely free of any container box, sleek typography like INVENTECH) */}
+          <div className="flex items-center gap-1 sm:gap-1.5 select-none shrink-0 font-mono">
+            <Clock className={`w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-700'}`} />
+            <span className={`text-xs sm:text-sm font-medium hidden md:inline truncate ${isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}`}>
+              {date}
+            </span>
+            <span className={`text-xs hidden md:inline ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>
+              |
+            </span>
+            <span className={`text-[11px] sm:text-sm font-black tracking-tight sm:tracking-wider shrink-0 ${
+              isDark ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.45)]' : 'text-slate-950 font-black'
+            }`}>
               {time || '12:00 PM'}
             </span>
           </div>
-
-          {/* Theme Toggle Pill Button (Always visible on the right on mobile and desktop) */}
-          <ThemeToggle />
         </div>
       </header>
 
