@@ -581,16 +581,16 @@ export default function InventoryManager() {
           </div>
         </div>
 
-        {/* Row 2: Sort Selector (A to Z), View Mode Switcher (Table / Grid) & Item Count */}
+        {/* Row 2: Sort Selector (A to Z), Showing Count & View Mode Switcher (Table / Grid) */}
         <div className="flex items-center justify-between gap-2 w-full pt-0.5">
-          <div className="flex items-center gap-2 flex-1 sm:flex-initial min-w-0">
-            {/* Sort Dropdown */}
-            <div className="flex-1 sm:flex-initial flex items-center gap-1.5 px-3 h-9 sm:h-10 rounded-xl neu-inset text-xs font-semibold text-slate-700 dark:text-slate-300 min-w-0">
-              <ArrowUpDown className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            {/* Shortened Sort Dropdown */}
+            <div className="w-32 sm:w-36 shrink-0 flex items-center gap-1 px-2 sm:px-2.5 h-8 sm:h-8.5 rounded-xl neu-inset text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-slate-300 min-w-0">
+              <ArrowUpDown className="w-3 h-3 text-cyan-600 dark:text-cyan-400 shrink-0" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent text-xs text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-1 font-medium w-full truncate"
+                className="bg-transparent text-[11px] sm:text-xs text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-0.5 font-medium w-full truncate"
               >
                 <option value="name-asc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Name: A to Z</option>
                 <option value="name-desc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Name: Z to A</option>
@@ -600,40 +600,40 @@ export default function InventoryManager() {
               </select>
             </div>
 
-            {/* View Mode Toggle (Table / Grid) */}
-            <div className="flex items-center p-0.5 sm:p-1 rounded-xl neu-inset-sm shrink-0">
-              <button
-                type="button"
-                onClick={() => setViewMode('table')}
-                className={`h-8 w-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
-                  viewMode === 'table'
-                    ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold shadow-xs'
-                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-                }`}
-                title="Table View"
-                aria-label="Table View"
-              >
-                <TableIcon className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('grid')}
-                className={`h-8 w-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
-                  viewMode === 'grid'
-                    ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold shadow-xs'
-                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-                }`}
-                title="Card Grid View"
-                aria-label="Card Grid View"
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </button>
+            {/* Showing Count (Swapped to left side next to Sort) */}
+            <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-mono font-semibold shrink-0">
+              Showing <strong className="text-cyan-600 dark:text-cyan-400">{filteredAndSorted.length}</strong> of {inventory.length}
             </div>
           </div>
 
-          {/* Showing Count */}
-          <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-mono font-semibold shrink-0 pr-1">
-            Showing <strong className="text-cyan-600 dark:text-cyan-400">{filteredAndSorted.length}</strong> of {inventory.length}
+          {/* View Mode Toggle (Table / Grid) - (Swapped to right side) */}
+          <div className="flex items-center p-0.5 rounded-xl neu-inset-sm shrink-0">
+            <button
+              type="button"
+              onClick={() => setViewMode('table')}
+              className={`h-7.5 w-7.5 sm:h-8 sm:w-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
+                viewMode === 'table'
+                  ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold shadow-xs'
+                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+              title="Table View"
+              aria-label="Table View"
+            >
+              <TableIcon className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              className={`h-7.5 w-7.5 sm:h-8 sm:w-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
+                viewMode === 'grid'
+                  ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold shadow-xs'
+                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+              title="Card Grid View"
+              aria-label="Card Grid View"
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
@@ -1007,9 +1007,9 @@ export default function InventoryManager() {
       {viewMode === 'grid' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 pb-2">
           {paginatedItems.length === 0 ? (
-            <div className="col-span-full p-10 rounded-3xl bg-[#08101d] border border-slate-800 text-center text-sm text-slate-500 space-y-2">
+            <div className="col-span-full p-10 rounded-3xl bg-slate-50 dark:bg-[#08101d] border border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 space-y-2">
               <PackageCheck className="w-8 h-8 text-slate-600 mx-auto" />
-              <p className="font-bold text-slate-400">No equipment found matching criteria</p>
+              <p className="font-bold text-slate-600 dark:text-slate-400">No equipment found matching criteria</p>
             </div>
           ) : (
             paginatedItems.map((item) => {
@@ -1092,28 +1092,28 @@ export default function InventoryManager() {
                           min={0}
                           value={editStockValue}
                           onChange={(e) => setEditStockValue(e.target.value)}
-                          className="w-12 h-7 text-center font-mono rounded-lg bg-[#050b14] border border-cyan-500 text-cyan-300 text-xs focus:outline-none font-bold"
+                          className="w-12 h-7 text-center font-mono rounded-lg bg-white dark:bg-[#050b14] border border-cyan-500 text-cyan-700 dark:text-cyan-300 text-xs focus:outline-none font-bold"
                           autoFocus
                         />
                         <button
                           onClick={() => saveQuickEditStock(item.id)}
-                          className="p-1 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 cursor-pointer"
+                          className="p-1 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/30 cursor-pointer"
                         >
                           <Check className="w-3 h-3" />
                         </button>
                         <button
                           onClick={cancelQuickEditStock}
-                          className="p-1 rounded bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 cursor-pointer"
+                          className="p-1 rounded bg-rose-500/20 text-rose-600 dark:text-rose-400 hover:bg-rose-500/30 cursor-pointer"
                         >
                           <X className="w-3 h-3" />
                         </button>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1 bg-[#050b14] p-1 rounded-xl border border-slate-800">
+                      <div className="flex items-center gap-1 neu-inset-sm p-1 rounded-xl shrink-0">
                         <button
                           type="button"
                           onClick={() => handleStepStock(item.id, -1)}
-                          className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
+                          className="w-6 h-6 rounded-lg neu-btn-raised text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
                           title="Decrease Stock"
                         >
                           -
@@ -1129,7 +1129,7 @@ export default function InventoryManager() {
                         <button
                           type="button"
                           onClick={() => handleStepStock(item.id, 1)}
-                          className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
+                          className="w-6 h-6 rounded-lg neu-btn-raised text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
                           title="Increase Stock"
                         >
                           +
@@ -1143,16 +1143,16 @@ export default function InventoryManager() {
                         <button
                           type="button"
                           onClick={() => handleRestoreItem(item.id, item.name)}
-                          className="p-1.5 rounded-xl bg-emerald-950 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-500/20 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-xl neu-btn-raised border border-emerald-500/50 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors cursor-pointer"
                           title="Mark Repaired / Restore to Service"
                         >
-                          <Wrench className="w-3.5 h-3.5 text-emerald-400" />
+                          <Wrench className="w-3.5 h-3.5" />
                         </button>
                       )}
                       <button
                         type="button"
                         onClick={() => setQuickViewItem(item)}
-                        className="p-1.5 rounded-xl bg-[#0e172a] border border-slate-700/80 text-slate-300 hover:text-cyan-300 hover:border-cyan-500/50 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-xl neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-300 transition-colors cursor-pointer"
                         title="View Details"
                       >
                         <Eye className="w-3.5 h-3.5" />
@@ -1160,7 +1160,7 @@ export default function InventoryManager() {
                       <button
                         type="button"
                         onClick={() => setSelectedItemToEdit(item)}
-                        className="p-1.5 rounded-xl bg-[#0e172a] border border-slate-700/80 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-xl neu-btn-raised text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors cursor-pointer"
                         title="Edit Details"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
@@ -1168,7 +1168,7 @@ export default function InventoryManager() {
                       <button
                         type="button"
                         onClick={() => handleDelete(item.id, item.name)}
-                        className="p-1.5 rounded-xl bg-[#0e172a] border border-slate-700/80 text-rose-400 hover:bg-rose-500/20 hover:border-rose-500/50 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-xl neu-btn-raised text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 transition-colors cursor-pointer"
                         title="Delete Apparatus"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
