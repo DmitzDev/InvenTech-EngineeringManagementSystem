@@ -280,27 +280,27 @@ export default function AuditReports() {
       </div>
 
       {/* 3. Filter Bar */}
-      <div className="flex items-center justify-between gap-4 flex-wrap bg-[#111a2c] p-3 rounded-2xl border border-slate-800">
+      <div className="flex items-center justify-between gap-4 flex-wrap neu-card p-3 rounded-2xl">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-cyan-400 shrink-0" />
-          <span className="text-xs font-bold text-slate-300">Filter by Laboratory:</span>
+          <Filter className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Filter by Laboratory:</span>
           <select
             value={selectedLabFilter}
             onChange={(e) => setSelectedLabFilter(e.target.value)}
-            className="h-8 px-2.5 rounded-lg neu-inset text-xs font-bold text-slate-100 bg-[#0e1422] border border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
+            className="h-8 px-2.5 rounded-lg neu-inset text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0e1422] border border-slate-300 dark:border-slate-800 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
           >
-            <option value="ALL">All Engineering Labs</option>
-            <option value="DIGITAL">Digital & Microcontroller Lab</option>
-            <option value="ECE">ECE & Communications Lab</option>
-            <option value="CE">Civil Engineering Lab</option>
-            <option value="CHEM">Chemistry Lab</option>
-            <option value="PHYSICS">Physics & Mechanics Lab</option>
+            <option value="ALL" className="bg-white dark:bg-[#111827]">All Engineering Labs</option>
+            <option value="DIGITAL" className="bg-white dark:bg-[#111827]">Digital & Microcontroller Lab</option>
+            <option value="ECE" className="bg-white dark:bg-[#111827]">ECE & Communications Lab</option>
+            <option value="CE" className="bg-white dark:bg-[#111827]">Civil Engineering Lab</option>
+            <option value="CHEM" className="bg-white dark:bg-[#111827]">Chemistry Lab</option>
+            <option value="PHYSICS" className="bg-white dark:bg-[#111827]">Physics & Mechanics Lab</option>
           </select>
         </div>
 
-        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
+        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400">
           <span>Active Report:</span>
-          <strong className="text-cyan-300">
+          <strong className="text-cyan-600 dark:text-cyan-300">
             {activeReportTab === 'MOST_BORROWED'
               ? 'Ranked Apparatus Utilization'
               : activeReportTab === 'INCIDENTS'
@@ -316,7 +316,7 @@ export default function AuditReports() {
         {activeReportTab === 'MOST_BORROWED' && (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#111a2c] text-slate-400 border-b border-slate-800 font-bold">
+              <thead className="bg-slate-100/80 dark:bg-[#070b12] text-slate-700 dark:text-slate-400 border-b border-slate-200 dark:border-white/10 font-bold">
                 <tr>
                   <th className="p-3.5 w-14 text-center">Rank</th>
                   <th className="p-3.5 w-32">Tag Code</th>
@@ -381,7 +381,7 @@ export default function AuditReports() {
         {activeReportTab === 'INCIDENTS' && (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#111a2c] text-slate-400 border-b border-slate-800 font-bold">
+              <thead className="bg-slate-100/80 dark:bg-[#070b12] text-slate-700 dark:text-slate-400 border-b border-slate-200 dark:border-white/10 font-bold">
                 <tr>
                   <th className="p-3.5 w-28">Incident ID</th>
                   <th className="p-3.5 w-32">Timestamp</th>
@@ -391,7 +391,7 @@ export default function AuditReports() {
                   <th className="p-3.5">Custodian Description & Resolution</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-200 dark:divide-white/10">
                 {incidentLogsList.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="p-8 text-center text-slate-500 font-medium">
@@ -463,7 +463,7 @@ export default function AuditReports() {
         {activeReportTab === 'STUDENT_FREQUENCY' && (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#111a2c] text-slate-400 border-b border-slate-800 font-bold">
+              <thead className="bg-slate-100/80 dark:bg-[#070b12] text-slate-700 dark:text-slate-400 border-b border-slate-200 dark:border-white/10 font-bold">
                 <tr>
                   <th className="p-3.5 w-32">Student ID</th>
                   <th className="p-3.5">Student Name</th>
@@ -475,7 +475,7 @@ export default function AuditReports() {
                   <th className="p-3.5 w-32">Last Activity</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-200 dark:divide-white/10">
                 {studentFrequencyRecords.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="p-8 text-center text-slate-500 font-medium">

@@ -395,114 +395,114 @@ export default function InventoryManager() {
       </div>
 
       {/* 2. Glassmorphic KPI Command Strip */}
+      {/* 2. Skeuomorphic KPI Command Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {/* Total Unique Items */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border border-cyan-500/20 shadow-md relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition-all" />
+        <div className="neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400">Total Unique Items</span>
-            <span className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400">
+            <span className="text-xs font-bold text-slate-600 dark:text-slate-400">Total Unique Items</span>
+            <span className="p-1.5 rounded-lg bg-cyan-500/15 text-cyan-600 dark:text-cyan-400">
               <PackageCheck className="w-4 h-4" />
             </span>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-cyan-300">{inventory.length}</span>
-            <span className="text-[10px] text-slate-500 font-medium">types</span>
+            <span className="text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400">{inventory.length}</span>
+            <span className="text-[10px] text-slate-500 font-bold uppercase">types</span>
           </div>
         </div>
 
         {/* Total Available Units */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border border-emerald-500/20 shadow-md relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-all" />
+        <div className="neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400">Total Available Units</span>
-            <span className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400">
+            <span className="text-xs font-bold text-slate-600 dark:text-slate-400">Total Available Units</span>
+            <span className="p-1.5 rounded-lg bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
               <ShieldCheck className="w-4 h-4" />
             </span>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-emerald-300">{totalUnits}</span>
-            <span className="text-[10px] text-slate-500 font-medium">units</span>
+            <span className="text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400">{totalUnits}</span>
+            <span className="text-[10px] text-slate-500 font-bold uppercase">units</span>
           </div>
         </div>
 
         {/* Under Maintenance / Incident Flagged */}
         <div
           onClick={() => setFilterStock(filterStock === 'MAINTENANCE' ? 'ALL' : 'MAINTENANCE')}
-          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#1c0c16] to-[#0d0710] border shadow-md relative overflow-hidden cursor-pointer transition-all ${
+          className={`neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
             filterStock === 'MAINTENANCE'
-              ? 'border-rose-400 ring-2 ring-rose-400/40 bg-rose-950/40'
-              : 'border-rose-500/30 hover:border-rose-400'
+              ? 'border-rose-500 ring-2 ring-rose-500/40 bg-rose-50 dark:bg-rose-950/40'
+              : 'hover:border-rose-400'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-rose-300">Under Maintenance</span>
-            <span className="p-1.5 rounded-lg bg-rose-500/20 text-rose-400">
+            <span className="text-xs font-bold text-rose-600 dark:text-rose-400">Under Maintenance</span>
+            <span className="p-1.5 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-400">
               <Wrench className="w-4 h-4" />
             </span>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-rose-300">{maintenanceCount}</span>
-            <span className="text-[10px] text-rose-400/80 font-medium">for repair</span>
+            <span className="text-2xl font-black font-mono text-rose-600 dark:text-rose-400">{maintenanceCount}</span>
+            <span className="text-[10px] text-rose-500/80 font-bold uppercase">for repair</span>
           </div>
         </div>
 
         {/* Low Stock Alert */}
         <div
           onClick={() => setFilterStock(filterStock === 'LOW_STOCK' ? 'ALL' : 'LOW_STOCK')}
-          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border shadow-md relative overflow-hidden cursor-pointer transition-all ${
+          className={`neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
             filterStock === 'LOW_STOCK'
-              ? 'border-amber-400 ring-2 ring-amber-400/40'
-              : 'border-amber-500/20 hover:border-amber-500/40'
+              ? 'border-amber-500 ring-2 ring-amber-500/40 bg-amber-50 dark:bg-amber-950/40'
+              : 'hover:border-amber-400'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-amber-400">Low Stock (≤3)</span>
-            <span className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400">
+            <span className="text-xs font-bold text-amber-600 dark:text-amber-400">Low Stock (≤3)</span>
+            <span className="p-1.5 rounded-lg bg-amber-500/15 text-amber-600 dark:text-amber-400">
               <AlertTriangle className="w-4 h-4" />
             </span>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-amber-300">{lowCount}</span>
-            <span className="text-[10px] text-slate-500 font-medium">need restock</span>
+            <span className="text-2xl font-black font-mono text-amber-600 dark:text-amber-400">{lowCount}</span>
+            <span className="text-[10px] text-slate-500 font-bold uppercase">restock</span>
           </div>
         </div>
 
         {/* Out of Stock Alert */}
         <div
           onClick={() => setFilterStock(filterStock === 'OUT_OF_STOCK' ? 'ALL' : 'OUT_OF_STOCK')}
-          className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0b1424] to-[#070d18] border shadow-md relative overflow-hidden cursor-pointer transition-all ${
+          className={`neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
             filterStock === 'OUT_OF_STOCK'
-              ? 'border-rose-400 ring-2 ring-rose-400/40'
-              : 'border-rose-500/20 hover:border-rose-500/40'
+              ? 'border-rose-500 ring-2 ring-rose-500/40 bg-rose-50 dark:bg-rose-950/40'
+              : 'hover:border-rose-400'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-rose-400">Out of Stock (0)</span>
-            <span className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400">
+            <span className="text-xs font-bold text-rose-600 dark:text-rose-400">Out of Stock (0)</span>
+            <span className="p-1.5 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-400">
               <X className="w-4 h-4" />
             </span>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-rose-300">{outCount}</span>
-            <span className="text-[10px] text-slate-500 font-medium">depleted</span>
+            <span className="text-2xl font-black font-mono text-rose-600 dark:text-rose-400">{outCount}</span>
+            <span className="text-[10px] text-slate-500 font-bold uppercase">depleted</span>
           </div>
         </div>
       </div>
 
       {/* 3. 5-Department Navigation Tabs with Live Badges */}
-      <div className="p-1.5 rounded-2xl bg-[#08101d] border border-slate-800/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0">
+      <div className="p-1.5 rounded-2xl neu-inset-sm flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0">
         <button
           type="button"
           onClick={() => setFilterLab('ALL')}
-          className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${filterLab === 'ALL'
-              ? 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white shadow-md'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-            }`}
+          className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+            filterLab === 'ALL'
+              ? 'neu-btn-primary shadow-md'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
+          }`}
         >
           <Boxes className="w-3.5 h-3.5" />
           <span>All Departments</span>
-          <span className="px-1.5 py-0.2 rounded-full bg-slate-900/60 text-[10px] font-mono">
+          <span className="px-1.5 py-0.5 rounded-full bg-black/15 dark:bg-white/10 text-[10px] font-mono font-bold">
             {inventory.length}
           </span>
         </button>
@@ -517,14 +517,15 @@ export default function InventoryManager() {
               key={id}
               type="button"
               onClick={() => setFilterLab(id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${isActive
-                  ? 'bg-[#0f1d33] border border-cyan-400/50 text-cyan-300 shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                }`}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                isActive
+                  ? 'neu-card bg-cyan-50 dark:bg-cyan-950/40 border-cyan-500 text-cyan-700 dark:text-cyan-300 shadow-sm font-black'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
+              }`}
             >
               <Icon className="w-3.5 h-3.5" />
               <span>{info.short}</span>
-              <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${isActive ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-800 text-slate-400'}`}>
+              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${isActive ? 'bg-cyan-500/20 text-cyan-700 dark:text-cyan-300' : 'bg-black/10 dark:bg-white/10 text-slate-500 dark:text-slate-400'}`}>
                 {count}
               </span>
             </button>
@@ -543,13 +544,13 @@ export default function InventoryManager() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by equipment name, tag code (e.g. ENG-EQ-...), category, room..."
-              className="w-full h-11 pl-10 pr-10 rounded-2xl bg-[#08101d] border border-slate-800/80 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/60"
+              className="w-full h-11 pl-10 pr-10 rounded-2xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/60"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 p-1"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -558,27 +559,27 @@ export default function InventoryManager() {
 
           {/* Sort Selector */}
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 px-3 h-11 rounded-2xl bg-[#08101d] border border-slate-800/80 text-xs font-semibold text-slate-300 shrink-0">
-              <ArrowUpDown className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <div className="flex items-center gap-1.5 px-3 h-11 rounded-2xl neu-inset text-xs font-semibold text-slate-700 dark:text-slate-300 shrink-0">
+              <ArrowUpDown className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent text-xs text-slate-200 focus:outline-none cursor-pointer pr-2 font-medium"
+                className="bg-transparent text-xs text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-2 font-medium"
               >
-                <option value="name-asc" className="bg-[#08101d] text-white">Name: A to Z</option>
-                <option value="name-desc" className="bg-[#08101d] text-white">Name: Z to A</option>
-                <option value="stock-desc" className="bg-[#08101d] text-white">Stock: High to Low</option>
-                <option value="stock-asc" className="bg-[#08101d] text-white">Stock: Low to High</option>
-                <option value="tag-asc" className="bg-[#08101d] text-white">Tag Code Order</option>
+                <option value="name-asc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Name: A to Z</option>
+                <option value="name-desc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Name: Z to A</option>
+                <option value="stock-desc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Stock: High to Low</option>
+                <option value="stock-asc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Stock: Low to High</option>
+                <option value="tag-asc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Tag Code Order</option>
               </select>
             </div>
 
             {/* View Mode Toggle (Table / Grid) */}
-            <div className="flex items-center p-1 rounded-2xl bg-[#08101d] border border-slate-800/80 shrink-0">
+            <div className="flex items-center p-1 rounded-2xl neu-inset-sm shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode('table')}
-                className={`p-2 rounded-xl transition-all ${viewMode === 'table' ? 'bg-cyan-500/20 text-cyan-300' : 'text-slate-500 hover:text-slate-300'}`}
+                className={`p-2 rounded-xl transition-all cursor-pointer ${viewMode === 'table' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
                 title="Table View"
               >
                 <TableIcon className="w-4 h-4" />
@@ -586,7 +587,7 @@ export default function InventoryManager() {
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-cyan-500/20 text-cyan-300' : 'text-slate-500 hover:text-slate-300'}`}
+                className={`p-2 rounded-xl transition-all cursor-pointer ${viewMode === 'grid' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
                 title="Card Grid View"
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -604,28 +605,29 @@ export default function InventoryManager() {
                 key={cat}
                 type="button"
                 onClick={() => setFilterCategory(cat)}
-                className={`px-2.5 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer ${filterCategory === cat
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                    : 'bg-[#08101d] text-slate-400 border border-slate-800 hover:text-slate-200'
-                  }`}
+                className={`px-2.5 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer ${
+                  filterCategory === cat
+                    ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40'
+                    : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                }`}
               >
                 {cat === 'ALL' ? 'All Categories' : cat}
               </button>
             ))}
           </div>
 
-          <div className="text-xs text-slate-400 font-mono font-semibold shrink-0 pr-1">
-            Showing <strong className="text-cyan-400">{filteredAndSorted.length}</strong> of {inventory.length} apparatus
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-mono font-semibold shrink-0 pr-1">
+            Showing <strong className="text-cyan-600 dark:text-cyan-400">{filteredAndSorted.length}</strong> of {inventory.length} apparatus
           </div>
         </div>
       </div>
 
       {/* 5. Modern Interactive Sortable Table View (Active only when viewMode === 'table') */}
       {viewMode === 'table' && (
-        <div className="rounded-3xl bg-[#08101d] border border-slate-800/80 overflow-x-auto shadow-xl">
+        <div className="neu-card rounded-3xl overflow-x-auto shadow-xl">
           <div className="min-w-[1080px]">
             {/* Table Column Headers with Interactive Sorting */}
-            <div className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_90px] gap-3 px-5 py-3.5 bg-[#050b14] border-b border-slate-800 text-[11px] font-black text-slate-400 uppercase tracking-wider select-none">
+            <div className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_90px] gap-3 px-5 py-3.5 bg-slate-100/80 dark:bg-[#070b12] border-b border-slate-200 dark:border-white/10 text-[11px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider select-none">
               <span className="text-center">#</span>
               
               <button
@@ -685,7 +687,7 @@ export default function InventoryManager() {
                 <p className="text-xs text-slate-600">Try clearing the search query or switching department filters.</p>
               </div>
             ) : (
-              <div className="divide-y divide-slate-800/50 max-h-[calc(100vh-420px)] overflow-y-auto">
+              <div className="divide-y divide-slate-200 dark:divide-white/10 max-h-[calc(100vh-420px)] overflow-y-auto">
                 {paginatedItems.map((item, index) => {
                   const stockBadge = getStockBadge(item.stock);
                   const labBadge = getLabBadgeStyle(item.lab);
@@ -695,10 +697,10 @@ export default function InventoryManager() {
                   return (
                     <div
                       key={item.id}
-                      className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_90px] gap-3 px-5 py-3 items-center hover:bg-slate-900/50 transition-colors group"
+                      className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_90px] gap-3 px-5 py-3 items-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors group"
                     >
                       {/* Index */}
-                      <span className="text-xs font-mono text-slate-500 text-center font-bold">
+                      <span className="text-xs font-mono text-slate-400 dark:text-slate-500 text-center font-bold">
                         {itemIndex}
                       </span>
 
@@ -706,13 +708,13 @@ export default function InventoryManager() {
                       <div className="min-w-0 pr-2">
                         <p
                           onClick={() => setQuickViewItem(item)}
-                          className="text-sm font-bold text-slate-200 truncate group-hover:text-cyan-300 transition-colors cursor-pointer"
+                          className="text-sm font-bold text-slate-900 dark:text-slate-200 truncate group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors cursor-pointer"
                           title={item.name}
                         >
                           {item.name}
                         </p>
-                        <p className="text-[11px] text-slate-500 truncate mt-0.5 font-medium flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-slate-600 shrink-0" />
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5 font-medium flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-cyan-600 dark:text-cyan-400 shrink-0" />
                           <span>{item.room || 'General Engineering Lab'}</span>
                         </p>
                       </div>
@@ -720,7 +722,7 @@ export default function InventoryManager() {
                       {/* Tag Code */}
                       <div className="min-w-0 pr-1">
                         <span
-                          className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/60 px-2.5 py-1 rounded-lg border border-cyan-500/30 truncate block max-w-full text-center"
+                          className="text-xs font-mono font-bold text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-950/60 px-2.5 py-1 rounded-lg border border-cyan-500/30 truncate block max-w-full text-center"
                           title={item.tagCode}
                         >
                           {item.tagCode}
@@ -740,7 +742,7 @@ export default function InventoryManager() {
                       {/* Category */}
                       <div className="min-w-0">
                         <span
-                          className="text-xs text-slate-400 truncate block font-medium"
+                          className="text-xs text-slate-600 dark:text-slate-400 truncate block font-medium"
                           title={item.category || 'Apparatus'}
                         >
                           {item.category || 'Apparatus'}
@@ -750,17 +752,17 @@ export default function InventoryManager() {
                       {/* Condition & Safety */}
                       <div className="space-y-0.5 min-w-0">
                         {item.status === 'Under Maintenance' || (item.condition && item.condition !== 'Functional' && item.condition !== 'Passed Inspection') ? (
-                          <div className="flex items-center gap-1.5 text-[11px] text-rose-400 font-bold">
+                          <div className="flex items-center gap-1.5 text-[11px] text-rose-600 dark:text-rose-400 font-bold">
                             <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.8)] animate-ping shrink-0" />
                             <span className="truncate">Under Maintenance</span>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-semibold">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] shrink-0" />
+                          <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)] shrink-0" />
                             <span className="truncate">{item.condition || 'Functional'}</span>
                           </div>
                         )}
-                        <span className="text-[10px] text-slate-500 truncate block">
+                        <span className="text-[10px] text-slate-500 truncate block font-medium">
                           {item.safetyClearance || 'Safe for Use'}
                         </span>
                       </div>
@@ -774,28 +776,28 @@ export default function InventoryManager() {
                               min={0}
                               value={editStockValue}
                               onChange={(e) => setEditStockValue(e.target.value)}
-                              className="w-12 h-7 text-center font-mono rounded-lg bg-[#050b14] border border-cyan-500 text-cyan-300 text-xs focus:outline-none font-bold"
+                              className="w-12 h-7 text-center font-mono rounded-lg neu-inset text-cyan-700 dark:text-cyan-300 text-xs focus:outline-none font-bold"
                               autoFocus
                             />
                             <button
                               onClick={() => saveQuickEditStock(item.id)}
-                              className="p-1 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 cursor-pointer"
+                              className="p-1 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/30 cursor-pointer"
                             >
                               <Check className="w-3 h-3" />
                             </button>
                             <button
                               onClick={cancelQuickEditStock}
-                              className="p-1 rounded bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 cursor-pointer"
+                              className="p-1 rounded bg-rose-500/20 text-rose-600 dark:text-rose-400 hover:bg-rose-500/30 cursor-pointer"
                             >
                               <X className="w-3 h-3" />
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1 bg-[#050b14] p-1 rounded-xl border border-slate-800">
+                          <div className="flex items-center gap-1 neu-inset-sm p-1 rounded-xl">
                             <button
                               type="button"
                               onClick={() => handleStepStock(item.id, -1)}
-                              className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
+                              className="w-6 h-6 rounded-lg neu-btn-raised text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
                               title="Decrease Stock"
                             >
                               -
@@ -813,7 +815,7 @@ export default function InventoryManager() {
                             <button
                               type="button"
                               onClick={() => handleStepStock(item.id, 1)}
-                              className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
+                              className="w-6 h-6 rounded-lg neu-btn-raised text-slate-700 dark:text-slate-300 flex items-center justify-center font-bold text-xs active:scale-90 transition-transform cursor-pointer"
                               title="Increase Stock"
                             >
                               +
@@ -828,17 +830,17 @@ export default function InventoryManager() {
                           <button
                             type="button"
                             onClick={() => handleRestoreItem(item.id, item.name)}
-                            className="p-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/60 text-emerald-300 hover:bg-emerald-500/20 hover:text-emerald-200 transition-all cursor-pointer flex items-center gap-1 font-bold text-[10px]"
+                            className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-500/60 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-500/20 transition-all cursor-pointer flex items-center gap-1 font-bold text-[10px]"
                             title="Mark Repaired / Restore to Active Service"
                           >
-                            <Wrench className="w-3.5 h-3.5 text-emerald-400" />
+                            <Wrench className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                             <span className="hidden xl:inline">Restore</span>
                           </button>
                         )}
                         <button
                           type="button"
                           onClick={() => setQuickViewItem(item)}
-                          className="p-1.5 rounded-lg bg-[#0e172a] border border-slate-700/80 text-slate-400 hover:text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-300 transition-all cursor-pointer"
                           title="Quick View Specs"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -846,7 +848,7 @@ export default function InventoryManager() {
                         <button
                           type="button"
                           onClick={() => setSelectedItemToEdit(item)}
-                          className="p-1.5 rounded-lg bg-[#0e172a] border border-slate-700/80 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg neu-btn-raised text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-all cursor-pointer"
                           title="Edit Details"
                         >
                           <Edit3 className="w-3.5 h-3.5" />
@@ -854,7 +856,7 @@ export default function InventoryManager() {
                         <button
                           type="button"
                           onClick={() => handleDelete(item.id, item.name)}
-                          className="p-1.5 rounded-lg bg-[#0e172a] border border-slate-700/80 text-rose-400 hover:bg-rose-500/20 hover:border-rose-500/50 transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg neu-btn-raised text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 transition-all cursor-pointer"
                           title="Delete Equipment"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -1050,27 +1052,27 @@ export default function InventoryManager() {
 
       {/* 7. Fast Instant Pagination Toolbar */}
       {filteredAndSorted.length > 0 && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 pb-4 border-t border-slate-800/80">
-          <div className="flex items-center gap-3 text-xs text-slate-400">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 pb-4 border-t border-slate-300 dark:border-white/10">
+          <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
             <span>
-              Showing <strong className="text-cyan-400 font-mono">
+              Showing <strong className="text-cyan-600 dark:text-cyan-400 font-mono">
                 {pageSize === 'ALL' ? 1 : (currentPage - 1) * Number(pageSize) + 1}
-              </strong> - <strong className="text-cyan-400 font-mono">
+              </strong> - <strong className="text-cyan-600 dark:text-cyan-400 font-mono">
                 {pageSize === 'ALL' ? filteredAndSorted.length : Math.min(currentPage * Number(pageSize), filteredAndSorted.length)}
-              </strong> of <strong className="text-cyan-400 font-mono">{filteredAndSorted.length}</strong> apparatus
+              </strong> of <strong className="text-cyan-600 dark:text-cyan-400 font-mono">{filteredAndSorted.length}</strong> apparatus
             </span>
 
-            <div className="flex items-center gap-1.5 bg-[#08101d] px-2.5 py-1 rounded-xl border border-slate-800">
+            <div className="flex items-center gap-1.5 neu-inset px-2.5 py-1 rounded-xl">
               <span className="text-[11px] text-slate-500 font-bold">Rows:</span>
               <select
                 value={pageSize}
                 onChange={(e) => setPageSize(e.target.value === 'ALL' ? 'ALL' : Number(e.target.value))}
-                className="bg-transparent text-xs text-slate-200 focus:outline-none cursor-pointer pr-1 font-semibold"
+                className="bg-transparent text-xs text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-1 font-semibold"
               >
-                <option value={25}>25 / page</option>
-                <option value={50}>50 / page</option>
-                <option value={100}>100 / page</option>
-                <option value="ALL">All (335)</option>
+                <option value={25} className="bg-white dark:bg-[#111827]">25 / page</option>
+                <option value={50} className="bg-white dark:bg-[#111827]">50 / page</option>
+                <option value={100} className="bg-white dark:bg-[#111827]">100 / page</option>
+                <option value="ALL" className="bg-white dark:bg-[#111827]">All (335)</option>
               </select>
             </div>
           </div>
@@ -1081,15 +1083,15 @@ export default function InventoryManager() {
                 type="button"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                className="px-3 py-1.5 rounded-xl bg-[#08101d] border border-slate-800 text-xs font-bold text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1 cursor-pointer"
+                className="px-3 py-1.5 rounded-xl neu-btn-raised text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1 cursor-pointer"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
                 <span className="hidden xs:inline">Prev</span>
               </button>
 
-              <div className="flex items-center gap-1 px-2 text-xs font-mono font-bold text-slate-300">
-                <span className="text-cyan-400">{currentPage}</span>
-                <span className="text-slate-600">/</span>
+              <div className="flex items-center gap-1 px-2 text-xs font-mono font-bold text-slate-700 dark:text-slate-300">
+                <span className="text-cyan-600 dark:text-cyan-400">{currentPage}</span>
+                <span className="text-slate-400">/</span>
                 <span>{totalPages}</span>
               </div>
 
@@ -1097,7 +1099,7 @@ export default function InventoryManager() {
                 type="button"
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                className="px-3 py-1.5 rounded-xl bg-[#08101d] border border-slate-800 text-xs font-bold text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1 cursor-pointer"
+                className="px-3 py-1.5 rounded-xl neu-btn-raised text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1 cursor-pointer"
               >
                 <span className="hidden xs:inline">Next</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -1109,37 +1111,37 @@ export default function InventoryManager() {
 
       {/* 8. Quick View Full Specifications Modal */}
       {quickViewItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in select-none">
-          <div className="w-full max-w-lg rounded-3xl bg-[#081220] border border-cyan-500/40 p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in select-none">
+          <div className="w-full max-w-lg rounded-3xl neu-card p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center">
                   <Eye className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white leading-tight">{quickViewItem.name}</h3>
-                  <span className="text-xs font-mono text-cyan-300 font-bold">{quickViewItem.tagCode}</span>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white leading-tight">{quickViewItem.name}</h3>
+                  <span className="text-xs font-mono text-cyan-600 dark:text-cyan-300 font-bold">{quickViewItem.tagCode}</span>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setQuickViewItem(null)}
-                className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+                className="p-2 rounded-xl neu-btn-raised text-slate-500 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-2.5 text-xs text-slate-300">
-              <div className="p-3 rounded-2xl bg-[#050b14] border border-slate-800 space-y-2">
-                <div className="flex justify-between"><span className="text-slate-500">Department:</span> <strong className="text-slate-200">{LAB_MAP[quickViewItem.lab]?.name} ({quickViewItem.lab})</strong></div>
-                <div className="flex justify-between"><span className="text-slate-500">Room:</span> <strong className="text-cyan-300">{quickViewItem.room || 'General Engineering'}</strong></div>
-                <div className="flex justify-between"><span className="text-slate-500">Category:</span> <strong className="text-slate-200">{quickViewItem.category || 'Apparatus'}</strong></div>
-                <div className="flex justify-between"><span className="text-slate-500">Available Stock:</span> <strong className="text-emerald-400 font-mono text-sm">{quickViewItem.stock} {quickViewItem.unit}s</strong></div>
-                <div className="flex justify-between"><span className="text-slate-500">Condition:</span> <strong className="text-emerald-400">{quickViewItem.condition || 'Functional'}</strong></div>
-                <div className="flex justify-between"><span className="text-slate-500">Safety Clearance:</span> <strong className="text-cyan-400">{quickViewItem.safetyClearance || 'Safe for Use'}</strong></div>
+            <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
+              <div className="p-3 rounded-2xl neu-inset space-y-2">
+                <div className="flex justify-between"><span className="text-slate-500">Department:</span> <strong className="text-slate-900 dark:text-slate-200">{LAB_MAP[quickViewItem.lab]?.name} ({quickViewItem.lab})</strong></div>
+                <div className="flex justify-between"><span className="text-slate-500">Room:</span> <strong className="text-cyan-600 dark:text-cyan-300">{quickViewItem.room || 'General Engineering'}</strong></div>
+                <div className="flex justify-between"><span className="text-slate-500">Category:</span> <strong className="text-slate-900 dark:text-slate-200">{quickViewItem.category || 'Apparatus'}</strong></div>
+                <div className="flex justify-between"><span className="text-slate-500">Available Stock:</span> <strong className="text-emerald-600 dark:text-emerald-400 font-mono text-sm">{quickViewItem.stock} {quickViewItem.unit}s</strong></div>
+                <div className="flex justify-between"><span className="text-slate-500">Condition:</span> <strong className="text-emerald-600 dark:text-emerald-400">{quickViewItem.condition || 'Functional'}</strong></div>
+                <div className="flex justify-between"><span className="text-slate-500">Safety Clearance:</span> <strong className="text-cyan-600 dark:text-cyan-400">{quickViewItem.safetyClearance || 'Safe for Use'}</strong></div>
                 {quickViewItem.chedReq && (
-                  <div className="flex justify-between"><span className="text-slate-500">CHED Requirement:</span> <strong className="text-amber-300 font-mono">{quickViewItem.chedReq}</strong></div>
+                  <div className="flex justify-between"><span className="text-slate-500">CHED Requirement:</span> <strong className="text-amber-600 dark:text-amber-300 font-mono">{quickViewItem.chedReq}</strong></div>
                 )}
               </div>
             </div>

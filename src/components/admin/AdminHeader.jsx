@@ -55,7 +55,7 @@ export default function AdminHeader({ onToggleMobileMenu, isMobileMenuOpen, onLo
         </button>
 
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white uppercase truncate">
+          <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white uppercase whitespace-nowrap shrink-0">
             INVENTECH <span className="text-cyan-600 dark:text-cyan-400">CONSOLE</span>
           </span>
           <span className="hidden sm:inline-flex items-center font-mono text-xs font-black px-2 py-0.5 rounded-md border border-slate-300 dark:border-white/15 neu-inset-sm">
