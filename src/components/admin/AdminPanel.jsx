@@ -33,7 +33,7 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="admin-shell h-screen w-full max-w-full bg-[#e2e8f0] dark:bg-[#0a0e17] text-slate-900 dark:text-slate-100 flex flex-col overflow-hidden relative select-none">
+    <div className="admin-shell h-screen h-[100dvh] w-full max-w-full bg-[#e2e8f0] dark:bg-[#0a0e17] text-slate-900 dark:text-slate-100 flex flex-col overflow-hidden relative select-none">
       {/* Top Navbar with Navigation Tabs & InvenTech Brand */}
       <AdminHeader
         activeTab={activeTab}
