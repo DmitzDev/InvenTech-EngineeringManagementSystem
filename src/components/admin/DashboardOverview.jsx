@@ -191,37 +191,37 @@ export default function DashboardOverview({ onNavigateTab }) {
   return (
     <div className="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 max-w-[1720px] mx-auto select-none font-sans">
       {/* 1. Sleek Compact Command Bar */}
-      <section className="neu-card p-3 sm:p-4 rounded-2xl flex items-center justify-between gap-3">
+      <section className="neu-card p-3 sm:p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
         <div className="flex items-center gap-2.5">
-          <h1 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
+          <h1 className="text-sm sm:text-base md:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
             Laboratory Telemetry & Borrowing Console
           </h1>
         </div>
 
         {/* Quick Nav Shortcuts */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             type="button"
             onClick={() => onNavigateTab && onNavigateTab('inventory')}
-            className="neu-btn-raised min-h-[40px] px-3.5 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
+            className="neu-btn-raised min-h-[36px] sm:min-h-[40px] px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
           >
             <Package className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-            <span className="hidden sm:inline">Inventory</span>
+            <span>Inventory</span>
           </button>
           <button
             type="button"
             onClick={() => onNavigateTab && onNavigateTab('reservations')}
-            className="neu-btn-raised min-h-[40px] px-3.5 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
+            className="neu-btn-raised min-h-[36px] sm:min-h-[40px] px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
           >
             <Calendar className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-            <span className="hidden sm:inline">Bookings</span>
+            <span>Bookings</span>
           </button>
         </div>
       </section>
 
       {/* 2. Primary 4-Card Industrial KPI Grid (The 4 iconic colors: Cyan, Indigo, Amber, Emerald) */}
       <section aria-label="Key Laboratory Telemetry Metrics">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
           <StatsCard
             icon={Package}
             label="Total Inventory"
@@ -266,11 +266,11 @@ export default function DashboardOverview({ onNavigateTab }) {
         className="neu-card p-2.5 sm:p-3 rounded-2xl"
         aria-label="Table Search and Filters"
       >
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5 sm:gap-3">
-          {/* Left Cluster: Narrowed Search Bar + Adjacent 4 Filter Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2.5 flex-1 min-w-0">
-            {/* Recessed Skeuomorphic Search Box (Reduced width) */}
-            <div className="relative w-full sm:w-56 md:w-64 lg:w-72 shrink-0">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5">
+          {/* Top Row on mobile (< lg): Search Box + View Switcher */}
+          <div className="flex items-center gap-2 w-full lg:w-auto">
+            {/* Recessed Skeuomorphic Search Box */}
+            <div className="relative flex-1 lg:w-56 xl:w-64 shrink-0">
               <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
               <input
                 type="text"
@@ -292,66 +292,96 @@ export default function DashboardOverview({ onNavigateTab }) {
               )}
             </div>
 
-            {/* 4 Category Filter Buttons (Itabi sa search bar) */}
-            <div className="flex items-center gap-1.5 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-0.5 no-scrollbar flex-1 min-w-0">
-              {[
-                { id: 'ALL', label: 'All Transactions' },
-                { id: 'ACTIVE', label: 'Active Loans' },
-                { id: 'OVERDUE', label: 'Overdue' },
-                { id: 'LOCKERS', label: 'Locker Apparatus' },
-              ].map((btn) => {
-                const isActive = filterMode === btn.id;
-                return (
-                  <button
-                    key={btn.id}
-                    type="button"
-                    onClick={() => setFilterMode(btn.id)}
-                    className={`h-9 sm:h-10 px-3 sm:px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
-                      isActive
-                        ? isDark ? 'bg-white text-slate-950 font-black shadow-md' : 'bg-slate-900 text-white font-black shadow-md'
-                        : 'neu-btn-raised text-slate-700 dark:text-slate-300'
-                    }`}
-                    aria-pressed={isActive}
-                  >
-                    {btn.label}
-                  </button>
-                );
-              })}
-
-              {/* Sub-Lab Filter Chips when viewing Locker Apparatus */}
-              {filterMode === 'LOCKERS' && (
-                <>
-                  <span className="text-slate-400 dark:text-slate-600 px-1 font-mono shrink-0">|</span>
-                  {[
-                    { id: 'ALL', label: 'All' },
-                    { id: 'CE', label: 'Civil' },
-                    { id: 'CHEM', label: 'Chem' },
-                    { id: 'DIGITAL', label: 'Digital' },
-                    { id: 'ECE', label: 'ECE' },
-                  ].map((lab) => {
-                    const isSubActive = subLabFilter === lab.id;
-                    return (
-                      <button
-                        key={lab.id}
-                        type="button"
-                        onClick={() => setSubLabFilter(lab.id)}
-                        className={`h-8 sm:h-9 px-2.5 sm:px-3 rounded-lg text-xs font-mono font-bold uppercase shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
-                          isSubActive
-                            ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-bold shadow-sm'
-                            : 'neu-btn-raised text-slate-700 dark:text-slate-300'
-                        }`}
-                      >
-                        {lab.label}
-                      </button>
-                    );
-                  })}
-                </>
-              )}
+            {/* Mobile View Switcher (< lg) */}
+            <div className="flex lg:hidden items-center gap-1 p-1 rounded-xl neu-inset-sm shrink-0">
+              <button
+                type="button"
+                onClick={() => setViewMode('grid')}
+                className={`h-8 w-8 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
+                  viewMode === 'grid'
+                    ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+                title="Cards View"
+                aria-label="Cards View"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('table')}
+                className={`h-8 w-8 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
+                  viewMode === 'table'
+                    ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+                title="Table View"
+                aria-label="Table View"
+              >
+                <List className="w-4 h-4" />
+              </button>
             </div>
           </div>
 
-          {/* View Mode Switcher: Cards vs Table - ONLY ICONS, NO TEXT */}
-          <div className="flex items-center gap-1 p-1 rounded-xl neu-inset-sm shrink-0 self-end lg:self-auto">
+          {/* 4 Category Filter Buttons (Beside search bar on lg, full-width swipeable touch-rail on mobile) */}
+          <div className="flex items-center gap-1.5 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-0.5 no-scrollbar flex-1 min-w-0">
+            {[
+              { id: 'ALL', label: 'All Transactions' },
+              { id: 'ACTIVE', label: 'Active Loans' },
+              { id: 'OVERDUE', label: 'Overdue' },
+              { id: 'LOCKERS', label: 'Locker Apparatus' },
+            ].map((btn) => {
+              const isActive = filterMode === btn.id;
+              return (
+                <button
+                  key={btn.id}
+                  type="button"
+                  onClick={() => setFilterMode(btn.id)}
+                  className={`h-9 sm:h-10 px-3 sm:px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
+                    isActive
+                      ? isDark ? 'bg-white text-slate-950 font-black shadow-md' : 'bg-slate-900 text-white font-black shadow-md'
+                      : 'neu-btn-raised text-slate-700 dark:text-slate-300'
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  {btn.label}
+                </button>
+              );
+            })}
+
+            {/* Sub-Lab Filter Chips when viewing Locker Apparatus */}
+            {filterMode === 'LOCKERS' && (
+              <>
+                <span className="text-slate-400 dark:text-slate-600 px-1 font-mono shrink-0">|</span>
+                {[
+                  { id: 'ALL', label: 'All' },
+                  { id: 'CE', label: 'Civil' },
+                  { id: 'CHEM', label: 'Chem' },
+                  { id: 'DIGITAL', label: 'Digital' },
+                  { id: 'ECE', label: 'ECE' },
+                ].map((lab) => {
+                  const isSubActive = subLabFilter === lab.id;
+                  return (
+                    <button
+                      key={lab.id}
+                      type="button"
+                      onClick={() => setSubLabFilter(lab.id)}
+                      className={`h-8 sm:h-9 px-2.5 sm:px-3 rounded-lg text-xs font-mono font-bold uppercase shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
+                        isSubActive
+                          ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-bold shadow-sm'
+                          : 'neu-btn-raised text-slate-700 dark:text-slate-300'
+                      }`}
+                    >
+                      {lab.label}
+                    </button>
+                  );
+                })}
+              </>
+            )}
+          </div>
+
+          {/* Desktop View Switcher (Visible on lg+) */}
+          <div className="hidden lg:flex items-center gap-1 p-1 rounded-xl neu-inset-sm shrink-0">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
