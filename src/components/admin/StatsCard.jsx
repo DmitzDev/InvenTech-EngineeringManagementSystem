@@ -29,7 +29,7 @@ export default function StatsCard({
 
   return (
     <article
-      className="neu-card neu-card-hover p-4 sm:p-5 rounded-2xl flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150"
+      className="neu-card neu-card-hover p-3 sm:p-3.5 rounded-xl flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150"
       aria-label={`${label}: ${value}`}
     >
       <div>
@@ -37,35 +37,35 @@ export default function StatsCard({
         <div className="flex items-center justify-between gap-2">
           {Icon ? (
             <div
-              className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${iconAccent}`}
+              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center shrink-0 ${iconAccent}`}
               aria-hidden="true"
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
           ) : <div />}
           {sysTag && (
-            <span className="font-mono text-xs font-bold text-slate-500 tracking-wider">
+            <span className="font-mono text-[10px] font-bold text-slate-500 tracking-wider">
               {sysTag}
             </span>
           )}
         </div>
 
         {/* Clean Label */}
-        <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mt-2.5">
+        <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mt-2">
           {label}
         </h3>
 
-        {/* Recessed Gauge with Large Value */}
-        <div className="neu-inset-sm px-3.5 py-2 rounded-xl mt-2 flex items-baseline justify-between">
+        {/* Recessed Gauge with Value */}
+        <div className="neu-inset-sm px-3 py-1.5 rounded-lg mt-1.5 flex items-baseline justify-between">
           <div
-            className="text-2xl sm:text-3xl font-black font-mono tracking-tight text-slate-900 dark:text-white"
+            className="text-lg sm:text-xl font-extrabold font-mono tracking-tight text-slate-900 dark:text-white"
             role="status"
             aria-live="polite"
           >
             {value}
           </div>
           {trend && (
-            <span className={`px-2 py-0.5 rounded-md text-[11px] font-bold tracking-tight shrink-0 ${badgeClasses}`}>
+            <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold tracking-tight shrink-0 ${badgeClasses}`}>
               {trend}
             </span>
           )}
@@ -73,7 +73,7 @@ export default function StatsCard({
       </div>
 
       {subtitle && (
-        <div className="mt-2.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400 truncate">
+        <div className="mt-2 text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 truncate">
           {subtitle}
         </div>
       )}

@@ -124,26 +124,26 @@ export default function TransactionHistory() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 overflow-y-auto h-full max-w-[1600px] mx-auto pb-12 select-none">
+    <div className="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 overflow-y-auto h-full max-w-[1600px] mx-auto pb-10 select-none">
       {/* Header */}
-      <div className="border-b-2 border-slate-300 dark:border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="border-b-2 border-slate-300 dark:border-white/10 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+          <h1 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
             Transaction History & Clearance Logs
           </h1>
-          <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">
             Audit trail of student borrowing slips, returns, apparatus inspection, and incidents
           </p>
         </div>
 
         {/* Actions: CSV Export & Clear Test Data */}
-        <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
           <button
             type="button"
             onClick={handleExportCSV}
-            className="neu-btn-raised px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 transition-all flex items-center gap-2 shadow-xs shrink-0 cursor-pointer active:scale-95"
+            className="neu-btn-raised px-3 py-1.5 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 transition-all flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer active:scale-95"
           >
-            <FileSpreadsheet className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+            <FileSpreadsheet className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
             <span>Export Audit Log (CSV)</span>
           </button>
 
@@ -156,10 +156,10 @@ export default function TransactionHistory() {
                   showToast('All test transactions cleared.', 'info');
                 }
               }}
-              className="neu-btn-danger px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer active:scale-95"
+              className="neu-btn-danger px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer active:scale-95"
               title="Reset all test debug logs"
             >
-              <Trash2 className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+              <Trash2 className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
               <span>Reset Test Data</span>
             </button>
           )}
@@ -167,35 +167,35 @@ export default function TransactionHistory() {
       </div>
 
       {/* KPI Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Total Transactions</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white">{activeTransactions.length}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Total Transactions</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white">{activeTransactions.length}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-cyan-500/40 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">In Laboratory</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300">{borrowedCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">In Laboratory</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300">{borrowedCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-emerald-500/40 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Cleared / Returned</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300">{returnedCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Cleared / Returned</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300">{returnedCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-rose-500/40 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">Incidents Logged</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-rose-600 dark:text-rose-300">{incidentCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-rose-500/40 space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">Incidents Logged</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-rose-600 dark:text-rose-300">{incidentCount}</p>
         </div>
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
         <div className="flex-1 relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Tx ID, student name, instructor, course code, apparatus..."
-            className="w-full h-11 pl-10 pr-4 rounded-xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
+            className="w-full h-9 pl-9 pr-3 rounded-lg neu-inset text-xs text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
           />
         </div>
 
@@ -209,9 +209,9 @@ export default function TransactionHistory() {
             <button
               key={st.id}
               onClick={() => setFilterStatus(st.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
                 filterStatus === st.id
-                  ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40 shadow-sm font-bold'
+                  ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40 shadow-xs'
                   : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -223,11 +223,11 @@ export default function TransactionHistory() {
 
       {/* Transaction List */}
       {filtered.length === 0 ? (
-        <div className="p-10 rounded-2xl neu-card text-center space-y-3">
-          <ScrollText className="w-10 h-10 mx-auto text-slate-400 dark:text-slate-600" />
+        <div className="p-8 rounded-xl neu-card text-center space-y-2">
+          <ScrollText className="w-8 h-8 mx-auto text-slate-400 dark:text-slate-600" />
           <div>
-            <p className="text-base font-bold text-slate-900 dark:text-slate-200">No Transactions Found</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm font-bold text-slate-900 dark:text-slate-200">No Transactions Found</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               {search || filterStatus !== 'ALL'
                 ? 'No records match your search filter.'
                 : 'Borrowing slips generated from the Kiosk terminal will be logged here.'}
