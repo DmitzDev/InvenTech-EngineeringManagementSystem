@@ -161,7 +161,7 @@ export default function AuditReports() {
   };
 
   return (
-    <div className="p-3 sm:p-5 lg:p-6 max-w-7xl mx-auto w-full space-y-5 select-none">
+    <div className="p-3 sm:p-5 lg:p-6 max-w-7xl mx-auto w-full space-y-5 select-none overflow-x-hidden">
       {/* 1. Header with Export & Print Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-slate-300 dark:border-white/10">
         <div>
@@ -196,11 +196,11 @@ export default function AuditReports() {
       </div>
 
       {/* 2. Top Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
         {/* Most Borrowed Metric */}
         <div
           onClick={() => setActiveReportTab('MOST_BORROWED')}
-          className={`p-3 rounded-xl cursor-pointer transition-all border ${
+          className={`p-3 rounded-xl cursor-pointer transition-all border min-w-0 ${
             activeReportTab === 'MOST_BORROWED'
               ? 'neu-inset border-cyan-500/80 bg-cyan-950/20 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
               : 'neu-card border-slate-800 hover:border-slate-700'

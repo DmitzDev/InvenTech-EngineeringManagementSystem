@@ -331,7 +331,7 @@ export default function InventoryManager() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto h-full max-w-[1600px] mx-auto select-none">
+    <div className="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 overflow-y-auto overflow-x-hidden h-full max-w-[1600px] w-full mx-auto select-none">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-4 right-4 z-50 bg-cyan-950 border border-cyan-500/50 text-cyan-200 px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2 text-xs font-bold animate-slide-up">
@@ -529,16 +529,16 @@ export default function InventoryManager() {
 
       {/* 4. Multi-Filter Toolbar & Search */}
       <div className="space-y-2.5">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-          {/* Search Input with Clear Button */}
-          <div className="flex-1 relative">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+          {/* Search Input with Clear Button (Full-width on mobile) */}
+          <div className="flex-1 relative w-full md:max-w-lg">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by equipment name, tag code (e.g. ENG-EQ-...), category, room..."
-              className="w-full h-11 pl-10 pr-10 rounded-2xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/60"
+              className="w-full h-10 pl-10 pr-10 rounded-xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/60"
             />
             {search && (
               <button
@@ -551,9 +551,9 @@ export default function InventoryManager() {
             )}
           </div>
 
-          {/* Sort Selector */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 px-3 h-11 rounded-2xl neu-inset text-xs font-semibold text-slate-700 dark:text-slate-300 shrink-0">
+          {/* Sort Selector & View Mode Switcher */}
+          <div className="flex items-center gap-2 self-end md:self-auto flex-wrap">
+            <div className="flex items-center gap-1.5 px-3 h-10 rounded-xl neu-inset text-xs font-semibold text-slate-700 dark:text-slate-300 shrink-0">
               <ArrowUpDown className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
               <select
                 value={sortBy}
@@ -569,11 +569,11 @@ export default function InventoryManager() {
             </div>
 
             {/* View Mode Toggle (Table / Grid) */}
-            <div className="flex items-center p-1 rounded-2xl neu-inset-sm shrink-0">
+            <div className="flex items-center p-1 rounded-xl neu-inset-sm shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode('table')}
-                className={`p-2 rounded-xl transition-all cursor-pointer ${viewMode === 'table' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                className={`p-2 rounded-lg transition-all cursor-pointer ${viewMode === 'table' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
                 title="Table View"
               >
                 <TableIcon className="w-4 h-4" />
@@ -581,7 +581,7 @@ export default function InventoryManager() {
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-xl transition-all cursor-pointer ${viewMode === 'grid' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                className={`p-2 rounded-lg transition-all cursor-pointer ${viewMode === 'grid' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
                 title="Card Grid View"
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -590,8 +590,8 @@ export default function InventoryManager() {
           </div>
         </div>
 
-        {/* Category & Stock Filter Chips */}
-        <div className="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar py-0.5">
+        {/* Category & Stock Filter Chips (Swipeable touch-rail) */}
+        <div className="flex items-center justify-between gap-2 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain no-scrollbar py-0.5">
           <div className="flex items-center gap-1.5 shrink-0">
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">Category:</span>
             {CATEGORIES.map((cat) => (
@@ -599,7 +599,7 @@ export default function InventoryManager() {
                 key={cat}
                 type="button"
                 onClick={() => setFilterCategory(cat)}
-                className={`px-2.5 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer ${
                   filterCategory === cat
                     ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40'
                     : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -618,7 +618,9 @@ export default function InventoryManager() {
 
       {/* 5. Modern Interactive Sortable Table View (Active only when viewMode === 'table') */}
       {viewMode === 'table' && (
-        <div className="neu-card rounded-3xl overflow-x-auto shadow-xl">
+        <div className="space-y-3">
+          {/* Desktop & Tablets (>= 768px): Modular Table */}
+          <div className="hidden md:block neu-card rounded-3xl overflow-x-auto shadow-xl">
           <div className="min-w-[1080px]">
             {/* Table Column Headers with Interactive Sorting */}
             <div className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_160px] gap-3 px-5 py-3.5 bg-slate-100/80 dark:bg-[#070b12] border-b border-slate-200 dark:border-white/10 text-[11px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider select-none">
@@ -863,6 +865,120 @@ export default function InventoryManager() {
             )}
           </div>
         </div>
+
+        {/* Mobile Phones (< 768px): Responsive Tactile Inventory Cards */}
+        <div className="block md:hidden space-y-3">
+          {paginatedItems.length === 0 ? (
+            <div className="p-8 rounded-2xl neu-card text-center text-xs text-slate-500 space-y-2">
+              <PackageCheck className="w-8 h-8 text-slate-500 mx-auto" />
+              <p className="font-bold text-slate-400">No equipment found matching criteria</p>
+            </div>
+          ) : (
+            paginatedItems.map((item) => {
+              const stockBadge = getStockBadge(item.stock);
+
+              return (
+                <article
+                  key={`mob-inv-${item.id}`}
+                  className="neu-card p-3.5 rounded-2xl space-y-2.5 select-none"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-bold text-slate-800 dark:text-cyan-300 neu-inset-sm px-2 py-0.5 rounded">
+                      {item.tagCode || `EQ-${item.id}`}
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider border ${stockBadge.border} ${stockBadge.bg} ${stockBadge.color}`}
+                    >
+                      {item.stock} {stockBadge.label}
+                    </span>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
+                      {item.name}
+                    </h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      {item.category} • {item.lab || item.department || 'General Lab'}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-wrap text-xs">
+                    <span className="font-mono text-[11px] font-bold text-slate-600 dark:text-slate-300 neu-inset-sm px-2 py-0.5 rounded-md">
+                      {item.storageBin || item.location || 'Bin A-1'}
+                    </span>
+                    <span className={`text-[11px] font-semibold ${item.status === 'Under Maintenance' ? 'text-rose-500' : 'text-emerald-500'}`}>
+                      {item.status === 'Under Maintenance' ? 'Under Maintenance' : (item.condition || 'Functional')}
+                    </span>
+                  </div>
+
+                  {/* Stock Stepper & Quick Actions with minimum 44px touch height */}
+                  <div className="pt-2 border-t border-slate-200 dark:border-white/10 flex items-center justify-between gap-2 flex-wrap">
+                    <div className="flex items-center gap-1 neu-inset-sm p-1 rounded-xl shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustStock(item.id, -1)}
+                        disabled={Number(item.stock) <= 0}
+                        className="w-8 h-8 rounded-lg neu-btn-raised flex items-center justify-center font-bold text-sm text-slate-700 dark:text-slate-300 disabled:opacity-30 cursor-pointer active:scale-95"
+                        title="Decrease Stock"
+                      >
+                        -
+                      </button>
+                      <span className="w-8 text-center font-mono font-bold text-xs text-slate-900 dark:text-white">
+                        {item.stock}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustStock(item.id, 1)}
+                        className="w-8 h-8 rounded-lg neu-btn-raised flex items-center justify-center font-bold text-sm text-slate-700 dark:text-slate-300 cursor-pointer active:scale-95"
+                        title="Increase Stock"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 ml-auto">
+                      {(item.status === 'Under Maintenance' || (item.condition && item.condition !== 'Functional' && item.condition !== 'Passed Inspection')) && (
+                        <button
+                          type="button"
+                          onClick={() => handleRestoreItem(item.id, item.name)}
+                          className="neu-btn-raised min-h-[44px] px-3 py-1.5 rounded-xl border border-emerald-500/60 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center gap-1 active:scale-95 cursor-pointer"
+                        >
+                          <Wrench className="w-3.5 h-3.5" />
+                          <span>Restore</span>
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setQuickViewItem(item)}
+                        className="neu-btn-raised min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-slate-600 dark:text-slate-400 flex items-center justify-center active:scale-95 cursor-pointer"
+                        title="View Specs"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedItemToEdit(item)}
+                        className="neu-btn-raised min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-cyan-600 dark:text-cyan-400 flex items-center justify-center active:scale-95 cursor-pointer"
+                        title="Edit"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(item.id, item.name)}
+                        className="neu-btn-raised min-h-[44px] min-w-[44px] p-2.5 rounded-xl text-rose-600 dark:text-rose-400 flex items-center justify-center active:scale-95 cursor-pointer"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              );
+            })
+          )}
+        </div>
+      </div>
       )}
 
       {/* 6. Card Grid View (Active only when viewMode === 'grid') */}
