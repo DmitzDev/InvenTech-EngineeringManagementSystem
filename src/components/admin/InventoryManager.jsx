@@ -341,21 +341,21 @@ export default function InventoryManager() {
       )}
 
       {/* 1. Header Command Strip */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] shrink-0">
+          <div className="w-11 h-11 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs shrink-0">
             <Boxes className="w-6 h-6 stroke-[2.5]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight uppercase">
                 Master Laboratory Inventory
               </h1>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 font-bold">
-                UdD-RM-LM-01A-02
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-100 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-200 border-2 border-slate-200 dark:border-slate-700 font-bold">
+                [SYS.CAT // 01]
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5">
               Live central catalog controlling all 5 Engineering Laboratory departments & kiosk borrowings
             </p>
           </div>
@@ -891,19 +891,19 @@ export default function InventoryManager() {
               return (
                 <div
                   key={item.id}
-                  className={`p-4 rounded-3xl bg-[#08101d] border hover:shadow-xl hover:-translate-y-0.5 transition-all space-y-3.5 shadow-md flex flex-col justify-between group ${
-                    isM ? 'border-rose-500/40 bg-rose-950/10' : 'border-slate-800/90 hover:border-cyan-500/50'
+                  className={`p-4 rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-150 space-y-3.5 shadow-xs flex flex-col justify-between group ${
+                    isM ? 'border-rose-400 dark:border-rose-900/60 bg-rose-50/50 dark:bg-rose-950/20' : ''
                   }`}
                 >
                   <div className="space-y-2.5">
                     {/* Top Row: Tag Code & Department */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/80 px-2.5 py-0.5 rounded-lg border border-cyan-500/30 truncate">
+                      <span className="text-xs font-mono font-bold text-slate-900 dark:text-cyan-300 bg-slate-100 dark:bg-[#0B0F19] px-2.5 py-0.5 rounded-lg border-2 border-slate-200 dark:border-slate-700 truncate">
                         {item.tagCode}
                       </span>
                       <div className="flex items-center gap-1.5">
                         {isM && (
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-800 dark:text-rose-300 border border-rose-400 animate-pulse">
                             MAINTENANCE
                           </span>
                         )}
@@ -917,31 +917,31 @@ export default function InventoryManager() {
                     <div>
                       <h3
                         onClick={() => setQuickViewItem(item)}
-                        className="text-sm font-bold text-slate-100 group-hover:text-cyan-300 transition-colors cursor-pointer leading-snug line-clamp-2"
+                        className="text-base font-bold text-slate-950 dark:text-white group-hover:text-cyan-700 dark:group-hover:text-cyan-400 transition-colors cursor-pointer leading-snug line-clamp-2"
                       >
                         {item.name}
                       </h3>
-                      <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                      <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
                         {item.description || 'Institutional engineering laboratory apparatus.'}
                       </p>
                     </div>
 
                     {/* Specifications Pill Grid */}
                     <div className="grid grid-cols-2 gap-1.5 pt-1 text-[11px]">
-                      <div className="px-2 py-1 rounded-lg bg-[#050b14] border border-slate-800/80 text-slate-400 truncate flex items-center gap-1">
-                        <MapPin className="w-3 h-3 text-cyan-400 shrink-0" />
+                      <div className="px-2 py-1 rounded-lg bg-slate-50 dark:bg-[#0B0F19] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 truncate flex items-center gap-1 font-semibold">
+                        <MapPin className="w-3 h-3 text-cyan-600 dark:text-cyan-400 shrink-0" />
                         <span className="truncate">{item.room || 'Engineering Lab'}</span>
                       </div>
-                      <div className="px-2 py-1 rounded-lg bg-[#050b14] border border-slate-800/80 text-slate-300 truncate flex items-center gap-1 font-medium">
+                      <div className="px-2 py-1 rounded-lg bg-slate-50 dark:bg-[#0B0F19] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 truncate flex items-center gap-1 font-medium">
                         {isM ? (
                           <>
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0 shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
-                            <span className="truncate text-rose-400 font-bold">For Repair</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0 shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
+                            <span className="truncate text-rose-700 dark:text-rose-400 font-bold">For Repair</span>
                           </>
                         ) : (
                           <>
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
-                            <span className="truncate">{item.condition || 'Functional'}</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+                            <span className="truncate font-semibold">{item.condition || 'Functional'}</span>
                           </>
                         )}
                       </div>
@@ -949,7 +949,7 @@ export default function InventoryManager() {
                   </div>
 
                   {/* Bottom Command Strip */}
-                  <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                  <div className="pt-3 border-t-2 border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
                     {/* Stock Stepper */}
                     {isQuickEditing ? (
                       <div className="flex items-center gap-1">
