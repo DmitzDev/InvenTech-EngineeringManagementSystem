@@ -72,9 +72,9 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
         </div>
 
         {/* Mobile View (< md) Center: INVEN [LOGO] TECH */}
-        <div className="flex md:hidden items-center justify-center gap-1 shrink-0 absolute left-1/2 -translate-x-1/2 pointer-events-none z-0">
+        <div className="flex md:hidden items-center justify-center gap-1.5 shrink-0 absolute left-1/2 -translate-x-1/2 pointer-events-none z-0">
           <span
-            className="text-xs sm:text-sm font-black tracking-tight uppercase leading-none"
+            className="text-sm sm:text-base font-black tracking-tight uppercase leading-none"
             style={{ color: isDark ? '#f97316' : '#0284c7' }}
           >
             INVEN
@@ -82,10 +82,10 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
           <img
             src="/images/inventech_logo.png"
             alt="InvenTech Logo"
-            className="w-6 h-6 object-contain drop-shadow-sm shrink-0"
+            className="w-7 h-7 sm:w-8 sm:h-8 object-contain drop-shadow-sm shrink-0"
           />
           <span
-            className="text-xs sm:text-sm font-black tracking-tight uppercase leading-none"
+            className="text-sm sm:text-base font-black tracking-tight uppercase leading-none"
             style={{ color: isDark ? '#38bdf8' : '#ea580c' }}
           >
             TECH
