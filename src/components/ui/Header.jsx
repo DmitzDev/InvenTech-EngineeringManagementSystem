@@ -113,8 +113,8 @@ export default function Header() {
           ? 'bg-[#111a2c] shadow-[0_4px_16px_#060a12] border-slate-800/80'
           : 'bg-white/95 backdrop-blur-md shadow-md border-slate-200'
       }`}>
-        {/* Left: Official Logos & University Branding */}
-        <div className="flex items-center gap-2 sm:gap-4 z-10 shrink-0 min-w-0">
+        {/* Left: Official Logos, University Branding & Mobile Theme Toggle */}
+        <div className="flex items-center gap-1.5 sm:gap-4 z-10 shrink-0 min-w-0">
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full p-1 neu-card-sm flex items-center justify-center shrink-0">
               <img
@@ -132,6 +132,11 @@ export default function Header() {
             </div>
           </div>
 
+          {/* Mobile Theme Toggle: Placed beside UdD logo on mobile (< sm) so it never collides with center INVENTECH */}
+          <div className="block sm:hidden shrink-0">
+            <ThemeToggle />
+          </div>
+
           <div className="hidden sm:block min-w-0">
             <div className="text-sm sm:text-base font-extrabold text-slate-100 tracking-tight truncate">
               <span>Universidad de Dagupan</span>
@@ -147,7 +152,7 @@ export default function Header() {
             Dark Mode:  INVEN is Sky Blue (#38bdf8), TECH is Orange (#fb923c) */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 sm:gap-3 md:gap-4 select-none z-30 max-w-[48%] sm:max-w-none justify-center">
           <span
-            className={`keep-brand keep-brand-inven text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
+            className={`keep-brand keep-brand-inven text-xs sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
               isDark
                 ? 'text-sky-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.75)]'
                 : 'text-orange-600 drop-shadow-sm font-black'
@@ -191,7 +196,7 @@ export default function Header() {
           </button>
 
           <span
-            className={`keep-brand keep-brand-tech text-sm sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
+            className={`keep-brand keep-brand-tech text-xs sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] font-black tracking-wider sm:tracking-widest transition-colors duration-500 font-sans pointer-events-none ${
               isDark
                 ? 'text-orange-400 drop-shadow-[0_0_16px_rgba(251,146,60,0.55)]'
                 : 'text-sky-600 drop-shadow-sm font-black'
@@ -292,10 +297,12 @@ export default function Header() {
           </>
         )}
 
-        {/* Right: Live Telemetry Cluster (Theme Toggle & Digital Clock Pod) */}
+        {/* Right: Live Telemetry Cluster (Desktop Theme Toggle & Digital Clock Pod) */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 z-10 shrink-0">
-          {/* Manual Theme Toggle Pill Button */}
-          <ThemeToggle />
+          {/* Desktop/Tablet Theme Toggle Pill Button (Hidden on mobile where it lives on the left beside UdD logo) */}
+          <div className="hidden sm:block shrink-0">
+            <ThemeToggle />
+          </div>
 
           {/* Live Digital Clock Pod (Clean, Spacious, Uncluttered) */}
           <div className={`flex items-center gap-1 sm:gap-3 neu-inset px-2 sm:px-4 lg:px-5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl shrink-0 max-w-full truncate ${
