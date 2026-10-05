@@ -115,29 +115,30 @@ export default function ReservationManager() {
         </div>
 
         {/* Print Summary Info */}
-        <div className="flex items-center gap-2 text-xs text-slate-400 bg-[#091120] border border-slate-800 px-3.5 py-2 rounded-xl shrink-0">
-          <Printer className="w-4 h-4 text-cyan-400 shrink-0" />
+        {/* Print Summary Info */}
+        <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 neu-card px-3.5 py-2 rounded-xl shrink-0 font-medium">
+          <Printer className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
           <span>Slips format: Official A4 Template</span>
         </div>
       </div>
 
       {/* KPI Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-[#091120] border border-slate-800 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Bookings</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-100">{totalCount}</p>
+        <div className="p-3.5 sm:p-4 rounded-2xl neu-card space-y-0.5 shadow-sm">
+          <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Total Bookings</span>
+          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-slate-100">{totalCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-[#091120] border border-amber-500/30 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Pending Review</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-300">{pendingCount}</p>
+        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-amber-500/40 space-y-0.5 shadow-sm">
+          <span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Pending Review</span>
+          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-600 dark:text-amber-300">{pendingCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-[#091120] border border-cyan-500/30 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">Prepared</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-cyan-300">{preparedCount}</p>
+        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-cyan-500/40 space-y-0.5 shadow-sm">
+          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Prepared</span>
+          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300">{preparedCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-[#091120] border border-emerald-500/30 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Completed</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-300">{completedCount}</p>
+        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-emerald-500/40 space-y-0.5 shadow-sm">
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Completed</span>
+          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300">{completedCount}</p>
         </div>
       </div>
 
@@ -152,7 +153,7 @@ export default function ReservationManager() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by student name, reference ID, apparatus, course code, instructor..."
-              className="w-full h-11 pl-10 pr-4 rounded-xl bg-[#091120] border border-slate-800 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
+              className="w-full h-11 pl-10 pr-4 rounded-xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
             />
           </div>
 
@@ -164,8 +165,8 @@ export default function ReservationManager() {
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
                   statusFilter === st
-                    ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                    : 'bg-[#091120] text-slate-400 border border-slate-800 hover:text-slate-200'
+                    ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40 shadow-sm font-bold'
+                    : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 {st === 'ALL' ? 'All Status' : st.charAt(0) + st.slice(1).toLowerCase()}
@@ -177,7 +178,7 @@ export default function ReservationManager() {
         {/* Lab Department Filter Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
           <span className="text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1 pr-1 shrink-0">
-            <Filter className="w-3 h-3 text-cyan-400" />
+            <Filter className="w-3 h-3 text-cyan-600 dark:text-cyan-400" />
             Lab:
           </span>
           <button
@@ -185,8 +186,8 @@ export default function ReservationManager() {
             onClick={() => setLabFilter('ALL')}
             className={`px-3 py-1.5 rounded-lg font-semibold transition-all shrink-0 cursor-pointer ${
               labFilter === 'ALL'
-                ? 'bg-slate-700 text-white border border-slate-600'
-                : 'bg-[#091120] text-slate-400 border border-slate-800 hover:text-slate-300'
+                ? 'neu-btn-primary shadow-sm font-bold'
+                : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             All Departments
@@ -204,8 +205,8 @@ export default function ReservationManager() {
               onClick={() => setLabFilter(lab.id)}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all shrink-0 cursor-pointer ${
                 labFilter === lab.id
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50'
-                  : 'bg-[#091120] text-slate-400 border border-slate-800 hover:text-slate-300'
+                  ? 'neu-btn-raised bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 border-cyan-500/50 font-bold'
+                  : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               {lab.label}
@@ -217,11 +218,11 @@ export default function ReservationManager() {
       {/* Reservations Card List */}
       <div className="space-y-3.5">
         {filteredReservations.length === 0 ? (
-          <div className="p-10 rounded-2xl bg-[#091120] border border-slate-800 text-center space-y-3">
-            <Calendar className="w-10 h-10 mx-auto text-slate-600" />
+          <div className="p-10 rounded-2xl neu-card text-center space-y-3">
+            <Calendar className="w-10 h-10 mx-auto text-slate-400 dark:text-slate-600" />
             <div>
-              <p className="text-base font-bold text-slate-200">No Reservations Matching Filters</p>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-base font-bold text-slate-900 dark:text-slate-200">No Reservations Matching Filters</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 {search || statusFilter !== 'ALL' || labFilter !== 'ALL'
                   ? 'Try clearing your search query or selecting "All Status".'
                   : 'Student advance bookings submitted from the Kiosk or Kairo AI will appear here.'}
@@ -236,19 +237,19 @@ export default function ReservationManager() {
             return (
               <div
                 key={res.id}
-                className="p-4 sm:p-5 rounded-2xl bg-[#091120] border border-slate-800 space-y-4 hover:border-slate-700 transition-all duration-200 shadow-md"
+                className="p-4 sm:p-5 rounded-2xl neu-card space-y-4 hover:border-slate-400 dark:hover:border-slate-700 transition-all duration-200 shadow-md"
               >
                 {/* Header Row */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-200 dark:border-white/10 pb-3">
                   <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="text-xs sm:text-sm font-bold font-mono text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/30">
+                    <span className="text-xs sm:text-sm font-bold font-mono text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/30">
                       {res.id}
                     </span>
                     <span className={`text-xs font-bold px-3 py-1 rounded-full border ${statusInfo.bg} ${statusInfo.color} ${statusInfo.border}`}>
                       {statusInfo.label}
                     </span>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
                     Submitted: {res.createdAt || 'Recent'}
                   </span>
                 </div>
@@ -256,65 +257,65 @@ export default function ReservationManager() {
                 {/* 3-Column Info Cards (Responsive for Touch and Mobile) */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {/* Reserving Student & Group */}
-                  <div className="p-3.5 rounded-xl bg-[#060b14] border border-slate-800/80 space-y-1.5">
-                    <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
-                      <User className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="p-3.5 rounded-xl neu-inset space-y-1.5">
+                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
+                      <User className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
                       Student Details
                     </span>
-                    <p className="text-sm sm:text-base font-bold text-slate-100 uppercase truncate">
+                    <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase truncate">
                       {res.studentName}
                     </p>
-                    <p className="text-xs text-slate-300">
-                      <strong className="text-cyan-300">{res.program}</strong> • Course:{' '}
-                      <strong className="text-white font-mono">{res.courseCode || 'N/A'}</strong> • Group{' '}
-                      <strong className="text-white font-mono">{res.groupNo || '1'}</strong>
+                    <p className="text-xs text-slate-600 dark:text-slate-300">
+                      <strong className="text-cyan-700 dark:text-cyan-300">{res.program}</strong> • Course:{' '}
+                      <strong className="text-slate-900 dark:text-white font-mono">{res.courseCode || 'N/A'}</strong> • Group{' '}
+                      <strong className="text-slate-900 dark:text-white font-mono">{res.groupNo || '1'}</strong>
                     </p>
-                    <p className="text-xs text-slate-400">
-                      Faculty: <strong className="text-slate-300">{res.instructor || 'Engr. Jin Benir Macaranas'}</strong>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Faculty: <strong className="text-slate-700 dark:text-slate-300">{res.instructor || 'Engr. Jin Benir Macaranas'}</strong>
                     </p>
                   </div>
 
                   {/* Reserved Apparatus */}
-                  <div className="p-3.5 rounded-xl bg-[#060b14] border border-slate-800/80 space-y-1.5">
-                    <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
-                      <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="p-3.5 rounded-xl neu-inset space-y-1.5">
+                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
+                      <Layers className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
                       Requested Apparatus
                     </span>
-                    <p className="text-sm sm:text-base font-bold text-cyan-300 line-clamp-1">{res.name}</p>
-                    <div className="flex items-center gap-2 text-xs text-slate-300 flex-wrap">
-                      <span className="bg-cyan-500/15 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30 font-mono font-bold">
+                    <p className="text-sm sm:text-base font-bold text-cyan-700 dark:text-cyan-300 line-clamp-1">{res.name}</p>
+                    <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 flex-wrap">
+                      <span className="bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30 font-mono font-bold">
                         {res.tagCode}
                       </span>
                       <span>
-                        Qty: <strong className="text-white font-mono">{res.qty}</strong> {res.unit || 'unit'}s
+                        Qty: <strong className="text-slate-900 dark:text-white font-mono">{res.qty}</strong> {res.unit || 'unit'}s
                       </span>
                     </div>
                   </div>
 
                   {/* Schedule Details */}
-                  <div className="p-3.5 rounded-xl bg-[#060b14] border border-slate-800/80 space-y-1.5">
-                    <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
-                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="p-3.5 rounded-xl neu-inset space-y-1.5">
+                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
+                      <Clock className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
                       Scheduled Time
                     </span>
-                    <div className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-slate-100">
-                      <Calendar className="w-4 h-4 text-cyan-400" />
+                    <div className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100">
+                      <Calendar className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                       <span className="font-mono">{res.reserveDate}</span>
                     </div>
-                    <p className="text-xs sm:text-sm font-bold text-cyan-300 font-mono bg-cyan-950/40 px-2.5 py-1 rounded border border-cyan-500/20 inline-block">
+                    <p className="text-xs sm:text-sm font-bold text-cyan-700 dark:text-cyan-300 font-mono bg-cyan-500/10 dark:bg-cyan-950/40 px-2.5 py-1 rounded border border-cyan-500/20 inline-block">
                       {res.timeSlot}
                     </p>
                   </div>
                 </div>
 
                 {/* Actions Row */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/80">
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-200 dark:border-white/10">
                   <div className="flex items-center gap-2 flex-wrap">
                     {statusKey === 'PENDING' && (
                       <button
                         type="button"
                         onClick={() => updateReservationStatus(res.id, 'PREPARED')}
-                        className="px-4 py-2.5 rounded-xl bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/25 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
+                        className="px-4 py-2.5 rounded-xl neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-500/25 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         <span>Mark Prepared</span>
@@ -324,7 +325,7 @@ export default function ReservationManager() {
                       <button
                         type="button"
                         onClick={() => updateReservationStatus(res.id, 'COMPLETED')}
-                        className="px-4 py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/25 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
+                        className="px-4 py-2.5 rounded-xl neu-btn-raised bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/25 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         <span>Mark Completed</span>
@@ -334,7 +335,7 @@ export default function ReservationManager() {
                       <button
                         type="button"
                         onClick={() => cancelReservation(res.id)}
-                        className="px-4 py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
+                        className="px-4 py-2.5 rounded-xl neu-btn-raised text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
                       >
                         <XCircle className="w-4 h-4" />
                         <span>Cancel Booking</span>
@@ -346,7 +347,7 @@ export default function ReservationManager() {
                   <button
                     type="button"
                     onClick={() => handlePrepareAndPrint(res)}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer"
+                    className="px-5 py-2.5 rounded-xl neu-btn-primary text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer"
                   >
                     <Printer className="w-4 h-4" />
                     <span>Print Official Slip (A4)</span>
