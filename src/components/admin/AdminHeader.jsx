@@ -57,16 +57,50 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
   return (
     <header className="w-full max-w-full sticky top-0 z-50 border-b-2 border-slate-300 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md select-none shrink-0 shadow-xs overflow-hidden">
       {/* Primary Top Row (Brand on Left, Tabs in Center on Desktop md+, Controls on Right) */}
-      <div className="h-14 md:h-16 px-3 sm:px-4 md:px-6 flex items-center justify-between gap-2 md:gap-4 w-full">
-        {/* 1. Left Cluster: Independent Brand Logo & InvenTech Title (Clean, Zero Crowding) */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 min-w-0">
+      <div className="h-14 md:h-16 px-2.5 sm:px-4 md:px-6 flex items-center justify-between gap-2 md:gap-4 w-full relative">
+        {/* 1. Left Cluster: */}
+        {/* Mobile View (< md): UDD Logo + ADMIN Badge */}
+        <div className="flex md:hidden items-center gap-1.5 shrink-0 z-10">
+          <img
+            src="/images/udd_logo.png"
+            alt="UDD Logo"
+            className="w-7 h-7 object-contain drop-shadow-sm shrink-0"
+          />
+          <span className="inline-flex px-1.5 py-0.5 rounded text-[10px] font-black tracking-wider uppercase bg-slate-900 text-white dark:bg-white/15 dark:text-white border border-slate-700 dark:border-white/20 shadow-xs shrink-0">
+            ADMIN
+          </span>
+        </div>
+
+        {/* Mobile View (< md) Center: INVEN [LOGO] TECH */}
+        <div className="flex md:hidden items-center justify-center gap-1 shrink-0 absolute left-1/2 -translate-x-1/2 pointer-events-none z-0">
+          <span
+            className="text-xs sm:text-sm font-black tracking-tight uppercase leading-none"
+            style={{ color: isDark ? '#f97316' : '#0284c7' }}
+          >
+            INVEN
+          </span>
           <img
             src="/images/inventech_logo.png"
             alt="InvenTech Logo"
-            className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 object-contain drop-shadow-sm transition-transform hover:scale-105 shrink-0"
+            className="w-6 h-6 object-contain drop-shadow-sm shrink-0"
+          />
+          <span
+            className="text-xs sm:text-sm font-black tracking-tight uppercase leading-none"
+            style={{ color: isDark ? '#38bdf8' : '#ea580c' }}
+          >
+            TECH
+          </span>
+        </div>
+
+        {/* Desktop View (>= md): InvenTech Logo + INVENTECH Title + ADMIN Badge */}
+        <div className="hidden md:flex items-center gap-2 sm:gap-2.5 shrink-0 min-w-0">
+          <img
+            src="/images/inventech_logo.png"
+            alt="InvenTech Logo"
+            className="w-8 h-8 md:w-9 md:h-9 object-contain drop-shadow-sm transition-transform hover:scale-105 shrink-0"
           />
           <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-            <span className="text-sm sm:text-base md:text-lg font-black tracking-tight uppercase whitespace-nowrap leading-none flex items-center">
+            <span className="text-base md:text-lg font-black tracking-tight uppercase whitespace-nowrap leading-none flex items-center">
               <span
                 className={isDark ? 'text-[#f97316]' : 'text-[#0284c7]'}
                 style={{ color: isDark ? '#f97316' : '#0284c7' }}
