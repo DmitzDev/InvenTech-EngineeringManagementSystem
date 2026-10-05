@@ -622,7 +622,7 @@ export default function InventoryManager() {
         <div className="neu-card rounded-3xl overflow-x-auto shadow-xl">
           <div className="min-w-[1080px]">
             {/* Table Column Headers with Interactive Sorting */}
-            <div className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_90px] gap-3 px-5 py-3.5 bg-slate-100/80 dark:bg-[#070b12] border-b border-slate-200 dark:border-white/10 text-[11px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider select-none">
+            <div className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_160px] gap-3 px-5 py-3.5 bg-slate-100/80 dark:bg-[#070b12] border-b border-slate-200 dark:border-white/10 text-[11px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider select-none">
               <span className="text-center">#</span>
               
               <button
@@ -692,7 +692,7 @@ export default function InventoryManager() {
                   return (
                     <div
                       key={item.id}
-                      className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_90px] gap-3 px-5 py-3 items-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors group"
+                      className="grid grid-cols-[45px_minmax(220px,2fr)_minmax(180px,1.2fr)_120px_130px_140px_110px_160px] gap-3 px-5 py-3 items-center hover:bg-black/5 dark:hover:bg-white/5 transition-colors group"
                     >
                       {/* Index */}
                       <span className="text-xs font-mono text-slate-400 dark:text-slate-500 text-center font-bold">
@@ -763,7 +763,7 @@ export default function InventoryManager() {
                       </div>
 
                       {/* Interactive Stock Stepper */}
-                      <div className="flex items-center justify-center">
+                      <div className="flex items-center justify-center shrink-0">
                         {isQuickEditing ? (
                           <div className="flex items-center gap-1">
                             <input
@@ -788,7 +788,7 @@ export default function InventoryManager() {
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center gap-1 neu-inset-sm p-1 rounded-xl">
+                          <div className="flex items-center gap-1 neu-inset-sm p-1 rounded-xl shrink-0">
                             <button
                               type="button"
                               onClick={() => handleStepStock(item.id, -1)}
@@ -820,16 +820,16 @@ export default function InventoryManager() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex items-center justify-center gap-1.5">
+                      <div className="flex items-center justify-center gap-1.5 shrink-0">
                         {(item.status === 'Under Maintenance' || (item.condition && item.condition !== 'Functional' && item.condition !== 'Passed Inspection')) && (
                           <button
                             type="button"
                             onClick={() => handleRestoreItem(item.id, item.name)}
-                            className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-500/60 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-500/20 transition-all cursor-pointer flex items-center gap-1 font-bold text-[10px]"
+                            className="px-2 py-1 rounded-lg neu-btn-raised border border-emerald-500/60 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 transition-all cursor-pointer flex items-center gap-1 font-bold text-[10px] shrink-0"
                             title="Mark Repaired / Restore to Active Service"
                           >
-                            <Wrench className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                            <span className="hidden xl:inline">Restore</span>
+                            <Wrench className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                            <span>Restore</span>
                           </button>
                         )}
                         <button
