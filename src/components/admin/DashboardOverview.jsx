@@ -261,119 +261,124 @@ export default function DashboardOverview({ onNavigateTab }) {
         </div>
       </section>
 
-      {/* 3. Search & Horizontal Swipeable Filter Rail (Borrow Kiosk Parity) */}
+      {/* 3. Search & Horizontal Filter Bar */}
       <section
-        className="neu-card p-3 sm:p-4 rounded-2xl space-y-2.5 sm:space-y-3"
+        className="neu-card p-2.5 sm:p-3 rounded-2xl"
         aria-label="Table Search and Filters"
       >
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
-          {/* Recessed Skeuomorphic Search Box (Full width on mobile, max-w-lg on desktop) */}
-          <div className="relative w-full md:max-w-lg">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search student ID, item, or bin..."
-              className="w-full h-10 text-xs sm:text-sm pl-10 pr-9 rounded-xl neu-inset text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-white/30"
-              aria-label="Search records"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-slate-500 hover:text-slate-950 dark:hover:text-white cursor-pointer active:scale-90"
-                aria-label="Clear search"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5 sm:gap-3">
+          {/* Left Cluster: Narrowed Search Bar + Adjacent 4 Filter Buttons */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2.5 flex-1 min-w-0">
+            {/* Recessed Skeuomorphic Search Box (Reduced width) */}
+            <div className="relative w-full sm:w-56 md:w-64 lg:w-72 shrink-0">
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search student ID, item, or bin..."
+                className="w-full h-9 sm:h-10 text-xs sm:text-sm pl-9 pr-8 rounded-xl neu-inset text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-white/30"
+                aria-label="Search records"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-slate-500 hover:text-slate-950 dark:hover:text-white cursor-pointer active:scale-90"
+                  aria-label="Clear search"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+
+            {/* 4 Category Filter Buttons (Itabi sa search bar) */}
+            <div className="flex items-center gap-1.5 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-0.5 no-scrollbar flex-1 min-w-0">
+              {[
+                { id: 'ALL', label: 'All Transactions' },
+                { id: 'ACTIVE', label: 'Active Loans' },
+                { id: 'OVERDUE', label: 'Overdue' },
+                { id: 'LOCKERS', label: 'Locker Apparatus' },
+              ].map((btn) => {
+                const isActive = filterMode === btn.id;
+                return (
+                  <button
+                    key={btn.id}
+                    type="button"
+                    onClick={() => setFilterMode(btn.id)}
+                    className={`h-9 sm:h-10 px-3 sm:px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
+                      isActive
+                        ? isDark ? 'bg-white text-slate-950 font-black shadow-md' : 'bg-slate-900 text-white font-black shadow-md'
+                        : 'neu-btn-raised text-slate-700 dark:text-slate-300'
+                    }`}
+                    aria-pressed={isActive}
+                  >
+                    {btn.label}
+                  </button>
+                );
+              })}
+
+              {/* Sub-Lab Filter Chips when viewing Locker Apparatus */}
+              {filterMode === 'LOCKERS' && (
+                <>
+                  <span className="text-slate-400 dark:text-slate-600 px-1 font-mono shrink-0">|</span>
+                  {[
+                    { id: 'ALL', label: 'All' },
+                    { id: 'CE', label: 'Civil' },
+                    { id: 'CHEM', label: 'Chem' },
+                    { id: 'DIGITAL', label: 'Digital' },
+                    { id: 'ECE', label: 'ECE' },
+                  ].map((lab) => {
+                    const isSubActive = subLabFilter === lab.id;
+                    return (
+                      <button
+                        key={lab.id}
+                        type="button"
+                        onClick={() => setSubLabFilter(lab.id)}
+                        className={`h-8 sm:h-9 px-2.5 sm:px-3 rounded-lg text-xs font-mono font-bold uppercase shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
+                          isSubActive
+                            ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-bold shadow-sm'
+                            : 'neu-btn-raised text-slate-700 dark:text-slate-300'
+                        }`}
+                      >
+                        {lab.label}
+                      </button>
+                    );
+                  })}
+                </>
+              )}
+            </div>
           </div>
 
-          {/* View Mode Switcher: Cards vs Table */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl neu-inset-sm shrink-0 self-end md:self-auto">
+          {/* View Mode Switcher: Cards vs Table - ONLY ICONS, NO TEXT */}
+          <div className="flex items-center gap-1 p-1 rounded-xl neu-inset-sm shrink-0 self-end lg:self-auto">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              className={`min-h-[34px] sm:min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
+              className={`h-8 w-8 sm:h-9 sm:w-9 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'grid'
-                  ? 'neu-btn-primary shadow-sm'
+                  ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
+              title="Cards View"
+              aria-label="Cards View"
             >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>Cards</span>
+              <LayoutGrid className="w-4 h-4" />
             </button>
             <button
               type="button"
               onClick={() => setViewMode('table')}
-              className={`min-h-[34px] sm:min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
+              className={`h-8 w-8 sm:h-9 sm:w-9 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'table'
-                  ? 'neu-btn-primary shadow-sm'
+                  ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
+              title="Table View"
+              aria-label="Table View"
             >
-              <List className="w-3.5 h-3.5" />
-              <span>Table</span>
+              <List className="w-4 h-4" />
             </button>
           </div>
-        </div>
-
-        {/* Horizontal Swipeable Category Pill Rail */}
-        <div className="flex items-center gap-2 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain pb-1 pt-0.5 no-scrollbar">
-          {[
-            { id: 'ALL', label: 'All Transactions' },
-            { id: 'ACTIVE', label: 'Active Loans' },
-            { id: 'OVERDUE', label: 'Overdue' },
-            { id: 'LOCKERS', label: 'Locker Apparatus' },
-          ].map((btn) => {
-            const isActive = filterMode === btn.id;
-            return (
-              <button
-                key={btn.id}
-                type="button"
-                onClick={() => setFilterMode(btn.id)}
-                className={`min-h-[42px] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer active:scale-95 transition-all ${
-                  isActive
-                    ? isDark ? 'bg-white text-slate-950 font-black shadow-md' : 'bg-slate-900 text-white font-black shadow-md'
-                    : 'neu-btn-raised text-slate-700 dark:text-slate-300'
-                }`}
-                aria-pressed={isActive}
-              >
-                {btn.label}
-              </button>
-            );
-          })}
-
-          {/* Sub-Lab Filter Chips when viewing Locker Apparatus */}
-          {filterMode === 'LOCKERS' && (
-            <>
-              <span className="text-slate-400 dark:text-slate-600 px-1 font-mono">|</span>
-              {[
-                { id: 'ALL', label: 'All Labs', color: 'slate' },
-                { id: 'CE', label: 'Civil', color: 'amber' },
-                { id: 'CHEM', label: 'Chem', color: 'emerald' },
-                { id: 'DIGITAL', label: 'Digital', color: 'cyan' },
-                { id: 'ECE', label: 'ECE', color: 'indigo' },
-              ].map((lab) => {
-                const isSubActive = subLabFilter === lab.id;
-                return (
-                  <button
-                    key={lab.id}
-                    type="button"
-                    onClick={() => setSubLabFilter(lab.id)}
-                    className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold uppercase shrink-0 cursor-pointer active:scale-95 transition-all ${
-                      isSubActive
-                        ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-bold shadow-sm'
-                        : 'neu-btn-raised text-slate-700 dark:text-slate-300'
-                    }`}
-                  >
-                    {lab.label}
-                  </button>
-                );
-              })}
-            </>
-          )}
         </div>
       </section>
 

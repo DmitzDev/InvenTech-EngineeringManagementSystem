@@ -33,36 +33,20 @@ export default function StatsCard({
       aria-label={`${label}: ${value}`}
     >
       <div className="min-w-0">
-        {/* Top Header: Icon & optional tag */}
-        <div className="flex items-center justify-between gap-2">
-          {Icon ? (
-            <div
-              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center shrink-0 ${iconAccent}`}
-              aria-hidden="true"
-            >
-              <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </div>
-          ) : <div />}
-          {sysTag && (
-            <span className="font-mono text-[10px] font-bold text-slate-500 tracking-wider truncate">
-              {sysTag}
-            </span>
-          )}
-        </div>
-
-        {/* Clean Label */}
-        <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mt-2 truncate">
-          {label}
-        </h3>
-
-        {/* Recessed Gauge with Value */}
-        <div className="neu-inset-sm px-3 py-1.5 rounded-lg mt-1.5 flex items-baseline justify-between gap-1.5 min-w-0">
-          <div
-            className="text-lg sm:text-xl font-extrabold font-mono tracking-tight text-slate-900 dark:text-white truncate min-w-0"
-            role="status"
-            aria-live="polite"
-          >
-            {value}
+        {/* Top Header: Icon then text */}
+        <div className="flex items-center justify-between gap-2 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
+            {Icon && (
+              <div
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center shrink-0 ${iconAccent}`}
+                aria-hidden="true"
+              >
+                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </div>
+            )}
+            <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 truncate">
+              {label}
+            </h3>
           </div>
           {trend && (
             <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold tracking-tight shrink-0 ${badgeClasses}`}>
@@ -70,10 +54,21 @@ export default function StatsCard({
             </span>
           )}
         </div>
+
+        {/* Digit directly on card (No nested box) */}
+        <div className="mt-2.5 flex items-baseline justify-between min-w-0">
+          <div
+            className="text-xl sm:text-2xl font-black font-mono tracking-tight text-slate-900 dark:text-white truncate min-w-0"
+            role="status"
+            aria-live="polite"
+          >
+            {value}
+          </div>
+        </div>
       </div>
 
       {subtitle && (
-        <div className="mt-2 text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 truncate">
+        <div className="mt-1.5 text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 truncate">
           {subtitle}
         </div>
       )}
