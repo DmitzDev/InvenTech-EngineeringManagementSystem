@@ -120,23 +120,23 @@ export default function ReservationManager() {
         </div>
       </div>
 
-      {/* KPI Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs min-w-0">
+      {/* KPI Summary Cards (2x2 on Mobile, 4-Cols on Desktop) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
+        <div className="p-2 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider truncate block">Total Bookings</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-slate-900 dark:text-slate-100 truncate">{totalCount}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-slate-900 dark:text-slate-100 truncate">{totalCount}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-amber-500/40 space-y-0.5 shadow-xs min-w-0">
+        <div className="p-2 sm:p-3 rounded-xl neu-card border-amber-500/40 space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider truncate block">Pending Review</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-amber-600 dark:text-amber-300 truncate">{pendingCount}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-amber-600 dark:text-amber-300 truncate">{pendingCount}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs min-w-0">
+        <div className="p-2 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider truncate block">Prepared</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300 truncate">{preparedCount}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300 truncate">{preparedCount}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs min-w-0">
+        <div className="p-2 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider truncate block">Completed</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300 truncate">{completedCount}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300 truncate">{completedCount}</p>
         </div>
       </div>
 
@@ -213,10 +213,10 @@ export default function ReservationManager() {
         </div>
       </div>
 
-      {/* Reservations Card List */}
-      <div className="space-y-3.5">
+      {/* Reservations Card List (2x2 Grid on Mobile Browser, Full Width on Desktop/Tablet) */}
+      <div className="grid grid-cols-2 md:grid-cols-1 gap-2.5 sm:gap-3.5">
         {filteredReservations.length === 0 ? (
-          <div className="p-10 rounded-2xl neu-card text-center space-y-3">
+          <div className="col-span-full p-10 rounded-2xl neu-card text-center space-y-3">
             <Calendar className="w-10 h-10 mx-auto text-slate-400 dark:text-slate-600" />
             <div>
               <p className="text-base font-bold text-slate-900 dark:text-slate-200">No Reservations Matching Filters</p>
@@ -235,53 +235,52 @@ export default function ReservationManager() {
             return (
               <div
                 key={res.id}
-                className="p-4 sm:p-5 rounded-2xl neu-card space-y-4 hover:border-slate-400 dark:hover:border-slate-700 transition-all duration-200 shadow-md"
+                className="p-2.5 sm:p-4 md:p-5 rounded-2xl neu-card space-y-2.5 sm:space-y-4 hover:border-slate-400 dark:hover:border-slate-700 transition-all duration-200 shadow-md flex flex-col justify-between"
               >
                 {/* Header Row */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-200 dark:border-white/10 pb-3">
-                  <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="text-xs sm:text-sm font-bold font-mono text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/30">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2.5 border-b border-slate-200 dark:border-white/10 pb-2 sm:pb-3">
+                  <div className="flex items-center gap-1.5 sm:gap-2.5 flex-wrap">
+                    <span className="text-[10px] sm:text-xs md:text-sm font-bold font-mono text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg border border-cyan-500/30 truncate">
                       {res.id}
                     </span>
-                    <span className={`text-xs font-bold px-3 py-1 rounded-full border ${statusInfo.bg} ${statusInfo.color} ${statusInfo.border}`}>
+                    <span className={`text-[9px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border ${statusInfo.bg} ${statusInfo.color} ${statusInfo.border} shrink-0`}>
                       {statusInfo.label}
                     </span>
                   </div>
-                  <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
-                    Submitted: {res.createdAt || 'Recent'}
+                  <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-mono truncate">
+                    {res.createdAt ? `Submitted: ${res.createdAt}` : 'Recent Booking'}
                   </span>
                 </div>
 
-                {/* 3-Column Info Cards (Responsive for Touch and Mobile) */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {/* Info Cards (Responsive for Touch and Mobile 2-column) */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3">
                   {/* Reserving Student & Group */}
-                  <div className="p-3.5 rounded-xl neu-inset space-y-1.5">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
-                      <User className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-                      Student Details
+                  <div className="p-2.5 sm:p-3.5 rounded-xl neu-inset space-y-1">
+                    <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wide">
+                      <User className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                      <span>Student</span>
                     </span>
-                    <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase truncate">
+                    <p className="text-xs sm:text-sm md:text-base font-bold text-slate-900 dark:text-slate-100 uppercase truncate">
                       {res.studentName}
                     </p>
-                    <p className="text-xs text-slate-600 dark:text-slate-300">
-                      <strong className="text-cyan-700 dark:text-cyan-300">{res.program}</strong> • Course:{' '}
-                      <strong className="text-slate-900 dark:text-white font-mono">{res.courseCode || 'N/A'}</strong> • Group{' '}
-                      <strong className="text-slate-900 dark:text-white font-mono">{res.groupNo || '1'}</strong>
+                    <p className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300 truncate">
+                      <strong className="text-cyan-700 dark:text-cyan-300">{res.program}</strong> • {res.courseCode || 'N/A'}
+                      <span className="hidden sm:inline"> • Group <strong className="font-mono">{res.groupNo || '1'}</strong></span>
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                    <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
                       Faculty: <strong className="text-slate-700 dark:text-slate-300">{res.instructor || 'Engr. Jin Benir Macaranas'}</strong>
                     </p>
                   </div>
 
                   {/* Reserved Apparatus */}
-                  <div className="p-3.5 rounded-xl neu-inset space-y-1.5">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
-                      <Layers className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-                      Requested Apparatus
+                  <div className="p-2.5 sm:p-3.5 rounded-xl neu-inset space-y-1">
+                    <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wide">
+                      <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                      <span>Apparatus</span>
                     </span>
-                    <p className="text-sm sm:text-base font-bold text-cyan-700 dark:text-cyan-300 line-clamp-1">{res.name}</p>
-                    <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 flex-wrap">
-                      <span className="bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30 font-mono font-bold">
+                    <p className="text-xs sm:text-sm md:text-base font-bold text-cyan-700 dark:text-cyan-300 truncate">{res.name}</p>
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-slate-600 dark:text-slate-300 flex-wrap">
+                      <span className="bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/30 font-mono font-bold shrink-0">
                         {res.tagCode}
                       </span>
                       <span>
@@ -291,52 +290,52 @@ export default function ReservationManager() {
                   </div>
 
                   {/* Schedule Details */}
-                  <div className="p-3.5 rounded-xl neu-inset space-y-1.5">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 uppercase tracking-wide">
-                      <Clock className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-                      Scheduled Time
+                  <div className="p-2.5 sm:p-3.5 rounded-xl neu-inset space-y-1">
+                    <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 uppercase tracking-wide">
+                      <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                      <span>Schedule</span>
                     </span>
-                    <div className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100">
-                      <Calendar className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                      <span className="font-mono">{res.reserveDate}</span>
+                    <div className="flex items-center gap-1 text-xs sm:text-sm md:text-base font-bold text-slate-900 dark:text-slate-100">
+                      <Calendar className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                      <span className="font-mono truncate">{res.reserveDate}</span>
                     </div>
-                    <p className="text-xs sm:text-sm font-bold text-cyan-700 dark:text-cyan-300 font-mono bg-cyan-500/10 dark:bg-cyan-950/40 px-2.5 py-1 rounded border border-cyan-500/20 inline-block">
+                    <p className="text-[10px] sm:text-xs md:text-sm font-bold text-cyan-700 dark:text-cyan-300 font-mono bg-cyan-500/10 dark:bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/20 truncate inline-block">
                       {res.timeSlot}
                     </p>
                   </div>
                 </div>
 
                 {/* Actions Row */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-200 dark:border-white/10">
-                  <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-3 pt-2.5 sm:pt-3 border-t border-slate-200 dark:border-white/10">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap flex-1 min-w-0">
                     {statusKey === 'PENDING' && (
                       <button
                         type="button"
                         onClick={() => updateReservationStatus(res.id, 'PREPARED')}
-                        className="px-4 py-2.5 rounded-xl neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-500/25 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
+                        className="px-2 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-500/25 text-[10px] sm:text-xs md:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1 shrink-0"
                       >
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Mark Prepared</span>
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Prepared</span>
                       </button>
                     )}
                     {statusKey === 'PREPARED' && (
                       <button
                         type="button"
                         onClick={() => updateReservationStatus(res.id, 'COMPLETED')}
-                        className="px-4 py-2.5 rounded-xl neu-btn-raised bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/25 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
+                        className="px-2 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl neu-btn-raised bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/25 text-[10px] sm:text-xs md:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center gap-1 shrink-0"
                       >
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Mark Completed</span>
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Completed</span>
                       </button>
                     )}
                     {statusKey !== 'CANCELLED' && statusKey !== 'COMPLETED' && (
                       <button
                         type="button"
                         onClick={() => cancelReservation(res.id)}
-                        className="px-4 py-2.5 rounded-xl neu-btn-raised text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 flex items-center gap-1.5"
+                        className="px-2 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl neu-btn-raised text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-[10px] sm:text-xs md:text-sm font-semibold transition-all cursor-pointer active:scale-95 flex items-center gap-1 shrink-0"
                       >
-                        <XCircle className="w-4 h-4" />
-                        <span>Cancel Booking</span>
+                        <XCircle className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">Cancel</span>
                       </button>
                     )}
                   </div>
@@ -345,10 +344,10 @@ export default function ReservationManager() {
                   <button
                     type="button"
                     onClick={() => handlePrepareAndPrint(res)}
-                    className="px-5 py-2.5 rounded-xl neu-btn-primary text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer"
+                    className="px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl neu-btn-primary text-[10px] sm:text-xs md:text-sm font-bold flex items-center gap-1.5 shadow-md active:scale-95 transition-all cursor-pointer shrink-0"
                   >
-                    <Printer className="w-4 h-4" />
-                    <span>Print Official Slip (A4)</span>
+                    <Printer className="w-3.5 h-3.5" />
+                    <span>Print Slip</span>
                   </button>
                 </div>
               </div>
