@@ -33,7 +33,7 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="admin-shell h-screen h-[100dvh] w-full max-w-full bg-[#e2e8f0] dark:bg-[#0a0e17] text-slate-900 dark:text-slate-100 flex flex-col overflow-hidden relative select-none">
+    <div className="admin-shell min-h-screen h-screen h-[100dvh] w-full max-w-full overflow-x-hidden relative flex flex-col bg-[#e2e8f0] dark:bg-[#0a0e17] text-slate-900 dark:text-slate-100 select-none">
       {/* Top Navbar with Navigation Tabs & InvenTech Brand */}
       <AdminHeader
         activeTab={activeTab}
@@ -42,7 +42,7 @@ export default function AdminPanel() {
       />
 
       {/* Main Full-Width Content Canvas */}
-      <main className="flex-1 overflow-y-auto overflow-x-hidden min-w-0 bg-[#e2e8f0] dark:bg-[#0a0e17]">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden min-w-0 w-full max-w-full bg-[#e2e8f0] dark:bg-[#0a0e17]">
         {renderContent()}
       </main>
     </div>

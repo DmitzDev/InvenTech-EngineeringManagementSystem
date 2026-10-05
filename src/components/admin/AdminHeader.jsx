@@ -57,43 +57,43 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
   return (
     <header className="w-full max-w-full sticky top-0 z-50 border-b-2 border-slate-300 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md select-none shrink-0 shadow-xs">
       {/* Primary Top Row (Brand on Left, Tabs in Center on Desktop md+, Controls on Right) */}
-      <div className="h-13 sm:h-14 md:h-16 px-3 sm:px-4 md:px-6 flex items-center justify-between gap-2 sm:gap-4 w-full">
-        {/* 1. Left Cluster: Independent Brand Logo & InvenTech Title */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 min-w-0">
+      <div className="h-14 md:h-16 px-3 md:px-6 flex items-center justify-between gap-2 md:gap-4 w-full">
+        {/* 1. Left Cluster: Independent Brand Logo, InvenTech Title, Monospace Sub-tag, Heartbeat Badge */}
+        <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3 shrink-0 min-w-0">
           <img
             src="/images/inventech_logo.png"
             alt="InvenTech Logo"
-            className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 object-contain drop-shadow-sm transition-transform hover:scale-105 shrink-0"
+            className="w-7 h-7 md:w-8 md:h-8 object-contain drop-shadow-sm transition-transform hover:scale-105 shrink-0"
           />
-          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-            {/* INVEN - TECH with theme color swap:
-                Dark mode: INVEN = Vivid Orange (#f97316), TECH = Sky Blue (#38bdf8)
-                Light mode: INVEN = Sky Blue (#0284c7), TECH = Vivid Orange (#ea580c)
-            */}
-            <span className="text-sm sm:text-base md:text-lg font-black tracking-tight uppercase whitespace-nowrap leading-none flex items-center">
-              <span
-                className={isDark ? 'text-[#f97316]' : 'text-[#0284c7]'}
-                style={{ color: isDark ? '#f97316' : '#0284c7' }}
-              >
-                INVEN
-              </span>
-              <span
-                className={isDark ? 'text-[#38bdf8]' : 'text-[#ea580c]'}
-                style={{ color: isDark ? '#38bdf8' : '#ea580c' }}
-              >
-                TECH
-              </span>
+          <div className="text-base md:text-lg font-black tracking-tight text-slate-950 dark:text-white truncate max-w-[160px] sm:max-w-xs md:max-w-none flex items-center leading-none">
+            <span
+              className={isDark ? 'text-[#f97316]' : 'text-[#0284c7]'}
+              style={{ color: isDark ? '#f97316' : '#0284c7' }}
+            >
+              INVEN
             </span>
+            <span
+              className={isDark ? 'text-[#38bdf8]' : 'text-[#ea580c]'}
+              style={{ color: isDark ? '#38bdf8' : '#ea580c' }}
+            >
+              TECH
+            </span>
+          </div>
 
-            {/* Monospace ADMIN badge */}
-            <span className="inline-flex px-1.5 py-0.5 rounded-md text-[10px] sm:text-xs font-black tracking-wider uppercase bg-slate-900 text-white dark:bg-white/15 dark:text-white border border-slate-700 dark:border-white/20 shadow-xs shrink-0">
-              ADMIN
-            </span>
+          {/* Monospace Sub-tag (SYS.MOD // 02) */}
+          <span className="text-[10px] md:text-xs font-mono font-bold px-2 py-0.5 rounded border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0">
+            SYS.MOD // 02
+          </span>
+
+          {/* Heartbeat Badge: Compact pulse dot with label (label hidden on < 640px) */}
+          <div className="text-xs flex items-center gap-1.5 font-mono text-emerald-600 dark:text-emerald-400 shrink-0">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.7)] shrink-0" />
+            <span className="hidden sm:inline">LIVE SYNC</span>
           </div>
         </div>
 
         {/* 2. Center: 5 Clean Unboxed Navigation Items (Visible on Desktop >= md) */}
-        <nav className="hidden md:flex items-center justify-center gap-1 md:gap-1.5 lg:gap-2 shrink-0">
+        <nav className="hidden md:flex items-center justify-center gap-1 lg:gap-1.5 shrink-0">
           {NAV_TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -105,7 +105,7 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
                 key={tab.id}
                 type="button"
                 onClick={() => onTabChange(tab.id)}
-                className={`relative py-1.5 px-2.5 lg:px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shrink-0 active:scale-95 ${
+                className={`relative h-9 py-1.5 px-2.5 lg:px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer shrink-0 active:scale-95 ${
                   isActive
                     ? 'bg-slate-200/90 dark:bg-white/10 text-slate-950 dark:text-white font-black shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/40 dark:hover:bg-white/5'
@@ -131,54 +131,54 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
           })}
         </nav>
 
-        {/* 3. Right Cluster: Tactical Control Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
-          {/* Optional Print Report Button */}
+        {/* 3. Right Cluster: Action Controls - Scaled Down & Aligned */}
+        <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
+          {/* Print Report Button: Desktop with text, Mobile icon-only */}
           {onPrintReport && (
             <button
               type="button"
               onClick={onPrintReport}
-              className="neu-btn-raised h-8 sm:h-9 px-2 sm:px-2.5 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200 transition-all cursor-pointer active:scale-95 shadow-xs flex items-center gap-1"
+              className="h-9 w-9 md:w-auto p-0 md:px-3 text-xs md:text-sm font-bold flex items-center justify-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 cursor-pointer active:scale-95 transition-all shadow-xs shrink-0"
               title="Print System Report"
             >
-              <Printer className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">Report</span>
+              <Printer className="w-4 h-4" />
+              <span className="hidden md:inline">Report</span>
             </button>
           )}
 
-          {/* Theme Toggle Button */}
+          {/* Theme Toggle Button: Compact tactile square */}
           <button
             type="button"
             onClick={toggleTheme}
-            className="neu-btn-raised h-8 w-8 sm:h-9 sm:w-9 p-1.5 sm:p-2 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 shadow-xs shrink-0"
+            className="h-9 w-9 p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 flex items-center justify-center cursor-pointer shadow-xs shrink-0"
             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle theme"
           >
             {isDark ? (
-              <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 hover:rotate-45 transition-transform" />
+              <Sun className="w-4 h-4 text-yellow-400 hover:rotate-45 transition-transform" />
             ) : (
-              <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-800 hover:-rotate-12 transition-transform" />
+              <Moon className="w-4 h-4 text-slate-700 hover:-rotate-12 transition-transform" />
             )}
           </button>
 
           {/* Telemetry Clock (Only shown on extra-wide screens to prevent cramming) */}
-          <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-lg neu-inset-sm text-xs font-mono font-bold text-slate-700 dark:text-slate-200 shrink-0">
+          <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/80 text-xs font-mono font-bold text-slate-700 dark:text-slate-200 shrink-0">
             <Clock className="w-3 h-3 text-slate-600 dark:text-slate-300 shrink-0" />
             <span>{time}</span>
             <span className="text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">{date}</span>
           </div>
 
-          {/* Logout / Exit to Kiosk */}
+          {/* Logout / Exit Button: Desktop with text, Mobile icon-only */}
           <button
             type="button"
             onClick={onLogout}
-            className="neu-btn-danger h-8 sm:h-9 px-2.5 sm:px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-xs shrink-0"
+            className="h-9 w-9 md:w-auto p-0 md:px-3 text-xs md:text-sm font-bold rounded-lg border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shadow-xs shrink-0"
             title="Exit to Kiosk"
             aria-label="Exit to Kiosk"
           >
-            <LogOut className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
-            <span className="hidden sm:inline">Exit</span>
+            <LogOut className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
+            <span className="hidden md:inline">Exit</span>
           </button>
         </div>
       </div>
