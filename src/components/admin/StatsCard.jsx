@@ -29,7 +29,7 @@ export default function StatsCard({
 
   return (
     <article
-      className="neu-card neu-card-hover p-3 sm:p-3.5 rounded-xl flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150 min-w-0"
+      className="neu-card neu-card-hover p-3 md:p-4 rounded-xl flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150 min-w-0"
       aria-label={`${label}: ${value}`}
     >
       <div className="min-w-0">
@@ -44,7 +44,7 @@ export default function StatsCard({
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             )}
-            <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 truncate">
+            <h3 className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 truncate">
               {label}
             </h3>
           </div>
@@ -56,9 +56,9 @@ export default function StatsCard({
         </div>
 
         {/* Digit directly on card (No nested box) */}
-        <div className="mt-2.5 flex items-baseline justify-between min-w-0">
+        <div className="mt-2 sm:mt-2.5 flex items-baseline justify-between min-w-0">
           <div
-            className="text-xl sm:text-2xl font-black font-mono tracking-tight text-slate-900 dark:text-white truncate min-w-0"
+            className="text-xl sm:text-2xl md:text-3xl font-black font-mono tracking-tight text-slate-900 dark:text-white truncate min-w-0"
             role="status"
             aria-live="polite"
           >
@@ -68,7 +68,7 @@ export default function StatsCard({
       </div>
 
       {subtitle && (
-        <div className="mt-1.5 text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 truncate">
+        <div className="mt-1.5 text-[10px] sm:text-xs font-mono font-medium text-slate-500 dark:text-slate-400 truncate">
           {subtitle}
         </div>
       )}

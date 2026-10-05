@@ -189,9 +189,9 @@ export default function DashboardOverview({ onNavigateTab }) {
   };
 
   return (
-    <div className="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 max-w-[1720px] mx-auto select-none font-sans">
+    <div className="px-3 sm:px-4 py-3 max-w-full overflow-x-hidden space-y-3 sm:space-y-4 mx-auto select-none font-sans">
       {/* 1. Sleek Compact Command Bar */}
-      <section className="neu-card p-3 sm:p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
+      <section className="neu-card p-3 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
         <div className="flex items-center gap-2.5">
           <h1 className="text-sm sm:text-base md:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
             Laboratory Telemetry & Borrowing Console
@@ -203,7 +203,7 @@ export default function DashboardOverview({ onNavigateTab }) {
           <button
             type="button"
             onClick={() => onNavigateTab && onNavigateTab('inventory')}
-            className="neu-btn-raised min-h-[36px] sm:min-h-[40px] px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
+            className="neu-btn-raised min-h-[36px] sm:min-h-[38px] px-3 sm:px-3.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
           >
             <Package className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
             <span>Inventory</span>
@@ -211,7 +211,7 @@ export default function DashboardOverview({ onNavigateTab }) {
           <button
             type="button"
             onClick={() => onNavigateTab && onNavigateTab('reservations')}
-            className="neu-btn-raised min-h-[36px] sm:min-h-[40px] px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
+            className="neu-btn-raised min-h-[36px] sm:min-h-[38px] px-3 sm:px-3.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95"
           >
             <Calendar className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
             <span>Bookings</span>
@@ -219,9 +219,9 @@ export default function DashboardOverview({ onNavigateTab }) {
         </div>
       </section>
 
-      {/* 2. Primary 4-Card Industrial KPI Grid (The 4 iconic colors: Cyan, Indigo, Amber, Emerald) */}
+      {/* 2. Primary 4-Card Industrial KPI Grid (2x2 on Mobile, 4 on Desktop) */}
       <section aria-label="Key Laboratory Telemetry Metrics">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-4 md:gap-4">
           <StatsCard
             icon={Package}
             label="Total Inventory"
@@ -263,21 +263,21 @@ export default function DashboardOverview({ onNavigateTab }) {
 
       {/* 3. Search & Horizontal Filter Bar */}
       <section
-        className="neu-card p-2.5 sm:p-3 rounded-2xl"
+        className="neu-card p-2.5 sm:p-3 rounded-xl"
         aria-label="Table Search and Filters"
       >
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5">
-          {/* Top Row on mobile (< lg): Search Box + View Switcher */}
+          {/* Search Box + View Switchers (Mobile / Desktop) */}
           <div className="flex items-center gap-2 w-full lg:w-auto">
-            {/* Recessed Skeuomorphic Search Box */}
+            {/* Recessed Skeuomorphic Search Box (h-10 md:h-11) */}
             <div className="relative flex-1 lg:w-56 xl:w-64 shrink-0">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search student ID, item, or bin..."
-                className="w-full h-9 sm:h-10 text-xs sm:text-sm pl-9 pr-8 rounded-xl neu-inset text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-white/30"
+                className="w-full h-10 md:h-11 text-sm pl-9 pr-8 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-white/30"
                 aria-label="Search records"
               />
               {searchQuery && (
@@ -287,19 +287,19 @@ export default function DashboardOverview({ onNavigateTab }) {
                   className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-slate-500 hover:text-slate-950 dark:hover:text-white cursor-pointer active:scale-90"
                   aria-label="Clear search"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
 
             {/* Mobile View Switcher (< lg) */}
-            <div className="flex lg:hidden items-center gap-1 p-1 rounded-xl neu-inset-sm shrink-0">
+            <div className="flex lg:hidden items-center gap-1 p-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`h-8 w-8 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
+                className={`h-8 w-8 rounded-md flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
                   viewMode === 'grid'
-                    ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
+                    ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-400 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 title="Cards View"
@@ -310,9 +310,9 @@ export default function DashboardOverview({ onNavigateTab }) {
               <button
                 type="button"
                 onClick={() => setViewMode('table')}
-                className={`h-8 w-8 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
+                className={`h-8 w-8 rounded-md flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
                   viewMode === 'table'
-                    ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
+                    ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-400 shadow-sm'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 title="Table View"
@@ -323,8 +323,8 @@ export default function DashboardOverview({ onNavigateTab }) {
             </div>
           </div>
 
-          {/* 4 Category Filter Buttons (Beside search bar on lg, full-width swipeable touch-rail on mobile) */}
-          <div className="flex items-center gap-1.5 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-0.5 no-scrollbar flex-1 min-w-0">
+          {/* Filter Rail: Horizontally scrollable chip container */}
+          <div className="flex items-center gap-1.5 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-1 no-scrollbar flex-1 min-w-0">
             {[
               { id: 'ALL', label: 'All Transactions' },
               { id: 'ACTIVE', label: 'Active Loans' },
@@ -337,10 +337,12 @@ export default function DashboardOverview({ onNavigateTab }) {
                   key={btn.id}
                   type="button"
                   onClick={() => setFilterMode(btn.id)}
-                  className={`h-9 sm:h-10 px-3 sm:px-3.5 rounded-xl text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
+                  className={`h-8 px-3 text-xs font-bold shrink-0 rounded-full border border-slate-300 dark:border-slate-700 active:scale-95 transition-all whitespace-nowrap cursor-pointer ${
                     isActive
-                      ? isDark ? 'bg-white text-slate-950 font-black shadow-md' : 'bg-slate-900 text-white font-black shadow-md'
-                      : 'neu-btn-raised text-slate-700 dark:text-slate-300'
+                      ? isDark
+                        ? 'bg-white text-slate-950 font-black shadow-md border-transparent'
+                        : 'bg-slate-900 text-white font-black shadow-md border-transparent'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                   aria-pressed={isActive}
                 >
@@ -366,10 +368,12 @@ export default function DashboardOverview({ onNavigateTab }) {
                       key={lab.id}
                       type="button"
                       onClick={() => setSubLabFilter(lab.id)}
-                      className={`h-8 sm:h-9 px-2.5 sm:px-3 rounded-lg text-xs font-mono font-bold uppercase shrink-0 cursor-pointer active:scale-95 transition-all whitespace-nowrap ${
+                      className={`h-8 px-2.5 text-xs font-mono font-bold uppercase shrink-0 rounded-full border border-slate-300 dark:border-slate-700 active:scale-95 transition-all whitespace-nowrap cursor-pointer ${
                         isSubActive
-                          ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-bold shadow-sm'
-                          : 'neu-btn-raised text-slate-700 dark:text-slate-300'
+                          ? isDark
+                            ? 'bg-cyan-500 text-slate-950 font-black shadow-sm border-transparent'
+                            : 'bg-slate-900 text-white font-bold shadow-sm border-transparent'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                       }`}
                     >
                       {lab.label}
@@ -381,13 +385,13 @@ export default function DashboardOverview({ onNavigateTab }) {
           </div>
 
           {/* Desktop View Switcher (Visible on lg+) */}
-          <div className="hidden lg:flex items-center gap-1 p-1 rounded-xl neu-inset-sm shrink-0">
+          <div className="hidden lg:flex items-center gap-1 p-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shrink-0">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              className={`h-8 w-8 sm:h-9 sm:w-9 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
+              className={`h-8 w-8 rounded-md flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'grid'
-                  ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
+                  ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-400 shadow-sm'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
               title="Cards View"
@@ -398,9 +402,9 @@ export default function DashboardOverview({ onNavigateTab }) {
             <button
               type="button"
               onClick={() => setViewMode('table')}
-              className={`h-8 w-8 sm:h-9 sm:w-9 rounded-lg flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
+              className={`h-8 w-8 rounded-md flex items-center justify-center cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'table'
-                  ? 'neu-btn-primary shadow-sm text-cyan-600 dark:text-cyan-400'
+                  ? 'bg-white dark:bg-slate-700 text-cyan-600 dark:text-cyan-400 shadow-sm'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
               title="Table View"
@@ -631,13 +635,13 @@ export default function DashboardOverview({ onNavigateTab }) {
             <div className="hidden md:block neu-card rounded-2xl overflow-hidden overflow-x-auto shadow-sm">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 py-3 px-4 text-xs font-black tracking-wider uppercase">
-                    <th scope="col" className="py-3 px-4">TRACKING ID</th>
-                    <th scope="col" className="py-3 px-4">TOOL / APPARATUS</th>
-                    <th scope="col" className="py-3 px-4">BORROWER</th>
-                    <th scope="col" className="py-3 px-4">LOCATION</th>
-                    <th scope="col" className="py-3 px-4">STATUS</th>
-                    <th scope="col" className="py-3 px-4 text-right">ACTIONS</th>
+                  <tr className="border-b border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 py-2.5 px-4 text-xs font-black tracking-wider uppercase">
+                    <th scope="col" className="py-2.5 px-4 align-middle">TRACKING ID</th>
+                    <th scope="col" className="py-2.5 px-4 align-middle">TOOL / APPARATUS</th>
+                    <th scope="col" className="py-2.5 px-4 align-middle">BORROWER</th>
+                    <th scope="col" className="py-2.5 px-4 align-middle">LOCATION</th>
+                    <th scope="col" className="py-2.5 px-4 align-middle">STATUS</th>
+                    <th scope="col" className="py-2.5 px-4 align-middle text-right">ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-white/10">
@@ -651,22 +655,22 @@ export default function DashboardOverview({ onNavigateTab }) {
                         className="hover:bg-slate-100/60 dark:hover:bg-white/5 transition-colors"
                       >
                         {/* ID */}
-                        <td className="py-3 px-4 font-mono text-xs font-bold text-slate-900 dark:text-cyan-300 whitespace-nowrap">
+                        <td className="py-2.5 px-4 align-middle font-mono text-xs font-bold text-slate-900 dark:text-cyan-300 whitespace-nowrap">
                           {row.id}
                         </td>
 
                         {/* Tool Name */}
-                        <td className="py-3 px-4">
-                          <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">
+                        <td className="py-2.5 px-4 align-middle">
+                          <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug">
                             {row.primaryName}
                           </p>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
                             {row.secondaryInfo}
                           </p>
                         </td>
 
                         {/* Student ID & Borrower */}
-                        <td className="py-3 px-4">
+                        <td className="py-2.5 px-4 align-middle">
                           <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="font-mono text-xs font-black text-slate-900 dark:text-white px-2 py-0.5 rounded neu-inset-sm">
                               {row.studentId}
@@ -678,12 +682,12 @@ export default function DashboardOverview({ onNavigateTab }) {
                         </td>
 
                         {/* Location */}
-                        <td className="py-3 px-4 whitespace-nowrap font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
+                        <td className="py-2.5 px-4 align-middle whitespace-nowrap font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
                           {row.binLocation}
                         </td>
 
                         {/* Status */}
-                        <td className="py-3 px-4 whitespace-nowrap">
+                        <td className="py-2.5 px-4 align-middle whitespace-nowrap">
                           <span
                             className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-black uppercase tracking-wider border ${
                               isOverdue
@@ -698,7 +702,7 @@ export default function DashboardOverview({ onNavigateTab }) {
                         </td>
 
                         {/* Actions */}
-                        <td className="py-3 px-4 text-right whitespace-nowrap">
+                        <td className="py-2.5 px-4 align-middle text-right whitespace-nowrap">
                           <div className="inline-flex items-center gap-1.5">
                             {row.rawTx && row.status !== 'CLEARED' && (
                               <button
@@ -741,8 +745,8 @@ export default function DashboardOverview({ onNavigateTab }) {
               </table>
             </div>
 
-            {/* Mobile Phones (< 768px): Responsive Skeuomorphic Transaction Cards */}
-            <div className="block md:hidden space-y-3">
+            {/* Mobile Phones (< 768px): Structured High-Density Transaction Cards */}
+            <div className="block md:hidden space-y-2.5">
               {displayRows.map((row) => {
                 const isOverdue = row.status === 'OVERDUE';
                 const isCleared = row.status === 'CLEARED';
@@ -750,14 +754,27 @@ export default function DashboardOverview({ onNavigateTab }) {
                 return (
                   <article
                     key={`mob-${row.id}`}
-                    className="neu-card p-3.5 rounded-2xl space-y-2.5 select-none"
+                    className="neu-card p-3 rounded-xl space-y-2 select-none"
                   >
+                    {/* Header row: Tool name in bold with assigned Locker/Bin pill */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs font-bold text-slate-800 dark:text-cyan-300 neu-inset-sm px-2 py-0.5 rounded">
-                        {row.id}
+                      <h4 className="text-sm font-bold text-slate-950 dark:text-white leading-snug truncate">
+                        {row.primaryName}
+                      </h4>
+                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0">
+                        {row.binLocation}
                       </span>
+                    </div>
+
+                    {/* Meta row: Borrower Name & Student ID in clear monospace */}
+                    <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="font-bold text-slate-900 dark:text-white">{row.leaderName}</span>
+                        <span className="text-slate-400">|</span>
+                        <span className="text-slate-600 dark:text-slate-400">{row.studentId}</span>
+                      </div>
                       <span
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-black uppercase tracking-wider border ${
+                        className={`inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold border shrink-0 ${
                           isOverdue
                             ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200'
                             : isCleared
@@ -769,64 +786,44 @@ export default function DashboardOverview({ onNavigateTab }) {
                       </span>
                     </div>
 
-                    {/* Tool Name in Bold */}
-                    <div>
-                      <h4 className="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
-                        {row.primaryName}
-                      </h4>
-                      {row.secondaryInfo && (
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                          {row.secondaryInfo}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Borrower ID + Department Badge + Locker Bin Pill */}
-                    <div className="flex items-center gap-2 flex-wrap text-xs">
-                      <span className="font-mono text-xs font-black text-slate-900 dark:text-white px-2 py-0.5 rounded neu-inset-sm">
-                        {row.studentId}
-                      </span>
-                      <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-                        {row.leaderName}
-                      </span>
-                      <span className="ml-auto font-mono text-[11px] font-bold text-slate-600 dark:text-slate-300 neu-inset-sm px-2 py-0.5 rounded-md">
-                        {row.binLocation}
-                      </span>
-                    </div>
-
-                    {/* Bottom Actions with minimum 44px touch height */}
+                    {/* Bottom Action: Full-width button [ ✓ Mark Returned ] with 40px height */}
                     <div className="pt-2 border-t border-slate-200 dark:border-white/10 flex items-center gap-2">
-                      {row.rawTx && row.status !== 'CLEARED' && (
-                        <button
-                          type="button"
-                          onClick={() => handleQuickReturn(row.rawTx)}
-                          className="w-full neu-btn-secondary min-h-[44px] py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95 cursor-pointer shadow-xs"
-                        >
-                          <Check className="w-4 h-4 stroke-[3]" />
-                          <span>Mark Returned</span>
-                        </button>
-                      )}
-
-                      {row.rawTx && (
-                        <button
-                          type="button"
-                          onClick={() => setSelectedSlipModal(row.rawTx)}
-                          className="neu-btn-raised min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-xs shrink-0"
-                          title="View Slip"
-                        >
-                          <FileText className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                          <span>Slip</span>
-                        </button>
-                      )}
-
-                      {row.type === 'STORAGE' && (
+                      {row.rawTx && row.status !== 'CLEARED' ? (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => handleQuickReturn(row.rawTx)}
+                            className="h-10 text-xs font-bold rounded-lg active:scale-95 flex items-center justify-center gap-1.5 flex-1 bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm cursor-pointer transition-all uppercase tracking-wider"
+                          >
+                            <Check className="w-4 h-4 stroke-[3]" />
+                            <span>Mark Returned</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedSlipModal(row.rawTx)}
+                            className="h-10 w-10 rounded-lg neu-btn-raised flex items-center justify-center cursor-pointer active:scale-95 shadow-xs shrink-0"
+                            title="Inspect loan slip"
+                          >
+                            <FileText className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                          </button>
+                        </>
+                      ) : row.type === 'STORAGE' ? (
                         <button
                           type="button"
                           onClick={() => onNavigateTab && onNavigateTab('inventory')}
-                          className="w-full neu-btn-raised min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-xs"
+                          className="h-10 text-xs font-bold rounded-lg active:scale-95 flex items-center justify-center gap-1.5 w-full neu-btn-raised text-slate-800 dark:text-slate-200 shadow-sm cursor-pointer transition-all uppercase tracking-wider"
                         >
                           <Package className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                          <span>Manage</span>
+                          <span>Manage Stock</span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedSlipModal(row.rawTx)}
+                          className="h-10 text-xs font-bold rounded-lg active:scale-95 flex items-center justify-center gap-1.5 w-full neu-btn-raised text-slate-800 dark:text-slate-200 shadow-sm cursor-pointer transition-all uppercase tracking-wider"
+                        >
+                          <FileText className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                          <span>Inspect Loan Slip</span>
                         </button>
                       )}
                     </div>
