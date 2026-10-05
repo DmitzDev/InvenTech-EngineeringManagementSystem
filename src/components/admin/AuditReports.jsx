@@ -161,63 +161,63 @@ export default function AuditReports() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6 select-none">
+    <div className="p-3 sm:p-5 lg:p-6 max-w-7xl mx-auto w-full space-y-5 select-none">
       {/* 1. Header with Export & Print Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-slate-300 dark:border-white/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-slate-300 dark:border-white/10">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+          <h1 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
             Audit Logs & Reports
           </h1>
-          <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">
             Equipment utilization analytics, breakage and incident logs, and student clearances
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={handleExportCSV}
-            className="neu-btn-raised px-4 py-2 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm flex items-center gap-2 active:scale-95 cursor-pointer shadow-xs"
+            className="neu-btn-raised px-3 py-1.5 rounded-lg text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-xs"
           >
-            <Download className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+            <Download className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
             <span>Export CSV</span>
           </button>
 
           <button
             type="button"
             onClick={handlePrintReport}
-            className="neu-btn-primary px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 active:scale-95 cursor-pointer shadow-sm"
+            className="neu-btn-primary px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-sm"
           >
-            <Printer className="w-4 h-4" />
+            <Printer className="w-3.5 h-3.5" />
             <span>Print Report</span>
           </button>
         </div>
       </div>
 
       {/* 2. Top Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
         {/* Most Borrowed Metric */}
         <div
           onClick={() => setActiveReportTab('MOST_BORROWED')}
-          className={`p-4 rounded-2xl cursor-pointer transition-all border ${
+          className={`p-3 rounded-xl cursor-pointer transition-all border ${
             activeReportTab === 'MOST_BORROWED'
-              ? 'neu-inset border-cyan-500/80 bg-cyan-950/20 shadow-[0_0_16px_rgba(6,182,212,0.25)]'
+              ? 'neu-inset border-cyan-500/80 bg-cyan-950/20 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
               : 'neu-card border-slate-800 hover:border-slate-700'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider">
               Equipment Utilization
             </span>
-            <div className="w-8 h-8 rounded-xl neu-inset flex items-center justify-center text-cyan-400">
-              <TrendingUp className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg neu-inset flex items-center justify-center text-cyan-400">
+              <TrendingUp className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-black text-slate-100 mt-2 font-mono">
+          <div className="text-lg sm:text-xl font-bold text-slate-100 mt-1.5 font-mono">
             {mostBorrowedStats.length} Unique Items
           </div>
-          <p className="text-[11px] text-cyan-300 font-bold mt-1">
+          <p className="text-[10px] text-cyan-300 font-bold mt-0.5">
             Top: {mostBorrowedStats[0]?.name || 'N/A'}
           </p>
         </div>
@@ -225,24 +225,24 @@ export default function AuditReports() {
         {/* Damage & Incidents Metric */}
         <div
           onClick={() => setActiveReportTab('INCIDENTS')}
-          className={`p-4 rounded-2xl cursor-pointer transition-all border ${
+          className={`p-3 rounded-xl cursor-pointer transition-all border ${
             activeReportTab === 'INCIDENTS'
-              ? 'neu-inset border-amber-500/80 bg-amber-950/20 shadow-[0_0_16px_rgba(245,158,11,0.25)]'
+              ? 'neu-inset border-amber-500/80 bg-amber-950/20 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
               : 'neu-card border-slate-800 hover:border-slate-700'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider">
               Damage & Incident Logs
             </span>
-            <div className="w-8 h-8 rounded-xl neu-inset flex items-center justify-center text-amber-400">
-              <AlertTriangle className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg neu-inset flex items-center justify-center text-amber-400">
+              <AlertTriangle className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-black text-amber-300 mt-2 font-mono">
+          <div className="text-lg sm:text-xl font-bold text-amber-300 mt-1.5 font-mono">
             {incidentLogsList.length} Recorded
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p className="text-[10px] text-slate-400 mt-0.5">
             {incidentLogsList.filter((i) => i.status === 'RESOLVED_REPAIRED').length} Repaired & Restored
           </p>
         </div>
@@ -250,24 +250,24 @@ export default function AuditReports() {
         {/* Student Records Metric */}
         <div
           onClick={() => setActiveReportTab('STUDENT_FREQUENCY')}
-          className={`p-4 rounded-2xl cursor-pointer transition-all border ${
+          className={`p-3 rounded-xl cursor-pointer transition-all border ${
             activeReportTab === 'STUDENT_FREQUENCY'
-              ? 'neu-inset border-emerald-500/80 bg-emerald-950/20 shadow-[0_0_16px_rgba(16,185,129,0.25)]'
+              ? 'neu-inset border-emerald-500/80 bg-emerald-950/20 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
               : 'neu-card border-slate-800 hover:border-slate-700'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider">
               Student Clearance Records
             </span>
-            <div className="w-8 h-8 rounded-xl neu-inset flex items-center justify-center text-emerald-400">
-              <Users className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg neu-inset flex items-center justify-center text-emerald-400">
+              <Users className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-2xl font-black text-slate-100 mt-2 font-mono">
+          <div className="text-lg sm:text-xl font-bold text-slate-100 mt-1.5 font-mono">
             {studentFrequencyRecords.length} Students
           </div>
-          <p className="text-[11px] text-rose-400 font-bold mt-1">
+          <p className="text-[10px] text-rose-400 font-bold mt-0.5">
             {studentFrequencyRecords.filter((s) => s.isClearanceLocked || s.hasUnreturnedItems).length} On Clearance Hold
           </p>
         </div>

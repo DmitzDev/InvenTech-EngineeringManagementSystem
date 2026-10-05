@@ -94,64 +94,64 @@ export default function ReservationManager() {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 overflow-y-auto h-full max-w-[1600px] mx-auto select-none">
+    <div className="p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 overflow-y-auto h-full max-w-[1600px] mx-auto select-none">
       {/* Header */}
-      <div className="border-b-2 border-slate-300 dark:border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="border-b-2 border-slate-300 dark:border-white/10 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+            <h1 className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
               Equipment Advance Bookings
             </h1>
             {pendingCount > 0 && (
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-700 dark:text-amber-300 animate-pulse">
+              <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-700 dark:text-amber-300 animate-pulse">
                 {pendingCount} Pending
               </span>
             )}
           </div>
-          <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">
             Student advance booking review, schedule dispatch, and official slips
           </p>
         </div>
 
         {/* Print Summary Info */}
-        <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 neu-card px-3.5 py-2 rounded-xl shrink-0 font-medium">
-          <Printer className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
+        <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 neu-card px-3 py-1.5 rounded-lg shrink-0 font-medium">
+          <Printer className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
           <span>Slips format: Official A4 Template</span>
         </div>
       </div>
 
       {/* KPI Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Total Bookings</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-slate-100">{totalCount}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Total Bookings</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-slate-900 dark:text-slate-100">{totalCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-amber-500/40 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Pending Review</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-600 dark:text-amber-300">{pendingCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-amber-500/40 space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Pending Review</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-amber-600 dark:text-amber-300">{pendingCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-cyan-500/40 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Prepared</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300">{preparedCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Prepared</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300">{preparedCount}</p>
         </div>
-        <div className="p-3.5 sm:p-4 rounded-2xl neu-card border-emerald-500/40 space-y-0.5 shadow-sm">
-          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Completed</span>
-          <p className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300">{completedCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Completed</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300">{completedCount}</p>
         </div>
       </div>
 
       {/* Search & Multi-Filter Controls */}
-      <div className="space-y-2.5">
-        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
+      <div className="space-y-2">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2.5">
           {/* Search Input */}
           <div className="flex-1 relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by student name, reference ID, apparatus, course code, instructor..."
-              className="w-full h-11 pl-10 pr-4 rounded-xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
+              className="w-full h-9 pl-9 pr-3 rounded-lg neu-inset text-xs text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
             />
           </div>
 
@@ -161,9 +161,9 @@ export default function ReservationManager() {
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
-                className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
                   statusFilter === st
-                    ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40 shadow-sm font-bold'
+                    ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40 shadow-xs'
                     : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >

@@ -341,145 +341,144 @@ export default function InventoryManager() {
       )}
 
       {/* 1. Header Command Strip */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-slate-300 dark:border-white/10">
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-cyan-600 text-white dark:bg-cyan-500/20 dark:text-cyan-400 flex items-center justify-center shadow-xs shrink-0">
-            <Boxes className="w-6 h-6 stroke-[2.5]" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b-2 border-slate-300 dark:border-white/10">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-cyan-600 text-white dark:bg-cyan-500/20 dark:text-cyan-400 flex items-center justify-center shadow-xs shrink-0">
+            <Boxes className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+            <h1 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight uppercase">
               Master Laboratory Inventory
             </h1>
-            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">
               Live catalog across all 5 Engineering Laboratory departments
             </p>
           </div>
         </div>
 
         {/* Global Action Buttons: Clean Single Row */}
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl neu-btn-raised text-slate-700 dark:text-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg neu-btn-raised text-slate-700 dark:text-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
             title="Export CSV spreadsheet"
           >
-            <Download className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+            <Download className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
             <span>Export CSV</span>
           </button>
 
           <button
             type="button"
             onClick={handleReseedMaster}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl neu-btn-raised text-slate-700 dark:text-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg neu-btn-raised text-slate-700 dark:text-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
             title="Restore Master 263 items"
           >
-            <RotateCcw className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+            <RotateCcw className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
             <span>Sync Master</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl neu-btn-primary text-xs font-black transition-all active:scale-95 cursor-pointer shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg neu-btn-primary text-xs font-black transition-all active:scale-95 cursor-pointer shadow-sm"
           >
-            <Plus className="w-4 h-4 stroke-[3]" />
+            <Plus className="w-3.5 h-3.5 stroke-[3]" />
             <span>Add Equipment</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Glassmorphic KPI Command Strip */}
       {/* 2. Skeuomorphic KPI Command Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
         {/* Total Unique Items */}
-        <div className="neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden group">
+        <div className="neu-card p-2.5 sm:p-3 rounded-xl relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-400">Total Unique Items</span>
-            <span className="p-1.5 rounded-lg bg-cyan-500/15 text-cyan-600 dark:text-cyan-400">
-              <PackageCheck className="w-4 h-4" />
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400">Total Unique Items</span>
+            <span className="p-1 rounded bg-cyan-500/15 text-cyan-600 dark:text-cyan-400">
+              <PackageCheck className="w-3.5 h-3.5" />
             </span>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400">{inventory.length}</span>
-            <span className="text-[10px] text-slate-500 font-bold uppercase">types</span>
+          <div className="mt-1.5 flex items-baseline gap-1.5">
+            <span className="text-lg sm:text-xl font-bold font-mono text-cyan-600 dark:text-cyan-400">{inventory.length}</span>
+            <span className="text-[9px] text-slate-500 font-bold uppercase">types</span>
           </div>
         </div>
 
         {/* Total Available Units */}
-        <div className="neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden group">
+        <div className="neu-card p-2.5 sm:p-3 rounded-xl relative overflow-hidden group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-400">Total Available Units</span>
-            <span className="p-1.5 rounded-lg bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-              <ShieldCheck className="w-4 h-4" />
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400">Total Available Units</span>
+            <span className="p-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+              <ShieldCheck className="w-3.5 h-3.5" />
             </span>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400">{totalUnits}</span>
-            <span className="text-[10px] text-slate-500 font-bold uppercase">units</span>
+          <div className="mt-1.5 flex items-baseline gap-1.5">
+            <span className="text-lg sm:text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400">{totalUnits}</span>
+            <span className="text-[9px] text-slate-500 font-bold uppercase">units</span>
           </div>
         </div>
 
         {/* Under Maintenance / Incident Flagged */}
         <div
           onClick={() => setFilterStock(filterStock === 'MAINTENANCE' ? 'ALL' : 'MAINTENANCE')}
-          className={`neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
+          className={`neu-card p-2.5 sm:p-3 rounded-xl relative overflow-hidden cursor-pointer transition-all ${
             filterStock === 'MAINTENANCE'
               ? 'border-rose-500 ring-2 ring-rose-500/40 bg-rose-50 dark:bg-rose-950/40'
               : 'hover:border-rose-400'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-rose-600 dark:text-rose-400">Under Maintenance</span>
-            <span className="p-1.5 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-400">
-              <Wrench className="w-4 h-4" />
+            <span className="text-[10px] sm:text-[11px] font-bold text-rose-600 dark:text-rose-400">Under Maintenance</span>
+            <span className="p-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400">
+              <Wrench className="w-3.5 h-3.5" />
             </span>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-rose-600 dark:text-rose-400">{maintenanceCount}</span>
-            <span className="text-[10px] text-rose-500/80 font-bold uppercase">for repair</span>
+          <div className="mt-1.5 flex items-baseline gap-1.5">
+            <span className="text-lg sm:text-xl font-bold font-mono text-rose-600 dark:text-rose-400">{maintenanceCount}</span>
+            <span className="text-[9px] text-rose-500/80 font-bold uppercase">for repair</span>
           </div>
         </div>
 
         {/* Low Stock Alert */}
         <div
           onClick={() => setFilterStock(filterStock === 'LOW_STOCK' ? 'ALL' : 'LOW_STOCK')}
-          className={`neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
+          className={`neu-card p-2.5 sm:p-3 rounded-xl relative overflow-hidden cursor-pointer transition-all ${
             filterStock === 'LOW_STOCK'
               ? 'border-amber-500 ring-2 ring-amber-500/40 bg-amber-50 dark:bg-amber-950/40'
               : 'hover:border-amber-400'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-amber-600 dark:text-amber-400">Low Stock (≤3)</span>
-            <span className="p-1.5 rounded-lg bg-amber-500/15 text-amber-600 dark:text-amber-400">
-              <AlertTriangle className="w-4 h-4" />
+            <span className="text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400">Low Stock (≤3)</span>
+            <span className="p-1 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400">
+              <AlertTriangle className="w-3.5 h-3.5" />
             </span>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-amber-600 dark:text-amber-400">{lowCount}</span>
-            <span className="text-[10px] text-slate-500 font-bold uppercase">restock</span>
+          <div className="mt-1.5 flex items-baseline gap-1.5">
+            <span className="text-lg sm:text-xl font-bold font-mono text-amber-600 dark:text-amber-400">{lowCount}</span>
+            <span className="text-[9px] text-slate-500 font-bold uppercase">restock</span>
           </div>
         </div>
 
         {/* Out of Stock Alert */}
         <div
           onClick={() => setFilterStock(filterStock === 'OUT_OF_STOCK' ? 'ALL' : 'OUT_OF_STOCK')}
-          className={`neu-card p-3.5 sm:p-4 rounded-2xl relative overflow-hidden cursor-pointer transition-all ${
+          className={`neu-card p-2.5 sm:p-3 rounded-xl relative overflow-hidden cursor-pointer transition-all ${
             filterStock === 'OUT_OF_STOCK'
               ? 'border-rose-500 ring-2 ring-rose-500/40 bg-rose-50 dark:bg-rose-950/40'
               : 'hover:border-rose-400'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-rose-600 dark:text-rose-400">Out of Stock (0)</span>
-            <span className="p-1.5 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-400">
-              <X className="w-4 h-4" />
+            <span className="text-[10px] sm:text-[11px] font-bold text-rose-600 dark:text-rose-400">Out of Stock (0)</span>
+            <span className="p-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400">
+              <X className="w-3.5 h-3.5" />
             </span>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black font-mono text-rose-600 dark:text-rose-400">{outCount}</span>
-            <span className="text-[10px] text-slate-500 font-bold uppercase">depleted</span>
+          <div className="mt-1.5 flex items-baseline gap-1.5">
+            <span className="text-lg sm:text-xl font-bold font-mono text-rose-600 dark:text-rose-400">{outCount}</span>
+            <span className="text-[9px] text-slate-500 font-bold uppercase">depleted</span>
           </div>
         </div>
       </div>
