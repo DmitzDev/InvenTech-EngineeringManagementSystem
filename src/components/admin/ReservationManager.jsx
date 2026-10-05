@@ -96,25 +96,23 @@ export default function ReservationManager() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 overflow-y-auto h-full max-w-[1600px] mx-auto select-none">
       {/* Header */}
-      <div className="border-b border-slate-800/80 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="border-b-2 border-slate-300 dark:border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] sm:text-xs font-mono font-bold text-amber-400 uppercase tracking-widest bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/30">
-              Advance Bookings Dispatch
-            </span>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+              Equipment Advance Bookings
+            </h1>
             {pendingCount > 0 && (
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 animate-pulse">
-                {pendingCount} Pending Action
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-700 dark:text-amber-300 animate-pulse">
+                {pendingCount} Pending
               </span>
             )}
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white mt-1">Equipment Advance Bookings</h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-            Manage advance student bookings, check conflict schedules, and generate official borrowing slips
+          <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+            Student advance booking review, schedule dispatch, and official slips
           </p>
         </div>
 
-        {/* Print Summary Info */}
         {/* Print Summary Info */}
         <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 neu-card px-3.5 py-2 rounded-xl shrink-0 font-medium">
           <Printer className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />

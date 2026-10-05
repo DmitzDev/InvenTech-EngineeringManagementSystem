@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function StatsCard({
   icon: Icon,
-  sysTag = '[SYS.METRIC]',
+  sysTag,
   label,
   value,
   accent = 'cyan',
@@ -33,18 +33,20 @@ export default function StatsCard({
       aria-label={`${label}: ${value}`}
     >
       <div>
-        {/* Monospace System Micro-Tag & Hardware Icon */}
+        {/* Top Header: Icon & optional tag */}
         <div className="flex items-center justify-between gap-2">
-          <span className="font-mono text-xs font-bold text-slate-600 dark:text-slate-400 tracking-wider">
-            {sysTag}
-          </span>
-          {Icon && (
+          {Icon ? (
             <div
               className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${iconAccent}`}
               aria-hidden="true"
             >
               <Icon className="w-4 h-4" />
             </div>
+          ) : <div />}
+          {sysTag && (
+            <span className="font-mono text-xs font-bold text-slate-500 tracking-wider">
+              {sysTag}
+            </span>
           )}
         </div>
 

@@ -126,28 +126,24 @@ export default function TransactionHistory() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 overflow-y-auto h-full max-w-[1600px] mx-auto pb-12 select-none">
       {/* Header */}
-      <div className="border-b border-slate-800/80 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="border-b-2 border-slate-300 dark:border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] sm:text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
-              Institutional Audit Records
-            </span>
-            <span className="text-xs text-slate-500 font-medium hidden xs:inline">• School of Engineering</span>
-          </div>
-          <h1 className="text-xl sm:text-2xl font-black text-white mt-1">Transaction History & Clearance Logs</h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-            Complete audit trail of all student borrowing slips, returns, apparatus inspection, and incidents
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+            Transaction History & Clearance Logs
+          </h1>
+          <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+            Audit trail of student borrowing slips, returns, apparatus inspection, and incidents
           </p>
         </div>
 
         {/* Actions: CSV Export & Clear Test Data */}
-        <div className="flex items-center gap-2 shrink-0 flex-wrap">
+        <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
           <button
             type="button"
             onClick={handleExportCSV}
-            className="px-4 py-2.5 rounded-xl bg-[#0e192d] hover:bg-[#13233f] border border-cyan-500/30 text-xs sm:text-sm font-bold text-cyan-300 hover:text-cyan-200 transition-all flex items-center gap-2 shadow-sm shrink-0 cursor-pointer active:scale-95"
+            className="neu-btn-raised px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 transition-all flex items-center gap-2 shadow-xs shrink-0 cursor-pointer active:scale-95"
           >
-            <FileSpreadsheet className="w-4 h-4 text-cyan-400" />
+            <FileSpreadsheet className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
             <span>Export Audit Log (CSV)</span>
           </button>
 
@@ -160,10 +156,10 @@ export default function TransactionHistory() {
                   showToast('All test transactions cleared.', 'info');
                 }
               }}
-              className="px-3.5 py-2.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/40 text-xs sm:text-sm font-bold text-rose-300 hover:text-white transition-all flex items-center gap-1.5 shadow-sm shrink-0 cursor-pointer active:scale-95"
+              className="neu-btn-danger px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer active:scale-95"
               title="Reset all test debug logs"
             >
-              <Trash2 className="w-4 h-4 text-rose-400" />
+              <Trash2 className="w-4 h-4 text-rose-600 dark:text-rose-400" />
               <span>Reset Test Data</span>
             </button>
           )}
