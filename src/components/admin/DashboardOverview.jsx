@@ -221,7 +221,7 @@ export default function DashboardOverview({ onNavigateTab }) {
 
       {/* 2. Primary 4-Card Industrial KPI Grid (The 4 iconic colors: Cyan, Indigo, Amber, Emerald) */}
       <section aria-label="Key Laboratory Telemetry Metrics">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           <StatsCard
             icon={Package}
             label="Total Inventory"
@@ -263,19 +263,19 @@ export default function DashboardOverview({ onNavigateTab }) {
 
       {/* 3. Search & Horizontal Swipeable Filter Rail (Borrow Kiosk Parity) */}
       <section
-        className="neu-card p-3.5 sm:p-4 rounded-2xl space-y-3"
+        className="neu-card p-3 sm:p-4 rounded-2xl space-y-2.5 sm:space-y-3"
         aria-label="Table Search and Filters"
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          {/* Recessed Skeuomorphic Search Box */}
-          <div className="relative flex-1 max-w-lg">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
+          {/* Recessed Skeuomorphic Search Box (Full width on mobile, max-w-lg on desktop) */}
+          <div className="relative w-full md:max-w-lg">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search student ID, item, or bin..."
-              className="w-full h-11 text-sm pl-10 pr-9 rounded-xl neu-inset text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-white/30"
+              className="w-full h-10 text-xs sm:text-sm pl-10 pr-9 rounded-xl neu-inset text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-white/30"
               aria-label="Search records"
             />
             {searchQuery && (
@@ -291,11 +291,11 @@ export default function DashboardOverview({ onNavigateTab }) {
           </div>
 
           {/* View Mode Switcher: Cards vs Table */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl neu-inset-sm shrink-0">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl neu-inset-sm shrink-0 self-end md:self-auto">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              className={`min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
+              className={`min-h-[34px] sm:min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'grid'
                   ? 'neu-btn-primary shadow-sm'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -307,7 +307,7 @@ export default function DashboardOverview({ onNavigateTab }) {
             <button
               type="button"
               onClick={() => setViewMode('table')}
-              className={`min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
+              className={`min-h-[34px] sm:min-h-[36px] px-3 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
                 viewMode === 'table'
                   ? 'neu-btn-primary shadow-sm'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -320,7 +320,7 @@ export default function DashboardOverview({ onNavigateTab }) {
         </div>
 
         {/* Horizontal Swipeable Category Pill Rail */}
-        <div className="flex items-center gap-2 overflow-x-auto touch-pan-x overscroll-x-contain pb-1 pt-0.5 no-scrollbar">
+        <div className="flex items-center gap-2 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain pb-1 pt-0.5 no-scrollbar">
           {[
             { id: 'ALL', label: 'All Transactions' },
             { id: 'ACTIVE', label: 'Active Loans' },
@@ -591,118 +591,215 @@ export default function DashboardOverview({ onNavigateTab }) {
           /* ========================================================================= */
           /* TABLE VIEW                                                                */
           /* ========================================================================= */
-          <div className="neu-card rounded-2xl overflow-hidden overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 py-3 px-4 text-xs font-black tracking-wider uppercase">
-                  <th scope="col" className="py-3.5 px-4">TRACKING ID</th>
-                  <th scope="col" className="py-3.5 px-4">TOOL / APPARATUS</th>
-                  <th scope="col" className="py-3.5 px-4">BORROWER</th>
-                  <th scope="col" className="py-3.5 px-4">LOCATION</th>
-                  <th scope="col" className="py-3.5 px-4">STATUS</th>
-                  <th scope="col" className="py-3.5 px-4 text-right">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-white/10">
-                {displayRows.map((row) => {
-                  const isOverdue = row.status === 'OVERDUE';
-                  const isCleared = row.status === 'CLEARED';
+          <>
+            {/* Desktop & Tablets (>= 768px): Modular Skeuomorphic Table */}
+            <div className="hidden md:block neu-card rounded-2xl overflow-hidden overflow-x-auto shadow-sm">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 py-3 px-4 text-xs font-black tracking-wider uppercase">
+                    <th scope="col" className="py-3 px-4">TRACKING ID</th>
+                    <th scope="col" className="py-3 px-4">TOOL / APPARATUS</th>
+                    <th scope="col" className="py-3 px-4">BORROWER</th>
+                    <th scope="col" className="py-3 px-4">LOCATION</th>
+                    <th scope="col" className="py-3 px-4">STATUS</th>
+                    <th scope="col" className="py-3 px-4 text-right">ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-white/10">
+                  {displayRows.map((row) => {
+                    const isOverdue = row.status === 'OVERDUE';
+                    const isCleared = row.status === 'CLEARED';
 
-                  return (
-                    <tr
-                      key={row.id}
-                      className="hover:bg-slate-100/60 dark:hover:bg-white/5 transition-colors"
-                    >
-                      {/* ID */}
-                      <td className="py-3.5 px-4 font-mono text-sm font-bold text-slate-900 dark:text-cyan-300 whitespace-nowrap">
+                    return (
+                      <tr
+                        key={row.id}
+                        className="hover:bg-slate-100/60 dark:hover:bg-white/5 transition-colors"
+                      >
+                        {/* ID */}
+                        <td className="py-3 px-4 font-mono text-xs font-bold text-slate-900 dark:text-cyan-300 whitespace-nowrap">
+                          {row.id}
+                        </td>
+
+                        {/* Tool Name */}
+                        <td className="py-3 px-4">
+                          <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">
+                            {row.primaryName}
+                          </p>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                            {row.secondaryInfo}
+                          </p>
+                        </td>
+
+                        {/* Student ID & Borrower */}
+                        <td className="py-3 px-4">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-mono text-xs font-black text-slate-900 dark:text-white px-2 py-0.5 rounded neu-inset-sm">
+                              {row.studentId}
+                            </span>
+                            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                              {row.leaderName}
+                            </span>
+                          </div>
+                        </td>
+
+                        {/* Location */}
+                        <td className="py-3 px-4 whitespace-nowrap font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
+                          {row.binLocation}
+                        </td>
+
+                        {/* Status */}
+                        <td className="py-3 px-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-black uppercase tracking-wider border ${
+                              isOverdue
+                                ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200'
+                                : isCleared
+                                ? 'bg-emerald-100 text-emerald-950 border-emerald-400 dark:bg-emerald-950 dark:text-emerald-200'
+                                : 'bg-indigo-100 text-indigo-950 border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200'
+                            }`}
+                          >
+                            {row.status}
+                          </span>
+                        </td>
+
+                        {/* Actions */}
+                        <td className="py-3 px-4 text-right whitespace-nowrap">
+                          <div className="inline-flex items-center gap-1.5">
+                            {row.rawTx && row.status !== 'CLEARED' && (
+                              <button
+                                type="button"
+                                onClick={() => handleQuickReturn(row.rawTx)}
+                                className="neu-btn-secondary min-h-[34px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
+                              >
+                                <Check className="w-3.5 h-3.5 stroke-[3]" />
+                                <span>Return</span>
+                              </button>
+                            )}
+
+                            {row.rawTx && (
+                              <button
+                                type="button"
+                                onClick={() => setSelectedSlipModal(row.rawTx)}
+                                className="neu-btn-raised min-h-[34px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
+                              >
+                                <FileText className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                                <span>Slip</span>
+                              </button>
+                            )}
+
+                            {row.type === 'STORAGE' && (
+                              <button
+                                type="button"
+                                onClick={() => onNavigateTab && onNavigateTab('inventory')}
+                                className="neu-btn-raised min-h-[34px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
+                              >
+                                <Package className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                                <span>Manage</span>
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Phones (< 768px): Responsive Skeuomorphic Transaction Cards */}
+            <div className="block md:hidden space-y-3">
+              {displayRows.map((row) => {
+                const isOverdue = row.status === 'OVERDUE';
+                const isCleared = row.status === 'CLEARED';
+
+                return (
+                  <article
+                    key={`mob-${row.id}`}
+                    className="neu-card p-3.5 rounded-2xl space-y-2.5 select-none"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-xs font-bold text-slate-800 dark:text-cyan-300 neu-inset-sm px-2 py-0.5 rounded">
                         {row.id}
-                      </td>
+                      </span>
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-black uppercase tracking-wider border ${
+                          isOverdue
+                            ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200'
+                            : isCleared
+                            ? 'bg-emerald-100 text-emerald-950 border-emerald-400 dark:bg-emerald-950 dark:text-emerald-200'
+                            : 'bg-indigo-100 text-indigo-950 border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200'
+                        }`}
+                      >
+                        {row.status}
+                      </span>
+                    </div>
 
-                      {/* Tool Name */}
-                      <td className="py-3.5 px-4">
-                        <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug">
-                          {row.primaryName}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {/* Tool Name in Bold */}
+                    <div>
+                      <h4 className="text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
+                        {row.primaryName}
+                      </h4>
+                      {row.secondaryInfo && (
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                           {row.secondaryInfo}
                         </p>
-                      </td>
+                      )}
+                    </div>
 
-                      {/* Student ID & Borrower */}
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="font-mono text-xs font-black text-slate-900 dark:text-white px-2 py-0.5 rounded neu-inset-sm">
-                            {row.studentId}
-                          </span>
-                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                            {row.leaderName}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Location */}
-                      <td className="py-3.5 px-4 whitespace-nowrap font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
+                    {/* Borrower ID + Department Badge + Locker Bin Pill */}
+                    <div className="flex items-center gap-2 flex-wrap text-xs">
+                      <span className="font-mono text-xs font-black text-slate-900 dark:text-white px-2 py-0.5 rounded neu-inset-sm">
+                        {row.studentId}
+                      </span>
+                      <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                        {row.leaderName}
+                      </span>
+                      <span className="ml-auto font-mono text-[11px] font-bold text-slate-600 dark:text-slate-300 neu-inset-sm px-2 py-0.5 rounded-md">
                         {row.binLocation}
-                      </td>
+                      </span>
+                    </div>
 
-                      {/* Status */}
-                      <td className="py-3.5 px-4 whitespace-nowrap">
-                        <span
-                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider border ${
-                            isOverdue
-                              ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200'
-                              : isCleared
-                              ? 'bg-emerald-100 text-emerald-950 border-emerald-400 dark:bg-emerald-950 dark:text-emerald-200'
-                              : 'bg-indigo-100 text-indigo-950 border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200'
-                          }`}
+                    {/* Bottom Actions with minimum 44px touch height */}
+                    <div className="pt-2 border-t border-slate-200 dark:border-white/10 flex items-center gap-2">
+                      {row.rawTx && row.status !== 'CLEARED' && (
+                        <button
+                          type="button"
+                          onClick={() => handleQuickReturn(row.rawTx)}
+                          className="w-full neu-btn-secondary min-h-[44px] py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95 cursor-pointer shadow-xs"
                         >
-                          {row.status}
-                        </span>
-                      </td>
+                          <Check className="w-4 h-4 stroke-[3]" />
+                          <span>Mark Returned</span>
+                        </button>
+                      )}
 
-                      {/* Actions */}
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                        <div className="inline-flex items-center gap-2">
-                          {row.rawTx && row.status !== 'CLEARED' && (
-                            <button
-                              type="button"
-                              onClick={() => handleQuickReturn(row.rawTx)}
-                              className="neu-btn-secondary min-h-[36px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
-                            >
-                              <Check className="w-3.5 h-3.5 stroke-[3]" />
-                              <span>Return</span>
-                            </button>
-                          )}
+                      {row.rawTx && (
+                        <button
+                          type="button"
+                          onClick={() => setSelectedSlipModal(row.rawTx)}
+                          className="neu-btn-raised min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-xs shrink-0"
+                          title="View Slip"
+                        >
+                          <FileText className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                          <span>Slip</span>
+                        </button>
+                      )}
 
-                          {row.rawTx && (
-                            <button
-                              type="button"
-                              onClick={() => setSelectedSlipModal(row.rawTx)}
-                              className="neu-btn-raised min-h-[36px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
-                            >
-                              <FileText className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-                              <span>Slip</span>
-                            </button>
-                          )}
-
-                          {row.type === 'STORAGE' && (
-                            <button
-                              type="button"
-                              onClick={() => onNavigateTab && onNavigateTab('inventory')}
-                              className="neu-btn-raised min-h-[36px] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer active:scale-95"
-                            >
-                              <Package className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-                              <span>Manage</span>
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      {row.type === 'STORAGE' && (
+                        <button
+                          type="button"
+                          onClick={() => onNavigateTab && onNavigateTab('inventory')}
+                          className="w-full neu-btn-raised min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-xs"
+                        >
+                          <Package className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                          <span>Manage</span>
+                        </button>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </>
         )}
       </section>
 

@@ -167,39 +167,39 @@ export default function TransactionHistory() {
       </div>
 
       {/* KPI Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs">
-          <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Total Transactions</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white">{activeTransactions.length}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs min-w-0">
+          <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider truncate block">Total Transactions</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white truncate">{activeTransactions.length}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs">
-          <span className="text-[10px] sm:text-[11px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">In Laboratory</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300">{borrowedCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs min-w-0">
+          <span className="text-[10px] sm:text-[11px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider truncate block">In Laboratory</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300 truncate">{borrowedCount}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs">
-          <span className="text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Cleared / Returned</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300">{returnedCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs min-w-0">
+          <span className="text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider truncate block">Cleared / Returned</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300 truncate">{returnedCount}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-rose-500/40 space-y-0.5 shadow-xs">
-          <span className="text-[10px] sm:text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">Incidents Logged</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-rose-600 dark:text-rose-300">{incidentCount}</p>
+        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-rose-500/40 space-y-0.5 shadow-xs min-w-0">
+          <span className="text-[10px] sm:text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider truncate block">Incidents Logged</span>
+          <p className="text-lg sm:text-xl font-extrabold font-mono text-rose-600 dark:text-rose-300 truncate">{incidentCount}</p>
         </div>
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+        <div className="flex-1 relative w-full md:max-w-lg">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Tx ID, student name, instructor, course code, apparatus..."
-            className="w-full h-9 pl-9 pr-3 rounded-lg neu-inset text-xs text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
+            className="w-full h-10 pl-9 pr-3 rounded-xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 shadow-inner"
           />
         </div>
 
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 shrink-0">
+        <div className="flex items-center gap-1.5 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain pb-1 md:pb-0 no-scrollbar shrink-0">
           {[
             { id: 'ALL', label: 'All Records' },
             { id: 'BORROWED', label: 'In Lab' },
@@ -209,7 +209,7 @@ export default function TransactionHistory() {
             <button
               key={st.id}
               onClick={() => setFilterStatus(st.id)}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95 whitespace-nowrap ${
                 filterStatus === st.id
                   ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40 shadow-xs'
                   : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'

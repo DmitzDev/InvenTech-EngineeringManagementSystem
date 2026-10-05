@@ -29,10 +29,10 @@ export default function StatsCard({
 
   return (
     <article
-      className="neu-card neu-card-hover p-3 sm:p-3.5 rounded-xl flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150"
+      className="neu-card neu-card-hover p-3 sm:p-3.5 rounded-xl flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150 min-w-0"
       aria-label={`${label}: ${value}`}
     >
-      <div>
+      <div className="min-w-0">
         {/* Top Header: Icon & optional tag */}
         <div className="flex items-center justify-between gap-2">
           {Icon ? (
@@ -44,21 +44,21 @@ export default function StatsCard({
             </div>
           ) : <div />}
           {sysTag && (
-            <span className="font-mono text-[10px] font-bold text-slate-500 tracking-wider">
+            <span className="font-mono text-[10px] font-bold text-slate-500 tracking-wider truncate">
               {sysTag}
             </span>
           )}
         </div>
 
         {/* Clean Label */}
-        <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mt-2">
+        <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mt-2 truncate">
           {label}
         </h3>
 
         {/* Recessed Gauge with Value */}
-        <div className="neu-inset-sm px-3 py-1.5 rounded-lg mt-1.5 flex items-baseline justify-between">
+        <div className="neu-inset-sm px-3 py-1.5 rounded-lg mt-1.5 flex items-baseline justify-between gap-1.5 min-w-0">
           <div
-            className="text-lg sm:text-xl font-extrabold font-mono tracking-tight text-slate-900 dark:text-white"
+            className="text-lg sm:text-xl font-extrabold font-mono tracking-tight text-slate-900 dark:text-white truncate min-w-0"
             role="status"
             aria-live="polite"
           >
