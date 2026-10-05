@@ -228,8 +228,6 @@ export default function DashboardOverview({ onNavigateTab }) {
             value={totalStock.toLocaleString()}
             accent="cyan"
             subtitle={`${inventory.length} apparatus types`}
-            trend="Active Master"
-            trendType="normal"
           />
           <StatsCard
             icon={ArrowUpDown}
@@ -237,8 +235,8 @@ export default function DashboardOverview({ onNavigateTab }) {
             value={activeBorrowedTxs.length}
             accent="violet"
             subtitle={`${totalDispatchedUnits} units dispatched`}
-            trend={activeBorrowedTxs.length > 0 ? `${activeBorrowedTxs.length} In-Use` : 'All Stored'}
-            trendType={activeBorrowedTxs.length > 0 ? 'warning' : 'normal'}
+            trend={activeBorrowedTxs.length > 0 ? `${activeBorrowedTxs.length} In-Use` : undefined}
+            trendType={activeBorrowedTxs.length > 0 ? 'warning' : undefined}
           />
           <StatsCard
             icon={AlertTriangle}
@@ -246,17 +244,17 @@ export default function DashboardOverview({ onNavigateTab }) {
             value={totalOverdueAlerts}
             accent="amber"
             subtitle={totalOverdueAlerts > 0 ? 'Requires attention' : 'All loans cleared'}
-            trend={totalOverdueAlerts > 0 ? `${totalOverdueAlerts} Overdue` : 'Zero Overdue'}
-            trendType={totalOverdueAlerts > 0 ? 'critical' : 'normal'}
+            trend={totalOverdueAlerts > 0 ? `${totalOverdueAlerts} Overdue` : undefined}
+            trendType={totalOverdueAlerts > 0 ? 'critical' : undefined}
           />
           <StatsCard
             icon={Wrench}
             label="In Maintenance"
             value={inRepairItems.length}
-            accent="emerald"
+            accent="rose"
             subtitle="Damaged or offline"
-            trend={inRepairItems.length > 0 ? 'Service Flag' : 'Operational'}
-            trendType={inRepairItems.length > 0 ? 'warning' : 'normal'}
+            trend={inRepairItems.length > 0 ? 'Service Flag' : undefined}
+            trendType={inRepairItems.length > 0 ? 'warning' : undefined}
           />
         </div>
       </section>
@@ -461,19 +459,8 @@ export default function DashboardOverview({ onNavigateTab }) {
                           </div>
                         )}
 
-                        {/* Live Stock Indicator Capsule */}
-                        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-950/95 backdrop-blur-md border border-white/15 text-white font-mono text-[9px] font-black shadow-md">
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                              isUnderRepair
-                                ? 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
-                                : item.stock === 0
-                                ? 'bg-rose-500'
-                                : item.stock <= 3
-                                ? 'bg-amber-400 animate-pulse shadow-[0_0_6px_rgba(251,191,36,0.8)]'
-                                : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                            }`}
-                          />
+                        {/* Stock Tag on Image (Clean, without green indicator dot) */}
+                        <div className="absolute bottom-2 left-2 z-10 px-2 py-0.5 rounded-md bg-slate-950/90 backdrop-blur-md border border-white/15 text-white font-mono text-[9px] font-black shadow-md">
                           <span>
                             {isUnderRepair
                               ? 'REPAIR'
@@ -537,21 +524,16 @@ export default function DashboardOverview({ onNavigateTab }) {
                         {tx.txId}
                       </span>
 
-                      {/* Status Badge using the 4 iconic Kiosk colors */}
+                      {/* Status Badge without unnecessary dot indicators */}
                       <span
-                        className={`inline-flex items-center gap-1 px-1.5 sm:px-2.5 py-0.5 rounded-md text-[9px] sm:text-xs font-black uppercase tracking-wider border shrink-0 ${
+                        className={`inline-flex items-center px-1.5 sm:px-2.5 py-0.5 rounded-md text-[9px] sm:text-xs font-black uppercase tracking-wider border shrink-0 ${
                           isOverdue
                             ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200 dark:border-amber-600 animate-pulse'
                             : isCleared
-                            ? 'bg-emerald-100 text-emerald-950 border-emerald-400 dark:bg-emerald-950 dark:text-emerald-200 dark:border-emerald-600'
+                            ? 'bg-slate-200 text-slate-800 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
                             : 'bg-indigo-100 text-indigo-950 border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200 dark:border-indigo-600'
                         }`}
                       >
-                        <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            isOverdue ? 'bg-amber-600' : isCleared ? 'bg-emerald-600' : 'bg-indigo-600'
-                          }`}
-                        />
                         <span>{isOverdue ? 'OVERDUE' : isCleared ? 'CLEARED' : 'ACTIVE'}</span>
                       </span>
                     </div>
@@ -778,7 +760,7 @@ export default function DashboardOverview({ onNavigateTab }) {
                           isOverdue
                             ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200'
                             : isCleared
-                            ? 'bg-emerald-100 text-emerald-950 border-emerald-400 dark:bg-emerald-950 dark:text-emerald-200'
+                            ? 'bg-slate-200 text-slate-800 border-slate-300 dark:bg-slate-800 dark:text-slate-300'
                             : 'bg-indigo-100 text-indigo-950 border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200'
                         }`}
                       >

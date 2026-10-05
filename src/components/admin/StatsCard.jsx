@@ -11,8 +11,6 @@ export default function StatsCard({
   trendType = 'normal', // 'normal' | 'critical' | 'warning'
 }) {
   const badgeClasses = {
-    normal:
-      'bg-emerald-100 text-emerald-950 border border-emerald-600 dark:bg-emerald-950/90 dark:text-emerald-200 dark:border-emerald-500 font-bold',
     critical:
       'bg-rose-100 text-rose-950 border border-rose-600 dark:bg-rose-950/90 dark:text-rose-200 dark:border-rose-500 font-bold animate-pulse',
     warning:
