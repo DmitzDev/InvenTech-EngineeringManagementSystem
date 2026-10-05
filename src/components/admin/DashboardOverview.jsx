@@ -430,7 +430,7 @@ export default function DashboardOverview({ onNavigateTab }) {
           /* ========================================================================= */
           /* CARD GRID VIEW (SKEUOMORPHIC BORROW KIOSK CARDS)                          */
           /* ========================================================================= */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4">
             {displayRows.map((row) => {
               if (row.type === 'STORAGE') {
                 // RENDER APPARATUS ITEM CARD (Exact Borrow Kiosk Item Card DNA)
@@ -528,18 +528,18 @@ export default function DashboardOverview({ onNavigateTab }) {
               return (
                 <article
                   key={row.id}
-                  className="neu-card neu-card-hover p-4 rounded-2xl flex flex-col justify-between space-y-3 select-none"
+                  className="neu-card neu-card-hover p-2.5 sm:p-4 rounded-2xl flex flex-col justify-between space-y-2.5 sm:space-y-3 select-none"
                 >
-                  <div className="space-y-2.5">
+                  <div className="space-y-2 sm:space-y-2.5">
                     {/* Top Ribbon & Telemetry Tag */}
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs font-black text-slate-800 dark:text-cyan-300 neu-inset-sm px-2 py-0.5 rounded-md">
+                    <div className="flex items-center justify-between gap-1.5">
+                      <span className="font-mono text-[10px] sm:text-xs font-black text-slate-800 dark:text-cyan-300 neu-inset-sm px-1.5 sm:px-2 py-0.5 rounded-md truncate">
                         {tx.txId}
                       </span>
 
                       {/* Status Badge using the 4 iconic Kiosk colors */}
                       <span
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-black uppercase tracking-wider border shrink-0 ${
+                        className={`inline-flex items-center gap-1 px-1.5 sm:px-2.5 py-0.5 rounded-md text-[9px] sm:text-xs font-black uppercase tracking-wider border shrink-0 ${
                           isOverdue
                             ? 'bg-amber-100 text-amber-950 border-amber-400 dark:bg-amber-950 dark:text-amber-200 dark:border-amber-600 animate-pulse'
                             : isCleared
@@ -557,20 +557,20 @@ export default function DashboardOverview({ onNavigateTab }) {
                     </div>
 
                     {/* Borrower Capsule (Clean & Minimal) */}
-                    <div className="neu-inset-sm p-3 rounded-xl space-y-1">
-                      <div className="flex items-center justify-between gap-1.5">
-                        <span className="font-mono text-xs font-black text-slate-900 dark:text-white">
+                    <div className="neu-inset-sm p-2 sm:p-3 rounded-xl space-y-0.5 sm:space-y-1">
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="font-mono text-[10px] sm:text-xs font-black text-slate-900 dark:text-white truncate">
                           {row.studentId}
                         </span>
-                        <span className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400">
+                        <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400 shrink-0">
                           {row.binLocation}
                         </span>
                       </div>
 
-                      <p className="text-sm font-black text-slate-900 dark:text-white uppercase leading-tight">
+                      <p className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase leading-tight truncate">
                         {row.leaderName}
                       </p>
-                      <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
+                      <p className="text-[10px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 truncate">
                         {row.secondaryInfo}
                       </p>
                     </div>
@@ -580,18 +580,18 @@ export default function DashboardOverview({ onNavigateTab }) {
                       {(tx.items || []).slice(0, 2).map((item, idx) => (
                         <div
                           key={idx}
-                          className="px-2.5 py-1.5 rounded-lg neu-inset-sm flex items-center justify-between text-xs font-semibold"
+                          className="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg neu-inset-sm flex items-center justify-between text-[10px] sm:text-xs font-semibold"
                         >
-                          <span className="truncate text-slate-900 dark:text-white pr-2">
+                          <span className="truncate text-slate-900 dark:text-white pr-1">
                             {item.name}
                           </span>
-                          <span className="font-mono text-xs font-bold text-slate-600 dark:text-slate-400 shrink-0">
+                          <span className="font-mono text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 shrink-0">
                             x{item.qty || 1}
                           </span>
                         </div>
                       ))}
                       {(tx.items || []).length > 2 && (
-                        <p className="text-[11px] font-mono font-bold text-slate-500 text-center">
+                        <p className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-500 text-center">
                           +{(tx.items || []).length - 2} more items
                         </p>
                       )}
@@ -599,15 +599,15 @@ export default function DashboardOverview({ onNavigateTab }) {
                   </div>
 
                   {/* 1-Click Action Buttons */}
-                  <div className="pt-2 border-t border-slate-200 dark:border-white/10 flex items-center gap-2">
+                  <div className="pt-1.5 sm:pt-2 border-t border-slate-200 dark:border-white/10 flex items-center gap-1.5 sm:gap-2">
                     {tx.status !== 'RETURNED_CLEARED' && (
                       <button
                         type="button"
                         onClick={() => handleQuickReturn(tx)}
-                        className="flex-1 neu-btn-secondary min-h-[42px] px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                        className="flex-1 neu-btn-secondary min-h-[34px] sm:min-h-[42px] px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 cursor-pointer active:scale-95"
                         title="Mark equipment returned"
                       >
-                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
                         <span>Return</span>
                       </button>
                     )}
@@ -615,10 +615,10 @@ export default function DashboardOverview({ onNavigateTab }) {
                     <button
                       type="button"
                       onClick={() => setSelectedSlipModal(tx)}
-                      className="flex-1 neu-btn-raised min-h-[42px] px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                      className="flex-1 neu-btn-raised min-h-[34px] sm:min-h-[42px] px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 cursor-pointer active:scale-95"
                       title="Inspect loan slip"
                     >
-                      <FileText className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                      <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-600 dark:text-cyan-400" />
                       <span>Slip</span>
                     </button>
                   </div>

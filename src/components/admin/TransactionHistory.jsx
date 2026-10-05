@@ -166,23 +166,23 @@ export default function TransactionHistory() {
         </div>
       </div>
 
-      {/* KPI Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs min-w-0">
+      {/* KPI Summary Cards (2x2 on Mobile, 4-Cols on Desktop) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
+        <div className="p-2 sm:p-3 rounded-xl neu-card space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider truncate block">Total Transactions</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white truncate">{activeTransactions.length}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-slate-900 dark:text-white truncate">{activeTransactions.length}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs min-w-0">
+        <div className="p-2 sm:p-3 rounded-xl neu-card border-cyan-500/40 space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider truncate block">In Laboratory</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300 truncate">{borrowedCount}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-cyan-600 dark:text-cyan-300 truncate">{borrowedCount}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs min-w-0">
+        <div className="p-2 sm:p-3 rounded-xl neu-card border-emerald-500/40 space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider truncate block">Cleared / Returned</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300 truncate">{returnedCount}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300 truncate">{returnedCount}</p>
         </div>
-        <div className="p-2.5 sm:p-3 rounded-xl neu-card border-rose-500/40 space-y-0.5 shadow-xs min-w-0">
+        <div className="p-2 sm:p-3 rounded-xl neu-card border-rose-500/40 space-y-0.5 shadow-xs min-w-0">
           <span className="text-[10px] sm:text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider truncate block">Incidents Logged</span>
-          <p className="text-lg sm:text-xl font-extrabold font-mono text-rose-600 dark:text-rose-300 truncate">{incidentCount}</p>
+          <p className="text-base sm:text-xl font-extrabold font-mono text-rose-600 dark:text-rose-300 truncate">{incidentCount}</p>
         </div>
       </div>
 
@@ -221,7 +221,7 @@ export default function TransactionHistory() {
         </div>
       </div>
 
-      {/* Transaction List */}
+      {/* Transaction List (2x2 Grid on Mobile Browser, Full Width on Desktop/Tablet) */}
       {filtered.length === 0 ? (
         <div className="p-8 rounded-xl neu-card text-center space-y-2">
           <ScrollText className="w-8 h-8 mx-auto text-slate-400 dark:text-slate-600" />
@@ -235,7 +235,7 @@ export default function TransactionHistory() {
           </div>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-2.5 sm:gap-3">
           {filtered.map((tx) => {
             const statusBadge = STATUS_BADGE[tx.status] || STATUS_BADGE.BORROWED;
             const isExpanded = expandedTx === tx.txId;
@@ -244,50 +244,54 @@ export default function TransactionHistory() {
             return (
               <div
                 key={tx.txId}
-                className="rounded-2xl neu-card overflow-hidden transition-all duration-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-md"
+                className={`rounded-2xl neu-card overflow-hidden transition-all duration-200 hover:border-slate-400 dark:hover:border-slate-700 shadow-md ${
+                  isExpanded ? 'col-span-2' : 'col-span-1'
+                } md:col-span-1`}
               >
                 {/* Clickable Transaction Summary Header */}
                 <button
                   type="button"
                   onClick={() => toggleExpand(tx.txId)}
-                  className="w-full p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-left hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer"
+                  className="w-full p-2.5 sm:p-4 md:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 sm:gap-3 text-left hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer select-none"
                 >
-                  <div className="flex-1 min-w-0 w-full">
-                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                      <span className="text-xs font-mono font-bold text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded border border-cyan-500/30">
+                  <div className="flex-1 min-w-0 w-full space-y-1">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[10px] sm:text-xs font-mono font-bold text-cyan-700 dark:text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30 truncate">
                         {tx.txId}
                       </span>
-                      <span className={`text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full ${statusBadge.bg} ${statusBadge.text} ${statusBadge.border} border font-bold`}>
+                      <span className={`text-[9px] sm:text-xs px-2 py-0.5 rounded-full ${statusBadge.bg} ${statusBadge.text} ${statusBadge.border} border font-bold shrink-0`}>
                         {statusBadge.label}
                       </span>
-                      <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                      <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium truncate block md:inline">
                         • {tx.items.length} apparatus ({totalUnits} units)
                       </span>
                     </div>
 
-                    <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 truncate uppercase">
+                    <p className="text-xs sm:text-sm md:text-base font-bold text-slate-900 dark:text-slate-100 truncate uppercase mt-0.5">
                       {tx.borrower.groupLeader}
                     </p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 truncate mt-0.5">
+                    <p className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-400 truncate mt-0.5">
                       <strong className="text-cyan-700 dark:text-cyan-300">{tx.borrower.program}</strong> • Course:{' '}
-                      <strong className="text-slate-900 dark:text-white font-mono">{tx.borrower.courseCode}</strong> • Group{' '}
-                      <strong className="text-slate-900 dark:text-white font-mono">{tx.borrower.groupNo}</strong> • Faculty:{' '}
-                      <strong className="text-slate-700 dark:text-slate-300">{tx.borrower.instructor}</strong>
+                      <strong className="text-slate-900 dark:text-white font-mono">{tx.borrower.courseCode}</strong>
+                      <span className="hidden md:inline">
+                        {' '}• Group <strong className="text-slate-900 dark:text-white font-mono">{tx.borrower.groupNo}</strong> • Faculty:{' '}
+                        <strong className="text-slate-700 dark:text-slate-300">{tx.borrower.instructor}</strong>
+                      </span>
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-end sm:text-right shrink-0 gap-3 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200 dark:border-white/10">
-                    <div className="font-mono text-xs">
-                      <p className="text-slate-700 dark:text-slate-300 font-semibold">{tx.borrowedAt}</p>
+                  <div className="flex items-center justify-between md:justify-end md:text-right shrink-0 gap-2 sm:gap-3 w-full md:w-auto pt-1.5 md:pt-0 border-t md:border-t-0 border-slate-200 dark:border-white/10">
+                    <div className="font-mono text-[10px] sm:text-xs">
+                      <p className="text-slate-700 dark:text-slate-300 font-semibold truncate">{tx.borrowedAt}</p>
                       {tx.returnedAt && (
-                        <p className="text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">Cleared: {tx.returnedAt}</p>
+                        <p className="text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5 truncate">Cleared: {tx.returnedAt}</p>
                       )}
                     </div>
-                    <div className="p-2 rounded-xl neu-inset text-slate-600 dark:text-slate-400 shrink-0">
+                    <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl neu-inset text-slate-600 dark:text-slate-400 shrink-0">
                       {isExpanded ? (
-                        <ChevronUp className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                        <ChevronUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-600 dark:text-cyan-400" />
                       ) : (
-                        <ChevronDown className="w-4 h-4 text-slate-500" />
+                        <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-500" />
                       )}
                     </div>
                   </div>
