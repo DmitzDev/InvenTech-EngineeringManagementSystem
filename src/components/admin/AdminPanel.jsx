@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdminLogin from './AdminLogin';
+import { useNavigate } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 import AdminHeader from './AdminHeader';
 import DashboardOverview from './DashboardOverview';
@@ -9,17 +9,14 @@ import TransactionHistory from './TransactionHistory';
 import AuditReports from './AuditReports';
 
 export default function AdminPanel() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const handleLock = () => {
-    setIsAuthenticated(false);
-    setActiveTab('dashboard');
-    setIsMobileMenuOpen(false);
+
+  const handleExit = () => {
+    navigate('/');
   };
-  if (!isAuthenticated) {
-    return <AdminLogin onAuthenticated={setIsAuthenticated} />;
-  }
+
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -38,23 +35,24 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="admin-shell h-screen w-screen bg-[#060b14] text-slate-100 flex overflow-hidden relative select-none">
+    <div className="admin-shell h-screen w-screen bg-slate-100 dark:bg-slate-950 text-slate-950 dark:text-white flex overflow-hidden relative select-none">
       {/* Sidebar: Persistent on Desktop, Slide-over Drawer on Mobile */}
       <AdminSidebar
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        onLock={handleLock}
+        onLock={handleExit}
         isMobileOpen={isMobileMenuOpen}
         onCloseMobile={() => setIsMobileMenuOpen(false)}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-100 dark:bg-slate-950">
         <AdminHeader
           onToggleMobileMenu={() => setIsMobileMenuOpen((prev) => !prev)}
           isMobileMenuOpen={isMobileMenuOpen}
+          onLogout={handleExit}
         />
-        <main className="flex-1 overflow-y-auto min-w-0">
+        <main className="flex-1 overflow-y-auto min-w-0 bg-slate-100 dark:bg-slate-950">
           {renderContent()}
         </main>
       </div>
