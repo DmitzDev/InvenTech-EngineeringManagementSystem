@@ -99,25 +99,24 @@ export const saveStoredTransactions = (transactions) => {
 };
 
 /**
- * Real-Time Philippine Time (Asia/Manila / PHT) Theme Resolver
- * - 04:00 AM to 03:59 PM (Daytime) -> 'light'
- * - 04:00 PM to 03:59 AM (Nighttime) -> 'dark'
+ * Initial Theme Resolver
+ * Reads deliberate manual preference from localStorage with clean fallback to 'dark'
  */
-export function getPhilippineTheme() {
+export function getInitialTheme() {
   try {
-    const now = new Date();
-    const phtDateStr = now.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-    const phtHour = new Date(phtDateStr).getHours();
-    return (phtHour >= 4 && phtHour < 16) ? 'light' : 'dark';
+    const saved = localStorage.getItem('udd_kiosk_theme');
+    if (saved === 'light' || saved === 'dark') {
+      return saved;
+    }
   } catch {
-    const hour = new Date().getHours();
-    return (hour >= 4 && hour < 16) ? 'light' : 'dark';
+    // fallback
   }
+  return 'dark';
 }
 
 const initialState = {
   currentStep: 0, // 0 = Welcome, 1 = Borrower Form, 2 = Lab Selector, 3 = Catalog/Cart, 4 = Commit/Print
-  theme: getPhilippineTheme(), // Real-time automatic: 4AM-4PM Light, 4PM-4AM Dark
+  theme: getInitialTheme(), // Deliberate manual mode: persisted in localStorage with clean fallback
   borrower: {
     studentId: '',
     program: '',
@@ -858,22 +857,6 @@ export function TransactionProvider({ children }) {
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [state.theme]);
-
-  // Real-Time Philippine Time (Asia/Manila) Automated Theme Engine
-  // 04:00 AM - 03:59 PM: Light Theme
-  // 04:00 PM - 03:59 AM: Dark Theme
-  useEffect(() => {
-    const checkAndSyncTheme = () => {
-      const scheduledTheme = getPhilippineTheme();
-      if (state.theme !== scheduledTheme) {
-        dispatch({ type: 'SET_THEME', payload: scheduledTheme });
-      }
-    };
-
-    checkAndSyncTheme();
-    const interval = setInterval(checkAndSyncTheme, 15000);
-    return () => clearInterval(interval);
   }, [state.theme]);
 
   // Sync live transactions and reservations across browser tabs

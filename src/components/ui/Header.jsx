@@ -4,6 +4,7 @@ import { useTransaction } from '../../context/TransactionContext';
 import ConfirmDialog from './ConfirmDialog';
 import ReturnEquipmentModal from '../steps/ReturnEquipmentModal';
 import ReturnClearanceModal from '../steps/ReturnClearanceModal';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   const { currentStep, theme, resetTransaction, goToWelcome } = useTransaction();
@@ -291,16 +292,22 @@ export default function Header() {
           </>
         )}
 
-        {/* Right: Live Digital Clock Pod (Clean, Spacious, Uncluttered) */}
-        <div className={`flex items-center gap-1 sm:gap-3 neu-inset px-2 sm:px-5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl z-10 shrink-0 max-w-full truncate ${
-          isDark ? '' : 'bg-slate-100 border border-slate-300'
-        }`}>
-          <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
-          <span className={`text-xs sm:text-sm font-medium hidden md:inline truncate ${isDark ? 'text-slate-300' : 'text-slate-700 font-bold'}`}>{date}</span>
-          <span className={`text-xs hidden md:inline ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>|</span>
-          <span className={`font-mono text-xs sm:text-sm font-black tracking-wider shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-950 font-black'}`}>
-            {time || '12:00 PM'}
-          </span>
+        {/* Right: Live Telemetry Cluster (Theme Toggle & Digital Clock Pod) */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 z-10 shrink-0">
+          {/* Manual Theme Toggle Pill Button */}
+          <ThemeToggle />
+
+          {/* Live Digital Clock Pod (Clean, Spacious, Uncluttered) */}
+          <div className={`flex items-center gap-1 sm:gap-3 neu-inset px-2 sm:px-4 lg:px-5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl shrink-0 max-w-full truncate ${
+            isDark ? '' : 'bg-slate-100 border border-slate-300'
+          }`}>
+            <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
+            <span className={`text-xs sm:text-sm font-medium hidden md:inline truncate ${isDark ? 'text-slate-300' : 'text-slate-700 font-bold'}`}>{date}</span>
+            <span className={`text-xs hidden md:inline ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>|</span>
+            <span className={`font-mono text-xs sm:text-sm font-black tracking-wider shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-950 font-black'}`}>
+              {time || '12:00 PM'}
+            </span>
+          </div>
         </div>
       </header>
 

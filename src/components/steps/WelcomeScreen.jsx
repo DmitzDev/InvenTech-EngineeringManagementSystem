@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
+import ThemeToggle from '../ui/ThemeToggle';
 import SecureReturnStation from './SecureReturnStation';
 import ReturnEquipmentModal from './ReturnEquipmentModal';
 import ReturnClearanceModal from './ReturnClearanceModal';
@@ -75,12 +76,15 @@ export default function WelcomeScreen() {
           <span className={`truncate ${isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}`}>Terminal #01</span>
         </div>
 
-        {/* Live Digital Clock Pod */}
-        <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono shadow-xs ${
-          isDark ? 'neu-inset text-cyan-400' : 'bg-white border border-slate-300 text-slate-900 font-bold'
-        }`}>
-          <Clock className="w-3.5 h-3.5" />
-          <span className="font-extrabold tracking-wider">{time}</span>
+        {/* Right: Manual Theme Toggle & Live Digital Clock Pod */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          <ThemeToggle />
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono shadow-xs ${
+            isDark ? 'neu-inset text-cyan-400' : 'bg-white border border-slate-300 text-slate-900 font-bold'
+          }`}>
+            <Clock className="w-3.5 h-3.5" />
+            <span className="font-extrabold tracking-wider">{time}</span>
+          </div>
         </div>
       </div>
 
