@@ -484,19 +484,23 @@ export default function InventoryManager() {
       </div>
 
       {/* 3. 5-Department Navigation Tabs with Live Badges */}
-      <div className="p-1.5 rounded-2xl neu-inset-sm flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0">
+      <div className="p-1 rounded-xl neu-inset-sm flex items-center gap-1 overflow-x-auto no-scrollbar shrink-0">
         <button
           type="button"
           onClick={() => setFilterLab('ALL')}
-          className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+          className={`h-8 sm:h-9 px-3 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer active:scale-95 ${
             filterLab === 'ALL'
-              ? 'neu-btn-primary shadow-md'
-              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
+              ? 'bg-white text-slate-950 dark:bg-white/15 dark:text-white font-black shadow-xs'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
-          <Boxes className="w-3.5 h-3.5" />
+          <Boxes className="w-3.5 h-3.5 shrink-0" />
           <span>All Departments</span>
-          <span className="px-1.5 py-0.5 rounded-full bg-black/15 dark:bg-white/10 text-[10px] font-mono font-bold">
+          <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+            filterLab === 'ALL'
+              ? 'bg-slate-900/10 dark:bg-white/20 text-slate-900 dark:text-white'
+              : 'bg-black/10 dark:bg-white/10 text-slate-500 dark:text-slate-400'
+          }`}>
             {inventory.length}
           </span>
         </button>
@@ -511,15 +515,19 @@ export default function InventoryManager() {
               key={id}
               type="button"
               onClick={() => setFilterLab(id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+              className={`h-8 sm:h-9 px-3 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer active:scale-95 ${
                 isActive
-                  ? 'neu-card bg-cyan-50 dark:bg-cyan-950/40 border-cyan-500 text-cyan-700 dark:text-cyan-300 shadow-sm font-black'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
+                  ? 'bg-white text-slate-950 dark:bg-white/15 dark:text-white font-black shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className="w-3.5 h-3.5 shrink-0" />
               <span>{info.short}</span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${isActive ? 'bg-cyan-500/20 text-cyan-700 dark:text-cyan-300' : 'bg-black/10 dark:bg-white/10 text-slate-500 dark:text-slate-400'}`}>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+                isActive
+                  ? 'bg-slate-900/10 dark:bg-white/20 text-slate-900 dark:text-white'
+                  : 'bg-black/10 dark:bg-white/10 text-slate-500 dark:text-slate-400'
+              }`}>
                 {count}
               </span>
             </button>
@@ -528,37 +536,39 @@ export default function InventoryManager() {
       </div>
 
       {/* 4. Multi-Filter Toolbar & Search */}
-      <div className="space-y-2.5">
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
-          {/* Search Input with Clear Button (Full-width on mobile) */}
-          <div className="flex-1 relative w-full md:max-w-lg">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+      <div className="space-y-2 sm:space-y-2.5">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 sm:gap-2.5">
+          {/* Search Input with Clear Button */}
+          <div className="flex-1 relative w-full md:max-w-md lg:max-w-lg">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by equipment name, tag code (e.g. ENG-EQ-...), category, room..."
-              className="w-full h-10 pl-10 pr-10 rounded-xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/60"
+              placeholder="Search equipment, tag code, room, bin..."
+              className="w-full h-10 pl-9 pr-9 rounded-xl neu-inset text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/60"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 p-1"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 p-1"
+                aria-label="Clear search"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
 
-          {/* Sort Selector & View Mode Switcher */}
-          <div className="flex items-center gap-2 self-end md:self-auto flex-wrap">
-            <div className="flex items-center gap-1.5 px-3 h-10 rounded-xl neu-inset text-xs font-semibold text-slate-700 dark:text-slate-300 shrink-0">
+          {/* Sort Selector & View Mode Switcher (Symmetrically balanced on mobile, adjacent on desktop) */}
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full md:w-auto">
+            {/* Sort Dropdown */}
+            <div className="flex-1 sm:flex-initial flex items-center gap-1.5 px-3 h-10 rounded-xl neu-inset text-xs font-semibold text-slate-700 dark:text-slate-300 min-w-0">
               <ArrowUpDown className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent text-xs text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-2 font-medium"
+                className="bg-transparent text-xs text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-1 font-medium w-full truncate"
               >
                 <option value="name-asc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Name: A to Z</option>
                 <option value="name-desc" className="bg-white dark:bg-[#111827] text-slate-900 dark:text-white">Name: Z to A</option>
@@ -573,16 +583,26 @@ export default function InventoryManager() {
               <button
                 type="button"
                 onClick={() => setViewMode('table')}
-                className={`p-2 rounded-lg transition-all cursor-pointer ${viewMode === 'table' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                className={`h-8 w-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
+                  viewMode === 'table'
+                    ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold shadow-xs'
+                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                }`}
                 title="Table View"
+                aria-label="Table View"
               >
                 <TableIcon className="w-4 h-4" />
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition-all cursor-pointer ${viewMode === 'grid' ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}`}
+                className={`h-8 w-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
+                  viewMode === 'grid'
+                    ? 'neu-btn-raised text-cyan-600 dark:text-cyan-400 font-bold shadow-xs'
+                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                }`}
                 title="Card Grid View"
+                aria-label="Card Grid View"
               >
                 <LayoutGrid className="w-4 h-4" />
               </button>
@@ -599,19 +619,19 @@ export default function InventoryManager() {
                 key={cat}
                 type="button"
                 onClick={() => setFilterCategory(cat)}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer ${
+                className={`h-7 px-2.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all cursor-pointer active:scale-95 ${
                   filterCategory === cat
-                    ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40'
+                    ? 'neu-btn-raised bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/40 shadow-xs'
                     : 'neu-btn-raised text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                {cat === 'ALL' ? 'All Categories' : cat}
+                {cat === 'ALL' ? 'All' : cat}
               </button>
             ))}
           </div>
 
           <div className="text-xs text-slate-500 dark:text-slate-400 font-mono font-semibold shrink-0 pr-1">
-            Showing <strong className="text-cyan-600 dark:text-cyan-400">{filteredAndSorted.length}</strong> of {inventory.length} apparatus
+            Showing <strong className="text-cyan-600 dark:text-cyan-400">{filteredAndSorted.length}</strong> of {inventory.length}
           </div>
         </div>
       </div>
