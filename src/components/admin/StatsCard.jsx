@@ -29,49 +29,50 @@ export default function StatsCard({
 
   return (
     <article
-      className="p-5 rounded-2xl bg-white dark:bg-[#111827] border-2 border-slate-200 dark:border-slate-800 ring-1 ring-inset ring-white/10 dark:ring-white/5 shadow-xs flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150 hover:border-slate-300 dark:hover:border-slate-700"
+      className="neu-card neu-card-hover p-4 sm:p-5 rounded-2xl flex flex-col justify-between select-none relative overflow-hidden transition-all duration-150"
       aria-label={`${label}: ${value}`}
     >
       <div>
-        {/* Monospace System Micro-Tag & Icon */}
+        {/* Monospace System Micro-Tag & Hardware Icon */}
         <div className="flex items-center justify-between gap-2">
-          <span className="font-mono text-xs font-bold text-slate-700 dark:text-slate-300 tracking-wider">
+          <span className="font-mono text-xs font-bold text-slate-600 dark:text-slate-400 tracking-wider">
             {sysTag}
           </span>
           {Icon && (
             <div
-              className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center shrink-0 ${iconAccent}`}
+              className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${iconAccent}`}
               aria-hidden="true"
             >
-              <Icon className="w-5 h-5" />
+              <Icon className="w-4 h-4" />
             </div>
           )}
         </div>
 
-        {/* High-Legibility Label */}
-        <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 mt-3">
+        {/* Clean Label */}
+        <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mt-2.5">
           {label}
         </h3>
 
-        {/* High-Contrast Large Value */}
-        <div
-          className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-950 dark:text-white mt-1"
-          role="status"
-          aria-live="polite"
-        >
-          {value}
-        </div>
-      </div>
-
-      {/* Subtitle & Trend/Status Pill */}
-      {(subtitle || trend) && (
-        <div className="mt-4 pt-3 border-t-2 border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs sm:text-sm text-slate-700 dark:text-slate-300 gap-2">
-          <span className="font-medium truncate">{subtitle}</span>
+        {/* Recessed Gauge with Large Value */}
+        <div className="neu-inset-sm px-3.5 py-2 rounded-xl mt-2 flex items-baseline justify-between">
+          <div
+            className="text-2xl sm:text-3xl font-black font-mono tracking-tight text-slate-900 dark:text-white"
+            role="status"
+            aria-live="polite"
+          >
+            {value}
+          </div>
           {trend && (
-            <span className={`px-2.5 py-1 rounded-md text-xs tracking-tight shrink-0 ${badgeClasses}`}>
+            <span className={`px-2 py-0.5 rounded-md text-[11px] font-bold tracking-tight shrink-0 ${badgeClasses}`}>
               {trend}
             </span>
           )}
+        </div>
+      </div>
+
+      {subtitle && (
+        <div className="mt-2.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400 truncate">
+          {subtitle}
         </div>
       )}
     </article>

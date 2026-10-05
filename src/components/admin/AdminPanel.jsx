@@ -35,7 +35,7 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="admin-shell h-screen w-screen bg-slate-50 dark:bg-[#0B0F19] text-slate-950 dark:text-white flex overflow-hidden relative select-none">
+    <div className="admin-shell h-screen w-screen bg-[#e2e8f0] dark:bg-[#0a0e17] text-slate-900 dark:text-slate-100 flex overflow-hidden relative select-none">
       {/* Sidebar: Persistent on Desktop, Slide-over Drawer on Mobile */}
       <AdminSidebar
         activeTab={activeTab}
@@ -46,13 +46,13 @@ export default function AdminPanel() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50 dark:bg-[#0B0F19]">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#e2e8f0] dark:bg-[#0a0e17]">
         <AdminHeader
           onToggleMobileMenu={() => setIsMobileMenuOpen((prev) => !prev)}
           isMobileMenuOpen={isMobileMenuOpen}
           onLogout={handleExit}
         />
-        <main className="flex-1 overflow-y-auto min-w-0 bg-slate-50 dark:bg-[#0B0F19]">
+        <main className="flex-1 overflow-y-auto min-w-0 bg-[#e2e8f0] dark:bg-[#0a0e17]">
           {renderContent()}
         </main>
       </div>
