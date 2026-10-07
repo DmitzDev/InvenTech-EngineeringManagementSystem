@@ -104,7 +104,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<KioskContent />} />
         <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </TransactionProvider>

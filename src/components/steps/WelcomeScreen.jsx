@@ -14,15 +14,16 @@ import {
   Boxes,
   ChevronRight,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 import ThemeToggle from '../ui/ThemeToggle';
 import SecureReturnStation from './SecureReturnStation';
 import ReturnEquipmentModal from './ReturnEquipmentModal';
 import ReturnClearanceModal from './ReturnClearanceModal';
-import CustodianOverrideModal from '../ui/CustodianOverrideModal';
 
 export default function WelcomeScreen() {
+  const navigate = useNavigate();
   const { setStep, theme } = useTransaction();
   const isDark = theme === 'dark';
   const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'mode_select' | 'return'
@@ -30,22 +31,9 @@ export default function WelcomeScreen() {
   const [date, setDate] = useState('');
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState(false);
-  const [isOverrideOpen, setIsOverrideOpen] = useState(false);
-  const emblemTapRef = React.useRef({ count: 0, lastTime: 0 });
 
   const handleEmblemTap = () => {
-    const now = Date.now();
-    if (now - emblemTapRef.current.lastTime < 1500) {
-      emblemTapRef.current.count += 1;
-    } else {
-      emblemTapRef.current.count = 1;
-    }
-    emblemTapRef.current.lastTime = now;
-
-    if (emblemTapRef.current.count >= 3) {
-      emblemTapRef.current.count = 0;
-      setIsOverrideOpen(true);
-    }
+    navigate('/admin');
   };
 
   useEffect(() => {
@@ -461,12 +449,6 @@ export default function WelcomeScreen() {
       <ReturnClearanceModal
         isOpen={isClearanceModalOpen}
         onClose={() => setIsClearanceModalOpen(false)}
-      />
-
-      {/* Custodian Hardware Quick Access PIN Keypad Override Modal */}
-      <CustodianOverrideModal
-        isOpen={isOverrideOpen}
-        onClose={() => setIsOverrideOpen(false)}
       />
     </div>
   );
