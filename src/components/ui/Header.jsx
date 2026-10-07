@@ -5,6 +5,7 @@ import ConfirmDialog from './ConfirmDialog';
 import ReturnEquipmentModal from '../steps/ReturnEquipmentModal';
 import ReturnClearanceModal from '../steps/ReturnClearanceModal';
 import ThemeToggle from './ThemeToggle';
+import CustodianOverrideModal from './CustodianOverrideModal';
 
 export default function Header() {
   const { currentStep, theme, resetTransaction, goToWelcome } = useTransaction();
@@ -16,6 +17,23 @@ export default function Header() {
   const [isHomeDialogOpen, setIsHomeDialogOpen] = useState(false);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState(false);
+  const [isOverrideOpen, setIsOverrideOpen] = useState(false);
+  const emblemTapRef = React.useRef({ count: 0, lastTime: 0 });
+
+  const handleEmblemTap = () => {
+    const now = Date.now();
+    if (now - emblemTapRef.current.lastTime < 1500) {
+      emblemTapRef.current.count += 1;
+    } else {
+      emblemTapRef.current.count = 1;
+    }
+    emblemTapRef.current.lastTime = now;
+
+    if (emblemTapRef.current.count >= 3) {
+      emblemTapRef.current.count = 0;
+      setIsOverrideOpen(true);
+    }
+  };
 
   const isDark = theme === 'dark';
 
@@ -136,9 +154,20 @@ export default function Header() {
             <div className="text-sm sm:text-base font-extrabold text-slate-100 tracking-tight truncate">
               <span>Universidad de Dagupan</span>
             </div>
-            <p className="text-xs sm:text-sm text-slate-400 font-medium truncate">
-              School of Engineering
-            </p>
+            <div className="flex items-center gap-1.5">
+              <p className="text-xs sm:text-sm text-slate-400 font-medium truncate">
+                School of Engineering
+              </p>
+              <button
+                type="button"
+                onClick={handleEmblemTap}
+                className="hidden lg:inline-flex font-mono text-[9px] font-bold px-1.5 py-0.2 rounded border border-slate-700/80 bg-slate-900/60 dark:bg-slate-800 text-slate-400 dark:text-slate-300 hover:text-cyan-400 active:scale-95 transition-all cursor-pointer shrink-0 select-none shadow-2xs"
+                title="System Module Indicator (Tap 3x for Custodian Override)"
+                aria-label="System Module Indicator"
+              >
+                [SYS.MOD // 01]
+              </button>
+            </div>
           </div>
         </div>
 
@@ -367,6 +396,12 @@ export default function Header() {
       <ReturnClearanceModal
         isOpen={isClearanceModalOpen}
         onClose={() => setIsClearanceModalOpen(false)}
+      />
+
+      {/* Custodian Hardware Quick Access PIN Keypad Override Modal */}
+      <CustodianOverrideModal
+        isOpen={isOverrideOpen}
+        onClose={() => setIsOverrideOpen(false)}
       />
     </>
   );

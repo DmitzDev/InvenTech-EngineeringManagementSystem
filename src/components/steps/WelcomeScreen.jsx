@@ -20,6 +20,7 @@ import ThemeToggle from '../ui/ThemeToggle';
 import SecureReturnStation from './SecureReturnStation';
 import ReturnEquipmentModal from './ReturnEquipmentModal';
 import ReturnClearanceModal from './ReturnClearanceModal';
+import CustodianOverrideModal from '../ui/CustodianOverrideModal';
 
 export default function WelcomeScreen() {
   const { setStep, theme } = useTransaction();
@@ -29,6 +30,23 @@ export default function WelcomeScreen() {
   const [date, setDate] = useState('');
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState(false);
+  const [isOverrideOpen, setIsOverrideOpen] = useState(false);
+  const emblemTapRef = React.useRef({ count: 0, lastTime: 0 });
+
+  const handleEmblemTap = () => {
+    const now = Date.now();
+    if (now - emblemTapRef.current.lastTime < 1500) {
+      emblemTapRef.current.count += 1;
+    } else {
+      emblemTapRef.current.count = 1;
+    }
+    emblemTapRef.current.lastTime = now;
+
+    if (emblemTapRef.current.count >= 3) {
+      emblemTapRef.current.count = 0;
+      setIsOverrideOpen(true);
+    }
+  };
 
   useEffect(() => {
     const updateTime = () => {
@@ -74,6 +92,16 @@ export default function WelcomeScreen() {
           <span className={`font-extrabold tracking-wider shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>UDD-POS-ENG</span>
           <span className={`shrink-0 ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>•</span>
           <span className={`truncate ${isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}`}>Terminal #01</span>
+          <span className={`shrink-0 ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>•</span>
+          <button
+            type="button"
+            onClick={handleEmblemTap}
+            className="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded border border-slate-700/80 bg-slate-900/60 dark:bg-slate-800 text-slate-400 dark:text-slate-300 hover:text-cyan-400 active:scale-95 transition-all cursor-pointer shrink-0 select-none shadow-2xs"
+            title="System Module Indicator (Tap 3x for Custodian Override)"
+            aria-label="System Module Indicator"
+          >
+            [SYS.MOD // 01]
+          </button>
         </div>
 
         {/* Right: Manual Theme Toggle & Live Digital Clock Pod */}
@@ -433,6 +461,12 @@ export default function WelcomeScreen() {
       <ReturnClearanceModal
         isOpen={isClearanceModalOpen}
         onClose={() => setIsClearanceModalOpen(false)}
+      />
+
+      {/* Custodian Hardware Quick Access PIN Keypad Override Modal */}
+      <CustodianOverrideModal
+        isOpen={isOverrideOpen}
+        onClose={() => setIsOverrideOpen(false)}
       />
     </div>
   );

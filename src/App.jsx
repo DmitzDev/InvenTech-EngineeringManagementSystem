@@ -5,6 +5,7 @@ import Header from './components/ui/Header';
 import ChevronProgressBar from './components/ui/ChevronProgressBar';
 import FloatingKairoBot from './components/ui/FloatingKairoBot';
 import KioskScreensaver from './components/ui/KioskScreensaver';
+import InactivityWarningModal from './components/ui/InactivityWarningModal';
 import WelcomeScreen from './components/steps/WelcomeScreen';
 import BorrowerForm from './components/steps/BorrowerForm';
 import LabSelector from './components/steps/LabSelector';
@@ -12,10 +13,32 @@ import EquipmentCatalog from './components/steps/EquipmentCatalog';
 import TransactionCommit from './components/steps/TransactionCommit';
 import BorrowerSheet from './components/print/BorrowerSheet';
 import AdminPanel from './components/admin/AdminPanel';
+import { useKioskInactivity } from './hooks/useKioskInactivity';
 
 function KioskContent() {
-  const { currentStep, theme } = useTransaction();
+  const { currentStep, theme, goToWelcome, showToast } = useTransaction();
   const isDark = theme === 'dark';
+
+  // Kiosk Inactivity Deadman Safeguard:
+  // Active when in the middle of any non-idle transaction (currentStep > 0)
+  const isSessionActive = currentStep > 0;
+
+  const handleDeadmanReset = () => {
+    goToWelcome();
+    showToast('Session auto-reset due to inactivity. Student entries purged.', 'info');
+  };
+
+  const {
+    isWarningVisible,
+    remainingSeconds,
+    continueSession,
+    triggerResetNow,
+  } = useKioskInactivity({
+    isActive: isSessionActive,
+    onReset: handleDeadmanReset,
+    inactivityMs: 45 * 1000, // 45 seconds idle trigger
+    countdownSec: 15, // 15 seconds warning countdown
+  });
 
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -58,6 +81,14 @@ function KioskContent() {
 
         {/* Global Inactivity Sleep Mode Screensaver */}
         <KioskScreensaver />
+
+        {/* Kiosk Tamper Protection & Inactivity Deadman Warning Modal */}
+        <InactivityWarningModal
+          isOpen={isWarningVisible}
+          remainingSeconds={remainingSeconds}
+          onContinue={continueSession}
+          onResetNow={triggerResetNow}
+        />
       </div>
 
       {/* Official Printable Borrower's Sheet (Automated / Print Only) */}

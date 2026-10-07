@@ -10,6 +10,7 @@ import {
   LogOut,
   Clock,
   Printer,
+  ShieldCheck,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 
@@ -19,6 +20,7 @@ const NAV_TABS = [
   { id: 'reservations', label: 'Bookings', icon: Calendar },
   { id: 'transactions', label: 'Transactions', icon: ScrollText },
   { id: 'reports', label: 'Reports', icon: FileSpreadsheet },
+  { id: 'security', label: 'Security & Audit', icon: ShieldCheck },
 ];
 
 export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintReport }) {
@@ -215,7 +217,7 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
 
       {/* Mobile Tab Rail (< md): Dedicated Touch-Friendly Navigation Row */}
       <nav
-        className="md:hidden border-t border-slate-200/90 dark:border-slate-800/90 bg-slate-100/70 dark:bg-slate-900/70 backdrop-blur-md px-1.5 py-1 grid grid-cols-5 gap-1 w-full"
+        className="md:hidden border-t border-slate-200/90 dark:border-slate-800/90 bg-slate-100/70 dark:bg-slate-900/70 backdrop-blur-md px-1 py-1 grid grid-cols-6 gap-0.5 w-full"
         aria-label="Mobile Navigation Tabs"
       >
         {NAV_TABS.map((tab) => {
@@ -229,7 +231,7 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
               key={tab.id}
               type="button"
               onClick={() => onTabChange(tab.id)}
-              className={`relative py-1.5 px-1 rounded-lg flex flex-col items-center justify-center transition-all cursor-pointer active:scale-95 min-w-0 ${
+              className={`relative py-1.5 px-0.5 rounded-lg flex flex-col items-center justify-center transition-all cursor-pointer active:scale-95 min-w-0 ${
                 isActive
                   ? 'bg-slate-200/90 dark:bg-white/10 text-slate-950 dark:text-white font-black shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
@@ -247,7 +249,7 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
                   </span>
                 )}
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-tight truncate mt-0.5 max-w-full">
+              <span className="text-[9px] font-bold uppercase tracking-tight truncate mt-0.5 max-w-full">
                 {tab.id === 'dashboard'
                   ? 'Dash'
                   : tab.id === 'inventory'
@@ -256,7 +258,9 @@ export default function AdminHeader({ activeTab, onTabChange, onLogout, onPrintR
                   ? 'Book'
                   : tab.id === 'transactions'
                   ? 'Loans'
-                  : 'Audit'}
+                  : tab.id === 'reports'
+                  ? 'Audit'
+                  : 'Sec'}
               </span>
               {isActive && (
                 <span className="absolute bottom-0 left-1.5 right-1.5 h-0.5 bg-slate-800 dark:bg-white rounded-full shadow-[0_0_6px_rgba(255,255,255,0.4)]" />
