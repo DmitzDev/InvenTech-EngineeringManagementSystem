@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Maximize2, Minimize2, Home, RotateCcw, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Clock, Maximize2, Minimize2, Home, RotateCcw, X, LayoutDashboard } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import ConfirmDialog from './ConfirmDialog';
 import ReturnEquipmentModal from '../steps/ReturnEquipmentModal';
 import ReturnClearanceModal from '../steps/ReturnClearanceModal';
 import ThemeToggle from './ThemeToggle';
-import CustodianOverrideModal from './CustodianOverrideModal';
 
 export default function Header() {
+  const navigate = useNavigate();
   const { currentStep, theme, resetTransaction, goToWelcome } = useTransaction();
   const [time, setTime] = useState('');
   const [date, setDate] = useState('');
@@ -17,22 +18,9 @@ export default function Header() {
   const [isHomeDialogOpen, setIsHomeDialogOpen] = useState(false);
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState(false);
-  const [isOverrideOpen, setIsOverrideOpen] = useState(false);
-  const emblemTapRef = React.useRef({ count: 0, lastTime: 0 });
 
   const handleEmblemTap = () => {
-    const now = Date.now();
-    if (now - emblemTapRef.current.lastTime < 1500) {
-      emblemTapRef.current.count += 1;
-    } else {
-      emblemTapRef.current.count = 1;
-    }
-    emblemTapRef.current.lastTime = now;
-
-    if (emblemTapRef.current.count >= 3) {
-      emblemTapRef.current.count = 0;
-      setIsOverrideOpen(true);
-    }
+    navigate('/admin');
   };
 
   const isDark = theme === 'dark';
@@ -358,6 +346,24 @@ export default function Header() {
                 <RotateCcw className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                 <span>Reset</span>
               </button>
+
+              {/* Item 6: Direct Admin Console Navigation */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsOpen(false);
+                  navigate('/admin');
+                }}
+                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                  isDark
+                    ? 'neu-btn-raised text-cyan-400 hover:text-cyan-300 border-cyan-500/30'
+                    : 'bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border-cyan-300 shadow-xs'
+                }`}
+                title="Open Admin Console"
+              >
+                <LayoutDashboard className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                <span>Admin</span>
+              </button>
             </div>
           </div>
         </div>
@@ -396,12 +402,6 @@ export default function Header() {
       <ReturnClearanceModal
         isOpen={isClearanceModalOpen}
         onClose={() => setIsClearanceModalOpen(false)}
-      />
-
-      {/* Custodian Hardware Quick Access PIN Keypad Override Modal */}
-      <CustodianOverrideModal
-        isOpen={isOverrideOpen}
-        onClose={() => setIsOverrideOpen(false)}
       />
     </>
   );
