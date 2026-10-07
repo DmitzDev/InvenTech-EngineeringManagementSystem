@@ -9,6 +9,11 @@ import {
   removeStudentClearanceHold,
   isItemConsumable,
 } from '../data/equipmentData';
+import {
+  logSecurityEvent,
+  SECURITY_EVENT_TYPES,
+  SEVERITY_LEVELS,
+} from '../services/securityAuditService';
 
 const TransactionContext = createContext();
 
@@ -678,6 +683,17 @@ function transactionReducer(state, action) {
 
       const updatedLogs = getIncidentLogs();
 
+      // Log Security Audit Event for Tool Return / Damage Quarantine
+      logSecurityEvent({
+        eventType: hasIncidents ? SECURITY_EVENT_TYPES.DAMAGE_QUARANTINED : SECURITY_EVENT_TYPES.TOOL_RETURNED,
+        actorId: updatedRecord?.borrower?.studentId || updatedRecord?.borrower?.groupLeader || 'STUDENT',
+        severity: hasIncidents ? SEVERITY_LEVELS.WARN : SEVERITY_LEVELS.INFO,
+        details: hasIncidents
+          ? `Equipment returned with defects under ref ${txId}. Flagged for maintenance quarantine.`
+          : `Equipment returned and cleared under ref ${txId}. Full custody release granted.`,
+        metadata: { txId, hasIncidents, itemCount: returnedItems.length },
+      });
+
       return {
         ...state,
         activeTransactions: updatedTransactions,
@@ -763,6 +779,15 @@ function transactionReducer(state, action) {
 
       const updatedTransactions = [newTxRecord, ...state.activeTransactions];
       saveStoredTransactions(updatedTransactions);
+
+      // Log Security Audit Event for Loan Creation
+      logSecurityEvent({
+        eventType: SECURITY_EVENT_TYPES.LOAN_CREATED,
+        actorId: state.borrower?.studentId || state.borrower?.groupLeader || 'STUDENT',
+        severity: SEVERITY_LEVELS.INFO,
+        details: `Official apparatus loan committed: ${txId} (${state.cart.length} item(s)). Program: ${state.borrower?.program || 'N/A'}.`,
+        metadata: { txId, itemCount: state.cart.length, program: state.borrower?.program },
+      });
 
       return {
         ...state,

@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
-import { ShieldCheck, AlertCircle, Unlock, ArrowLeft, Loader2, KeyRound, Eye, EyeOff, Lock, Sun, Moon } from 'lucide-react';
-import { verifyCustodianPin } from '../../utils/authSecurity';
+import {
+  ShieldCheck,
+  AlertCircle,
+  Unlock,
+  ArrowLeft,
+  Loader2,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Lock,
+  Sun,
+  Moon,
+  AlertOctagon,
+} from 'lucide-react';
+import { verifyCustodianPin, setCustodianSession } from '../../utils/authSecurity';
+import { useRateLimiter } from '../../utils/rateLimiter';
 import { useTransaction } from '../../context/TransactionContext';
 
 export default function AdminLogin({ onAuthenticated }) {
@@ -11,9 +25,19 @@ export default function AdminLogin({ onAuthenticated }) {
   const { theme, toggleTheme } = useTransaction();
   const isDark = theme === 'dark';
 
+  // Anti-Brute-Force Rate Limiter (Max 4 attempts, 60s cooldown lock)
+  const {
+    isLocked,
+    remainingSeconds,
+    failedAttempts,
+    maxAttempts,
+    recordFailure,
+    recordSuccess,
+  } = useRateLimiter('admin_auth');
+
   const handleVerify = async (e) => {
     if (e) e.preventDefault();
-    if (!pin.trim() || isVerifying) return;
+    if (!pin.trim() || isVerifying || isLocked) return;
 
     setIsVerifying(true);
     setError('');
@@ -21,13 +45,23 @@ export default function AdminLogin({ onAuthenticated }) {
     try {
       const isValid = await verifyCustodianPin(pin.trim());
       if (isValid) {
-        onAuthenticated(true);
+        recordSuccess();
+        setCustodianSession('CUSTODIAN');
+        if (onAuthenticated) {
+          onAuthenticated(true);
+        }
       } else {
-        setError('Invalid custodian passcode. Please verify your code and try again.');
+        const res = recordFailure('CUSTODIAN', 'Portal PIN login submission');
+        if (res.isLocked) {
+          setError(`[ SECURITY LOCKOUT // EXCESSIVE ATTEMPTS DETECTED - COOLDOWN ${res.remainingSeconds}s ]`);
+        } else {
+          const attemptsLeft = maxAttempts - res.failedAttempts;
+          setError(`Invalid custodian passcode. ${attemptsLeft} attempt(s) remaining before security lockout.`);
+        }
         setPin('');
       }
     } catch {
-      setError('Authentication failed. Please try again.');
+      setError('Authentication failed. Please verify credentials and try again.');
       setPin('');
     } finally {
       setIsVerifying(false);
@@ -63,8 +97,8 @@ export default function AdminLogin({ onAuthenticated }) {
           </button>
 
           <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border-2 border-slate-300 dark:border-slate-700 text-xs font-mono font-bold text-slate-800 dark:text-slate-200 shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>SYS.AUTH // READY</span>
+            <span className={`w-2 h-2 rounded-full ${isLocked ? 'bg-rose-500 animate-ping' : 'bg-emerald-500 animate-pulse'}`} />
+            <span>{isLocked ? `LOCKOUT // ${remainingSeconds}s` : 'SYS.AUTH // READY'}</span>
           </div>
         </div>
       </header>
@@ -94,13 +128,28 @@ export default function AdminLogin({ onAuthenticated }) {
             </div>
           </div>
 
-          {/* Secure Instruction Note with AAA Contrast */}
-          <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 flex items-start gap-3">
-            <ShieldCheck className="w-5 h-5 text-cyan-700 dark:text-cyan-400 shrink-0 mt-0.5" />
-            <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
-              Enter your designated passcode to access laboratory equipment inventory, student loan authorizations, and real-time transaction telemetry.
-            </p>
-          </div>
+          {/* Lockout Banner or Instruction Note */}
+          {isLocked ? (
+            <div className="p-4 rounded-xl bg-rose-100 dark:bg-rose-950/60 border-2 border-rose-500 text-rose-950 dark:text-rose-200 space-y-2 text-center animate-pulse">
+              <div className="flex items-center justify-center gap-2 font-mono font-black text-xs text-rose-600 dark:text-rose-400">
+                <AlertOctagon className="w-4 h-4" />
+                <span>[ SECURITY LOCKOUT // EXCESSIVE ATTEMPTS DETECTED ]</span>
+              </div>
+              <p className="font-mono text-2xl font-black text-rose-600 dark:text-rose-400">
+                COOLDOWN: {remainingSeconds}s
+              </p>
+              <p className="text-xs font-semibold">
+                Access disabled for 60 seconds after 4 consecutive failed attempts.
+              </p>
+            </div>
+          ) : (
+            <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-cyan-700 dark:text-cyan-400 shrink-0 mt-0.5" />
+              <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+                Enter your designated passcode to access laboratory equipment inventory, student loan authorizations, and real-time transaction telemetry.
+              </p>
+            </div>
+          )}
 
           {/* Authentication Form */}
           <form onSubmit={handleVerify} className="space-y-4">
@@ -122,15 +171,19 @@ export default function AdminLogin({ onAuthenticated }) {
                     setPin(e.target.value);
                     setError('');
                   }}
+                  disabled={isLocked || isVerifying}
                   placeholder="••••••••"
+                  autoComplete="off"
+                  spellCheck={false}
                   autoFocus
-                  className="w-full h-12 pl-4 pr-12 text-center tracking-[0.25em] font-mono text-xl font-black rounded-lg bg-slate-50 dark:bg-slate-950 border-2 border-slate-400 dark:border-slate-600 text-slate-950 dark:text-cyan-300 placeholder:text-slate-400 focus:outline-none focus:border-cyan-600 dark:focus:border-cyan-400 transition-all shadow-inner"
+                  className="w-full h-12 pl-4 pr-12 text-center tracking-[0.25em] font-mono text-xl font-black rounded-lg bg-slate-50 dark:bg-slate-950 border-2 border-slate-400 dark:border-slate-600 text-slate-950 dark:text-cyan-300 placeholder:text-slate-400 focus:outline-none focus:border-cyan-600 dark:focus:border-cyan-400 transition-all shadow-inner disabled:opacity-50"
                 />
 
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 min-h-[40px] min-w-[40px] p-2 rounded-md text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center"
+                  disabled={isLocked || isVerifying}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 min-h-[40px] min-w-[40px] p-2 rounded-md text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center disabled:opacity-40"
                   title={showPassword ? 'Hide passcode' : 'Show passcode'}
                   aria-label={showPassword ? 'Hide passcode' : 'Show passcode'}
                 >
@@ -154,7 +207,7 @@ export default function AdminLogin({ onAuthenticated }) {
             {/* Submit CTA - Min 48px hit area, High Contrast */}
             <button
               type="submit"
-              disabled={isVerifying || !pin.trim()}
+              disabled={isVerifying || !pin.trim() || isLocked}
               className="w-full min-h-[48px] rounded-lg bg-cyan-700 hover:bg-cyan-600 dark:bg-cyan-600 dark:hover:bg-cyan-500 text-white font-black text-sm flex items-center justify-center gap-2 border-2 border-cyan-800 dark:border-cyan-500 shadow-sm transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {isVerifying ? (
@@ -185,4 +238,3 @@ export default function AdminLogin({ onAuthenticated }) {
     </div>
   );
 }
-

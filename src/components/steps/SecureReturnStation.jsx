@@ -24,14 +24,26 @@ import {
   ChevronRight,
   MapPin,
   Tag,
+  AlertOctagon,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 import { formatStudentId, handleStudentIdChange } from '../../utils/studentIdFormatter';
+import { useRateLimiter } from '../../utils/rateLimiter';
 
 export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpenClearance }) {
   const { activeTransactions, returnEquipmentTransaction, showToast, theme } = useTransaction();
   const isDark = theme === 'dark';
+
+  // Anti-Brute-Force Rate Limiter Guardrail (Max 4 attempts, 60s cooldown lock)
+  const {
+    isLocked,
+    remainingSeconds: lockoutSeconds,
+    failedAttempts,
+    maxAttempts,
+    recordFailure,
+    recordSuccess,
+  } = useRateLimiter('student_return_lookup');
 
   // State management
   const [enteredId, setEnteredId] = useState('');
@@ -155,6 +167,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
   // Handle Numpad / Keypad Input (Automatic dash formatting, max 9 digits)
   const handleNumpadPress = (char) => {
+    if (isLocked) return;
     if (!/\d/.test(char)) return; // Only accept digits; dashes are auto-formatted
     const currentDigits = enteredId.replace(/\D/g, '');
     if (currentDigits.length >= 9) return; // Strict 9 digits maximum
@@ -163,6 +176,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   };
 
   const handleBackspace = () => {
+    if (isLocked) return;
     const currentDigits = enteredId.replace(/\D/g, '');
     if (!currentDigits) return;
     const newDigits = currentDigits.slice(0, -1);
@@ -170,12 +184,17 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   };
 
   const handleClearInput = () => {
+    if (isLocked) return;
     setEnteredId('');
     setLookupAttempted(false);
   };
 
   const handleLookup = (e) => {
     if (e) e.preventDefault();
+    if (isLocked) {
+      showToast(`Lockout active. Please wait ${lockoutSeconds}s before retrying.`, 'error');
+      return;
+    }
     const digitsOnly = enteredId.replace(/\D/g, '');
     if (!digitsOnly) {
       showToast('Please enter your Student ID number', 'error');
@@ -185,6 +204,28 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
       showToast('Student ID must be exactly 9 digits (e.g. 23-1374-693)', 'error');
       return;
     }
+
+    const cleanEnteredId = enteredId.trim().toUpperCase();
+    const matchingLoans = activeTransactions.filter((tx) => {
+      if (tx.status !== 'BORROWED') return false;
+      const sId = (tx.borrower?.studentId || tx.studentId || '').trim().toUpperCase();
+      return sId === cleanEnteredId;
+    });
+
+    if (matchingLoans.length === 0) {
+      const res = recordFailure(cleanEnteredId, 'Student ID Return Lookup - No active loan records found');
+      if (res.isLocked) {
+        showToast(`[ SECURITY LOCKOUT // EXCESSIVE ATTEMPTS DETECTED - COOLDOWN ${res.remainingSeconds}s ]`, 'error');
+      } else {
+        const remaining = maxAttempts - res.failedAttempts;
+        showToast(`No active loans found for ${enteredId}. ${remaining} attempt(s) remaining before lockout.`, 'error');
+      }
+      setLookupAttempted(true);
+      return;
+    }
+
+    // Success
+    recordSuccess();
     setLookupAttempted(true);
   };
 
@@ -360,6 +401,22 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                 </p>
               </div>
 
+              {/* Lockout Notification Banner */}
+              {isLocked && (
+                <div className="w-full p-4 rounded-xl bg-rose-100 dark:bg-rose-950/70 border-2 border-rose-500 text-rose-950 dark:text-rose-200 text-center space-y-1.5 animate-pulse mb-3">
+                  <div className="flex items-center justify-center gap-2 font-mono font-black text-xs text-rose-600 dark:text-rose-400">
+                    <AlertOctagon className="w-4 h-4" />
+                    <span>[ SECURITY LOCKOUT // EXCESSIVE ATTEMPTS DETECTED ]</span>
+                  </div>
+                  <p className="font-mono text-xl sm:text-2xl font-black text-rose-600 dark:text-rose-400">
+                    COOLDOWN: {lockoutSeconds}s
+                  </p>
+                  <p className="text-xs font-semibold">
+                    Submission locked for 60 seconds after 4 consecutive failed lookups.
+                  </p>
+                </div>
+              )}
+
               {/* ID Input Box & Digital Display */}
               <div className="w-full space-y-2 mb-2.5">
                 <form onSubmit={handleLookup} className="relative">
@@ -371,13 +428,16 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       pattern="[0-9]*"
                       enterKeyHint="done"
                       maxLength={11}
+                      disabled={isLocked}
+                      autoComplete="off"
+                      spellCheck={false}
                       value={enteredId}
                       onChange={(e) => {
                         const formatted = handleStudentIdChange(e.target.value, enteredId);
                         setEnteredId(formatted);
                       }}
                       placeholder="e.g. 23-1374-693"
-                      className={`w-full h-12 sm:h-14 px-4 pr-12 rounded-xl font-mono text-center text-lg sm:text-xl tracking-widest font-black focus:outline-none transition-all shadow-inner touch-manipulation ${
+                      className={`w-full h-12 sm:h-14 px-4 pr-12 rounded-xl font-mono text-center text-lg sm:text-xl tracking-widest font-black focus:outline-none transition-all shadow-inner touch-manipulation disabled:opacity-50 ${
                         isDark
                           ? 'neu-inset text-cyan-300 placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-400/50'
                           : 'bg-white border-2 border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100'
@@ -480,7 +540,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                 <button
                   type="button"
                   onClick={handleLookup}
-                  disabled={!enteredId.trim()}
+                  disabled={!enteredId.trim() || isLocked}
                   className={`flex-1 h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                     isDark
                       ? 'neu-btn-primary text-slate-950 font-black'

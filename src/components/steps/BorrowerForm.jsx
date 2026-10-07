@@ -350,6 +350,8 @@ export default function BorrowerForm() {
                     value={customProgram}
                     onChange={(e) => handleCustomProgramChange(e.target.value)}
                     placeholder="Type course..."
+                    autoComplete="off"
+                    spellCheck={false}
                     className={`w-full h-8 sm:h-11 px-2.5 sm:px-3.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all uppercase ${
                       isDark
                         ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-amber-500/40 placeholder:text-slate-600/70 focus:ring-1 focus:ring-cyan-500'
@@ -453,6 +455,8 @@ export default function BorrowerForm() {
               value={borrower.courseCode}
               onChange={(e) => setBorrowerField('courseCode', e.target.value.toUpperCase())}
               placeholder="e.g. 41-BSCPE-01"
+              autoComplete="off"
+              spellCheck={false}
               enterKeyHint="next"
               className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all ${
                 isDark
@@ -490,6 +494,8 @@ export default function BorrowerForm() {
                 value={borrower.groupLeader}
                 onChange={(e) => setBorrowerField('groupLeader', e.target.value.toUpperCase())}
                 placeholder="e.g. JASON CAYABYAB"
+                autoComplete="off"
+                spellCheck={false}
                 enterKeyHint="next"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold uppercase transition-all ${
                   isDark
@@ -525,6 +531,8 @@ export default function BorrowerForm() {
                   setBorrowerField('studentId', formatted);
                 }}
                 placeholder="e.g. 23-1374-693"
+                autoComplete="off"
+                spellCheck={false}
                 maxLength={11}
                 inputMode="numeric"
                 pattern="[0-9]*"
@@ -597,6 +605,8 @@ export default function BorrowerForm() {
                 value={borrower.instructor}
                 onChange={(e) => setBorrowerField('instructor', e.target.value)}
                 placeholder="e.g. Engr. Jin Benir Macaranas"
+                autoComplete="off"
+                spellCheck={false}
                 enterKeyHint="done"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl text-xs sm:text-base font-bold transition-all ${
                   isDark
