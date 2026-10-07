@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ShieldCheck,
   AlertCircle,
@@ -18,6 +19,7 @@ import { useRateLimiter } from '../../utils/rateLimiter';
 import { useTransaction } from '../../context/TransactionContext';
 
 export default function AdminLogin({ onAuthenticated }) {
+  const navigate = useNavigate();
   const [pin, setPin] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -50,6 +52,7 @@ export default function AdminLogin({ onAuthenticated }) {
         if (onAuthenticated) {
           onAuthenticated(true);
         }
+        navigate('/admin');
       } else {
         const res = recordFailure('CUSTODIAN', 'Portal PIN login submission');
         if (res.isLocked) {
