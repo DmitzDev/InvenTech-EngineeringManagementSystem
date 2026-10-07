@@ -108,7 +108,7 @@ export default function Header() {
 
   return (
     <>
-      <header className={`h-14 sm:h-20 px-3 sm:px-8 lg:px-10 border-b flex items-center justify-between shrink-0 select-none z-30 relative w-full max-w-full overflow-hidden ${
+      <header className={`h-14 sm:h-20 px-3 sm:px-8 lg:px-10 border-b flex items-center justify-between shrink-0 select-none z-30 relative w-full max-w-full ${
         isDark
           ? 'bg-[#111a2c] shadow-[0_4px_16px_#060a12] border-slate-800/80'
           : 'bg-white/95 backdrop-blur-md shadow-md border-slate-200'
@@ -202,96 +202,6 @@ export default function Header() {
           </span>
         </div>
 
-        {/* Dropdown Floating Action Dock (Directly below the top navbar center) */}
-        {isOpen && (
-          <>
-            {/* Dimmed Click-away backdrop */}
-            <div
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-40 bg-black/45 backdrop-blur-[2px] animate-fade-in select-none"
-            />
-
-            {/* Floating Rudder Action Menu Dock (Animated slide-down) */}
-            <div className="absolute top-[calc(100%+6px)] sm:top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-50 select-none pointer-events-auto w-[calc(100%-16px)] sm:w-auto sm:max-w-[96vw]">
-              <div className={`animate-slide-down backdrop-blur-2xl px-2 sm:px-5 py-2 sm:py-2.5 rounded-2xl sm:rounded-full flex items-center justify-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap ${
-                isDark
-                  ? 'bg-[#09101d]/95 border border-slate-700/80 shadow-[0_20px_50px_rgba(0,0,0,0.9)]'
-                  : 'bg-white/95 border border-slate-200 shadow-xl'
-              }`}>
-                {/* Item 1: Exit Fullscreen / Fullscreen Toggle */}
-                <button
-                  type="button"
-                  onClick={handleToggleFullscreen}
-                  className="h-8 sm:h-11 px-2 sm:px-4 rounded-lg sm:rounded-xl neu-btn-raised text-slate-200 hover:text-white text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
-                  title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-                >
-                  {isFullscreen ? (
-                    <>
-                      <Minimize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 shrink-0" />
-                      <span className="whitespace-nowrap hidden xs:inline">Exit Full</span>
-                    </>
-                  ) : (
-                    <>
-                      <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 shrink-0" />
-                      <span className="whitespace-nowrap hidden xs:inline">Fullscreen</span>
-                    </>
-                  )}
-                </button>
-
-                {/* Item 2: Home Button */}
-                <button
-                  type="button"
-                  onClick={handleHomeClick}
-                  className="h-8 sm:h-11 px-2 sm:px-4 rounded-lg sm:rounded-xl neu-btn-raised text-slate-200 hover:text-white text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
-                  title="Return to Welcome Screen"
-                >
-                  <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 shrink-0" />
-                  <span>Home</span>
-                </button>
-
-                {/* Item 3 (GITNA / CENTER): The InvenTech Logo right in the middle of the 4 buttons! */}
-                <div
-                  onClick={() => setIsOpen(false)}
-                  className={`w-8 h-8 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-full p-0.5 sm:p-1 flex items-center justify-center relative shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-all ${
-                    isDark
-                      ? 'bg-[#0a1324] border-2 border-slate-300/80 shadow-[0_0_24px_rgba(248,250,252,0.35)]'
-                      : 'neu-card border-2 border-slate-300 shadow-md'
-                  }`}
-                  title="InvenTech Core Logo (Tap to close)"
-                >
-                  <img
-                    src="/images/inventech_logo.png"
-                    alt="InvenTech Central Hub"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-
-                {/* Item 4: Return Equipment Modal Station */}
-                <button
-                  type="button"
-                  onClick={handleReturnClick}
-                  className="h-8 sm:h-11 px-2 sm:px-4 rounded-lg sm:rounded-xl neu-btn-raised text-emerald-400 hover:text-emerald-300 text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
-                  title="Equipment Return & Custodian Clearance"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                  <span>Return</span>
-                </button>
-
-                {/* Item 5: Reset Session Button */}
-                <button
-                  type="button"
-                  onClick={handleResetClick}
-                  className="h-8 sm:h-11 px-2 sm:px-4 rounded-lg sm:rounded-xl neu-btn-raised text-slate-300 hover:text-rose-400 text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
-                  title="Reset current transaction"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                  <span>Reset</span>
-                </button>
-              </div>
-            </div>
-          </>
-        )}
-
         {/* Right: Live Telemetry Cluster (THEME TOGGLE BUTTON - CLOCK TIME) */}
         <div className="flex items-center gap-1.5 sm:gap-3 z-10 shrink-0">
           {/* 1. Theme Toggle Pill Button */}
@@ -314,6 +224,115 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      {/* Dropdown Floating Rudder Action Dock (Directly below the top navbar center) */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 pointer-events-auto select-none">
+          {/* Dimmed Click-away backdrop */}
+          <div
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-[2px] animate-fade-in select-none cursor-pointer"
+            aria-label="Close menu backdrop"
+          />
+
+          {/* Floating Rudder Action Menu Dock (Animated slide-down) */}
+          <div className="fixed top-15 sm:top-22 md:top-24 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-[calc(100%-16px)] sm:w-auto max-w-[96vw]">
+            <div
+              className={`animate-slide-down backdrop-blur-2xl px-3 sm:px-6 py-2.5 sm:py-3 rounded-2xl sm:rounded-full flex items-center justify-center gap-2 sm:gap-3.5 flex-wrap sm:flex-nowrap border-2 shadow-[0_20px_50px_rgba(0,0,0,0.85)] ${
+                isDark
+                  ? 'bg-[#09101d]/95 border-cyan-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.9)]'
+                  : 'bg-white border-slate-300 shadow-2xl'
+              }`}
+            >
+              {/* Item 1: Exit Fullscreen / Fullscreen Toggle */}
+              <button
+                type="button"
+                onClick={handleToggleFullscreen}
+                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                  isDark
+                    ? 'neu-btn-raised text-slate-100 hover:text-white border-slate-700/60'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300 shadow-xs'
+                }`}
+                title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+              >
+                {isFullscreen ? (
+                  <>
+                    <Minimize2 className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-800'}`} />
+                    <span className="whitespace-nowrap">Exit Full</span>
+                  </>
+                ) : (
+                  <>
+                    <Maximize2 className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-800'}`} />
+                    <span className="whitespace-nowrap">Fullscreen</span>
+                  </>
+                )}
+              </button>
+
+              {/* Item 2: Home Button */}
+              <button
+                type="button"
+                onClick={handleHomeClick}
+                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                  isDark
+                    ? 'neu-btn-raised text-slate-100 hover:text-white border-slate-700/60'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300 shadow-xs'
+                }`}
+                title="Return to Welcome Screen"
+              >
+                <Home className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`} />
+                <span>Home</span>
+              </button>
+
+              {/* Item 3 (GITNA / CENTER): The InvenTech Logo right in the middle of the 4 buttons! */}
+              <div
+                onClick={() => setIsOpen(false)}
+                className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-full p-0.5 sm:p-1 flex items-center justify-center relative shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-all ${
+                  isDark
+                    ? 'bg-[#0a1324] border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.6)]'
+                    : 'bg-white border-2 border-slate-400 shadow-md'
+                }`}
+                title="InvenTech Core Logo (Tap to close)"
+              >
+                <img
+                  src="/images/inventech_logo.png"
+                  alt="InvenTech Central Hub"
+                  className="w-full h-full object-cover rounded-full"
+                />
+              </div>
+
+              {/* Item 4: Return Equipment Modal Station */}
+              <button
+                type="button"
+                onClick={handleReturnClick}
+                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                  isDark
+                    ? 'neu-btn-raised text-emerald-400 hover:text-emerald-300 border-emerald-500/30'
+                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border-emerald-300 shadow-xs'
+                }`}
+                title="Equipment Return & Custodian Clearance"
+              >
+                <RotateCcw className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>Return</span>
+              </button>
+
+              {/* Item 5: Reset Session Button */}
+              <button
+                type="button"
+                onClick={handleResetClick}
+                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                  isDark
+                    ? 'neu-btn-raised text-rose-400 hover:text-rose-300 border-rose-500/30'
+                    : 'bg-rose-50 hover:bg-rose-100 text-rose-950 border-rose-300 shadow-xs'
+                }`}
+                title="Reset current transaction"
+              >
+                <RotateCcw className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Global Confirm Reset Dialog */}
       <ConfirmDialog
