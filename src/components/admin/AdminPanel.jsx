@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminHeader from './AdminHeader';
 import DashboardOverview from './DashboardOverview';
@@ -7,14 +7,54 @@ import ReservationManager from './ReservationManager';
 import TransactionHistory from './TransactionHistory';
 import AuditReports from './AuditReports';
 import SecurityAuditViewer from './SecurityAuditViewer';
+import AdminLogin from './AdminLogin';
+import {
+  isCustodianAuthenticated,
+  touchCustodianSession,
+  clearCustodianSession,
+} from '../../utils/authSecurity';
+import { useTransaction } from '../../context/TransactionContext';
 
 export default function AdminPanel() {
   const navigate = useNavigate();
+  const { showToast } = useTransaction();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isAuthenticated, setIsAuthenticated] = useState(() => isCustodianAuthenticated());
+
+  // Session Inactivity Monitor: Enforce 30-minute auto-logout
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const handleUserInteraction = () => {
+      touchCustodianSession();
+    };
+
+    const events = ['mousemove', 'keydown', 'touchstart', 'click'];
+    events.forEach((evt) => window.addEventListener(evt, handleUserInteraction, { passive: true }));
+
+    const interval = setInterval(() => {
+      if (!isCustodianAuthenticated()) {
+        setIsAuthenticated(false);
+        showToast('Custodian session expired after 30 minutes of inactivity.', 'warning');
+      }
+    }, 15000);
+
+    return () => {
+      events.forEach((evt) => window.removeEventListener(evt, handleUserInteraction));
+      clearInterval(interval);
+    };
+  }, [isAuthenticated, showToast]);
 
   const handleExit = () => {
+    clearCustodianSession();
+    setIsAuthenticated(false);
     navigate('/');
   };
+
+  // If unauthenticated, gate with the sleek Custodian Terminal (Zero Data Exposure)
+  if (!isAuthenticated) {
+    return <AdminLogin onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
 
   const renderContent = () => {
     switch (activeTab) {
