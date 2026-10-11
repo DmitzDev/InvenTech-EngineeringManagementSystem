@@ -78,7 +78,7 @@ export default function ReturnClearanceModal({ isOpen, onClose }) {
             {/* Top ISO Heading */}
             <div className={`text-center border-b pb-3 ${isDark ? 'border-slate-700/80' : 'border-slate-200'}`}>
               <div className="flex items-center justify-center gap-3">
-                <img src="/images/udd_logo.png" alt="UdD Logo" className="w-11 h-11 object-contain" />
+                <img src="/images/soe_logo.png" alt="SOE Logo" className="w-11 h-11 object-contain" />
                 <div className="text-left">
                   <h4 className={`text-sm font-extrabold uppercase tracking-wide ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
                     Universidad de Dagupan

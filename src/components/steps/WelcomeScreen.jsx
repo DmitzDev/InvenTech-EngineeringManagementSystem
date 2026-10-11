@@ -120,26 +120,26 @@ export default function WelcomeScreen() {
 
           {/* Block 2: Hero Brand Centerpiece (Trio Logos, INVEN TECH, & Title) */}
           <div className="flex flex-col items-center w-full">
-            {/* Trio Logos: UdD Logo (Left), InvenTech Logo (Center - prominent), SOE Logo (Right) */}
-            <div className="flex items-center justify-center gap-3 sm:gap-8 md:gap-14">
-              {/* UdD Main University Seal */}
+            {/* Duo Logos: SOE Logo & InvenTech Logo */}
+            <div className="flex items-center justify-center gap-4 sm:gap-10 md:gap-12">
+              {/* School of Engineering Seal */}
               <div className="relative group flex flex-col items-center">
-                <div className="w-14 h-14 sm:w-24 sm:h-24 lg:w-30 lg:h-30 rounded-full p-1.5 sm:p-2.5 neu-card transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative shadow-lg">
+                <div className="w-16 h-16 sm:w-28 sm:h-28 lg:w-34 lg:h-34 rounded-full p-1.5 sm:p-2.5 neu-card transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative shadow-lg">
                   <div className={`absolute inset-0 rounded-full border ${isDark ? 'border-cyan-500/20' : 'border-slate-300'} pointer-events-none`} />
                   <img
-                    src="/images/udd_logo.png"
-                    alt="Universidad de Dagupan Seal"
+                    src="/images/soe_logo.png"
+                    alt="School of Engineering Seal"
                     className="w-full h-full object-contain drop-shadow"
                   />
                 </div>
               </div>
 
-              {/* Left Divider Accent Line */}
+              {/* Center Divider Accent Line */}
               <div className={`h-10 sm:h-20 w-[1.5px] bg-gradient-to-b ${isDark ? 'from-transparent via-cyan-500/40 to-transparent' : 'from-transparent via-slate-300 to-transparent'} hidden sm:block`} />
 
-              {/* Center InvenTech Circular Logo */}
+              {/* InvenTech Circular Logo */}
               <div className="relative group flex flex-col items-center">
-                <div className={`w-20 h-20 sm:w-32 sm:h-32 lg:w-42 lg:h-42 rounded-full p-1.5 sm:p-3 transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative ${
+                <div className={`w-16 h-16 sm:w-28 sm:h-28 lg:w-34 lg:h-34 rounded-full p-1.5 sm:p-2.5 transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative ${
                   isDark
                     ? 'bg-[#0c1527] border-2 sm:border-[3px] border-cyan-400/90 shadow-[0_0_35px_rgba(6,182,212,0.65)]'
                     : 'neu-card border-2 sm:border-[3px] border-slate-300 shadow-[0_10px_30px_rgba(148,163,184,0.45)]'
@@ -149,21 +149,6 @@ export default function WelcomeScreen() {
                     src="/images/inventech_logo.png"
                     alt="InvenTech Brand Logo"
                     className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-              </div>
-
-              {/* Right Divider Accent Line */}
-              <div className={`h-10 sm:h-20 w-[1.5px] bg-gradient-to-b ${isDark ? 'from-transparent via-cyan-500/40 to-transparent' : 'from-transparent via-slate-300 to-transparent'} hidden sm:block`} />
-
-              {/* School of Engineering Seal */}
-              <div className="relative group flex flex-col items-center">
-                <div className="w-14 h-14 sm:w-24 sm:h-24 lg:w-30 lg:h-30 rounded-full p-1.5 sm:p-2.5 neu-card transition-all duration-300 group-hover:scale-105 flex items-center justify-center relative shadow-lg">
-                  <div className={`absolute inset-0 rounded-full border ${isDark ? 'border-cyan-500/20' : 'border-slate-300'} pointer-events-none`} />
-                  <img
-                    src="/images/soe_logo.png"
-                    alt="School of Engineering Seal"
-                    className="w-full h-full object-contain drop-shadow"
                   />
                 </div>
               </div>

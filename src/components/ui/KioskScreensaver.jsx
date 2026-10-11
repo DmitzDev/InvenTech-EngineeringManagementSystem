@@ -7,14 +7,6 @@ const LOGO_CYCLE_INTERVAL_MS = 6 * 1000; // 6 seconds logo cycle
 
 const LOGO_DATA = [
   {
-    id: 'udd',
-    src: '/images/udd_logo.png',
-    alt: 'Universidad de Dagupan',
-    badge: 'Official University Seal',
-    title: 'Universidad de Dagupan',
-    subtitle: 'School of Engineering • Laboratory Management System',
-  },
-  {
     id: 'soe',
     src: '/images/soe_logo_transparent.png',
     fallbackSrc: '/images/soe_logo.png',
@@ -47,7 +39,7 @@ export default function KioskScreensaver() {
   const isDark = theme === 'dark';
 
   const [isAsleep, setIsAsleep] = useState(false);
-  const [activeLogoIndex, setActiveLogoIndex] = useState(0); // 0 = UdD, 1 = SOE, 2 = InvenTech
+  const [activeLogoIndex, setActiveLogoIndex] = useState(0); // 0 = SOE, 1 = InvenTech
   const [isFading, setIsFading] = useState(false);
   const [time, setTime] = useState('');
   const [seconds, setSeconds] = useState('');

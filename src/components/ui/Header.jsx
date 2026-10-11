@@ -124,13 +124,6 @@ export default function Header() {
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full p-1 neu-card-sm flex items-center justify-center shrink-0">
               <img
-                src="/images/udd_logo.png"
-                alt="UdD Logo"
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <div className="w-8 h-8 sm:w-11 sm:h-11 rounded-full p-1 neu-card-sm hidden sm:flex items-center justify-center shrink-0">
-              <img
                 src="/images/soe_logo.png"
                 alt="SOE Logo"
                 className="w-full h-full object-contain"

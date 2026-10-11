@@ -35,11 +35,11 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
     >
       {/* Top ISO Header Bar */}
       <div className="flex items-center justify-between border-b-2 border-black pb-2 mb-2">
-        {/* Left: University Logo */}
+        {/* Left: Department Logo */}
         <div className="w-16 shrink-0 flex items-center justify-start">
           <img
-            src="/images/udd_logo.png"
-            alt="UdD Logo"
+            src="/images/soe_logo.png"
+            alt="SOE Logo"
             className="w-14 h-14 object-contain"
           />
         </div>

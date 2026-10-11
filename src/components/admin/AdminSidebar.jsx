@@ -49,7 +49,7 @@ export default function AdminSidebar({ activeTab, onTabChange, onLock, isMobileO
         <div className="px-4 py-3.5 border-b border-slate-300 dark:border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-xl neu-inset-sm flex items-center justify-center p-1.5 shrink-0">
-              <img src="/images/udd_logo.png" alt="UdD Seal" className="w-full h-full object-contain" />
+              <img src="/images/soe_logo.png" alt="SOE Seal" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
