@@ -193,22 +193,17 @@ export default function WelcomeScreen() {
 
           {/* Block 3: Feature Highlights */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6 w-full max-w-2xl px-2">
-            {/* CPEX Cybernetic Copilot Feature Card */}
+            {/* Feature 1: Apparatus Inventory Catalog */}
             <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-5 rounded-2xl neu-card-sm text-left">
-              <div className="relative w-11 h-11 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shrink-0 border-2 border-slate-300 dark:border-slate-700 shadow-[0_0_10px_rgba(16,185,129,0.25)] bg-slate-950 flex items-center justify-center">
-                <img
-                  src="/images/image_0.png"
-                  alt="CPEX Cybernetic Avatar"
-                  className="w-full h-full object-cover"
-                />
-                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 border border-slate-950 animate-pulse pointer-events-none" />
+              <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl neu-inset flex items-center justify-center shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900 font-bold'}`}>
+                <Package className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div className="min-w-0">
                 <div className={`text-xs sm:text-sm font-extrabold truncate ${isDark ? 'text-slate-100' : 'text-slate-900 font-black'}`}>
-                  CPEX
+                  Apparatus Catalog
                 </div>
                 <div className={`text-[10px] sm:text-xs font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}`}>
-                  Computer Programmed Engineering eXpert
+                  Engineering Laboratory Inventory
                 </div>
               </div>
             </div>

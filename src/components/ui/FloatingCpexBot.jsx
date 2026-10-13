@@ -501,6 +501,9 @@ export default function FloatingCpexBot() {
 
   const totalUnitsInCart = cart ? cart.reduce((sum, item) => sum + item.qty, 0) : 0;
 
+  // Hide Chatbot during Step 0 (WelcomeScreen)
+  if (currentStep === 0) return null;
+
   return (
     <>
       {/* 1. FLOATING CPEX TACTILE ACTION HUB */}
