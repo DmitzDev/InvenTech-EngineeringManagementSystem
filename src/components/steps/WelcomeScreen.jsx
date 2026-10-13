@@ -32,9 +32,6 @@ export default function WelcomeScreen() {
   const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
   const [isClearanceModalOpen, setIsClearanceModalOpen] = useState(false);
 
-  const handleEmblemTap = () => {
-    navigate('/admin');
-  };
 
   useEffect(() => {
     const updateTime = () => {
@@ -72,26 +69,8 @@ export default function WelcomeScreen() {
         isDark ? 'bg-cyan-500/8' : 'bg-slate-300/20'
       } blur-[180px] rounded-full pointer-events-none -z-0`} />
 
-      {/* 1. Top Header Bar (Terminal ID & Mode Indicator) */}
-      <div className="flex items-center justify-between w-full max-w-full overflow-hidden relative z-10 shrink-0 pb-1">
-        <div className={`flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono min-w-0 truncate ${
-          isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
-        }`}>
-          <span className={`font-extrabold tracking-wider shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>UDD-POS-ENG</span>
-          <span className={`shrink-0 ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>•</span>
-          <span className={`truncate ${isDark ? 'text-slate-300' : 'text-slate-800 font-bold'}`}>Terminal #01</span>
-          <span className={`shrink-0 ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>•</span>
-          <button
-            type="button"
-            onClick={handleEmblemTap}
-            className="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded border border-slate-700/80 bg-slate-900/60 dark:bg-slate-800 text-slate-400 dark:text-slate-300 hover:text-cyan-400 active:scale-95 transition-all cursor-pointer shrink-0 select-none shadow-2xs"
-            title="System Module Indicator (Tap 3x for Custodian Override)"
-            aria-label="System Module Indicator"
-          >
-            [SYS.MOD // 01]
-          </button>
-        </div>
-
+      {/* 1. Top Header Bar (Live Digital Clock & Theme Toggle) */}
+      <div className="flex items-center justify-end w-full max-w-full overflow-hidden relative z-10 shrink-0 pb-1">
         {/* Right: Manual Theme Toggle & Live Digital Clock Pod */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <ThemeToggle />
