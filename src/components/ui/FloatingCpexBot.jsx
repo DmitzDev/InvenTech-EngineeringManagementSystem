@@ -530,42 +530,22 @@ export default function FloatingCpexBot() {
             </div>
           )}
 
-          {/* Tactile Industrial CPEX Pill / Badge Trigger */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            title="Open CPEX Copilot (Computer Programmed Engineering eXpert)"
-            className={`group relative flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl cursor-pointer transition-all duration-150 select-none ${
-              isDark
-                ? 'bg-slate-900 border-2 border-slate-700 text-white shadow-[0_4px_0_theme(colors.slate.950)] active:translate-y-[2px] hover:border-emerald-500/80'
-                : 'bg-slate-100 border-2 border-slate-300 text-slate-950 shadow-[0_4px_0_theme(colors.slate.300)] active:translate-y-[2px] hover:border-emerald-600'
-            }`}
-          >
-            {/* CPEX Cybernetic Avatar Badge with Emerald Ring */}
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden shrink-0 border-2 border-slate-300 dark:border-slate-700 shadow-[0_0_10px_rgba(16,185,129,0.3)] bg-slate-950 flex items-center justify-center">
+          {/* CPEX AI Trigger Button: Pure Edge-to-Edge Circle Icon */}
+          <div className="relative shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              title="Chat with CPEX (Computer Programmed Engineering eXpert)"
+              className="group relative w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-slate-300 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-400 shadow-[0_4px_16px_rgba(0,0,0,0.4)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.8)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer overflow-hidden bg-slate-950 flex items-center justify-center"
+            >
               <img
                 src="/images/image_0.png"
                 alt="CPEX Cybernetic Avatar"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <span className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-slate-950 animate-ping pointer-events-none" />
-              <span className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-slate-950 pointer-events-none" />
-            </div>
-
-            {/* Tactile Monospace Pill Typography */}
-            <div className="flex flex-col items-start text-left font-mono pr-1">
-              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black tracking-tight leading-none">
-                <span className="text-amber-400">⚡</span>
-                <span className="text-emerald-400 font-extrabold tracking-wider">CPEX</span>
-                <span className="text-slate-400 text-[10px]">//</span>
-                <span className="text-[11px] sm:text-xs font-bold text-slate-200">ASSIST</span>
-              </div>
-              <div className="flex items-center gap-1 text-[9px] font-bold text-emerald-400/90 tracking-widest mt-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>LIVE TELEMETRY</span>
-              </div>
-            </div>
-          </button>
+            </button>
+            <span className="absolute top-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-slate-950 pointer-events-none z-20 shadow-xs animate-pulse" />
+          </div>
         </div>
       )}
 
