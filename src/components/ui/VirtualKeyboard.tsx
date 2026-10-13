@@ -58,13 +58,13 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
     'relative select-none cursor-pointer flex items-center justify-center rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-bold transition-all duration-75 active:translate-y-0.5 active:shadow-none focus:outline-none';
 
   const themeKeycapClass =
-    'bg-white text-slate-900 border-b-2 border-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-white dark:border-slate-950 dark:hover:bg-[#1e293b] shadow-sm';
+    'bg-white text-slate-900 border-b-2 border-slate-300 hover:bg-slate-50 dark:bg-[#1a2333] dark:text-white dark:border-b-2 dark:border-slate-950 dark:hover:bg-[#223048] shadow-sm';
 
   const actionKeycapClass =
-    'bg-slate-100 text-slate-800 border-b-2 border-slate-300 hover:bg-slate-200 dark:bg-slate-850 dark:text-slate-200 dark:border-slate-950 dark:hover:bg-slate-700 shadow-sm';
+    'bg-slate-200 text-slate-800 border-b-2 border-slate-300 hover:bg-slate-300 dark:bg-[#25334a] dark:text-slate-100 dark:border-b-2 dark:border-slate-950 dark:hover:bg-[#2e3e5a] shadow-sm';
 
   const accentKeycapClass =
-    'bg-cyan-600 text-white border-b-2 border-cyan-800 hover:bg-cyan-500 active:bg-cyan-700 shadow-sm';
+    'bg-cyan-600 text-white border-b-2 border-cyan-800 hover:bg-cyan-500 active:bg-cyan-700 dark:bg-cyan-500 dark:text-slate-950 dark:border-cyan-700 dark:hover:bg-cyan-400 font-black shadow-sm';
 
   return (
     <aside
@@ -77,73 +77,32 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
       role="region"
       aria-label="Kiosk On-Screen Keyboard Terminal"
     >
-      {/* 1. Monospace Industrial Telemetry Header Bar */}
-      <div className="max-w-4xl mx-auto flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-300/80 dark:border-slate-800/80">
-        <div className="flex items-center gap-2 text-[10px] sm:text-xs font-mono tracking-wider text-slate-700 dark:text-slate-300 truncate">
-          <span className="font-extrabold text-cyan-600 dark:text-cyan-400">
-            [SYS.INPUT // {layout === 'numeric' ? 'NUMPAD-KEYPAD' : 'TOUCH-KEYPAD'}]
+      {/* Minimalist Clean Header */}
+      <div className="max-w-3xl mx-auto flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-300 dark:border-slate-800">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
+            {layout === 'numeric' ? 'Number Pad' : 'Keyboard'}
           </span>
-          <span className="hidden sm:inline text-slate-400 dark:text-slate-600">•</span>
-          <span className="hidden sm:inline px-1.5 py-0.5 rounded bg-slate-300/60 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold truncate max-w-xs">
-            FIELD: {activeInputLabel || 'GENERAL INPUT'}
-          </span>
-          <span className="text-slate-500 font-mono text-[9px] sm:text-[10px] uppercase">
-            [{layout.toUpperCase()}]
-          </span>
+          {activeInputLabel && (
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate max-w-[200px] sm:max-w-xs">
+              • {activeInputLabel}
+            </span>
+          )}
         </div>
 
-        {/* Action Controls: Switch Layout & Close Button */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          <button
-            type="button"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={() => {
-              triggerTactileFeedback();
-              toggleLayout();
-            }}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-mono font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:border-cyan-500 cursor-pointer active:scale-95 transition-all"
-            title="Switch input layout (123 / ABC)"
-          >
-            {layout === 'alphabetic' ? (
-              <>
-                <Hash className="w-3 h-3 text-cyan-500" />
-                <span>NUMPAD</span>
-              </>
-            ) : (
-              <>
-                <Type className="w-3 h-3 text-cyan-500" />
-                <span>QWERTY</span>
-              </>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={() => {
-              triggerTactileFeedback();
-              clearInput();
-            }}
-            className="hidden sm:inline-block px-2 py-1 rounded-md text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400 hover:text-rose-500 cursor-pointer"
-            title="Clear all characters"
-          >
-            CLEAR
-          </button>
-
-          <button
-            type="button"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={() => {
-              triggerTactileFeedback();
-              handleClose();
-            }}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-mono font-extrabold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 hover:bg-rose-500 hover:text-white cursor-pointer active:scale-95 transition-all"
-            aria-label="Close On-Screen Keyboard"
-          >
-            <X className="w-3.5 h-3.5" />
-            <span>CLOSE</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => {
+            triggerTactileFeedback();
+            handleClose();
+          }}
+          className="flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold bg-slate-300/60 hover:bg-rose-500 hover:text-white dark:bg-slate-800 dark:hover:bg-rose-600 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 cursor-pointer active:scale-95 transition-all"
+          aria-label="Close keyboard"
+        >
+          <X className="w-3.5 h-3.5" />
+          <span>Close</span>
+        </button>
       </div>
 
       {/* 2. NUMERIC MODE: Tactile 3x4 / 4x4 Keypad */}
@@ -399,12 +358,14 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 toggleCaps();
               }}
               className={`${baseKeycapClass} ${actionKeycapClass} w-12 sm:w-16 h-9 sm:h-11 gap-1 ${
-                isCaps ? 'ring-2 ring-cyan-500 text-cyan-600 dark:text-cyan-400' : ''
+                isCaps
+                  ? 'ring-2 ring-cyan-400 bg-cyan-500/20 text-cyan-300 dark:bg-cyan-950/80 dark:text-cyan-300 dark:ring-cyan-400 font-black'
+                  : 'text-slate-700 dark:text-slate-300'
               }`}
               title="Caps Lock / Shift"
               aria-label="Caps Lock"
             >
-              <ArrowUp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isCaps ? 'text-cyan-500' : ''}`} />
+              <ArrowUp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isCaps ? 'text-cyan-400 font-black' : ''}`} />
               <span className="text-[9px] sm:text-[11px] font-mono hidden sm:inline">CAPS</span>
             </button>
 
@@ -452,7 +413,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 toggleLayout();
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} w-12 sm:w-16 h-9 sm:h-11 font-mono text-[11px] sm:text-xs font-extrabold`}
+              className={`${baseKeycapClass} ${actionKeycapClass} w-12 sm:w-16 h-9 sm:h-11 font-mono text-[11px] sm:text-xs font-extrabold text-cyan-600 dark:text-cyan-400`}
               title="Switch to Numbers"
             >
               123
@@ -490,7 +451,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar(' ');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} flex-1 max-w-sm h-9 sm:h-11 font-mono text-[10px] sm:text-xs tracking-widest text-slate-400`}
+              className={`${baseKeycapClass} ${themeKeycapClass} flex-1 max-w-sm h-9 sm:h-11 font-mono text-[10px] sm:text-xs tracking-widest text-slate-500 dark:text-slate-300`}
               aria-label="Space"
             >
               SPACE

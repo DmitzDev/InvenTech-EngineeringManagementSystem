@@ -24,7 +24,8 @@ export default function TouchButton({
 
   const variantStyles = {
     primary: 'neu-btn-primary active:scale-95 text-white',
-    secondary: 'neu-btn-raised text-slate-200 font-bold active:scale-95',
+    secondary:
+      'neu-btn-raised text-slate-900 dark:text-slate-100 font-extrabold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 shadow-sm',
     success:
       'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold shadow-[4px_4px_12px_#060a12,-4px_-4px_12px_#1a2844,0_0_16px_rgba(16,185,129,0.3)] hover:brightness-110 active:scale-95',
     danger: 'neu-btn-danger active:scale-95',
