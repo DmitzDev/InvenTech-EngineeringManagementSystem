@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, Maximize2, Minimize2, Home, RotateCcw, X, LayoutDashboard } from 'lucide-react';
+import { Clock, Maximize2, Minimize2, Home, RotateCcw, X } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import ConfirmDialog from './ConfirmDialog';
 import ReturnEquipmentModal from '../steps/ReturnEquipmentModal';
@@ -338,24 +338,6 @@ export default function Header() {
               >
                 <RotateCcw className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                 <span>Reset</span>
-              </button>
-
-              {/* Item 6: Direct Admin Console Navigation */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsOpen(false);
-                  navigate('/admin');
-                }}
-                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
-                  isDark
-                    ? 'neu-btn-raised text-cyan-400 hover:text-cyan-300 border-cyan-500/30'
-                    : 'bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border-cyan-300 shadow-xs'
-                }`}
-                title="Open Admin Console"
-              >
-                <LayoutDashboard className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
-                <span>Admin</span>
               </button>
             </div>
           </div>
