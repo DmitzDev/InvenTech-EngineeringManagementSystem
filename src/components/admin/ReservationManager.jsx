@@ -223,7 +223,7 @@ export default function ReservationManager() {
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 {search || statusFilter !== 'ALL' || labFilter !== 'ALL'
                   ? 'Try clearing your search query or selecting "All Status".'
-                  : 'Student advance bookings submitted from the Kiosk or Kairo AI will appear here.'}
+                  : 'Student advance bookings submitted from the Kiosk or CPEX Copilot will appear here.'}
               </p>
             </div>
           </div>

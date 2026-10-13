@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { TransactionProvider, useTransaction } from './context/TransactionContext';
 import Header from './components/ui/Header';
 import ChevronProgressBar from './components/ui/ChevronProgressBar';
-import FloatingKairoBot from './components/ui/FloatingKairoBot';
+import FloatingCpexBot from './components/ui/FloatingCpexBot';
 import KioskScreensaver from './components/ui/KioskScreensaver';
 import InactivityWarningModal from './components/ui/InactivityWarningModal';
 import VirtualKeyboard from './components/ui/VirtualKeyboard';
@@ -88,8 +88,8 @@ function KioskContent() {
           {renderCurrentStep()}
         </main>
 
-        {/* Global Floating Kairo AI Chatbot Assistant */}
-        <FloatingKairoBot />
+        {/* Global Floating CPEX Copilot Assistant */}
+        <FloatingCpexBot />
 
         {/* Global Inactivity Sleep Mode Screensaver */}
         <KioskScreensaver />
