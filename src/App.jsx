@@ -6,6 +6,7 @@ import ChevronProgressBar from './components/ui/ChevronProgressBar';
 import FloatingKairoBot from './components/ui/FloatingKairoBot';
 import KioskScreensaver from './components/ui/KioskScreensaver';
 import InactivityWarningModal from './components/ui/InactivityWarningModal';
+import VirtualKeyboard from './components/ui/VirtualKeyboard';
 import WelcomeScreen from './components/steps/WelcomeScreen';
 import BorrowerForm from './components/steps/BorrowerForm';
 import LabSelector from './components/steps/LabSelector';
@@ -15,6 +16,7 @@ import BorrowerSheet from './components/print/BorrowerSheet';
 import AdminPanel from './components/admin/AdminPanel';
 import AdminLogin from './components/admin/AdminLogin';
 import { useKioskInactivity } from './hooks/useKioskInactivity';
+import { useVirtualKeyboard } from './hooks/useVirtualKeyboard';
 
 function KioskContent() {
   const { currentStep, theme, goToWelcome, showToast } = useTransaction();
@@ -40,6 +42,15 @@ function KioskContent() {
     inactivityMs: 45 * 1000, // 45 seconds idle trigger
     countdownSec: 15, // 15 seconds warning countdown
   });
+
+  const osk = useVirtualKeyboard();
+
+  // Close virtual keyboard if inactivity warning modal appears or session resets
+  React.useEffect(() => {
+    if (isWarningVisible) {
+      osk.closeKeyboard();
+    }
+  }, [isWarningVisible, osk.closeKeyboard]);
 
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -70,10 +81,10 @@ function KioskContent() {
         {/* Universal Chevron Ribbon Process Bar (Directly below Top Header on all devices) */}
         <ChevronProgressBar />
 
-        {/* Dynamic Step Viewport: Natural Mobile Scroll vs Kiosk Locked Height */}
-        <main className={`flex-1 flex flex-col animate-fade-in relative min-h-0 w-full max-w-full overflow-x-hidden overflow-y-auto md:overflow-y-auto ${
+        {/* Dynamic Step Viewport: Natural Mobile Scroll vs Kiosk Locked Height (Zero Form Occlusion with pb-[320px]) */}
+        <main className={`flex-1 flex flex-col animate-fade-in relative min-h-0 w-full max-w-full overflow-x-hidden overflow-y-auto md:overflow-y-auto transition-[padding] duration-200 ${
           isDark ? 'bg-[#0a0e17]' : 'bg-slate-100/80'
-        }`}>
+        } ${osk.isOpen ? 'pb-[320px]' : ''}`}>
           {renderCurrentStep()}
         </main>
 
@@ -82,6 +93,9 @@ function KioskContent() {
 
         {/* Global Inactivity Sleep Mode Screensaver */}
         <KioskScreensaver />
+
+        {/* Dynamic 15-inch Touchscreen Virtual Keyboard (OSK) */}
+        <VirtualKeyboard controller={osk} />
 
         {/* Kiosk Tamper Protection & Inactivity Deadman Warning Modal */}
         <InactivityWarningModal
