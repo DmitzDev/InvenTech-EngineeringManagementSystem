@@ -204,13 +204,8 @@ export default function WelcomeScreen() {
                 <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 border border-slate-950 animate-pulse pointer-events-none" />
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5 mb-0.5">
-                  <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                    [CPEX.SYS // CpE-COPILOT v2.0]
-                  </span>
-                </div>
-                <div className={`text-xs sm:text-sm font-black font-mono tracking-tight truncate ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
-                  CPEX Copilot
+                <div className={`text-xs sm:text-sm font-extrabold truncate ${isDark ? 'text-slate-100' : 'text-slate-900 font-black'}`}>
+                  CPEX
                 </div>
                 <div className={`text-[10px] sm:text-xs font-semibold truncate ${isDark ? 'text-slate-400' : 'text-slate-600 font-bold'}`}>
                   Computer Programmed Engineering eXpert

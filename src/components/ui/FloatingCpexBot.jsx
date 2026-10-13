@@ -386,7 +386,7 @@ export default function FloatingCpexBot() {
     {
       id: 'init-cpex-1',
       sender: 'cpex',
-      text: `### [CPEX.SYS // CpE-COPILOT v2.0 READY]\nGreetings. I am **CPEX** (Computer Programmed Engineering eXpert), your technical laboratory copilot.\n\n• **Hardware Stock & Bins:** Oscilloscopes, multimeters, 74xx TTL ICs, microcontrollers (\`BIN-A01\`, \`BIN-B04\`).\n• **Rules & Safety:** Maximum 5 items per student group, end-of-class return cutoff.\n• **Procedures:** Return clearance lookup and damage telemetry.\n\nInput a command or tap a quick-action command below.`,
+      text: `Hello! I am **CPEX** (Computer Programmed Engineering eXpert), your laboratory assistant.\n\n• **Equipment & Stock:** Oscilloscopes, multimeters, 74xx TTL ICs, microcontrollers, and apparatus bins.\n• **Rules & Guidelines:** Maximum 5 items per student group, return within class period.\n• **Procedures:** Equipment return clearance and reporting damaged hardware.\n\nHow can I help you today?`,
       source: 'offline',
       recommendedItems: [],
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -432,14 +432,14 @@ export default function FloatingCpexBot() {
       {
         id: `cpex-reboot-${Date.now()}`,
         sender: 'cpex',
-        text: `### [CPEX.SYS // REBOOT SEQUENCE COMPLETE]\nTelemetry logs cleared. Hardware catalog synchronized. How may I assist your engineering laboratory session?`,
+        text: `Conversation restarted. How can I help you with your laboratory equipment or experiment today?`,
         source: 'offline',
         recommendedItems: [],
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       },
     ]);
     setAddedBundleKeys([]);
-    showToast('CPEX conversation reset to default standby.', 'info');
+    showToast('CPEX conversation reset.', 'info');
   };
 
   const handleSendMessage = async (customPrompt) => {
@@ -567,39 +567,30 @@ export default function FloatingCpexBot() {
             }`}
           >
             {/* Header Strip */}
-            <div className={`px-3.5 py-3 border-b flex items-center justify-between shrink-0 ${
+            <div className={`px-4 py-3 border-b flex items-center justify-between shrink-0 ${
               isDark ? 'bg-[#0c1424] border-slate-800' : 'bg-slate-100 border-slate-300'
             }`}>
               <div className="flex items-center gap-3 min-w-0">
                 {/* Avatar Badge */}
-                <div className="relative w-10 h-10 rounded-xl overflow-hidden shrink-0 border-2 border-slate-400 dark:border-slate-700 shadow-[0_0_10px_rgba(16,185,129,0.25)] bg-slate-950">
+                <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-slate-300 dark:border-slate-700 shadow-sm bg-slate-950">
                   <img
                     src="/images/image_0.png"
-                    alt="CPEX Cybernetic Avatar"
+                    alt="CPEX Avatar"
                     className="w-full h-full object-cover"
                   />
                   <span className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-slate-950" />
                 </div>
 
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-mono font-black text-xs sm:text-sm tracking-wider truncate flex items-center gap-1.5 text-emerald-400">
-                      <span>[SYS.AI // CPEX-01]</span>
-                    </h3>
-
-                    {/* Online Pill */}
-                    <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border flex items-center gap-1 ${
-                      isOnline && hasApiKey
-                        ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/40'
-                        : 'bg-amber-950/40 text-amber-300 border-amber-500/40'
-                    }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${isOnline && hasApiKey ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-                      <span>{isOnline && hasApiKey ? 'Gemini 3.6 Online' : 'Offline Telemetry'}</span>
-                    </span>
-                  </div>
-
-                  <p className={`text-[10px] font-mono truncate ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                    Computer Programmed Engineering eXpert // Department of Computer Engineering
+                  <h3 className={`text-sm sm:text-base font-extrabold truncate ${
+                    isDark ? 'text-white' : 'text-slate-900'
+                  }`}>
+                    CPEX
+                  </h3>
+                  <p className={`text-[11px] truncate font-medium ${
+                    isDark ? 'text-slate-400' : 'text-slate-600'
+                  }`}>
+                    Computer Programmed Engineering eXpert
                   </p>
                 </div>
               </div>

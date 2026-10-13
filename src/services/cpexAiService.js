@@ -163,7 +163,7 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
     const digitalMatches = inventory.filter((i) => i.lab === 'DIGITAL' || i.lab === 'ECE' || i.category?.includes('Logic') || i.category?.includes('Equipment')).slice(0, 4);
     const list = digitalMatches.map((i) => `• [${i.tagCode}] **${i.name}**\n  Loc: \`${getCompartmentBin(i)}\` | Available: \`${i.stock} ${i.unit || 'pcs'}\``).join('\n');
     return {
-      text: `### [CPEX.SYS // INVENTORY STATUS]\nTelemetry scan completed for Active Sector.\n\n${list}\n\n**Protocol:** Select items above or tap "+ Add All to Borrow Cart" to populate your transaction sheet. Maximum 5 units per student group.`,
+      text: `### Available Laboratory Tools & Equipment\nHere are currently available apparatus in the active laboratory sector:\n\n${list}\n\nSelect items above or tap "+ Add All to Borrow Cart" to add them to your borrowing slip. Maximum 5 items per student group.`,
       source: 'offline',
       recommendedItems: digitalMatches,
       isReservationIntent: false,
@@ -173,7 +173,7 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
   // 2. Return Equipment Protocol
   if (query.includes('how to return') || query.includes('return equipment') || query.includes('sauli') || query.includes('ibalik') || query.includes('return procedure')) {
     return {
-      text: `### [CPEX.SYS // HARDWARE RETURN PROTOCOL]\nOfficial Procedure for Custodian Clearance:\n\n1. **Initialize Return Station:** Tap the **"Return"** button located on the top header dock or Welcome Screen.\n2. **Student ID Lookup:** Enter your 11-digit Student ID (e.g., \`23-1374-693\`) or scan the barcode from your printed slip.\n3. **Physical Inspection:** Present apparatus to Lab Custodian at the equipment counter for probe/lead and casing checks.\n4. **Custodian Sign-off:** Custodian marks items received; your account clearance is instantly updated to **CLEARED**.`,
+      text: `### How to Return Laboratory Equipment\nFollow these steps to return borrowed apparatus and receive clearance:\n\n1. **Open Return Station:** Tap the **"Return"** button on the top header dock or Welcome Screen.\n2. **Enter Student ID:** Input your 11-digit Student ID (e.g., \`23-1374-693\`) or scan the barcode from your slip.\n3. **Physical Inspection:** Bring the items to the Custodian Counter for inspection.\n4. **Custodian Sign-off:** Once confirmed, your borrowing status will immediately update to **CLEARED**.`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
@@ -183,7 +183,7 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
   // 3. Report Damaged Hardware
   if (query.includes('report damaged') || query.includes('damaged hardware') || query.includes('sira') || query.includes('basag') || query.includes('defect') || query.includes('broken')) {
     return {
-      text: `### [CPEX.SYS // INCIDENT TELEMETRY: DAMAGE REPORTING]\nPre-Inspection & Liability Protocol:\n\n• **Pre-Existing Defects:** Inspect all breadboards, IC pins, and multimeter fuse lines before leaving the dispensing counter.\n• **Immediate Flagging:** If hardware exhibits burned traces, bent pins, or blown fuses upon checkout, notify the Custodian immediately so the incident is logged under counter maintenance.\n• **Student Liability:** Failure to report defects upon pickup assigns replacement accountability to the signing group leader (Form UdD-FM-LM-01A-01).`,
+      text: `### Reporting Damaged Hardware & Defects\nPre-Inspection and safety protocols:\n\n• **Check Before Leaving:** Always inspect probes, multimeter fuses, and IC pins before leaving the dispensing counter.\n• **Immediate Report:** If an item is already damaged upon checkout, inform the Custodian right away so it is logged under maintenance.\n• **Student Accountability:** Items damaged during the class period must be reported to the Laboratory Custodian (Form UdD-FM-LM-01A-01).`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
@@ -193,7 +193,7 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
   // 4. Laboratory Clearance Guide
   if (query.includes('laboratory clearance') || query.includes('clearance guide') || query.includes('clearance') || query.includes('hold') || query.includes('restriction')) {
     return {
-      text: `### [CPEX.SYS // ACADEMIC CLEARANCE GUARDRAILS]\nCustodian Clearance Status Guidelines:\n\n• **RESTRICTED STATUS:** Triggered when borrowed equipment remains unreturned past the 5:00 PM daily cutoff.\n• **System Locks:** Students with active unreturned items cannot initiate new borrow transactions at the kiosk terminal.\n• **Remediation:** Settle active loans at the Department of Computer Engineering / School of Engineering Custodian Desk to restore borrowing privileges.`,
+      text: `### Laboratory Clearance Guidelines\nClearance reminders for engineering students:\n\n• **RESTRICTED STATUS:** Happens when borrowed apparatus is not returned before the 5:00 PM cutoff.\n• **Borrowing Lock:** Students with unreturned items cannot borrow new equipment until previous items are cleared.\n• **Settlement:** Visit the Department of Computer Engineering / School of Engineering Custodian Desk to clear pending loans.`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
@@ -214,7 +214,7 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
     const tagsFormatted = matchedItems.map((i) => `• [${i.tagCode}] **${i.name}** (\`${getCompartmentBin(i)}\`)`).join('\n');
 
     return {
-      text: `### [CPEX.SYS // PRESET LOADED: ${matchedPreset.title.toUpperCase()}]\nConfigured syllabus apparatus bundle for ${matchedPreset.lab} Laboratory:\n\n${tagsFormatted}\n\n**Technical Description:** ${matchedPreset.description}\n\nTap the button below to inject this full apparatus suite directly into your borrow cart.`,
+      text: `### Preset Syllabus Bundle: ${matchedPreset.title}\nHere are the recommended items for this experiment in ${matchedPreset.lab} Lab:\n\n${tagsFormatted}\n\n**Experiment Description:** ${matchedPreset.description}\n\nTap the button below to add all items directly to your borrow cart.`,
       source: 'offline',
       recommendedItems: matchedItems,
       isReservationIntent,
@@ -244,8 +244,8 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
     const targetItem = matchedApparatus[0] || null;
     return {
       text: targetItem
-        ? `### [CPEX.SYS // ADVANCE RESERVATION]\nTarget Unit: **${targetItem.name}** ([${targetItem.tagCode}]) located at \`${getCompartmentBin(targetItem)}\`.\nComplete the telemetry reservation form below to queue hardware allocation at the Custodian Terminal.`
-        : `### [CPEX.SYS // ADVANCE RESERVATION]\nReady to schedule equipment booking. Specify the laboratory apparatus and required session timeslot below to log the advance request with Engineering Administration.`,
+        ? `### Equipment Advance Reservation\nSelected Apparatus: **${targetItem.name}** ([${targetItem.tagCode}]) located at \`${getCompartmentBin(targetItem)}\`.\nFill out the reservation form below to queue your booking with the Laboratory Custodian.`
+        : `### Equipment Advance Reservation\nReady to schedule your equipment reservation. Specify the laboratory apparatus and required session timeslot below.`,
       source: 'offline',
       recommendedItems: targetItem ? [targetItem] : [],
       isReservationIntent: true,
@@ -258,12 +258,12 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
     const itemsList = topMatches
       .map(
         (i) =>
-          `• [${i.tagCode}] **${i.name}**\n  Bin: \`${getCompartmentBin(i)}\` | Stock: \`${i.stock} ${i.unit || 'pcs'}\` (${i.category})`
+          `• [${i.tagCode}] **${i.name}**\n  Bin: \`${getCompartmentBin(i)}\` | Available: \`${i.stock} ${i.unit || 'pcs'}\` (${i.category})`
       )
       .join('\n');
 
     return {
-      text: `### [CPEX.SYS // TELEMETRY QUERY RESULTS]\nMatched ${matchedApparatus.length} hardware unit(s) in active inventory:\n\n${itemsList}\n\n*All units certified under Official Document Code UdD-FM-LM-01A-01.*`,
+      text: `### Matched Equipment in Inventory\nFound ${matchedApparatus.length} matching item(s) in active laboratory stock:\n\n${itemsList}\n\n*All items are verified under Official Document Code UdD-FM-LM-01A-01.*`,
       source: 'offline',
       recommendedItems: topMatches,
       isReservationIntent: false,
@@ -273,7 +273,7 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
   // 7. General Greetings
   if (query.includes('hi') || query.includes('hello') || query.includes('kumusta') || query.includes('kamusta') || query.includes('cpex') || query.includes('who are you')) {
     return {
-      text: `### [CPEX.SYS // CpE-COPILOT v2.0 READY]\nGreetings. I am **CPEX** (Computer Programmed Engineering eXpert), your technical laboratory copilot.\n\n**Operational Directives:**\n• Hardware inventory lookup & locker bin queries (\`BIN-A01\`, \`BIN-B04\`).\n• Technical equipment specs (Oscilloscopes, Multimeters, 74xx TTL ICs).\n• Equipment checkout, advance reservations, and return clearance protocols.\n\nInput a query or select a quick-action command below.`,
+      text: `Hello! I am **CPEX** (Computer Programmed Engineering eXpert), your laboratory assistant.\n\n• **Equipment & Stock:** Oscilloscopes, multimeters, 74xx TTL ICs, microcontrollers, and apparatus bins.\n• **Rules & Guidelines:** Maximum 5 items per student group, return within class period.\n• **Procedures:** Equipment return clearance and reporting damaged hardware.\n\nHow can I help you today?`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
@@ -282,7 +282,7 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
 
   // 8. Default Direct Technical Fallback
   return {
-    text: `### [CPEX.SYS // TELEMETRY ACKNOWLEDGED]\nQuery received. For hardware allocation, browse the **Equipment Catalog** or filter by laboratory sector (Digital Logic, ECE, Civil, Chemistry, Physics).\n\nNeed specific specs or return guidance? Select one of the quick-action command pills below.`,
+    text: `How can I assist you with the laboratory? You can ask about available apparatus, syllabi experiments, reservation rules, or return procedures. You may also select any of the quick action buttons below.`,
     source: 'offline',
     recommendedItems: [],
     isReservationIntent: false,
