@@ -200,7 +200,16 @@ export function useVirtualKeyboard() {
   // Close the keyboard cleanly and clear active input
   const closeKeyboard = useCallback(() => {
     setIsOpen(false);
-    setActiveInput(null);
+    setActiveInput((prev) => {
+      if (prev && typeof prev.blur === 'function') {
+        try {
+          prev.blur();
+        } catch {
+          // Safe fallback
+        }
+      }
+      return null;
+    });
   }, []);
 
   // Open the keyboard programmatically on a specific element
@@ -268,6 +277,11 @@ export function useVirtualKeyboard() {
       } catch {
         // Safe fallback
       }
+      try {
+        activeInput.blur();
+      } catch {
+        // Safe fallback
+      }
     }
     closeKeyboard();
   }, [activeInput, closeKeyboard]);
@@ -286,9 +300,9 @@ export function useVirtualKeyboard() {
     return () => window.removeEventListener('resize', handleResize);
   }, [isOpen, closeKeyboard]);
 
-  // Global focus interception for kiosk-grade viewports
+  // Global focus, touch, and click interception for kiosk-grade viewports
   useEffect(() => {
-    const handleFocusIn = (e) => {
+    const handleInputActivation = (e) => {
       if (!isKioskTouchDevice()) return;
 
       const target = e.target;
@@ -327,8 +341,15 @@ export function useVirtualKeyboard() {
       setIsOpen(true);
     };
 
-    document.addEventListener('focusin', handleFocusIn);
-    return () => document.removeEventListener('focusin', handleFocusIn);
+    document.addEventListener('focusin', handleInputActivation);
+    document.addEventListener('pointerdown', handleInputActivation);
+    document.addEventListener('click', handleInputActivation);
+
+    return () => {
+      document.removeEventListener('focusin', handleInputActivation);
+      document.removeEventListener('pointerdown', handleInputActivation);
+      document.removeEventListener('click', handleInputActivation);
+    };
   }, []);
 
   // Click-outside trigger to close virtual keyboard
