@@ -298,7 +298,22 @@ export function useVirtualKeyboard() {
 
       // Filter out non-textual input types
       const type = (target.getAttribute('type') || '').toLowerCase();
-      const ignoredTypes = ['checkbox', 'radio', 'file', 'button', 'submit', 'reset', 'range', 'color', 'hidden'];
+      const ignoredTypes = [
+        'checkbox',
+        'radio',
+        'file',
+        'button',
+        'submit',
+        'reset',
+        'range',
+        'color',
+        'hidden',
+        'time',
+        'date',
+        'datetime-local',
+        'month',
+        'week',
+      ];
       if (ignoredTypes.includes(type)) return;
 
       if (target.readOnly || target.disabled || target.getAttribute('data-no-osk') === 'true') {
