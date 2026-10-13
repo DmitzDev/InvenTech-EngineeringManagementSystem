@@ -21,14 +21,6 @@ const YEAR_LEVELS = [
   { id: '4', label: '4th Year' },
 ];
 const SECTIONS = ['01', '02', '03', '04'];
-const HOURS_12 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-const MINUTES = ['00', '15', '30', '45'];
-const LAB_SCHEDULE_PRESETS = [
-  { label: '07:30 AM - 10:30 AM', sH: '07', sM: '30', sP: 'AM', eH: '10', eM: '30', eP: 'AM' },
-  { label: '10:30 AM - 01:30 PM', sH: '10', sM: '30', sP: 'AM', eH: '01', eM: '30', eP: 'PM' },
-  { label: '01:30 PM - 04:30 PM', sH: '01', sM: '30', sP: 'PM', eH: '04', eM: '30', eP: 'PM' },
-  { label: '04:30 PM - 07:30 PM', sH: '04', sM: '30', sP: 'PM', eH: '07', eM: '30', eP: 'PM' },
-];
 
 export default function BorrowerForm() {
   const {
@@ -657,162 +649,13 @@ export default function BorrowerForm() {
               )}
             </div>
 
-            {/* Desktop / Kiosk Browser Tactile Time Selector */}
-            <div className="hidden md:block space-y-2">
-              {/* 1-Tap Laboratory Class Schedule Presets */}
-              <div className="grid grid-cols-2 gap-1.5">
-                {LAB_SCHEDULE_PRESETS.map((p) => {
-                  const isActive =
-                    startHour === p.sH &&
-                    startMinute === p.sM &&
-                    startPeriod === p.sP &&
-                    endHour === p.eH &&
-                    endMinute === p.eM &&
-                    endPeriod === p.eP;
-
-                  return (
-                    <button
-                      key={p.label}
-                      type="button"
-                      tabIndex={-1}
-                      data-no-osk="true"
-                      onClick={() => {
-                        setStartHour(p.sH);
-                        setStartMinute(p.sM);
-                        setStartPeriod(p.sP);
-                        setEndHour(p.eH);
-                        setEndMinute(p.eM);
-                        setEndPeriod(p.eP);
-                      }}
-                      className={`px-2 py-1.5 rounded-lg text-xs font-mono font-bold border transition-all cursor-pointer active:scale-95 text-center truncate ${
-                        isActive
-                          ? isDark
-                            ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 font-black shadow-xs'
-                            : 'bg-blue-600 text-white border-blue-600 font-black shadow-xs'
-                          : isDark
-                          ? 'bg-[#0e1626] text-slate-300 border-slate-700/80 hover:border-slate-600'
-                          : 'bg-white text-slate-700 border-slate-300 hover:border-slate-400'
-                      }`}
-                    >
-                      {p.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Custom Fine-Tune Selector (Zero virtual keyboard) */}
-              <div className={`p-2.5 rounded-xl border flex items-center justify-between gap-2 select-none ${
-                isDark ? 'neu-inset border-slate-800/80 bg-[#0a101d]' : 'bg-slate-50 border border-slate-200'
-              }`}>
-                {/* Start Time Pod */}
-                <div className="flex-1 flex items-center gap-1.5">
-                  <span className={`text-[10px] font-bold uppercase shrink-0 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                    Start
-                  </span>
-                  <select
-                    value={startHour || '07'}
-                    onChange={(e) => setStartHour(e.target.value)}
-                    tabIndex={-1}
-                    data-no-osk="true"
-                    className={`flex-1 h-8 rounded-lg px-1.5 font-mono text-xs font-bold border cursor-pointer ${
-                      isDark ? 'bg-[#0f1728] text-white border-slate-700' : 'bg-white text-slate-900 border-slate-300'
-                    }`}
-                  >
-                    {HOURS_12.map((h) => (
-                      <option key={h} value={h}>{h}</option>
-                    ))}
-                  </select>
-                  <span className="font-bold text-slate-400">:</span>
-                  <select
-                    value={startMinute || '00'}
-                    onChange={(e) => setStartMinute(e.target.value)}
-                    tabIndex={-1}
-                    data-no-osk="true"
-                    className={`flex-1 h-8 rounded-lg px-1.5 font-mono text-xs font-bold border cursor-pointer ${
-                      isDark ? 'bg-[#0f1728] text-white border-slate-700' : 'bg-white text-slate-900 border-slate-300'
-                    }`}
-                  >
-                    {MINUTES.map((m) => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
-                  <button
-                    type="button"
-                    tabIndex={-1}
-                    data-no-osk="true"
-                    onClick={() => setStartPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'))}
-                    className={`h-8 px-2 rounded-lg font-mono text-xs font-black border transition-all cursor-pointer active:scale-95 shrink-0 ${
-                      isDark
-                        ? 'bg-slate-800 text-cyan-300 border-slate-700 hover:border-cyan-400'
-                        : 'bg-white text-blue-700 border-slate-300 hover:border-blue-500'
-                    }`}
-                  >
-                    {startPeriod || 'AM'}
-                  </button>
-                </div>
-
-                <span className={`text-xs font-black uppercase tracking-widest px-1 shrink-0 ${
-                  isDark ? 'text-slate-500' : 'text-slate-400'
-                }`}>
-                  to
-                </span>
-
-                {/* End Time Pod */}
-                <div className="flex-1 flex items-center gap-1.5">
-                  <span className={`text-[10px] font-bold uppercase shrink-0 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                    End
-                  </span>
-                  <select
-                    value={endHour || '10'}
-                    onChange={(e) => setEndHour(e.target.value)}
-                    tabIndex={-1}
-                    data-no-osk="true"
-                    className={`flex-1 h-8 rounded-lg px-1.5 font-mono text-xs font-bold border cursor-pointer ${
-                      isDark ? 'bg-[#0f1728] text-white border-slate-700' : 'bg-white text-slate-900 border-slate-300'
-                    }`}
-                  >
-                    {HOURS_12.map((h) => (
-                      <option key={h} value={h}>{h}</option>
-                    ))}
-                  </select>
-                  <span className="font-bold text-slate-400">:</span>
-                  <select
-                    value={endMinute || '00'}
-                    onChange={(e) => setEndMinute(e.target.value)}
-                    tabIndex={-1}
-                    data-no-osk="true"
-                    className={`flex-1 h-8 rounded-lg px-1.5 font-mono text-xs font-bold border cursor-pointer ${
-                      isDark ? 'bg-[#0f1728] text-white border-slate-700' : 'bg-white text-slate-900 border-slate-300'
-                    }`}
-                  >
-                    {MINUTES.map((m) => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
-                  <button
-                    type="button"
-                    tabIndex={-1}
-                    data-no-osk="true"
-                    onClick={() => setEndPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'))}
-                    className={`h-8 px-2 rounded-lg font-mono text-xs font-black border transition-all cursor-pointer active:scale-95 shrink-0 ${
-                      isDark
-                        ? 'bg-slate-800 text-cyan-300 border-slate-700 hover:border-cyan-400'
-                        : 'bg-white text-blue-700 border-slate-300 hover:border-blue-500'
-                    }`}
-                  >
-                    {endPeriod || 'AM'}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Browser Native Time Selector (Left untouched as requested) */}
-            <div className={`block md:hidden w-full py-1.5 px-2.5 rounded-xl border ${
+            <div className={`w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl border ${
               isDark ? 'neu-inset border-slate-800/80' : 'bg-slate-50 border border-slate-200 shadow-xs'
             }`}>
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center justify-between gap-2 sm:gap-3">
+                {/* Start Time */}
                 <div className="flex-1">
-                  <span className={`block text-[9px] uppercase font-bold mb-0.5 ${
+                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
                     Start
@@ -840,7 +683,7 @@ export default function BorrowerForm() {
                         setStartPeriod(period);
                       }
                     }}
-                    className={`w-full h-8 px-2 rounded-lg font-mono text-xs font-extrabold transition-all cursor-pointer ${
+                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
                       isDark
                         ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
                         : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
@@ -849,16 +692,18 @@ export default function BorrowerForm() {
                   />
                 </div>
 
-                <div className="flex flex-col items-center justify-center pt-3">
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-1 shrink-0 select-none ${
+                {/* "to" separator */}
+                <div className="flex flex-col items-center justify-center pt-3 sm:pt-4">
+                  <span className={`text-[10px] sm:text-sm font-black uppercase tracking-widest px-1 shrink-0 select-none ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
                     to
                   </span>
                 </div>
 
+                {/* End Time */}
                 <div className="flex-1">
-                  <span className={`block text-[9px] uppercase font-bold mb-0.5 ${
+                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
                     End
@@ -886,7 +731,7 @@ export default function BorrowerForm() {
                         setEndPeriod(period);
                       }
                     }}
-                    className={`w-full h-8 px-2 rounded-lg font-mono text-xs font-extrabold transition-all cursor-pointer ${
+                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
                       isDark
                         ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
                         : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
