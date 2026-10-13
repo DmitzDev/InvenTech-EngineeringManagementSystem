@@ -81,10 +81,10 @@ function KioskContent() {
         {/* Universal Chevron Ribbon Process Bar (Directly below Top Header on all devices) */}
         <ChevronProgressBar />
 
-        {/* Dynamic Step Viewport: Natural Mobile Scroll vs Kiosk Locked Height (Zero Form Occlusion with pb-[320px]) */}
-        <main className={`flex-1 flex flex-col animate-fade-in relative min-h-0 w-full max-w-full overflow-x-hidden overflow-y-auto md:overflow-y-auto transition-[padding] duration-200 ${
+        {/* Dynamic Step Viewport: Natural Mobile Scroll vs Kiosk Locked Height */}
+        <main className={`flex-1 flex flex-col animate-fade-in relative min-h-0 w-full max-w-full overflow-x-hidden overflow-y-auto md:overflow-y-auto ${
           isDark ? 'bg-[#0a0e17]' : 'bg-slate-100/80'
-        } ${osk.isOpen ? 'pb-[320px]' : ''}`}>
+        }`}>
           {renderCurrentStep()}
         </main>
 

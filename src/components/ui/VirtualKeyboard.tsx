@@ -73,12 +73,12 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
         // Prevent clicking inside keyboard from stealing browser input focus
         e.preventDefault();
       }}
-      className="fixed bottom-0 left-0 right-0 z-50 bg-slate-200/95 dark:bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-300 dark:border-slate-800 p-3 shadow-2xl animate-slide-up select-none"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-slate-200/95 dark:bg-slate-900/95 backdrop-blur-md border-t-2 border-slate-300 dark:border-slate-800 p-2 sm:p-2.5 shadow-2xl animate-slide-up select-none"
       role="region"
       aria-label="Kiosk On-Screen Keyboard Terminal"
     >
       {/* 1. Monospace Industrial Telemetry Header Bar */}
-      <div className="max-w-4xl mx-auto flex items-center justify-between pb-2 mb-2 border-b border-slate-300/80 dark:border-slate-800/80">
+      <div className="max-w-4xl mx-auto flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-300/80 dark:border-slate-800/80">
         <div className="flex items-center gap-2 text-[10px] sm:text-xs font-mono tracking-wider text-slate-700 dark:text-slate-300 truncate">
           <span className="font-extrabold text-cyan-600 dark:text-cyan-400">
             [SYS.INPUT // {layout === 'numeric' ? 'NUMPAD-KEYPAD' : 'TOUCH-KEYPAD'}]
@@ -148,8 +148,8 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
 
       {/* 2. NUMERIC MODE: Tactile 3x4 / 4x4 Keypad */}
       {layout === 'numeric' && (
-        <div className="max-w-md mx-auto py-1">
-          <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
+        <div className="max-w-xs sm:max-w-sm mx-auto py-0.5">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
             {/* Row 1 */}
             <button
               type="button"
@@ -158,7 +158,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('1');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               1
             </button>
@@ -169,7 +169,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('2');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               2
             </button>
@@ -180,7 +180,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('3');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               3
             </button>
@@ -191,11 +191,11 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 deleteChar();
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} h-12 sm:h-14 text-rose-600 dark:text-rose-400`}
+              className={`${baseKeycapClass} ${actionKeycapClass} h-10 sm:h-11 text-rose-600 dark:text-rose-400`}
               title="Backspace"
               aria-label="Backspace"
             >
-              <Delete className="w-5 h-5 sm:w-6 sm:h-6" />
+              <Delete className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             {/* Row 2 */}
@@ -206,7 +206,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('4');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               4
             </button>
@@ -217,7 +217,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('5');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               5
             </button>
@@ -228,7 +228,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('6');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               6
             </button>
@@ -239,7 +239,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('-');
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${actionKeycapClass} h-10 sm:h-11 font-mono text-lg`}
               title="Hyphen (Student ID)"
             >
               -
@@ -253,7 +253,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('7');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               7
             </button>
@@ -264,7 +264,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('8');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               8
             </button>
@@ -275,7 +275,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('9');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               9
             </button>
@@ -286,7 +286,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 toggleLayout();
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} h-12 sm:h-14 font-mono text-xs sm:text-sm font-black`}
+              className={`${baseKeycapClass} ${actionKeycapClass} h-10 sm:h-11 font-mono text-[11px] sm:text-xs font-black`}
               title="Switch to Letters"
             >
               ABC
@@ -300,7 +300,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('.');
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${actionKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               .
             </button>
@@ -311,7 +311,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('0');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} h-12 sm:h-14 font-mono text-xl`}
+              className={`${baseKeycapClass} ${themeKeycapClass} h-10 sm:h-11 font-mono text-lg`}
             >
               0
             </button>
@@ -322,7 +322,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar(' ');
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} h-12 sm:h-14 font-mono text-xs`}
+              className={`${baseKeycapClass} ${actionKeycapClass} h-10 sm:h-11 font-mono text-[10px]`}
               title="Space"
             >
               SPACE
@@ -334,10 +334,10 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 submitDone();
               }}
-              className={`${baseKeycapClass} ${accentKeycapClass} h-12 sm:h-14 font-mono text-sm sm:text-base font-black`}
+              className={`${baseKeycapClass} ${accentKeycapClass} h-10 sm:h-11 font-mono text-xs sm:text-sm font-black`}
               title="Done / Enter"
             >
-              <CornerDownLeft className="w-5 h-5" />
+              <CornerDownLeft className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -345,9 +345,9 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
 
       {/* 3. ALPHABETIC MODE: 3-row QWERTY Keyboard */}
       {layout === 'alphabetic' && (
-        <div className="max-w-4xl mx-auto space-y-1.5 sm:space-y-2 py-1">
+        <div className="max-w-3xl mx-auto space-y-1 sm:space-y-1.5 py-0.5">
           {/* Row 1: Q - P */}
-          <div className="flex gap-1.5 sm:gap-2 justify-center">
+          <div className="flex gap-1 sm:gap-1.5 justify-center">
             {QWERTY_ROW_1.map((key) => {
               const displayChar = isCaps ? key.toUpperCase() : key.toLowerCase();
               return (
@@ -359,7 +359,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                     triggerTactileFeedback();
                     insertChar(displayChar);
                   }}
-                  className={`${baseKeycapClass} ${themeKeycapClass} flex-1 h-11 sm:h-13 min-w-0`}
+                  className={`${baseKeycapClass} ${themeKeycapClass} flex-1 h-9 sm:h-11 min-w-0`}
                 >
                   {displayChar}
                 </button>
@@ -368,7 +368,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
           </div>
 
           {/* Row 2: A - L */}
-          <div className="flex gap-1.5 sm:gap-2 justify-center px-3 sm:px-5">
+          <div className="flex gap-1 sm:gap-1.5 justify-center px-2 sm:px-4">
             {QWERTY_ROW_2.map((key) => {
               const displayChar = isCaps ? key.toUpperCase() : key.toLowerCase();
               return (
@@ -380,7 +380,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                     triggerTactileFeedback();
                     insertChar(displayChar);
                   }}
-                  className={`${baseKeycapClass} ${themeKeycapClass} flex-1 h-11 sm:h-13 min-w-0`}
+                  className={`${baseKeycapClass} ${themeKeycapClass} flex-1 h-9 sm:h-11 min-w-0`}
                 >
                   {displayChar}
                 </button>
@@ -389,7 +389,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
           </div>
 
           {/* Row 3: Caps Lock, Z - M, Backspace */}
-          <div className="flex gap-1.5 sm:gap-2 justify-center">
+          <div className="flex gap-1 sm:gap-1.5 justify-center">
             {/* Shift / Caps Button */}
             <button
               type="button"
@@ -398,14 +398,14 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 toggleCaps();
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} w-14 sm:w-20 h-11 sm:h-13 gap-1 ${
+              className={`${baseKeycapClass} ${actionKeycapClass} w-12 sm:w-16 h-9 sm:h-11 gap-1 ${
                 isCaps ? 'ring-2 ring-cyan-500 text-cyan-600 dark:text-cyan-400' : ''
               }`}
               title="Caps Lock / Shift"
               aria-label="Caps Lock"
             >
-              <ArrowUp className={`w-4 h-4 sm:w-5 sm:h-5 ${isCaps ? 'text-cyan-500' : ''}`} />
-              <span className="text-[10px] sm:text-xs font-mono hidden sm:inline">CAPS</span>
+              <ArrowUp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isCaps ? 'text-cyan-500' : ''}`} />
+              <span className="text-[9px] sm:text-[11px] font-mono hidden sm:inline">CAPS</span>
             </button>
 
             {QWERTY_ROW_3.map((key) => {
@@ -419,7 +419,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                     triggerTactileFeedback();
                     insertChar(displayChar);
                   }}
-                  className={`${baseKeycapClass} ${themeKeycapClass} flex-1 h-11 sm:h-13 min-w-0`}
+                  className={`${baseKeycapClass} ${themeKeycapClass} flex-1 h-9 sm:h-11 min-w-0`}
                 >
                   {displayChar}
                 </button>
@@ -434,16 +434,16 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 deleteChar();
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} w-14 sm:w-20 h-11 sm:h-13 text-rose-600 dark:text-rose-400`}
+              className={`${baseKeycapClass} ${actionKeycapClass} w-12 sm:w-16 h-9 sm:h-11 text-rose-600 dark:text-rose-400`}
               title="Backspace"
               aria-label="Backspace"
             >
-              <Delete className="w-5 h-5 sm:w-6 sm:h-6" />
+              <Delete className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
 
           {/* Row 4: Mode Switch [123], Special Characters, Space, and Done/Enter */}
-          <div className="flex gap-1.5 sm:gap-2 justify-center">
+          <div className="flex gap-1 sm:gap-1.5 justify-center">
             {/* Switch to 123 / Numpad */}
             <button
               type="button"
@@ -452,7 +452,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 toggleLayout();
               }}
-              className={`${baseKeycapClass} ${actionKeycapClass} w-14 sm:w-20 h-11 sm:h-13 font-mono text-xs sm:text-sm font-extrabold`}
+              className={`${baseKeycapClass} ${actionKeycapClass} w-12 sm:w-16 h-9 sm:h-11 font-mono text-[11px] sm:text-xs font-extrabold`}
               title="Switch to Numbers"
             >
               123
@@ -466,7 +466,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('-');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} w-9 sm:w-12 h-11 sm:h-13 font-mono text-base`}
+              className={`${baseKeycapClass} ${themeKeycapClass} w-8 sm:w-10 h-9 sm:h-11 font-mono text-sm`}
             >
               -
             </button>
@@ -477,7 +477,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar('.');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} w-9 sm:w-12 h-11 sm:h-13 font-mono text-base`}
+              className={`${baseKeycapClass} ${themeKeycapClass} w-8 sm:w-10 h-9 sm:h-11 font-mono text-sm`}
             >
               .
             </button>
@@ -490,7 +490,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar(' ');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} flex-1 max-w-md h-11 sm:h-13 font-mono text-xs sm:text-sm tracking-widest text-slate-400`}
+              className={`${baseKeycapClass} ${themeKeycapClass} flex-1 max-w-sm h-9 sm:h-11 font-mono text-[10px] sm:text-xs tracking-widest text-slate-400`}
               aria-label="Space"
             >
               SPACE
@@ -504,7 +504,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 insertChar(',');
               }}
-              className={`${baseKeycapClass} ${themeKeycapClass} w-9 sm:w-12 h-11 sm:h-13 font-mono text-base`}
+              className={`${baseKeycapClass} ${themeKeycapClass} w-8 sm:w-10 h-9 sm:h-11 font-mono text-sm`}
             >
               ,
             </button>
@@ -517,10 +517,10 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
                 triggerTactileFeedback();
                 submitDone();
               }}
-              className={`${baseKeycapClass} ${accentKeycapClass} w-20 sm:w-28 h-11 sm:h-13 gap-1 font-mono text-xs sm:text-sm font-black`}
+              className={`${baseKeycapClass} ${accentKeycapClass} w-16 sm:w-24 h-9 sm:h-11 gap-1 font-mono text-[11px] sm:text-xs font-black`}
               title="Done / Enter"
             >
-              <CornerDownLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              <CornerDownLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>DONE</span>
             </button>
           </div>

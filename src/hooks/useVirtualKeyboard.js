@@ -213,12 +213,6 @@ export function useVirtualKeyboard() {
     setActiveInputLabel(getInputTelemetryLabel(element));
     setLayout(detected);
     setIsOpen(true);
-
-    setTimeout(() => {
-      if (document.contains(element)) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }, 100);
   }, []);
 
   const toggleLayout = useCallback(() => {
@@ -316,13 +310,6 @@ export function useVirtualKeyboard() {
       setActiveInputLabel(getInputTelemetryLabel(target));
       setLayout(detected);
       setIsOpen(true);
-
-      // Smooth scroll target field to viewport center to prevent occlusion
-      setTimeout(() => {
-        if (document.contains(target)) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 100);
     };
 
     document.addEventListener('focusin', handleFocusIn);
