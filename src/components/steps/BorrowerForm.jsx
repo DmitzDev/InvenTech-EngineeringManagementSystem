@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   ArrowRight,
   ArrowLeft,
@@ -55,6 +55,23 @@ export default function BorrowerForm() {
   const clearanceStatus = useMemo(() => {
     return checkStudentOverdueClearance(borrower.studentId, borrower.groupLeader);
   }, [borrower.studentId, borrower.groupLeader, checkStudentOverdueClearance]);
+
+  const startInputRef = useRef(null);
+  const endInputRef = useRef(null);
+
+  const openTimePicker = (ref) => {
+    if (ref?.current) {
+      try {
+        if (typeof ref.current.showPicker === 'function') {
+          ref.current.showPicker();
+        } else {
+          ref.current.focus();
+        }
+      } catch {
+        ref.current?.focus();
+      }
+    }
+  };
 
   // Handler for Academic Program dropdown
   const handleProgramChange = (val) => {
@@ -647,15 +664,26 @@ export default function BorrowerForm() {
             }`}>
               <div className="flex items-center justify-between gap-2 sm:gap-3">
                 {/* Start Time */}
-                <div className="flex-1">
-                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}>
-                    Start
-                  </span>
+                <div
+                  className="flex-1 cursor-pointer"
+                  onClick={() => openTimePicker(startInputRef)}
+                >
+                  <div className="flex items-center justify-between mb-0.5">
+                    <span className={`block text-[9px] sm:text-xs uppercase font-bold ${
+                      isDark ? 'text-slate-400' : 'text-slate-600'
+                    }`}>
+                      Start
+                    </span>
+                    <Clock className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+                  </div>
                   <input
+                    ref={startInputRef}
                     type="time"
                     data-no-osk="true"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openTimePicker(startInputRef);
+                    }}
                     value={(() => {
                       if (!startHour) return '';
                       let h = parseInt(startHour, 10);
@@ -695,15 +723,26 @@ export default function BorrowerForm() {
                 </div>
 
                 {/* End Time */}
-                <div className="flex-1">
-                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}>
-                    End
-                  </span>
+                <div
+                  className="flex-1 cursor-pointer"
+                  onClick={() => openTimePicker(endInputRef)}
+                >
+                  <div className="flex items-center justify-between mb-0.5">
+                    <span className={`block text-[9px] sm:text-xs uppercase font-bold ${
+                      isDark ? 'text-slate-400' : 'text-slate-600'
+                    }`}>
+                      End
+                    </span>
+                    <Clock className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+                  </div>
                   <input
+                    ref={endInputRef}
                     type="time"
                     data-no-osk="true"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openTimePicker(endInputRef);
+                    }}
                     value={(() => {
                       if (!endHour) return '';
                       let h = parseInt(endHour, 10);
@@ -732,6 +771,51 @@ export default function BorrowerForm() {
                     style={{ colorScheme: isDark ? 'dark' : 'light' }}
                   />
                 </div>
+              </div>
+
+              {/* Quick 1-Tap Lab Schedule Presets (Easy Touch for Kiosk Screens) */}
+              <div className="mt-2 pt-2 border-t border-slate-700/40 dark:border-slate-800/80 flex items-center gap-1.5 flex-wrap">
+                <span className={`text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider ${
+                  isDark ? 'text-slate-400' : 'text-slate-500'
+                }`}>
+                  Presets:
+                </span>
+                {[
+                  { label: '7:30 - 9:30 AM', sH: '07', sM: '30', sP: 'AM', eH: '09', eM: '30', eP: 'AM', full: '07:30 AM - 09:30 AM' },
+                  { label: '10:00 - 12:00 NN', sH: '10', sM: '00', sP: 'AM', eH: '12', eM: '00', eP: 'PM', full: '10:00 AM - 12:00 NN' },
+                  { label: '1:00 - 3:00 PM', sH: '01', sM: '00', sP: 'PM', eH: '03', eM: '00', eP: 'PM', full: '01:00 PM - 03:00 PM' },
+                  { label: '3:30 - 5:30 PM', sH: '03', sM: '30', sP: 'PM', eH: '05', eM: '30', eP: 'PM', full: '03:30 PM - 05:30 PM' },
+                ].map((preset) => {
+                  const isActive = borrower.labTime === preset.full;
+                  return (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      tabIndex={-1}
+                      data-no-osk="true"
+                      onClick={() => {
+                        setStartHour(preset.sH);
+                        setStartMinute(preset.sM);
+                        setStartPeriod(preset.sP);
+                        setEndHour(preset.eH);
+                        setEndMinute(preset.eM);
+                        setEndPeriod(preset.eP);
+                        setBorrowerField('labTime', preset.full);
+                      }}
+                      className={`text-[9px] sm:text-[10px] font-mono font-bold px-2 py-0.5 rounded-md border transition-all cursor-pointer active:scale-95 ${
+                        isActive
+                          ? isDark
+                            ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-extrabold shadow-xs'
+                            : 'bg-blue-600 text-white border-blue-700 font-extrabold shadow-xs'
+                          : isDark
+                          ? 'bg-[#101828] text-slate-300 border-slate-700 hover:border-cyan-400/60'
+                          : 'bg-white text-slate-700 border-slate-300 hover:border-blue-400 shadow-2xs'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
