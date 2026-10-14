@@ -3,11 +3,22 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 export const KIOSK_MIN_VIEWPORT_WIDTH = 1024;
 
 /**
+ * Detects whether the user is accessing via a smartphone or mobile browser.
+ * Mobile OS (Android/iOS) already provides a built-in software keyboard (Gboard, iOS keypad).
+ */
+export function isMobileDevice() {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return false;
+  const ua = (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase();
+  return /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(ua);
+}
+
+/**
  * Detects whether the current viewport is kiosk/tablet/desktop grade (>= 1024px).
- * Strictly returns false for smartphones (< 1024px) to let native mobile keyboards handle typing.
+ * Strictly returns false for smartphones or mobile browsers so native mobile keyboards handle typing.
  */
 export function isKioskTouchDevice() {
   if (typeof window === 'undefined') return false;
+  if (isMobileDevice()) return false;
   return window.innerWidth >= KIOSK_MIN_VIEWPORT_WIDTH;
 }
 

@@ -456,9 +456,9 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                   </div>
                 </form>
 
-                {/* Touch-Friendly On-Screen Numpad (Desktop / Kiosk Viewports >= 768px Only - Hidden on Mobile) */}
+                {/* Touch-Friendly On-Screen Numpad (Desktop / Kiosk Viewports >= 1024px Only - Strictly Hidden on Mobile) */}
                 <div
-                  className={`hidden md:block p-2 sm:p-2.5 rounded-xl border shadow-sm ${
+                  className={`hidden lg:block p-2 sm:p-2.5 rounded-xl border shadow-sm ${
                     isDark ? 'bg-[#0d1424] border-slate-800' : 'bg-white border-slate-200'
                   }`}
                 >
