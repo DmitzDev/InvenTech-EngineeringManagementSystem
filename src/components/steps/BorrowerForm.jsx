@@ -451,13 +451,6 @@ export default function BorrowerForm() {
               }`}>
                 Course Code
               </label>
-              <span className={`text-[9.5px] sm:text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
-                isDark
-                  ? 'bg-cyan-950/50 text-cyan-400 border-cyan-500/30'
-                  : 'bg-slate-100 text-slate-600 border-slate-300'
-              }`}>
-                AUTO-GENERATED
-              </span>
             </div>
             <div
               tabIndex={-1}
@@ -472,7 +465,7 @@ export default function BorrowerForm() {
                 <span>{borrower.courseCode}</span>
               ) : (
                 <span className={`font-normal text-xs sm:text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                  Auto-generates upon selecting Program, Year & Section
+                  Select your program, year, and section.
                 </span>
               )}
             </div>
