@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, X, Search, User, Trash2, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, X, Search, User, Trash2, ShieldCheck, AlertCircle } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 
 export default function ActiveReservationsModal({ isOpen, onClose }) {

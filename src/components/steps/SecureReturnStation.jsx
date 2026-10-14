@@ -1,24 +1,37 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   RotateCcw,
+  ShieldCheck,
   Search,
+  Lock,
+  Package,
+  PackageCheck,
+  PackageX,
   CheckCircle2,
+  AlertCircle,
   ArrowLeft,
+  ArrowRight,
   Clock,
   User,
+  Hash,
+  Calendar,
+  Building2,
   X,
   Delete,
   CheckSquare,
   Square,
+  Printer,
+  ChevronRight,
   MapPin,
+  Tag,
   AlertOctagon,
-  PackageX,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
+import TouchButton from '../ui/TouchButton';
 import { formatStudentId, handleStudentIdChange } from '../../utils/studentIdFormatter';
 import { useRateLimiter } from '../../utils/rateLimiter';
 
-export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
+export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpenClearance }) {
   const { activeTransactions, returnEquipmentTransaction, showToast, theme } = useTransaction();
   const isDark = theme === 'dark';
 
@@ -26,6 +39,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
   const {
     isLocked,
     remainingSeconds: lockoutSeconds,
+    failedAttempts,
     maxAttempts,
     recordFailure,
     recordSuccess,
@@ -41,26 +55,11 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
 
   const inputRef = useRef(null);
 
-  // Clean exit handler (wipes all state for student privacy)
-  const handleSecurityExit = useCallback((timedOut = false) => {
-    setEnteredId('');
-    setLookupAttempted(false);
-    setSelectedItems(new Set());
-    setIsSubmitted(false);
-    setSubmittedSummary(null);
-    if (timedOut) {
-      if (onTimeout) onTimeout();
-      else if (onBack) onBack();
-      else if (onClose) onClose();
-      showToast('Session automatically closed to protect your student privacy.', 'info');
-    } else {
-      if (onBack) onBack();
-      else if (onClose) onClose();
-    }
-  }, [onTimeout, onBack, onClose, showToast]);
-
   // 30-Second Security Inactivity Auto-Reset Safeguard
   useEffect(() => {
+    // Reset countdown on mount
+    setSecondsLeft(30);
+
     const resetInactivity = () => {
       setSecondsLeft(30);
     };
@@ -86,7 +85,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
       window.removeEventListener('keydown', resetInactivity);
       window.removeEventListener('touchstart', resetInactivity);
     };
-  }, [handleSecurityExit]);
+  }, []);
 
   // Auto-focus on desktop / kiosk displays only (avoids mobile viewport jump)
   useEffect(() => {
@@ -94,6 +93,24 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
       inputRef.current?.focus();
     }
   }, [lookupAttempted]);
+
+  // Clean exit handler (wipes all state for student privacy)
+  const handleSecurityExit = (timedOut = false) => {
+    setEnteredId('');
+    setLookupAttempted(false);
+    setSelectedItems(new Set());
+    setIsSubmitted(false);
+    setSubmittedSummary(null);
+    if (timedOut) {
+      if (onTimeout) onTimeout();
+      else if (onBack) onBack();
+      else if (onClose) onClose();
+      showToast('Session automatically closed to protect your student privacy.', 'info');
+    } else {
+      if (onBack) onBack();
+      else if (onClose) onClose();
+    }
+  };
 
   // STRICT DATA PRIVACY FILTERING (Zero Leakage)
   // Query or filter the borrowed transactions database STRICTLY by the entered Student ID
@@ -139,12 +156,14 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
   }, [activeLoans]);
 
   // Auto-select all items upon loan retrieval
-  const loanKey = loanToolsList.map((i) => i.itemKey).join(',');
-  const [prevLoanKey, setPrevLoanKey] = useState(loanKey);
-  if (loanKey !== prevLoanKey) {
-    setPrevLoanKey(loanKey);
-    setSelectedItems(loanToolsList.length > 0 ? new Set(loanToolsList.map((i) => i.itemKey)) : new Set());
-  }
+  useEffect(() => {
+    if (loanToolsList.length > 0) {
+      const allKeys = new Set(loanToolsList.map((i) => i.itemKey));
+      setSelectedItems(allKeys);
+    } else {
+      setSelectedItems(new Set());
+    }
+  }, [loanToolsList]);
 
   // Handle Numpad / Keypad Input (Automatic dash formatting, max 9 digits)
   const handleNumpadPress = (char) => {

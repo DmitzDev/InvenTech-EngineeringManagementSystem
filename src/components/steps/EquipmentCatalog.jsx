@@ -713,6 +713,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
   const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
 
   const accent = getLabAccent(currentItem.lab, isDark);
+  const isWhiteBg = itemImg && (itemImg.includes('/digital/') || itemImg.endsWith('.png'));
 
   return (
     <div
@@ -927,7 +928,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
 // ----------------------------------------------------------------------
 // 2. EquipmentCompactRow: Clean Mobile Strip View
 // ----------------------------------------------------------------------
-function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, isDark = false }) {
+function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, getItemActiveReservations, isDark = false }) {
   const [selectedVariantId, setSelectedVariantId] = useState(group.variants[0]?.id);
   const currentItem = group.variants.find((v) => v.id === selectedVariantId) || group.variants[0];
 

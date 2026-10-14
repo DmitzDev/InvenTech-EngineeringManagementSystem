@@ -13,13 +13,21 @@ import {
   Search,
   Check,
   FileText,
+  Clock,
   Layers,
   Wrench,
+  ShieldAlert,
+  ChevronRight,
+  X,
+  User,
   Printer,
   LayoutGrid,
   List,
+  MapPin,
+  ExternalLink,
+  ShieldCheck,
   ShoppingBag,
-  X,
+  RotateCcw
 } from 'lucide-react';
 import { getInventory, getItemImage } from '../../data/equipmentData';
 import { useTransaction } from '../../context/TransactionContext';
@@ -28,6 +36,7 @@ import StatsCard from './StatsCard';
 export default function DashboardOverview({ onNavigateTab }) {
   const {
     activeTransactions,
+    reservations,
     clearanceHolds,
     returnEquipmentTransaction,
     showToast,

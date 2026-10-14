@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Clock, Fingerprint } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 
@@ -79,7 +79,7 @@ export default function KioskScreensaver() {
   }, []);
 
   // Reset Idle Inactivity Timer on any user interaction
-  const resetIdleTimer = useCallback(() => {
+  const resetIdleTimer = () => {
     if (idleTimerRef.current) {
       clearTimeout(idleTimerRef.current);
     }
@@ -92,7 +92,7 @@ export default function KioskScreensaver() {
       setIsAsleep(true);
       setActiveLogoIndex(0);
     }, INACTIVITY_TIMEOUT_MS);
-  }, [isAsleep]);
+  };
 
   useEffect(() => {
     const events = ['pointerdown', 'touchstart', 'mousedown', 'mousemove', 'keydown', 'scroll', 'click'];
@@ -114,7 +114,7 @@ export default function KioskScreensaver() {
       events.forEach((evt) => window.removeEventListener(evt, handleUserActivity));
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     };
-  }, [isAsleep, resetIdleTimer]);
+  }, [isAsleep]);
 
   // Alternate between UdD, SOE, and InvenTech logos with a smooth crossfade
   useEffect(() => {

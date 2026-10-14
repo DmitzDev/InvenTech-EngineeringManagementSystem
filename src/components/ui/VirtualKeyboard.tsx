@@ -1,5 +1,5 @@
 import React from 'react';
-import { Delete, CornerDownLeft, X, ArrowUp } from 'lucide-react';
+import { Delete, CornerDownLeft, X, ArrowUp, Hash, Type } from 'lucide-react';
 import { useVirtualKeyboard } from '../../hooks/useVirtualKeyboard';
 
 interface VirtualKeyboardProps {
@@ -16,7 +16,7 @@ const QWERTY_ROW_3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
  * Soundless micro-haptic feedback for physical touchscreen feel
  */
 function triggerTactileFeedback() {
-  if (typeof window !== 'undefined' && 'navigator' in window && 'vibrate' in navigator) {
+  if (typeof window !== 'undefined' && 'vibrate' in navigator) {
     try {
       navigator.vibrate(8);
     } catch {
@@ -41,6 +41,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
     insertChar,
     deleteChar,
     submitDone,
+    clearInput,
   } = osk;
 
   const handleClose = () => {

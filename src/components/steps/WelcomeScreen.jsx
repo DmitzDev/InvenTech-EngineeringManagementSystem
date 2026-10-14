@@ -2,13 +2,19 @@ import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   ArrowLeft,
+  Sparkles,
   FileCheck,
   Clock,
   RotateCcw,
+  Maximize2,
   Package,
+  PackageCheck,
+  ShieldCheck,
+  Lock,
   Boxes,
   ChevronRight,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 import ThemeToggle from '../ui/ThemeToggle';
@@ -17,6 +23,7 @@ import ReturnEquipmentModal from './ReturnEquipmentModal';
 import ReturnClearanceModal from './ReturnClearanceModal';
 
 export default function WelcomeScreen() {
+  const navigate = useNavigate();
   const { setStep, theme } = useTransaction();
   const isDark = theme === 'dark';
   const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'mode_select' | 'return'

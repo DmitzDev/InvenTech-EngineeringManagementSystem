@@ -11,8 +11,10 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import {
   KeyRound,
+  ShieldAlert,
   X,
   Delete,
+  Lock,
   Unlock,
   AlertOctagon,
   Loader2,
@@ -24,7 +26,8 @@ import { useTransaction } from '../../context/TransactionContext';
 
 export default function CustodianOverrideModal({ isOpen, onClose }) {
   const navigate = useNavigate();
-  const { showToast } = useTransaction();
+  const { showToast, theme } = useTransaction();
+  const isDark = theme === 'dark';
 
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
@@ -34,6 +37,7 @@ export default function CustodianOverrideModal({ isOpen, onClose }) {
   const {
     isLocked,
     remainingSeconds,
+    failedAttempts,
     maxAttempts,
     recordFailure,
     recordSuccess,
@@ -92,7 +96,7 @@ export default function CustodianOverrideModal({ isOpen, onClose }) {
         }
         setPin('');
       }
-    } catch {
+    } catch (err) {
       setError('Cryptographic authentication failed. Please try again.');
       setPin('');
     } finally {

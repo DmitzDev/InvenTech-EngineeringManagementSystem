@@ -42,6 +42,20 @@ export function useKioskInactivity({
     }
   }, []);
 
+  // Continue session - dismissed by user tap/click
+  const continueSession = useCallback(() => {
+    clearAllTimers();
+    setIsWarningVisible(false);
+    setRemainingSeconds(countdownSec);
+
+    // If still in an active interaction, restart the 45s timer
+    if (isActive) {
+      inactivityTimerRef.current = setTimeout(() => {
+        startCountdown();
+      }, inactivityMs);
+    }
+  }, [clearAllTimers, countdownSec, isActive, inactivityMs]);
+
   // Execute hard reset
   const executeHardReset = useCallback(() => {
     clearAllTimers();
@@ -83,24 +97,11 @@ export function useKioskInactivity({
     }, 1000);
   }, [countdownSec, executeHardReset]);
 
-  // Continue session - dismissed by user tap/click
-  const continueSession = useCallback(() => {
-    clearAllTimers();
-    setIsWarningVisible(false);
-    setRemainingSeconds(countdownSec);
-
-    // If still in an active interaction, restart the 45s timer
-    if (isActive) {
-      inactivityTimerRef.current = setTimeout(() => {
-        startCountdown();
-      }, inactivityMs);
-    }
-  }, [clearAllTimers, countdownSec, isActive, inactivityMs, startCountdown]);
-
   // Main activity listener hook
   useEffect(() => {
     if (!isActive) {
       clearAllTimers();
+      setIsWarningVisible(false);
       return;
     }
 

@@ -4,7 +4,7 @@ import { useTransaction } from '../../context/TransactionContext';
 import { AI_EXPERIMENT_PRESETS, EQUIPMENT_ITEMS } from '../../data/equipmentData';
 
 export default function AIAssistant({ isOpen, onClose }) {
-  const { selectedLab, addMultipleToCart, showToast, theme } = useTransaction();
+  const { selectedLab, addMultipleToCart, cart, showToast, theme } = useTransaction();
   const isDark = theme === 'dark';
   const [activePresetId, setActivePresetId] = useState(null);
   const [customPrompt, setCustomPrompt] = useState('');

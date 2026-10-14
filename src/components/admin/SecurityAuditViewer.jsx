@@ -11,10 +11,18 @@ import {
   ShieldAlert,
   ShieldCheck,
   Search,
+  Filter,
   Download,
   Trash2,
   RefreshCw,
   AlertTriangle,
+  Lock,
+  RotateCcw,
+  Package,
+  Calendar,
+  FileCheck,
+  CheckCircle2,
+  Clock,
   Terminal,
 } from 'lucide-react';
 import {
@@ -27,9 +35,10 @@ import {
 import { useTransaction } from '../../context/TransactionContext';
 
 export default function SecurityAuditViewer() {
-  const { showToast } = useTransaction();
+  const { showToast, theme } = useTransaction();
+  const isDark = theme === 'dark';
 
-  const [logs, setLogs] = useState(() => getSecurityAuditLogs());
+  const [logs, setLogs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEventType, setSelectedEventType] = useState('ALL');
   const [selectedSeverity, setSelectedSeverity] = useState('ALL');
@@ -40,6 +49,8 @@ export default function SecurityAuditViewer() {
   };
 
   useEffect(() => {
+    refreshLogs();
+
     const handleNewLog = () => {
       refreshLogs();
     };

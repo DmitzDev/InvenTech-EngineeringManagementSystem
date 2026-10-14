@@ -5,7 +5,10 @@ import {
   SlidersHorizontal,
   FileCheck2,
   Check,
+  Activity,
+  Sparkles,
   Layers,
+  Cpu
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 
@@ -124,7 +127,7 @@ export default function ChevronProgressBar() {
 
       {/* Desktop/Tablet 15" Kiosk Hardware Stepper (hidden md:flex) */}
       <div className="hidden md:flex max-w-6xl xl:max-w-7xl mx-auto items-stretch gap-1.5 sm:gap-2.5 lg:gap-3">
-        {STEPS.map((step) => {
+        {STEPS.map((step, index) => {
           const isActive = currentStep === step.id;
           const isCompleted = currentStep > step.id;
           const isClickable = canNavigateTo(step.id) && step.id <= currentStep;

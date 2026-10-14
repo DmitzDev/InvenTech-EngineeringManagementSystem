@@ -1,17 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Save, Edit3 } from 'lucide-react';
 import { ADMIN_LAB_OPTIONS } from '../../data/equipmentData';
 
-function EditItemModalDialog({ item, onClose, onSave }) {
-  const [form, setForm] = useState(() => ({
-    name: item.name || '',
-    tagCode: item.tagCode || '',
-    lab: item.lab || 'CE',
-    category: item.category || 'Tools & Assets',
-    stock: item.stock ?? 1,
-    unit: item.unit || 'pc',
-    description: item.description || '',
-  }));
+export default function EditItemModal({ isOpen, item, onClose, onSave }) {
+  const [form, setForm] = useState({
+    name: '',
+    tagCode: '',
+    lab: 'CE',
+    category: 'Tools & Assets',
+    stock: 1,
+    unit: 'pc',
+    description: '',
+  });
+
+  useEffect(() => {
+    if (item) {
+      setForm({
+        name: item.name || '',
+        tagCode: item.tagCode || '',
+        lab: item.lab || 'CE',
+        category: item.category || 'Tools & Assets',
+        stock: item.stock ?? 1,
+        unit: item.unit || 'pc',
+        description: item.description || '',
+      });
+    }
+  }, [item]);
+
+  if (!isOpen || !item) return null;
 
   const updateField = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -175,9 +191,4 @@ function EditItemModalDialog({ item, onClose, onSave }) {
       </div>
     </div>
   );
-}
-
-export default function EditItemModal({ isOpen, item, onClose, onSave }) {
-  if (!isOpen || !item) return null;
-  return <EditItemModalDialog key={item.id} item={item} onClose={onClose} onSave={onSave} />;
 }

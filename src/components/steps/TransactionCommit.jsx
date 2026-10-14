@@ -9,11 +9,15 @@ import {
   ShieldCheck,
   CheckSquare,
   Square,
+  Users,
+  BookOpen,
   GraduationCap,
   PenTool,
   Eraser,
   ChevronDown,
   ChevronUp,
+  Tag,
+  Clock,
   Briefcase
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
@@ -33,6 +37,8 @@ export default function TransactionCommit() {
     borrower,
     cart,
     transactionId,
+    timestamp,
+    selectedLab,
     safetyAgreement,
     toggleSafetyAgreement,
     resetTransaction,
@@ -41,6 +47,7 @@ export default function TransactionCommit() {
     theme,
     commitTransaction,
     isTransactionCommitted,
+    goToWelcome,
   } = useTransaction();
 
   const isDark = theme === 'dark';
