@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   ArrowRight,
   ArrowLeft,
   GraduationCap,
   Users,
-  Clock,
   AlertTriangle,
   ShieldAlert,
   CheckCircle2,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
-import { handleStudentIdChange, isValidStudentId } from '../../utils/studentIdFormatter';
+import { handleStudentIdChange } from '../../utils/studentIdFormatter';
 
 const ENGINEERING_PROGRAMS = ['BSCPE', 'BSCE', 'BSCEE', 'BSECE'];
 const YEAR_LEVELS = [
@@ -21,6 +20,50 @@ const YEAR_LEVELS = [
   { id: '4', label: '4th Year' },
 ];
 const SECTIONS = ['01', '02', '03', '04'];
+
+const parseCourseCode = (courseCode) => {
+  if (!courseCode || typeof courseCode !== 'string') {
+    return { year: '', sem: '', section: '', isOther: false, customProg: '' };
+  }
+  const parts = courseCode.trim().split('-');
+  if (parts.length === 3) {
+    const [yrSem, prog, sec] = parts;
+    const yr = yrSem && yrSem.length >= 2 ? yrSem[0] : '';
+    const sem = yrSem && yrSem.length >= 2 ? yrSem[1] : '';
+    const isOther = Boolean(prog && !ENGINEERING_PROGRAMS.includes(prog));
+    return {
+      year: ['1', '2', '3', '4'].includes(yr) ? yr : '',
+      sem: ['1', '2', '3'].includes(sem) ? sem : '',
+      section: SECTIONS.includes(sec) ? sec : '',
+      isOther,
+      customProg: isOther ? prog : '',
+    };
+  }
+  return { year: '', sem: '', section: '', isOther: false, customProg: '' };
+};
+
+const parseLabTime = (labTime) => {
+  if (!labTime || typeof labTime !== 'string') {
+    return { sH: '', sM: '', sP: 'AM', eH: '', eM: '', eP: 'AM' };
+  }
+  const parts = labTime.split(' - ');
+  if (parts.length === 2) {
+    const [start, end] = parts;
+    const [sTime, sP] = (start || '').split(' ');
+    const [sH, sM] = (sTime || '').split(':');
+    const [eTime, eP] = (end || '').split(' ');
+    const [eH, eM] = (eTime || '').split(':');
+    return {
+      sH: sH && sH !== '--' ? sH : '',
+      sM: sM || '',
+      sP: sP === 'PM' ? 'PM' : 'AM',
+      eH: eH && eH !== '--' ? eH : '',
+      eM: eM || '',
+      eP: eP === 'PM' ? 'PM' : 'AM',
+    };
+  }
+  return { sH: '', sM: '', sP: 'AM', eH: '', eM: '', eP: 'AM' };
+};
 
 export default function BorrowerForm() {
   const {
@@ -34,161 +77,101 @@ export default function BorrowerForm() {
 
   const isDark = theme === 'dark';
 
+  const initialCourse = useMemo(() => parseCourseCode(borrower.courseCode), [borrower.courseCode]);
+  const initialTime = useMemo(() => parseLabTime(borrower.labTime), [borrower.labTime]);
+
   const [errors, setErrors] = useState({});
-  const [selectedYear, setSelectedYear] = useState('');
-  const [selectedSem, setSelectedSem] = useState('');
-  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedYear, setSelectedYear] = useState(initialCourse.year);
+  const [selectedSem, setSelectedSem] = useState(initialCourse.sem);
+  const [selectedSection, setSelectedSection] = useState(initialCourse.section);
 
   // Support for custom / other non-engineering courses
-  const [isOtherProgram, setIsOtherProgram] = useState(false);
-  const [customProgram, setCustomProgram] = useState('');
+  const [isOtherProgram, setIsOtherProgram] = useState(
+    Boolean(borrower.program && !ENGINEERING_PROGRAMS.includes(borrower.program)) || initialCourse.isOther
+  );
+  const [customProgram, setCustomProgram] = useState(
+    borrower.program && !ENGINEERING_PROGRAMS.includes(borrower.program)
+      ? (borrower.program === 'OTHERS' ? '' : borrower.program)
+      : initialCourse.customProg
+  );
 
   // Structured Time Range States (-- : -- AM/PM to -- : -- AM/PM)
-  const [startHour, setStartHour] = useState('');
-  const [startMinute, setStartMinute] = useState('');
-  const [startPeriod, setStartPeriod] = useState('AM');
-  const [endHour, setEndHour] = useState('');
-  const [endMinute, setEndMinute] = useState('');
-  const [endPeriod, setEndPeriod] = useState('AM');
+  const [startHour, setStartHour] = useState(initialTime.sH);
+  const [startMinute, setStartMinute] = useState(initialTime.sM);
+  const [startPeriod, setStartPeriod] = useState(initialTime.sP);
+  const [endHour, setEndHour] = useState(initialTime.eH);
+  const [endMinute, setEndMinute] = useState(initialTime.eM);
+  const [endPeriod, setEndPeriod] = useState(initialTime.eP);
 
   // Real-time clearance check
   const clearanceStatus = useMemo(() => {
     return checkStudentOverdueClearance(borrower.studentId, borrower.groupLeader);
   }, [borrower.studentId, borrower.groupLeader, checkStudentOverdueClearance]);
 
+  const updateCourseCode = (yr, sem, prog, sec) => {
+    if (yr && sem && prog && sec) {
+      setBorrowerField('courseCode', `${yr}${sem}-${prog}-${sec}`);
+    }
+  };
+
+  const syncLabTime = (sH, sM, sP, eH, eM, eP) => {
+    if (sH || sM || eH || eM) {
+      const startH = sH ? sH.padStart(2, '0') : '--';
+      const startM = sM ? sM.padStart(2, '0') : '00';
+      const endH = eH ? eH.padStart(2, '0') : '--';
+      const endM = eM ? eM.padStart(2, '0') : '00';
+      const combinedTime = `${startH}:${startM} ${sP} - ${endH}:${endM} ${eP}`;
+      setBorrowerField('labTime', combinedTime);
+    }
+  };
+
   // Handler for Academic Program dropdown
   const handleProgramChange = (val) => {
     if (val === 'OTHERS') {
       setIsOtherProgram(true);
-      setBorrowerField('program', customProgram || 'OTHERS');
+      const prog = customProgram || 'OTHERS';
+      setBorrowerField('program', prog);
+      updateCourseCode(selectedYear, selectedSem, prog, selectedSection);
     } else {
       setIsOtherProgram(false);
       setBorrowerField('program', val);
+      updateCourseCode(selectedYear, selectedSem, val, selectedSection);
     }
   };
 
   const handleCustomProgramChange = (val) => {
     const cleanVal = val.toUpperCase();
     setCustomProgram(cleanVal);
-    setBorrowerField('program', cleanVal || 'OTHERS');
+    const prog = cleanVal || 'OTHERS';
+    setBorrowerField('program', prog);
+    updateCourseCode(selectedYear, selectedSem, prog, selectedSection);
   };
 
   // Handler for Year Level dropdown
   const handleYearChange = (yearId) => {
     setSelectedYear(yearId);
+    let newSem = selectedSem;
     if ((yearId === '1' || yearId === '4') && selectedSem === '3') {
       setSelectedSem('');
+      newSem = '';
     }
+    const currentProg = isOtherProgram ? (customProgram || 'OTHERS') : borrower.program;
+    updateCourseCode(yearId, newSem, currentProg, selectedSection);
   };
 
   // Handler for Semester / Term dropdown
   const handleSemChange = (semId) => {
     setSelectedSem(semId);
+    const currentProg = isOtherProgram ? (customProgram || 'OTHERS') : borrower.program;
+    updateCourseCode(selectedYear, semId, currentProg, selectedSection);
   };
 
   // Handler for Section dropdown
   const handleSectionChange = (sec) => {
     setSelectedSection(sec);
+    const currentProg = isOtherProgram ? (customProgram || 'OTHERS') : borrower.program;
+    updateCourseCode(selectedYear, selectedSem, currentProg, sec);
   };
-
-  // Synchronize Structured Time Range into borrower.labTime
-  useEffect(() => {
-    if (startHour || startMinute || endHour || endMinute) {
-      const sH = startHour ? startHour.padStart(2, '0') : '--';
-      const sM = startMinute ? startMinute.padStart(2, '0') : '00';
-      const eH = endHour ? endHour.padStart(2, '0') : '--';
-      const eM = endMinute ? endMinute.padStart(2, '0') : '00';
-
-      const combinedTime = `${sH}:${sM} ${startPeriod} - ${eH}:${eM} ${endPeriod}`;
-      setBorrowerField('labTime', combinedTime);
-    }
-  }, [startHour, startMinute, startPeriod, endHour, endMinute, endPeriod, setBorrowerField]);
-
-  // Initial load of existing borrower.labTime if available
-  useEffect(() => {
-    if (borrower.labTime && !startHour && !endHour) {
-      const parts = borrower.labTime.split(' - ');
-      if (parts.length === 2) {
-        const [start, end] = parts;
-        const [sTime, sP] = start.split(' ');
-        const [sH, sM] = (sTime || '').split(':');
-        const [eTime, eP] = end.split(' ');
-        const [eH, eM] = (eTime || '').split(':');
-
-        if (sH && sH !== '--') setStartHour(sH);
-        if (sM) setStartMinute(sM);
-        if (sP) setStartPeriod(sP);
-        if (eH && eH !== '--') setEndHour(eH);
-        if (eM) setEndMinute(eM);
-        if (eP) setEndPeriod(eP);
-      }
-    }
-  }, [borrower.labTime, startHour, endHour]);
-
-  // Automatically update the Course Code whenever selections change (Format: 41-BSCPE-01)
-  useEffect(() => {
-    if (borrower.program || selectedYear || selectedSem || selectedSection) {
-      const prog = borrower.program || '';
-      const yr = selectedYear || '';
-      const sem = selectedSem || '';
-      const sec = selectedSection || '';
-
-      if (yr && sem && prog && sec) {
-        const autoCode = `${yr}${sem}-${prog}-${sec}`;
-        setBorrowerField('courseCode', autoCode);
-      }
-    }
-  }, [borrower.program, selectedYear, selectedSem, selectedSection, setBorrowerField]);
-
-  // Parse existing Course Code and Program on mount
-  useEffect(() => {
-    if (borrower.program && !ENGINEERING_PROGRAMS.includes(borrower.program)) {
-      setIsOtherProgram(true);
-      setCustomProgram(borrower.program === 'OTHERS' ? '' : borrower.program);
-    }
-
-    if (borrower.courseCode && !selectedYear && !selectedSem && !selectedSection) {
-      const trimmed = borrower.courseCode.trim();
-      if (trimmed.includes('-')) {
-        const parts = trimmed.split('-');
-        if (parts.length === 3) {
-          const [yrSem, prog, sec] = parts;
-          if (yrSem && yrSem.length >= 2) {
-            const yr = yrSem[0];
-            const sem = yrSem[1];
-            if (['1', '2', '3', '4'].includes(yr)) setSelectedYear(yr);
-            if (['1', '2', '3'].includes(sem)) setSelectedSem(sem);
-          }
-          if (ENGINEERING_PROGRAMS.includes(prog)) {
-            setBorrowerField('program', prog);
-          } else if (prog) {
-            setIsOtherProgram(true);
-            setCustomProgram(prog);
-            setBorrowerField('program', prog);
-          }
-          if (SECTIONS.includes(sec)) {
-            setSelectedSection(sec);
-          }
-        }
-      }
-    }
-  }, [borrower.courseCode, borrower.program, selectedYear, selectedSem, selectedSection, setBorrowerField]);
-
-  // Reset local state if borrower session is cleared / reset
-  useEffect(() => {
-    if (!borrower.program && !borrower.courseCode && !borrower.studentId && !borrower.groupLeader) {
-      setSelectedYear('');
-      setSelectedSem('');
-      setSelectedSection('');
-      setIsOtherProgram(false);
-      setCustomProgram('');
-      setStartHour('');
-      setStartMinute('');
-      setEndHour('');
-      setEndMinute('');
-      setErrors({});
-    }
-  }, [borrower.program, borrower.courseCode, borrower.studentId, borrower.groupLeader]);
 
   const validate = () => {
     const errs = {};
@@ -678,9 +661,11 @@ export default function BorrowerForm() {
                         const period = h >= 12 ? 'PM' : 'AM';
                         if (h === 0) h = 12;
                         else if (h > 12) h -= 12;
-                        setStartHour(String(h).padStart(2, '0'));
+                        const sH = String(h).padStart(2, '0');
+                        setStartHour(sH);
                         setStartMinute(mStr);
                         setStartPeriod(period);
+                        syncLabTime(sH, mStr, period, endHour, endMinute, endPeriod);
                       }
                     }}
                     className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
@@ -726,9 +711,11 @@ export default function BorrowerForm() {
                         const period = h >= 12 ? 'PM' : 'AM';
                         if (h === 0) h = 12;
                         else if (h > 12) h -= 12;
-                        setEndHour(String(h).padStart(2, '0'));
+                        const eH = String(h).padStart(2, '0');
+                        setEndHour(eH);
                         setEndMinute(mStr);
                         setEndPeriod(period);
+                        syncLabTime(startHour, startMinute, startPeriod, eH, mStr, period);
                       }
                     }}
                     className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${

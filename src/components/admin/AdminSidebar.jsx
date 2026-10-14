@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Package, ScrollText, Calendar, Lock, X, FileSpreadsheet, Shield, LogOut } from 'lucide-react';
+import { LayoutDashboard, Package, ScrollText, Calendar, X, FileSpreadsheet, Shield, LogOut } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { getInventory } from '../../data/equipmentData';
 
@@ -146,7 +146,7 @@ export default function AdminSidebar({ activeTab, onTabChange, onLock, isMobileO
 
           <button
             type="button"
-            onClick={onLock}
+            onClick={handleLock}
             className="neu-btn-danger w-full min-h-[42px] flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer active:scale-95"
             aria-label="Exit Admin Console to Student Kiosk"
           >

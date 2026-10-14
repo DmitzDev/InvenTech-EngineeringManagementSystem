@@ -1,17 +1,16 @@
 import React from 'react';
-import { ShoppingBag, Sparkles, Trash2, Plus, Minus, ArrowRight, AlertTriangle, ShieldAlert, ChevronRight, X } from 'lucide-react';
+import { ShoppingBag, Trash2, Plus, Minus, ArrowRight, AlertTriangle, ShieldAlert, X } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { getItemImage } from '../../data/equipmentData';
 import TouchButton from '../ui/TouchButton';
 
-export default function BorrowCart({ onProceed, onClose, onOpenAIAssistant }) {
+export default function BorrowCart({ onProceed, onClose }) {
   const { cart, updateCartQty, toggleItemDamage, removeFromCart, clearCart, theme } = useTransaction();
   const isDark = theme === 'dark';
 
   const totalUnitsCount = cart.reduce((sum, item) => sum + item.qty, 0);
   const distinctItemCount = cart.length;
   const isLimitReached = distinctItemCount >= 15;
-  const damagedCount = cart.filter((i) => i.isDamaged).length;
 
   return (
     <div className={`w-full h-full max-h-[85vh] md:max-h-[100dvh] flex flex-col justify-between overflow-hidden shadow-2xl ${

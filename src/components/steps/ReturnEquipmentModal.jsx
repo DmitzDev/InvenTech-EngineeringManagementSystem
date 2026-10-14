@@ -1,53 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { RotateCcw, Search, CheckCircle2, AlertTriangle, XCircle, ShieldCheck, X, User, Clock, FileText, Check, QrCode, ScanLine, Trash2 } from 'lucide-react';
+import { RotateCcw, CheckCircle2, AlertTriangle, XCircle, ShieldCheck, X, User, Check, Trash2 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
+
+const buildInitialInspections = (tx) => {
+  if (!tx || !tx.items) return {};
+  const initial = {};
+  tx.items.forEach((item) => {
+    initial[item.id] = {
+      condition: item.isDamaged ? 'damaged' : 'good',
+      qtyReturned: item.qty,
+      damageNote: item.damageNote || '',
+      damageSeverity: item.damageSeverity || 'Medium',
+    };
+  });
+  return initial;
+};
 
 export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance }) {
   const { activeTransactions, returnEquipmentTransaction, showToast, clearAllTransactions } = useTransaction();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTxId, setSelectedTxId] = useState(
-    activeTransactions.find((t) => t.status === 'BORROWED')?.txId || null
-  );
+  const [selectedTxId, setSelectedTxId] = useState(null);
 
   const activePendingTransactions = activeTransactions.filter(
     (t) => t.status === 'BORROWED'
   );
 
-  const selectedTransaction = activeTransactions.find((t) => t.txId === selectedTxId);
+  const effectiveTxId = (selectedTxId && activePendingTransactions.some((t) => t.txId === selectedTxId))
+    ? selectedTxId
+    : (activePendingTransactions[0]?.txId || null);
 
-  // Inspection states for each item in the selected transaction
-  const [itemInspections, setItemInspections] = useState({});
+  const selectedTransaction = activeTransactions.find((t) => t.txId === effectiveTxId);
+
+  const [prevTxId, setPrevTxId] = useState(effectiveTxId);
+  const [itemInspections, setItemInspections] = useState(() => buildInitialInspections(selectedTransaction));
   const [custodianNotes, setCustodianNotes] = useState('');
 
-  // Auto-select first active transaction when modal opens or transactions update
-  useEffect(() => {
-    if (isOpen) {
-      const isCurrentValid = activePendingTransactions.some((t) => t.txId === selectedTxId);
-      if (!isCurrentValid && activePendingTransactions.length > 0) {
-        setSelectedTxId(activePendingTransactions[0].txId);
-      }
-    }
-  }, [isOpen, activeTransactions]);
-
-  // Update inspection when transaction changes
-  useEffect(() => {
-    if (selectedTransaction) {
-      const initial = {};
-      selectedTransaction.items.forEach((item) => {
-        initial[item.id] = {
-          condition: item.isDamaged ? 'damaged' : 'good',
-          qtyReturned: item.qty,
-          damageNote: item.damageNote || '',
-          damageSeverity: item.damageSeverity || 'Medium',
-        };
-      });
-      setItemInspections(initial);
-      setCustodianNotes('');
-    }
-  }, [selectedTxId, selectedTransaction]);
+  if (effectiveTxId !== prevTxId) {
+    setPrevTxId(effectiveTxId);
+    setItemInspections(buildInitialInspections(selectedTransaction));
+    setCustodianNotes('');
+  }
 
   if (!isOpen) return null;
 
@@ -208,7 +202,7 @@ export default function ReturnEquipmentModal({ isOpen, onClose, onOpenClearance 
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {activePendingTransactions.map((tx) => {
-                  const isSelected = selectedTxId === tx.txId;
+                  const isSelected = effectiveTxId === tx.txId;
                   return (
                     <button
                       key={tx.txId}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Search,
   Plus,
@@ -79,9 +79,12 @@ export default function InventoryManager() {
   const [toastMessage, setToastMessage] = useState(null);
 
   // Reset to page 1 on filter/search change
-  useEffect(() => {
+  const filterKey = `${search}|${filterLab}|${filterCategory}|${filterStock}|${sortBy}|${pageSize}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (filterKey !== prevFilterKey) {
+    setPrevFilterKey(filterKey);
     setCurrentPage(1);
-  }, [search, filterLab, filterCategory, filterStock, sortBy, pageSize]);
+  }
 
   const refreshInventory = () => setInventory([...getInventory()]);
 

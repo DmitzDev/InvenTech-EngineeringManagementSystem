@@ -4,13 +4,8 @@ import {
   ChevronDown,
   ChevronUp,
   ScrollText,
-  Download,
   CheckCircle2,
-  AlertTriangle,
-  Clock,
-  User,
   Layers,
-  Filter,
   FileSpreadsheet,
   Trash2,
 } from 'lucide-react';

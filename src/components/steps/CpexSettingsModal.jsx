@@ -1,31 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { X, CheckCircle, AlertCircle, Loader2, Sparkles, ShieldCheck, Lock, Unlock, Clipboard, Cpu, Terminal } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, CheckCircle, AlertCircle, Loader2, Sparkles, ShieldCheck, Unlock, Clipboard, Terminal } from 'lucide-react';
 import { getStoredApiKey, saveApiKey, testGeminiApiKey } from '../../services/cpexAiService';
 import { verifyCustodianPin } from '../../utils/authSecurity';
 import TouchButton from '../ui/TouchButton';
 
-export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
+function CpexSettingsDialog({ onClose, onKeySaved }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState('');
   const [isVerifyingPin, setIsVerifyingPin] = useState(false);
   const [apiKeyInput, setApiKeyInput] = useState('');
-  const [hasExistingKey, setHasExistingKey] = useState(false);
+  const [hasExistingKey, setHasExistingKey] = useState(() => Boolean(getStoredApiKey()));
   const [status, setStatus] = useState({ state: 'idle', message: '' });
-
-  useEffect(() => {
-    if (isOpen) {
-      setIsAuthenticated(false);
-      setPinInput('');
-      setPinError('');
-      setIsVerifyingPin(false);
-      setApiKeyInput('');
-      setHasExistingKey(Boolean(getStoredApiKey()));
-      setStatus({ state: 'idle', message: '' });
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
 
   const handlePinSubmit = async (e) => {
     e.preventDefault();
@@ -273,4 +259,9 @@ export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
       </div>
     </div>
   );
+}
+
+export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
+  if (!isOpen) return null;
+  return <CpexSettingsDialog onClose={onClose} onKeySaved={onKeySaved} />;
 }

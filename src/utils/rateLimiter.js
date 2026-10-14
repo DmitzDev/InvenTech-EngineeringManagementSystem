@@ -143,11 +143,7 @@ export function useRateLimiter(contextKey) {
 
   // Sync and countdown timer
   useEffect(() => {
-    // Initial sync
-    const current = getRateLimitState(contextKey);
-    setState(current);
-
-    if (!current.isLocked) return;
+    if (!state.isLocked) return;
 
     const interval = setInterval(() => {
       const updated = getRateLimitState(contextKey);

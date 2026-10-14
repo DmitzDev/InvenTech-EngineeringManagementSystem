@@ -1,28 +1,22 @@
 import React, { useState, useMemo } from 'react';
 import {
-  FileSpreadsheet,
   Printer,
   TrendingUp,
   AlertTriangle,
   Users,
-  Calendar,
-  ShieldCheck,
-  Download,
   Filter,
   CheckCircle2,
   XCircle,
-  Building2,
-  FileText,
+  Download,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
-import { getInventory, getIncidentLogs, getStudentClearanceHolds } from '../../data/equipmentData';
+import { getIncidentLogs } from '../../data/equipmentData';
 
 export default function AuditReports() {
   const { activeTransactions, studentClearanceHolds } = useTransaction();
   const [activeReportTab, setActiveReportTab] = useState('MOST_BORROWED'); // 'MOST_BORROWED' | 'INCIDENTS' | 'STUDENT_FREQUENCY'
   const [selectedLabFilter, setSelectedLabFilter] = useState('ALL');
 
-  const inventory = useMemo(() => getInventory(), []);
   const incidents = useMemo(() => getIncidentLogs(), []);
 
   // 1. Compute Most Borrowed Equipment Stats

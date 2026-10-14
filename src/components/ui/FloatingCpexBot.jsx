@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Zap,
-  X,
   Send,
   User,
   Settings,
@@ -10,16 +9,12 @@ import {
   Loader2,
   Minimize2,
   RotateCcw,
-  ShieldCheck,
   Calendar,
-  Clock,
   Layers,
   Terminal,
-  Activity,
-  Cpu,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
-import { askCpexAi, getStoredApiKey } from '../../services/cpexAiService';
+import { askCpexAi } from '../../services/cpexAiService';
 import { getInventory } from '../../data/equipmentData';
 import CpexSettingsModal from '../steps/CpexSettingsModal';
 import { STANDARD_TIME_SLOTS } from '../../data/facultyData';
@@ -176,8 +171,8 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
   const [timeSlot, setTimeSlot] = useState(STANDARD_TIME_SLOTS[1]);
   const [qty, setQty] = useState(1);
   const [studentName, setStudentName] = useState(borrower.groupLeader || '');
-  const [program, setProgram] = useState(borrower.program || 'BSCPE');
-  const [courseCode, setCourseCode] = useState(borrower.courseCode || 'CPEC311');
+  const program = borrower.program || 'BSCPE';
+  const courseCode = borrower.courseCode || 'CPEC311';
   const groupNo = borrower.groupNo || '1';
   const [instructor, setInstructor] = useState(borrower.instructor || 'Engr. Jin Benir Macaranas');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -395,9 +390,7 @@ export default function FloatingCpexBot() {
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [hasApiKey, setHasApiKey] = useState(false);
   const [addedBundleKeys, setAddedBundleKeys] = useState([]);
-  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
 
   const messagesEndRef = useRef(null);
 
@@ -410,22 +403,6 @@ export default function FloatingCpexBot() {
       scrollToBottom();
     }
   }, [messages, isOpen]);
-
-  const refreshKeyStatus = () => {
-    setHasApiKey(Boolean(getStoredApiKey()));
-  };
-
-  useEffect(() => {
-    refreshKeyStatus();
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
 
   const handleResetChat = () => {
     setMessages([

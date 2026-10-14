@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Calendar,
@@ -9,7 +9,6 @@ import {
   Users,
   GraduationCap,
   UserCheck,
-  Layers,
   BookOpen,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
@@ -25,9 +24,32 @@ const YEAR_LEVELS = [
 const SECTIONS = ['01', '02', '03', '04'];
 const GROUP_OPTIONS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-export default function ReservationModal({ item, isOpen, onClose }) {
+const parseReservationTime = (labTime) => {
+  if (!labTime) return { sH: '10', sM: '00', sP: 'AM', eH: '12', eM: '00', eP: 'NN' };
+  const parts = labTime.split(' - ');
+  if (parts.length === 2) {
+    const [start, end] = parts;
+    const [sTime, sP] = (start || '').split(' ');
+    const [sH, sM] = (sTime || '').split(':');
+    const [eTime, eP] = (end || '').split(' ');
+    const [eH, eM] = (eTime || '').split(':');
+    return {
+      sH: sH && sH !== '--' ? sH : '10',
+      sM: sM || '00',
+      sP: sP || 'AM',
+      eH: eH && eH !== '--' ? eH : '12',
+      eM: eM || '00',
+      eP: eP || 'NN',
+    };
+  }
+  return { sH: '10', sM: '00', sP: 'AM', eH: '12', eM: '00', eP: 'NN' };
+};
+
+function ReservationModalDialog({ item, onClose }) {
   const { borrower, addReservation, checkReservationConflict, showToast, theme } = useTransaction();
   const isDark = theme === 'dark';
+
+  const initialTime = useMemo(() => parseReservationTime(borrower.labTime), [borrower.labTime]);
 
   // Tomorrow's date formatted as YYYY-MM-DD
   const getTomorrowDate = () => {
@@ -36,99 +58,92 @@ export default function ReservationModal({ item, isOpen, onClose }) {
     return d.toISOString().split('T')[0];
   };
 
-  const [reserveDate, setReserveDate] = useState(getTomorrowDate());
+  const [reserveDate, setReserveDate] = useState(getTomorrowDate);
   const [qty, setQty] = useState(1);
 
   // Full Borrower / Academic Details from Step 1
   const [studentName, setStudentName] = useState(borrower.groupLeader || '');
-  const [program, setProgram] = useState(borrower.program || 'BSCE');
-  const [isOtherProgram, setIsOtherProgram] = useState(false);
-  const [customProgram, setCustomProgram] = useState('');
+  const [program, setProgram] = useState(() => {
+    if (borrower.program) {
+      return ENGINEERING_PROGRAMS.includes(borrower.program) ? borrower.program : 'OTHERS';
+    }
+    return 'BSCE';
+  });
+  const [isOtherProgram, setIsOtherProgram] = useState(() => {
+    return Boolean(borrower.program && !ENGINEERING_PROGRAMS.includes(borrower.program));
+  });
+  const [customProgram, setCustomProgram] = useState(() => {
+    return borrower.program && !ENGINEERING_PROGRAMS.includes(borrower.program)
+      ? (borrower.program === 'OTHERS' ? '' : borrower.program)
+      : '';
+  });
   const [selectedYear, setSelectedYear] = useState('4');
   const [selectedSem, setSelectedSem] = useState('1');
   const [selectedSection, setSelectedSection] = useState('01');
   const [groupNo, setGroupNo] = useState(borrower.groupNo || '1');
   const [instructor, setInstructor] = useState(borrower.instructor || 'Engr. Jin Benir Macaranas');
-  const [courseCode, setCourseCode] = useState(borrower.courseCode || '41-BSCE-01');
+
+  const updateCourseCode = (yr, sem, prog, sec) => {
+    setCourseCode(`${yr}${sem}-${prog}-${sec}`);
+  };
+
+  const [courseCode, setCourseCode] = useState(() => borrower.courseCode || '41-BSCE-01');
 
   // Structured Time Range States (-- : -- AM/PM to -- : -- AM/PM)
-  const [startHour, setStartHour] = useState('10');
-  const [startMinute, setStartMinute] = useState('00');
-  const [startPeriod, setStartPeriod] = useState('AM');
-  const [endHour, setEndHour] = useState('12');
-  const [endMinute, setEndMinute] = useState('00');
-  const [endPeriod, setEndPeriod] = useState('NN');
+  const [startHour, setStartHour] = useState(initialTime.sH);
+  const [startMinute, setStartMinute] = useState(initialTime.sM);
+  const [startPeriod, setStartPeriod] = useState(initialTime.sP);
+  const [endHour, setEndHour] = useState(initialTime.eH);
+  const [endMinute, setEndMinute] = useState(initialTime.eM);
+  const [endPeriod, setEndPeriod] = useState(initialTime.eP);
 
   const [confirmedReservation, setConfirmedReservation] = useState(null);
 
-  // Load borrower data from context if already filled in Step 1
-  useEffect(() => {
-    if (borrower.groupLeader) setStudentName(borrower.groupLeader);
-    if (borrower.program) {
-      if (ENGINEERING_PROGRAMS.includes(borrower.program)) {
-        setProgram(borrower.program);
-        setIsOtherProgram(false);
-      } else {
-        setIsOtherProgram(true);
-        setCustomProgram(borrower.program === 'OTHERS' ? '' : borrower.program);
-        setProgram('OTHERS');
-      }
-    }
-    if (borrower.groupNo) setGroupNo(borrower.groupNo);
-    if (borrower.instructor) setInstructor(borrower.instructor);
-    if (borrower.courseCode) setCourseCode(borrower.courseCode);
-
-    if (borrower.labTime) {
-      const parts = borrower.labTime.split(' - ');
-      if (parts.length === 2) {
-        const [start, end] = parts;
-        const [sTime, sP] = start.split(' ');
-        const [sH, sM] = (sTime || '').split(':');
-        const [eTime, eP] = end.split(' ');
-        const [eH, eM] = (eTime || '').split(':');
-
-        if (sH && sH !== '--') setStartHour(sH);
-        if (sM) setStartMinute(sM);
-        if (sP) setStartPeriod(sP);
-        if (eH && eH !== '--') setEndHour(eH);
-        if (eM) setEndMinute(eM);
-        if (eP) setEndPeriod(eP);
-      }
-    }
-  }, [borrower, isOpen]);
-
   // Lock background scroll when modal is active
   useEffect(() => {
-    if (isOpen) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = originalOverflow;
-      };
-    }
-  }, [isOpen]);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
   // Handle program change
   const handleProgramChange = (val) => {
     if (val === 'OTHERS') {
       setIsOtherProgram(true);
       setProgram('OTHERS');
+      updateCourseCode(selectedYear, selectedSem, customProgram || 'OTHERS', selectedSection);
     } else {
       setIsOtherProgram(false);
       setProgram(val);
+      updateCourseCode(selectedYear, selectedSem, val, selectedSection);
     }
   };
 
-  // Synchronize auto course code
-  useEffect(() => {
-    const prog = isOtherProgram ? (customProgram || 'OTHERS') : program;
-    if (selectedYear && selectedSem && prog && selectedSection) {
-      const autoCode = `${selectedYear}${selectedSem}-${prog}-${selectedSection}`;
-      setCourseCode(autoCode);
-    }
-  }, [program, isOtherProgram, customProgram, selectedYear, selectedSem, selectedSection]);
+  const handleCustomProgramChange = (val) => {
+    const clean = val.toUpperCase();
+    setCustomProgram(clean);
+    updateCourseCode(selectedYear, selectedSem, clean || 'OTHERS', selectedSection);
+  };
 
-  if (!isOpen || !item) return null;
+  const handleYearChange = (val) => {
+    setSelectedYear(val);
+    const prog = isOtherProgram ? (customProgram || 'OTHERS') : program;
+    updateCourseCode(val, selectedSem, prog, selectedSection);
+  };
+
+  const handleSemChange = (val) => {
+    setSelectedSem(val);
+    const prog = isOtherProgram ? (customProgram || 'OTHERS') : program;
+    updateCourseCode(selectedYear, val, prog, selectedSection);
+  };
+
+  const handleSectionChange = (val) => {
+    setSelectedSection(val);
+    const prog = isOtherProgram ? (customProgram || 'OTHERS') : program;
+    updateCourseCode(selectedYear, selectedSem, prog, val);
+  };
 
   // Formatted Time Slot
   const formattedLabTime = `${startHour.padStart(2, '0')}:${startMinute.padStart(2, '0')} ${startPeriod} - ${endHour.padStart(2, '0')}:${endMinute.padStart(2, '0')} ${endPeriod}`;
@@ -458,7 +473,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     <input
                       type="text"
                       value={customProgram}
-                      onChange={(e) => setCustomProgram(e.target.value.toUpperCase())}
+                      onChange={(e) => handleCustomProgramChange(e.target.value)}
                       placeholder="Type your course name (e.g., BSIT, BSCS, BSHM)..."
                       className={`w-full h-8 sm:h-10 px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold uppercase focus:outline-none transition-all ${
                         isDark
@@ -478,7 +493,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   <label className={`block text-[10px] sm:text-xs mb-1 ${isDark ? 'text-slate-400 font-bold' : 'text-slate-700 font-medium'}`}>Year Level</label>
                   <select
                     value={selectedYear}
-                    onChange={(e) => setSelectedYear(e.target.value)}
+                    onChange={(e) => handleYearChange(e.target.value)}
                     className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none transition-all ${
                       isDark
                         ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-1 focus:ring-white'
@@ -498,7 +513,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   <label className={`block text-[10px] sm:text-xs mb-1 ${isDark ? 'text-slate-400 font-bold' : 'text-slate-700 font-medium'}`}>Semester</label>
                   <select
                     value={selectedSem}
-                    onChange={(e) => setSelectedSem(e.target.value)}
+                    onChange={(e) => handleSemChange(e.target.value)}
                     className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none transition-all ${
                       isDark
                         ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-1 focus:ring-white'
@@ -516,7 +531,7 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                   <label className={`block text-[10px] sm:text-xs mb-1 ${isDark ? 'text-slate-400 font-bold' : 'text-slate-700 font-medium'}`}>Section</label>
                   <select
                     value={selectedSection}
-                    onChange={(e) => setSelectedSection(e.target.value)}
+                    onChange={(e) => handleSectionChange(e.target.value)}
                     className={`w-full h-8 sm:h-10 px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold focus:outline-none transition-all ${
                       isDark
                         ? 'neu-inset text-slate-100 bg-[#111a2c] focus:ring-1 focus:ring-white'
@@ -729,4 +744,9 @@ export default function ReservationModal({ item, isOpen, onClose }) {
   );
 
   return createPortal(modalContent, document.body);
+}
+
+export default function ReservationModal({ item, isOpen, onClose }) {
+  if (!isOpen || !item) return null;
+  return <ReservationModalDialog item={item} onClose={onClose} />;
 }
