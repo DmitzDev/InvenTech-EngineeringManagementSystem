@@ -114,7 +114,7 @@ export default function ChevronProgressBar() {
                     isActive
                       ? 'bg-gradient-to-r from-cyan-400 to-blue-500 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
                       : isCompleted
-                      ? 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)] cursor-pointer'
+                      ? 'bg-cyan-500 shadow-[0_0_6px_rgba(6,182,212,0.5)] cursor-pointer'
                       : 'bg-slate-800/90'
                   }`}
                   title={`${step.code}: ${step.title}`}
@@ -143,8 +143,8 @@ export default function ChevronProgressBar() {
               : 'bg-gradient-to-b from-white via-slate-100 to-slate-200 text-slate-900 border-2 border-slate-400 shadow-[0_6px_16px_rgba(0,0,0,0.15),inset_0_1px_1px_#ffffff] z-20 font-bold scale-[1.01]';
           } else if (isCompleted) {
             nodeStyles = isDark
-              ? 'bg-gradient-to-b from-[#182334] to-[#101724] border border-emerald-500/50 text-slate-100 hover:border-emerald-400 hover:bg-[#1c293c] shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] z-10 cursor-pointer'
-              : 'bg-gradient-to-b from-white to-[#edf2f8] border border-emerald-600/40 text-slate-800 hover:bg-white shadow-[0_2px_6px_rgba(0,0,0,0.08)] z-10 cursor-pointer';
+              ? 'bg-gradient-to-b from-[#182334] to-[#101724] border border-cyan-500/40 text-slate-100 hover:border-cyan-400 hover:bg-[#1c293c] shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] z-10 cursor-pointer'
+              : 'bg-gradient-to-b from-white to-[#edf2f8] border border-cyan-600/40 text-slate-800 hover:bg-white shadow-[0_2px_6px_rgba(0,0,0,0.08)] z-10 cursor-pointer';
           } else {
             nodeStyles = isDark
               ? 'bg-gradient-to-b from-[#141c2a] to-[#0e1522] border border-slate-800/90 text-slate-400 opacity-60 z-0 shadow-[0_3px_8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]'
@@ -168,7 +168,7 @@ export default function ChevronProgressBar() {
                         ? 'bg-slate-950 text-white border border-slate-800 shadow-[inset_0_1px_2px_rgba(0,0,0,0.8)]'
                         : 'bg-slate-950 text-white border border-slate-900 shadow-md keep-white'
                       : isCompleted
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
+                        ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/40'
                         : isDark
                           ? 'bg-slate-900 text-slate-500 border border-slate-800'
                           : 'bg-slate-200 text-slate-700 border border-slate-300 font-black'
@@ -190,7 +190,7 @@ export default function ChevronProgressBar() {
                             ? 'text-slate-700'
                             : 'text-slate-600'
                           : isCompleted
-                            ? 'text-emerald-400'
+                            ? 'text-cyan-400'
                             : isDark
                               ? 'text-slate-500'
                               : 'text-slate-600 font-bold'
@@ -206,7 +206,7 @@ export default function ChevronProgressBar() {
                             ? 'text-slate-950'
                             : 'text-slate-900'
                           : isCompleted
-                            ? 'text-emerald-400'
+                            ? 'text-cyan-400'
                             : isDark
                               ? 'text-slate-500'
                               : 'text-slate-700'
@@ -258,14 +258,14 @@ export default function ChevronProgressBar() {
                         : 'bg-slate-950 text-white keep-white'
                       }`}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                     ACTIVE
                   </span>
                 )}
 
                 {isCompleted && (
-                  <span className="hidden xl:inline text-[9px] font-mono text-emerald-400 font-extrabold bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-500/40">
-                    PASS
+                  <span className="hidden xl:inline text-[9px] font-mono text-cyan-300 font-extrabold bg-cyan-950/60 px-1.5 py-0.5 rounded border border-cyan-500/40">
+                    DONE
                   </span>
                 )}
               </div>

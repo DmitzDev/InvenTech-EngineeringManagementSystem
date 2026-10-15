@@ -25,7 +25,7 @@ export default function LabSelector() {
   const getAccentCardStyle = (lab) => {
     if (selectedLab === lab.id) {
       if (isDark) {
-        if (lab.id === 'CE_CHEM' || lab.id === 'CE' || lab.id === 'CHEM') return 'neu-card ring-2 ring-emerald-500/80 shadow-[0_0_24px_rgba(16,185,129,0.25)]';
+        if (lab.id === 'CE_CHEM' || lab.id === 'CE' || lab.id === 'CHEM') return 'neu-card ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]';
         if (lab.id === 'DIGITAL_ECE' || lab.id === 'DIGITAL' || lab.id === 'ECE') return 'neu-card ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]';
         if (lab.id === 'PHYSICS') return 'neu-card ring-2 ring-rose-500/80 shadow-[0_0_24px_rgba(244,63,94,0.25)]';
         return 'neu-card ring-2 ring-white/60';

@@ -9,16 +9,17 @@ import {
   ShieldCheck,
   CheckSquare,
   Square,
-  Users,
-  BookOpen,
   GraduationCap,
   PenTool,
   Eraser,
   ChevronDown,
   ChevronUp,
-  Tag,
+  Briefcase,
+  Check,
   Clock,
-  Briefcase
+  User,
+  Hash,
+  BookOpen
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
@@ -37,8 +38,6 @@ export default function TransactionCommit() {
     borrower,
     cart,
     transactionId,
-    timestamp,
-    selectedLab,
     safetyAgreement,
     toggleSafetyAgreement,
     resetTransaction,
@@ -54,8 +53,13 @@ export default function TransactionCommit() {
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   const damagedItems = cart.filter((i) => i.isDamaged);
 
-  // Mobile Collapsible Accordion State
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  // Mobile Collapsible State
+  const [isMobileItemsOpen, setIsMobileItemsOpen] = useState(false);
+
+  // Custom purpose input state if user selects "Other"
+  const [isCustomPurpose, setIsCustomPurpose] = useState(
+    borrower.purpose && !PURPOSE_OPTIONS.includes(borrower.purpose)
+  );
 
   // Digital Signature Canvas State & Refs
   const canvasRef = useRef(null);
@@ -86,7 +90,7 @@ export default function TransactionCommit() {
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
 
-      // Ink Color: Solid dark slate-900 (#0f172a) in light mode, Sky Blue (#38bdf8) in dark mode
+      // Ink Color: Slate-900 in light mode, Cyan-400 in dark mode
       ctx.strokeStyle = isDark ? '#38bdf8' : '#0f172a';
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
@@ -162,7 +166,18 @@ export default function TransactionCommit() {
     setBorrowerField('signature', null);
   };
 
-  // Print Slip manually triggered on button click - commits transaction ONLY upon print!
+  const handlePurposeChange = (e) => {
+    const val = e.target.value;
+    if (val === 'OTHER') {
+      setIsCustomPurpose(true);
+      setBorrowerField('purpose', '');
+    } else {
+      setIsCustomPurpose(false);
+      setBorrowerField('purpose', val);
+    }
+  };
+
+  // Print Slip: commit transaction and trigger system print dialog
   const handleManualPrint = () => {
     if (!safetyAgreement) return;
     try {
@@ -175,105 +190,119 @@ export default function TransactionCommit() {
     }
   };
 
+  const activePurpose = borrower.purpose || PURPOSE_OPTIONS[0];
+
   return (
-    <div className="flex-1 p-3 sm:p-5 lg:p-8 pb-16 md:pb-10 max-w-7xl mx-auto w-full max-w-full overflow-x-hidden flex flex-col justify-between space-y-4 sm:space-y-5 select-none relative min-h-0">
-      <div className="space-y-4 sm:space-y-5">
+    <div className="flex-1 p-3 sm:p-5 lg:p-7 max-w-7xl mx-auto w-full max-w-full overflow-x-hidden flex flex-col justify-between space-y-4 select-none relative min-h-0">
+      <div className="space-y-4">
+        {/* ========================================================= */}
         {/* Top Header: Verification & Audit Bar */}
-        <div className={`rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border ${
+        {/* ========================================================= */}
+        <div className={`rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border ${
           isDark
-            ? 'neu-card border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.12)]'
+            ? 'bg-[#0f172a]/90 border-slate-800 shadow-md'
             : 'bg-white border-slate-200 shadow-sm'
         }`}>
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 ${
+          <div className="flex items-center gap-3.5">
+            <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 border ${
               isDark
-                ? 'bg-cyan-500/15 neu-inset text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                : 'bg-blue-50 text-blue-800 border border-blue-200/60 shadow-xs'
+                ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'
+                : 'bg-blue-50 text-blue-800 border-blue-200'
             }`}>
-              <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
+              <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className={`text-sm sm:text-lg font-black tracking-tight ${
+                <h2 className={`text-base sm:text-lg font-black tracking-tight ${
                   isDark ? 'text-slate-100' : 'text-slate-900'
                 }`}>
-                  Step 04: Verify & Finalize Slip
+                  Step 04: Slip Verification & Issuance
                 </h2>
-                <span className={`text-[9.5px] sm:text-[10px] font-mono px-2 py-0.5 rounded-full font-bold ${
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md font-bold uppercase tracking-wider ${
                   isDark
-                    ? 'neu-inset-sm text-cyan-400'
-                    : 'bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold'
+                    ? 'bg-slate-800 text-slate-300 border border-slate-700'
+                    : 'bg-slate-100 text-slate-700 border border-slate-300'
                 }`}>
-                  UdD-FM-LM-01A-01
+                  UdD-FM-LM-01A
                 </span>
               </div>
-              <p className={`text-[11px] sm:text-xs mt-0.5 leading-relaxed ${
-                isDark ? 'text-slate-300' : 'text-slate-600'
+              <p className={`text-xs mt-0.5 ${
+                isDark ? 'text-slate-400' : 'text-slate-600'
               }`}>
-                Review borrower information, certify the institutional safety protocol, and print the official slip.
+                Review apparatus manifest, verify student credentials, and print official clearance slip.
               </p>
             </div>
           </div>
 
-          <div className={`text-left sm:text-right font-mono px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl shrink-0 border ${
-            isDark ? 'neu-inset border-slate-800/80' : 'bg-slate-50 border-slate-200 shadow-xs'
+          <div className={`flex items-center sm:flex-col sm:items-end justify-between sm:justify-center font-mono px-3.5 py-2 rounded-xl shrink-0 border ${
+            isDark ? 'bg-[#090d16] border-slate-800' : 'bg-slate-50 border-slate-200'
           }`}>
-            <div className={`text-[9px] sm:text-[10px] font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Transaction Reference</div>
-            <div className={`text-xs sm:text-sm font-bold ${isDark ? 'text-cyan-400' : 'text-slate-900 font-black'}`}>{transactionId || 'UDD-TX-DRAFT'}</div>
+            <span className={`text-[10px] font-semibold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+              Reference Code
+            </span>
+            <span className={`text-xs sm:text-sm font-bold tracking-tight ${isDark ? 'text-cyan-400' : 'text-slate-900'}`}>
+              {transactionId || 'UDD-TX-PENDING'}
+            </span>
           </div>
         </div>
 
-        {/* ------------------------------------------------------------- */}
-        {/* Responsive Content: Two-Column Grid on Desktop / Vertical Stack on Mobile */}
-        {/* ------------------------------------------------------------- */}
-        <div className="flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-6 items-start">
+        {/* ========================================================= */}
+        {/* Main Grid: Apparatus Manifest (Left) vs Student Clearance (Right) */}
+        {/* ========================================================= */}
+        <div className="flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-5 items-start">
           
           {/* ========================================================= */}
-          {/* Left Column on 15" Kiosk (md:col-span-7) / Items on Mobile */}
+          {/* Left Column (md:col-span-7): Equipment Manifest & Safety  */}
           {/* ========================================================= */}
-          <div className="w-full md:col-span-7 flex flex-col space-y-4">
+          <div className="w-full md:col-span-7 flex flex-col space-y-3.5">
             
-            {/* MOBILE ONLY: Collapsible Accordion for Borrower Slip (< md:) */}
-            <div className="md:hidden neu-card rounded-2xl overflow-hidden border border-slate-800/80 shadow-md">
+            {/* MOBILE ONLY: Collapsible Items View */}
+            <div className={`md:hidden rounded-2xl overflow-hidden border ${
+              isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+            }`}>
               <button
                 type="button"
-                onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                className="w-full p-3 bg-[#111a2c] flex items-center justify-between gap-2 active:bg-slate-800/40 transition-colors text-left"
+                onClick={() => setIsMobileItemsOpen(!isMobileItemsOpen)}
+                className={`w-full p-3.5 flex items-center justify-between gap-2 active:bg-slate-800/20 transition-colors text-left ${
+                  isDark ? 'bg-[#111c30]' : 'bg-slate-50'
+                }`}
               >
-                <div className="flex items-center gap-2 min-w-0">
-                  <FileText className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <div className="min-w-0 truncate">
-                    <span className="text-xs font-bold text-slate-200 block truncate">
-                      Borrower Slip Apparatus
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <FileText className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+                  <div className="min-w-0">
+                    <span className={`text-xs font-bold block truncate ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+                      Apparatus Manifest
                     </span>
-                    <span className="text-[10.5px] font-mono text-cyan-400 font-bold">
-                      {cart.length} items ({totalQty} total units)
+                    <span className="text-[11px] font-mono font-bold text-cyan-400">
+                      {cart.length} {cart.length === 1 ? 'item' : 'items'} ({totalQty} total units)
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <span className="text-[10px] font-mono text-slate-400 font-semibold">
-                    {isAccordionOpen ? 'Hide' : 'View'}
+                  <span className={`text-[11px] font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    {isMobileItemsOpen ? 'Hide' : 'Review'}
                   </span>
-                  <div className="w-6 h-6 rounded-lg neu-inset flex items-center justify-center text-slate-300">
-                    {isAccordionOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                    isDark ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'
+                  }`}>
+                    {isMobileItemsOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                   </div>
                 </div>
               </button>
 
-              {/* Accordion Expandable Content */}
-              {isAccordionOpen && (
-                <div className="p-2.5 bg-[#0b1220] border-t border-slate-800/80 animate-fade-in space-y-2 max-h-72 overflow-y-auto">
+              {isMobileItemsOpen && (
+                <div className={`p-3 divide-y border-t max-h-72 overflow-y-auto ${
+                  isDark ? 'bg-[#0a0f1d] divide-slate-800/80 border-slate-800' : 'bg-white divide-slate-100 border-slate-200'
+                }`}>
                   {cart.map((item, idx) => (
-                    <div
-                      key={item.id}
-                      className="p-2.5 rounded-xl neu-inset bg-[#0e1626] border border-slate-800/70 flex items-center justify-between gap-2"
-                    >
+                    <div key={item.id} className="py-2.5 flex items-center justify-between gap-2 first:pt-1 last:pb-1">
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-mono text-[10px] font-bold text-slate-500">#{idx + 1}</span>
-                          <span className="text-xs font-bold text-slate-100 truncate block">{item.name}</span>
+                          <span className="font-mono text-[10px] text-slate-500 font-bold">#{idx + 1}</span>
+                          <span className={`text-xs font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+                            {item.name}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2 mt-0.5 text-[10px] font-mono text-slate-400">
                           <span className="text-cyan-400 font-bold">{item.tagCode}</span>
@@ -283,13 +312,13 @@ export default function TransactionCommit() {
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-xs font-mono font-bold text-cyan-400">
+                        <span className={`text-xs font-mono font-bold ${isDark ? 'text-cyan-400' : 'text-slate-900'}`}>
                           {item.qty} {item.unit || 'pc'}
                         </span>
                         {item.isDamaged && (
-                          <div className="text-[9px] text-amber-400 font-bold flex items-center gap-0.5 justify-end mt-0.5">
-                            <AlertTriangle className="w-2.5 h-2.5" />
-                            <span>Damage Flagged</span>
+                          <div className="text-[9.5px] text-amber-400 font-bold flex items-center gap-0.5 justify-end mt-0.5">
+                            <AlertTriangle className="w-3 h-3" />
+                            <span>Defect Noted</span>
                           </div>
                         )}
                       </div>
@@ -299,71 +328,101 @@ export default function TransactionCommit() {
               )}
             </div>
 
-            {/* DESKTOP/KIOSK ONLY: Full Itemized Apparatus Verification Table (hidden md:block) */}
-            <div className="hidden md:block neu-card rounded-2xl overflow-hidden">
-              <div className={`p-3.5 ${isDark ? 'bg-[#111a2c] border-slate-800/80' : 'bg-white border-slate-300'} border-b flex items-center justify-between`}>
+            {/* DESKTOP/TABLET: Clean Itemized Apparatus Table */}
+            <div className={`hidden md:block rounded-2xl overflow-hidden border ${
+              isDark ? 'bg-[#0f172a] border-slate-800 shadow-md' : 'bg-white border-slate-200 shadow-sm'
+            }`}>
+              <div className={`p-3.5 px-4 border-b flex items-center justify-between ${
+                isDark ? 'bg-[#111c30] border-slate-800' : 'bg-slate-50 border-slate-200'
+              }`}>
                 <div className="flex items-center gap-2">
-                  <FileText className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
-                  <span className={`text-xs sm:text-sm font-bold ${isDark ? 'text-slate-200' : 'text-slate-950'}`}>
-                    Itemized Laboratory Slip Preview ({cart.length} of 15 slots)
+                  <FileText className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-700'}`} />
+                  <span className={`text-xs font-extrabold uppercase tracking-wider ${
+                    isDark ? 'text-slate-200' : 'text-slate-900'
+                  }`}>
+                    Itemized Apparatus Manifest ({cart.length} of 15 slots)
                   </span>
                 </div>
-                <span className={`text-xs font-mono font-bold ${isDark ? 'text-cyan-400' : 'text-slate-950'}`}>
-                  {totalQty} Total Units
+                <span className={`text-xs font-mono font-bold ${isDark ? 'text-cyan-400' : 'text-slate-900'}`}>
+                  {totalQty} Units Total
                 </span>
               </div>
 
               <div className="overflow-x-auto max-h-72 overflow-y-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className={`${isDark ? 'bg-[#0e1626] text-slate-400 border-slate-800/80' : 'bg-slate-100 text-slate-950 border-slate-300 font-black'} border-b sticky top-0`}>
+                  <thead className={`border-b sticky top-0 uppercase tracking-wider text-[10px] font-bold ${
+                    isDark
+                      ? 'bg-[#0a0f1d] text-slate-400 border-slate-800'
+                      : 'bg-slate-100 text-slate-700 border-slate-200'
+                  }`}>
                     <tr>
-                      <th className="p-2.5 w-10 text-center font-mono">#</th>
-                      <th className="p-2.5 w-16">Qty</th>
-                      <th className="p-2.5 w-24">Tag Code</th>
+                      <th className="p-2.5 px-3.5 w-12 text-center font-mono">#</th>
+                      <th className="p-2.5 w-20 text-center">Qty</th>
+                      <th className="p-2.5 w-28">Tag Code</th>
                       <th className="p-2.5">Item Description</th>
-                      <th className="p-2.5 w-24">Category</th>
-                      <th className="p-2.5 w-28">Condition</th>
+                      <th className="p-2.5 w-28 text-center">Category</th>
+                      <th className="p-2.5 w-28 text-center">Condition</th>
                     </tr>
                   </thead>
-                  <tbody className={`divide-y ${isDark ? 'divide-slate-800/60' : 'divide-slate-200'}`}>
+                  <tbody className={`divide-y ${isDark ? 'divide-slate-800/60' : 'divide-slate-100'}`}>
                     {cart.map((item, idx) => (
-                      <tr key={item.id} className={isDark ? 'hover:bg-slate-800/20' : 'hover:bg-slate-100/60'}>
-                        <td className={`p-2.5 text-center font-mono font-bold ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>{idx + 1}</td>
-                        <td className={`p-2.5 font-mono font-black ${isDark ? 'text-cyan-400' : 'text-slate-950'}`}>{item.qty} {item.unit || 'pc'}</td>
-                        <td className={`p-2.5 font-mono font-bold ${isDark ? 'text-slate-300' : 'text-slate-900'}`}>{item.tagCode}</td>
-                        <td className={`p-2.5 font-semibold ${isDark ? 'text-slate-200' : 'text-slate-950'}`}>
-                          <div className="font-bold">{item.name}</div>
-                          <div className={`text-[10px] font-mono font-bold ${isDark ? 'text-cyan-400/90' : 'text-slate-600'}`}>
+                      <tr key={item.id} className={isDark ? 'hover:bg-slate-800/30' : 'hover:bg-slate-50'}>
+                        <td className={`p-2.5 px-3.5 text-center font-mono font-bold ${
+                          isDark ? 'text-slate-500' : 'text-slate-400'
+                        }`}>
+                          {idx + 1}
+                        </td>
+                        <td className={`p-2.5 text-center font-mono font-black ${
+                          isDark ? 'text-cyan-400' : 'text-slate-900'
+                        }`}>
+                          {item.qty} {item.unit || 'pc'}
+                        </td>
+                        <td className={`p-2.5 font-mono font-bold ${
+                          isDark ? 'text-slate-300' : 'text-slate-800'
+                        }`}>
+                          {item.tagCode}
+                        </td>
+                        <td className="p-2.5">
+                          <div className={`font-bold ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+                            {item.name}
+                          </div>
+                          <div className={`text-[10px] font-mono mt-0.5 ${
+                            isDark ? 'text-slate-400' : 'text-slate-500'
+                          }`}>
                             {item.lab === 'DIGITAL' ? 'Digital Lab' : item.lab === 'ECE' ? 'ECE Lab' : item.lab === 'CE' ? 'CE Lab' : item.lab === 'CHEM' ? 'Chemistry Lab' : item.lab === 'PHYSICS' ? 'Physics Lab' : `${item.lab} Lab`}
                           </div>
                         </td>
-                        <td className="p-2.5">
-                          <span
-                            className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border ${
-                              item.isConsumable
-                                ? isDark
-                                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                                  : 'bg-amber-100 text-amber-950 border-amber-300 font-bold'
-                                : isDark
-                                ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
-                                : 'bg-slate-100 text-slate-900 border-slate-300 font-bold'
-                            }`}
-                          >
+                        <td className="p-2.5 text-center">
+                          <span className={`text-[9.5px] font-mono font-bold px-2 py-0.5 rounded uppercase border ${
+                            item.isConsumable
+                              ? isDark
+                                ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+                                : 'bg-amber-50 text-amber-800 border-amber-200'
+                              : isDark
+                                ? 'bg-slate-800 text-slate-300 border-slate-700'
+                                : 'bg-slate-100 text-slate-700 border-slate-200'
+                          }`}>
                             {item.isConsumable ? 'Consumable' : 'Returnable'}
                           </span>
                         </td>
-                        <td className="p-2.5">
+                        <td className="p-2.5 text-center">
                           {item.isDamaged ? (
-                            <span className={`text-[9.5px] px-2 py-0.5 rounded-full font-bold inline-flex items-center gap-1 ${
-                              isDark ? 'neu-inset-amber text-amber-300' : 'bg-rose-50 text-rose-800 border border-rose-200/60'
+                            <span className={`text-[9.5px] px-2 py-0.5 rounded font-bold inline-flex items-center gap-1 border ${
+                              isDark
+                                ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                                : 'bg-amber-50 text-amber-800 border-amber-200'
                             }`}>
                               <AlertTriangle className="w-3 h-3" />
                               <span>Pre-damaged</span>
                             </span>
                           ) : (
-                            <span className={`text-[9.5px] px-2 py-0.5 rounded-full font-bold inline-block ${
-                              isDark ? 'text-slate-400' : 'bg-emerald-50 text-emerald-800 border border-emerald-200/60'
-                            }`}>Good</span>
+                            <span className={`text-[9.5px] font-mono px-2 py-0.5 rounded font-semibold inline-block border ${
+                              isDark
+                                ? 'bg-slate-800/70 text-slate-400 border-slate-700/60'
+                                : 'bg-slate-100 text-slate-600 border-slate-200'
+                            }`}>
+                              Operational
+                            </span>
                           )}
                         </td>
                       </tr>
@@ -373,43 +432,43 @@ export default function TransactionCommit() {
               </div>
             </div>
 
-            {/* Flagged Damaged Items Warning Banner */}
+            {/* Flagged Pre-existing Damage Warning */}
             {damagedItems.length > 0 && (
-              <div className={`p-3 sm:p-3.5 rounded-2xl flex items-center justify-between gap-3 ${
+              <div className={`p-3.5 rounded-2xl flex items-center justify-between gap-3 border ${
                 isDark
-                  ? 'neu-inset-amber border border-amber-500/30 text-amber-200'
-                  : 'bg-amber-50 text-amber-800 border border-amber-200/60 shadow-sm'
+                  ? 'bg-amber-950/20 border-amber-500/30 text-amber-200'
+                  : 'bg-amber-50 text-amber-900 border-amber-200'
               }`}>
-                <div className="flex items-center gap-2.5">
-                  <AlertTriangle className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${isDark ? 'text-amber-400' : 'text-amber-700'}`} />
-                  <div className="text-xs">
-                    <span className="font-bold">{damagedItems.length} item(s) flagged for Pre-existing Condition:</span>
-                    <span className={`ml-1 ${isDark ? 'text-amber-300/90' : 'text-amber-900 font-semibold'}`}>
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                  <div className="text-xs truncate">
+                    <span className="font-bold">Noted Pre-existing Issues:</span>
+                    <span className="ml-1 opacity-90">
                       {damagedItems.map((i) => i.name).join(', ')}
                     </span>
                   </div>
                 </div>
-                <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border shrink-0 ${
+                <span className={`text-[9.5px] font-mono font-bold px-2 py-0.5 rounded border shrink-0 ${
                   isDark
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                    ? 'bg-amber-500/15 text-amber-300 border-amber-500/40'
                     : 'bg-amber-100 text-amber-900 border-amber-300'
                 }`}>
-                  NOTED ON SLIP
+                  DOC ON SLIP
                 </span>
               </div>
             )}
 
-            {/* Institutional Safety & Lab Protocol Agreement Card */}
+            {/* Institutional Custody & Safety Protocol Card */}
             <div
               onClick={toggleSafetyAgreement}
-              className={`p-3.5 sm:p-4 rounded-2xl cursor-pointer transition-all border select-none ${
+              className={`p-4 rounded-2xl cursor-pointer transition-all border select-none ${
                 safetyAgreement
                   ? isDark
-                    ? 'neu-inset border-cyan-500/60 bg-cyan-950/20 shadow-[0_0_18px_rgba(6,182,212,0.2)]'
-                    : 'bg-blue-50/70 border-2 border-blue-500 shadow-sm'
+                    ? 'bg-cyan-950/20 border-cyan-500/50 shadow-sm'
+                    : 'bg-blue-50/60 border-2 border-blue-600 shadow-sm'
                   : isDark
-                    ? 'neu-card border-slate-700 hover:border-slate-600 bg-[#111a2c]'
-                    : 'bg-white border border-slate-200 hover:border-slate-300 shadow-sm'
+                    ? 'bg-[#0f172a] border-slate-800 hover:border-slate-700'
+                    : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
               }`}
             >
               <div className="flex items-start gap-3">
@@ -418,59 +477,50 @@ export default function TransactionCommit() {
                   className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                     safetyAgreement
                       ? isDark
-                        ? 'bg-cyan-500 text-slate-950 shadow-md'
-                        : 'bg-blue-600 text-white shadow-sm'
+                        ? 'bg-cyan-500 text-slate-950 font-black'
+                        : 'bg-blue-600 text-white font-black'
                       : isDark
-                        ? 'neu-inset text-slate-500'
+                        ? 'bg-slate-800 border border-slate-700 text-slate-500'
                         : 'bg-slate-100 border border-slate-300 text-slate-400'
                   }`}
                 >
-                  {safetyAgreement ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
+                  {safetyAgreement ? <Check className="w-4 h-4 stroke-[3]" /> : <Square className="w-4 h-4" />}
                 </button>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <ShieldCheck className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
-                    <span className={`text-xs sm:text-sm font-extrabold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
-                      Institutional Safety & Laboratory Protocol Agreement
-                    </span>
-                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded border font-bold ${
-                      isDark
-                        ? 'text-cyan-300 bg-cyan-950/80 border-cyan-500/30'
-                        : 'bg-blue-50 text-blue-800 border-blue-200/60 font-semibold'
-                    }`}>
-                      CHED Compliant
+                    <span className={`text-xs sm:text-sm font-bold ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
+                      Institutional Custody & Safety Accountability Agreement
                     </span>
                   </div>
                   <p className={`text-[11px] sm:text-xs mt-1 leading-relaxed ${
-                    isDark ? 'text-slate-300' : 'text-slate-600'
+                    isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
-                    I certify that all apparatus will be handled in accordance with Universidad de Dagupan Safety Rules. I accept liability for damages or unreturned items.
+                    I certify that all apparatus will be handled in accordance with Universidad de Dagupan School of Engineering safety protocols. The borrower assumes responsibility for custodial care, safe return, or reported damages.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Official Commit & Printed Status Confirmation Banner */}
+            {/* Official Confirmation Banner after Print */}
             {isTransactionCommitted && (
-              <div className={`p-3.5 sm:p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 animate-fade-in ${
+              <div className={`p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 border animate-fade-in ${
                 isDark
-                  ? 'neu-inset bg-emerald-950/40 border border-emerald-500/60 text-emerald-300 shadow-[0_0_24px_rgba(16,185,129,0.2)]'
-                  : 'bg-emerald-50 text-emerald-800 border border-emerald-200/60 shadow-sm'
+                  ? 'bg-[#0b1527] border-cyan-500/40 text-cyan-200 shadow-md'
+                  : 'bg-slate-900 text-white border-slate-800 shadow-md'
               }`}>
                 <div className="flex items-center gap-3">
-                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 border shadow-sm ${
-                    isDark
-                      ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
-                      : 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                    isDark ? 'bg-cyan-500/20 text-cyan-400' : 'bg-cyan-500 text-slate-950'
                   }`}>
                     <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div>
-                    <div className={`font-extrabold text-xs sm:text-sm ${isDark ? 'text-emerald-200' : 'text-emerald-950'}`}>
-                      Borrower Slip Printed & Transaction Officially Recorded!
+                    <div className="font-extrabold text-xs sm:text-sm text-white">
+                      Borrower Slip Printed & Transaction Officially Logged
                     </div>
-                    <div className={`text-[11px] sm:text-xs ${isDark ? 'text-emerald-300/80' : 'text-emerald-800'}`}>
-                      Ref Code: <span className={`font-mono font-bold ${isDark ? 'text-white' : 'text-emerald-950'}`}>{transactionId}</span> • Please submit the signed printed slip to the Laboratory Custodian.
+                    <div className="text-[11px] sm:text-xs opacity-80 mt-0.5">
+                      Ref: <span className="font-mono font-bold text-cyan-300">{transactionId}</span> • Please submit the signed printed slip to the Laboratory Custodian.
                     </div>
                   </div>
                 </div>
@@ -479,179 +529,206 @@ export default function TransactionCommit() {
                   size="sm"
                   icon={RotateCcw}
                   onClick={goToWelcome}
-                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold shrink-0 text-xs sm:text-sm"
+                  className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 text-white font-bold shrink-0 text-xs"
                 >
-                  Finish & Return Home
+                  Return to Welcome
                 </TouchButton>
               </div>
             )}
           </div>
 
           {/* ========================================================= */}
-          {/* Right Column on Desktop (md:col-span-5) / Vertical Scroll on Mobile */}
+          {/* Right Column (md:col-span-5): Borrower Credentials,       */}
+          {/* Purpose, Signature & Action Dispatch                      */}
           {/* ========================================================= */}
-          <div className="w-full md:col-span-5 flex flex-col space-y-4">
+          <div className="w-full md:col-span-5 flex flex-col space-y-3.5">
             
-            {/* 1. Student Credentials & Schedule Card */}
-            <div className={`rounded-2xl p-4 space-y-3 ${
-              isDark ? 'neu-card' : 'bg-white border border-slate-200 shadow-sm'
+            {/* 1. Borrower Identification Summary */}
+            <div className={`rounded-2xl p-4 space-y-3 border ${
+              isDark ? 'bg-[#0f172a] border-slate-800 shadow-sm' : 'bg-white border-slate-200 shadow-sm'
             }`}>
               <div className={`flex items-center justify-between pb-2 border-b ${
-                isDark ? 'border-slate-800/80' : 'border-slate-200'
+                isDark ? 'border-slate-800' : 'border-slate-200'
               }`}>
-                <span className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
-                  isDark ? 'text-slate-400' : 'text-slate-700'
+                <span className={`text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 ${
+                  isDark ? 'text-slate-400' : 'text-slate-600'
                 }`}>
-                  <GraduationCap className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
+                  <GraduationCap className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                   <span>Borrower Credentials</span>
                 </span>
                 <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
                   isDark
-                    ? 'text-cyan-400 bg-cyan-950/60 border-cyan-500/30'
-                    : 'bg-blue-50 text-blue-800 border-blue-200/60 font-semibold'
+                    ? 'bg-slate-800 text-slate-300 border-slate-700'
+                    : 'bg-slate-100 text-slate-700 border-slate-300'
                 }`}>
                   Group {borrower.groupNo || '1'}
                 </span>
               </div>
 
-              <div className="space-y-1.5 text-xs">
+              <div className="space-y-2 text-xs">
                 <div>
-                  <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  <span className={`text-[10px] uppercase font-bold tracking-wider block ${
+                    isDark ? 'text-slate-500' : 'text-slate-500'
+                  }`}>
                     Student Name
                   </span>
                   <span className={`text-sm font-black uppercase tracking-tight block truncate ${
                     isDark ? 'text-slate-100' : 'text-slate-900'
                   }`}>
-                    {borrower.groupLeader || 'NO NAME PROVIDED'}
+                    {borrower.groupLeader || 'STUDENT NAME RECORDED'}
                   </span>
                 </div>
 
-                <div className={`grid grid-cols-2 gap-2 pt-1 border-t ${
-                  isDark ? 'border-slate-800/60' : 'border-slate-200'
+                <div className={`grid grid-cols-2 gap-3 pt-2 border-t ${
+                  isDark ? 'border-slate-800/80' : 'border-slate-100'
                 }`}>
                   <div>
-                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    <span className={`text-[10px] uppercase font-bold tracking-wider block ${
+                      isDark ? 'text-slate-500' : 'text-slate-500'
+                    }`}>
                       Student ID
                     </span>
-                    <span className={`font-mono font-bold ${isDark ? 'text-cyan-300' : 'text-slate-900'}`}>
-                      {borrower.studentId || 'N/A'}
+                    <span className={`font-mono font-bold text-xs ${
+                      isDark ? 'text-cyan-400' : 'text-slate-900'
+                    }`}>
+                      {borrower.studentId || '23-XXXX-XXX'}
                     </span>
                   </div>
+
                   <div>
-                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                      Program & Code
+                    <span className={`text-[10px] uppercase font-bold tracking-wider block ${
+                      isDark ? 'text-slate-500' : 'text-slate-500'
+                    }`}>
+                      Academic Program
                     </span>
-                    <span className={`font-mono font-bold truncate block ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
-                      {borrower.program} ({borrower.courseCode || 'N/A'})
+                    <span className={`font-bold truncate block text-xs ${
+                      isDark ? 'text-slate-200' : 'text-slate-900'
+                    }`}>
+                      {borrower.program} {borrower.yearLevel ? `(${borrower.yearLevel}-${borrower.section || '01'})` : ''}
                     </span>
                   </div>
                 </div>
 
-                <div className={`grid grid-cols-2 gap-2 pt-1 border-t ${
-                  isDark ? 'border-slate-800/60' : 'border-slate-200'
+                <div className={`grid grid-cols-2 gap-3 pt-2 border-t ${
+                  isDark ? 'border-slate-800/80' : 'border-slate-100'
                 }`}>
                   <div>
-                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                      Instructor
+                    <span className={`text-[10px] uppercase font-bold tracking-wider block ${
+                      isDark ? 'text-slate-500' : 'text-slate-500'
+                    }`}>
+                      Laboratory Instructor
                     </span>
-                    <span className={`font-medium truncate block ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
-                      {borrower.instructor || 'Lab Custodian'}
+                    <span className={`font-semibold truncate block text-xs ${
+                      isDark ? 'text-slate-200' : 'text-slate-800'
+                    }`}>
+                      {borrower.instructor || 'Faculty In-Charge'}
                     </span>
                   </div>
+
                   <div>
-                    <span className={`text-[10px] uppercase font-semibold block ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                      Schedule
+                    <span className={`text-[10px] uppercase font-bold tracking-wider block ${
+                      isDark ? 'text-slate-500' : 'text-slate-500'
+                    }`}>
+                      Course Code
                     </span>
-                    <span className={`font-mono text-[11px] truncate block ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                      {borrower.labTime || 'Standard'}
+                    <span className={`font-mono font-bold truncate block text-xs ${
+                      isDark ? 'text-slate-200' : 'text-slate-800'
+                    }`}>
+                      {borrower.courseCode || 'LAB-ACT'}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* 2. Purpose of Borrowing Quick-Select Chips */}
-            <div className={`neu-card rounded-2xl p-4 space-y-2.5 ${
-              isDark ? '' : 'bg-white border-slate-200 shadow-sm'
+            {/* 2. Purpose of Borrowing (Clean Professional Dropdown) */}
+            <div className={`rounded-2xl p-4 space-y-2 border ${
+              isDark ? 'bg-[#0f172a] border-slate-800 shadow-sm' : 'bg-white border-slate-200 shadow-sm'
             }`}>
-              <div className={`flex items-center justify-between pb-1.5 border-b ${
-                isDark ? 'border-slate-800/80' : 'border-slate-200'
-              }`}>
-                <span className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
-                  isDark ? 'text-slate-400' : 'text-slate-700'
+              <div className="flex items-center justify-between pb-1.5 border-b border-slate-800/60">
+                <span className={`text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 ${
+                  isDark ? 'text-slate-400' : 'text-slate-600'
                 }`}>
-                  <Briefcase className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
+                  <Briefcase className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                   <span>Purpose of Borrowing</span>
                 </span>
-                <span className={`text-[9.5px] font-mono px-2 py-0.5 rounded font-bold ${
-                  isDark ? 'text-cyan-300 bg-cyan-950/70 border border-cyan-500/30' : 'bg-slate-100 text-slate-800 border border-slate-200'
-                }`}>
-                  Official Record
+                <span className={`text-[10px] font-mono font-semibold ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+                  Official Slip Field
                 </span>
               </div>
 
-              {/* Quick-Select Purpose Chips (Exact UI Spec) */}
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {PURPOSE_OPTIONS.map((opt) => {
-                  const isSelected = (borrower.purpose || PURPOSE_OPTIONS[0]) === opt;
-                  return (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => setBorrowerField('purpose', opt)}
-                      className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer text-left ${
-                        isSelected
-                          ? 'bg-blue-600 text-white shadow-sm ring-1 ring-blue-700 font-bold'
-                          : isDark
-                          ? 'bg-[#0e1626] text-slate-300 border border-slate-800 hover:bg-[#131f35]'
-                          : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
-                      }`}
-                    >
+              <div className="pt-1 space-y-2">
+                <select
+                  value={isCustomPurpose ? 'OTHER' : activePurpose}
+                  onChange={handlePurposeChange}
+                  className={`w-full h-10 px-3 rounded-xl text-xs font-semibold focus:outline-none transition-all cursor-pointer ${
+                    isDark
+                      ? 'bg-[#090d16] border border-slate-700 text-slate-100 focus:border-cyan-500'
+                      : 'bg-slate-50 border border-slate-300 text-slate-900 focus:border-blue-500'
+                  }`}
+                >
+                  {PURPOSE_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
                       {opt}
-                    </button>
-                  );
-                })}
+                    </option>
+                  ))}
+                  <option value="OTHER">Other / Custom Purpose...</option>
+                </select>
+
+                {isCustomPurpose && (
+                  <input
+                    type="text"
+                    value={borrower.purpose || ''}
+                    onChange={(e) => setBorrowerField('purpose', e.target.value)}
+                    placeholder="Specify project or laboratory purpose..."
+                    className={`w-full h-9 px-3 rounded-xl text-xs font-medium focus:outline-none ${
+                      isDark
+                        ? 'bg-[#090d16] border border-cyan-500/60 text-slate-100 placeholder-slate-500'
+                        : 'bg-white border border-blue-500 text-slate-900 placeholder-slate-400'
+                    }`}
+                    autoFocus
+                  />
+                )}
               </div>
             </div>
 
-            {/* 3. Digital Signature Canvas (Exact UI Spec: bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg) */}
-            <div className={`neu-card rounded-2xl p-4 space-y-2.5 ${
-              isDark ? '' : 'bg-white border-slate-200 shadow-sm'
+            {/* 3. Electronic Signature Pad */}
+            <div className={`rounded-2xl p-4 space-y-2.5 border ${
+              isDark ? 'bg-[#0f172a] border-slate-800 shadow-sm' : 'bg-white border-slate-200 shadow-sm'
             }`}>
               <div className={`flex items-center justify-between pb-1.5 border-b ${
-                isDark ? 'border-slate-800/80' : 'border-slate-200'
+                isDark ? 'border-slate-800' : 'border-slate-200'
               }`}>
                 <div className="flex items-center gap-1.5">
-                  <PenTool className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-900'}`} />
-                  <span className={`text-[11px] font-bold uppercase tracking-wider ${
-                    isDark ? 'text-slate-300' : 'text-slate-900'
+                  <PenTool className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+                  <span className={`text-[11px] font-extrabold uppercase tracking-wider ${
+                    isDark ? 'text-slate-300' : 'text-slate-800'
                   }`}>
-                    Student Digital Signature
+                    Student Electronic Signature
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span
-                    className={`text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
-                      hasSignature
-                        ? isDark
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                          : 'bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-semibold'
-                        : isDark
-                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                          : 'bg-amber-50 text-amber-800 border border-amber-200/60 font-semibold'
-                    }`}
-                  >
-                    <span className={`w-1.5 h-1.5 rounded-full ${hasSignature ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
-                    {hasSignature ? 'Signed' : 'Awaiting Sign'}
+                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                    hasSignature
+                      ? isDark
+                        ? 'bg-slate-800 text-cyan-300 border border-slate-700'
+                        : 'bg-slate-100 text-slate-800 border border-slate-300'
+                      : isDark
+                        ? 'bg-slate-800/80 text-slate-400 border border-slate-700'
+                        : 'bg-slate-100 text-slate-500 border border-slate-200'
+                  }`}>
+                    {hasSignature ? 'Signed' : 'Touch to Sign'}
                   </span>
 
                   {hasSignature && (
                     <button
                       type="button"
                       onClick={handleClearSignature}
-                      className={`text-[10px] flex items-center gap-1 px-2 py-0.5 rounded transition-colors active:scale-95 cursor-pointer font-bold ${
-                        isDark ? 'text-slate-400 hover:text-rose-400 neu-btn-raised' : 'text-slate-600 hover:text-rose-600 bg-slate-100 border border-slate-200'
+                      className={`text-[10px] flex items-center gap-1 px-2 py-0.5 rounded transition-all cursor-pointer font-bold ${
+                        isDark
+                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-rose-400'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-rose-600'
                       }`}
                       title="Clear Signature"
                     >
@@ -662,11 +739,11 @@ export default function TransactionCommit() {
                 </div>
               </div>
 
-              {/* Canvas Container (Exact Specification: bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg) */}
-              <div className={`relative w-full overflow-hidden ${
+              {/* Signature Canvas Box */}
+              <div className={`relative w-full overflow-hidden rounded-xl border ${
                 isDark
-                  ? 'rounded-xl neu-inset bg-[#080d18] border border-slate-800'
-                  : 'bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg'
+                  ? 'bg-[#090d16] border-slate-700'
+                  : 'bg-slate-50 border-2 border-dashed border-slate-300'
               }`}>
                 <canvas
                   ref={canvasRef}
@@ -686,18 +763,16 @@ export default function TransactionCommit() {
                     e.preventDefault();
                     stopDrawing();
                   }}
-                  className={`h-32 w-full touch-none cursor-crosshair block ${
-                    isDark ? 'bg-[#080d18]' : 'bg-transparent'
-                  }`}
+                  className="h-28 w-full touch-none cursor-crosshair block"
                   style={{ touchAction: 'none' }}
                 />
 
                 {!hasSignature && (
                   <div className={`absolute inset-0 pointer-events-none flex flex-col items-center justify-center select-none ${
-                    isDark ? 'text-slate-500/60' : 'text-slate-400'
+                    isDark ? 'text-slate-500' : 'text-slate-400'
                   }`}>
-                    <PenTool className={`w-6 h-6 stroke-1 mb-1 ${isDark ? 'text-slate-600' : 'text-slate-400'}`} />
-                    <span className={`text-[11px] font-mono font-medium ${isDark ? 'text-slate-400' : 'text-slate-600 font-semibold'}`}>
+                    <PenTool className="w-5 h-5 stroke-1 mb-1 opacity-70" />
+                    <span className="text-[11px] font-mono font-medium">
                       Sign above with finger or stylus
                     </span>
                   </div>
@@ -705,20 +780,22 @@ export default function TransactionCommit() {
               </div>
             </div>
 
-            {/* Desktop Action Toolbar (hidden md:flex) */}
-            <div className="hidden md:flex flex-col space-y-3 pt-3 border-t border-slate-800/80">
-              <div className="flex items-center justify-between gap-3">
+            {/* Desktop Action Toolbar */}
+            <div className={`hidden md:flex flex-col space-y-2.5 pt-2 ${
+              isDark ? 'border-t border-slate-800' : 'border-t border-slate-200'
+            }`}>
+              <div className="flex items-center justify-between gap-2.5">
                 <TouchButton
                   variant="secondary"
                   size="md"
                   icon={ArrowLeft}
                   onClick={() => setStep(3)}
                   disabled={isTransactionCommitted}
-                  className={`flex-1 text-xs sm:text-sm font-bold ${
+                  className={`flex-1 text-xs font-bold ${
                     isTransactionCommitted ? 'opacity-40 cursor-not-allowed' : ''
                   }`}
                 >
-                  Modify Cart
+                  Modify Equipment
                 </TouchButton>
 
                 <TouchButton
@@ -726,15 +803,15 @@ export default function TransactionCommit() {
                   size="md"
                   icon={RotateCcw}
                   onClick={resetTransaction}
-                  className="flex-1 text-xs sm:text-sm font-bold"
+                  className="flex-1 text-xs font-bold"
                 >
                   New Session
                 </TouchButton>
               </div>
 
               {!safetyAgreement && (
-                <span className="text-[10px] text-amber-300 font-bold text-center animate-pulse">
-                  * Please tap the safety protocol checkbox to enable printing
+                <span className="text-[10.5px] text-amber-400 font-bold text-center block">
+                  * Please acknowledge the safety agreement above to enable slip printing
                 </span>
               )}
 
@@ -744,19 +821,23 @@ export default function TransactionCommit() {
                 icon={Printer}
                 onClick={handleManualPrint}
                 disabled={!safetyAgreement}
-                className={`w-full shadow-lg shadow-cyan-950/50 text-sm font-black py-3.5 ${
-                  !safetyAgreement ? 'opacity-50 cursor-not-allowed' : ''
+                className={`w-full text-sm font-black py-3.5 tracking-wider uppercase transition-all shadow-md ${
+                  !safetyAgreement
+                    ? 'opacity-40 cursor-not-allowed'
+                    : 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer active:scale-[0.99]'
                 }`}
               >
-                {isTransactionCommitted ? 'Reprint Borrower Slip' : 'Print Borrower Slip'}
+                {isTransactionCommitted ? 'Reprint Borrower Slip' : 'Print Official Borrower Slip'}
               </TouchButton>
             </div>
           </div>
         </div>
       </div>
 
-      {/* MOBILE ONLY: Fixed/Docked Bottom Action Toolbar (< md:) */}
-      <div className="md:hidden flex flex-col-reverse gap-2 pt-3 border-t border-slate-800/80 pb-[max(1rem,env(safe-area-inset-bottom,16px))]">
+      {/* MOBILE ONLY: Bottom Fixed Action Bar */}
+      <div className={`md:hidden flex flex-col-reverse gap-2 pt-3 border-t ${
+        isDark ? 'border-slate-800' : 'border-slate-200'
+      } pb-[max(1rem,env(safe-area-inset-bottom,16px))]`}>
         <div className="flex items-center gap-2">
           <TouchButton
             variant="secondary"
@@ -768,7 +849,7 @@ export default function TransactionCommit() {
               isTransactionCommitted ? 'opacity-40 cursor-not-allowed' : ''
             }`}
           >
-            Modify Cart
+            Back to Cart
           </TouchButton>
 
           <TouchButton
@@ -778,13 +859,13 @@ export default function TransactionCommit() {
             onClick={resetTransaction}
             className="flex-1 text-xs font-bold py-2.5"
           >
-            New Session
+            Reset
           </TouchButton>
         </div>
 
         {!safetyAgreement && (
-          <span className="text-[10.5px] text-amber-300 font-bold text-center animate-pulse py-0.5">
-            * Tap safety protocol checkbox above to print
+          <span className="text-[10px] text-amber-400 font-bold text-center block">
+            * Check safety protocol agreement to print slip
           </span>
         )}
 
@@ -794,11 +875,13 @@ export default function TransactionCommit() {
           icon={Printer}
           onClick={handleManualPrint}
           disabled={!safetyAgreement}
-          className={`w-full shadow-lg shadow-cyan-950/50 text-sm font-black py-3 ${
-            !safetyAgreement ? 'opacity-50 cursor-not-allowed' : ''
+          className={`w-full text-sm font-black py-3 uppercase tracking-wider ${
+            !safetyAgreement
+              ? 'opacity-40 cursor-not-allowed'
+              : 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer'
           }`}
         >
-          {isTransactionCommitted ? 'Reprint Borrower Slip' : 'Print Borrower Slip'}
+          {isTransactionCommitted ? 'Reprint Borrower Slip' : 'Print Official Borrower Slip'}
         </TouchButton>
       </div>
     </div>

@@ -46,7 +46,7 @@ export default function StepIndicator() {
                 isActive
                   ? 'bg-gradient-to-r from-cyan-950/90 to-[#0e1b2f] border-cyan-400 shadow-[0_0_16px_rgba(6,182,212,0.35)]'
                   : isCompleted
-                  ? 'bg-[#0f192b] border-emerald-500/40 cursor-pointer hover:border-emerald-400 text-slate-200'
+                  ? 'bg-[#0f192b] border-cyan-500/40 cursor-pointer hover:border-cyan-400 text-slate-200'
                   : 'bg-[#090f1a] border-slate-800/80 opacity-60 text-slate-500'
               }`}
             >
@@ -56,7 +56,7 @@ export default function StepIndicator() {
                     isActive
                       ? 'bg-cyan-500 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.8)]'
                       : isCompleted
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'
+                      ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/40'
                       : 'bg-slate-800 text-slate-400'
                   }`}
                 >
