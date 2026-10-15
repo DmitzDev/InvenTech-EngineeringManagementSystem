@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   ShieldAlert,
   CheckCircle2,
+  X,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
@@ -77,9 +78,11 @@ export default function BorrowerForm() {
   const handleProgramChange = (val) => {
     if (val === 'OTHERS') {
       setIsOtherProgram(true);
-      setBorrowerField('program', customProgram || 'OTHERS');
+      setCustomProgram('');
+      setBorrowerField('program', '');
     } else {
       setIsOtherProgram(false);
+      setCustomProgram('');
       setBorrowerField('program', val);
     }
   };
@@ -87,7 +90,7 @@ export default function BorrowerForm() {
   const handleCustomProgramChange = (val) => {
     const cleanVal = val.toUpperCase();
     setCustomProgram(cleanVal);
-    setBorrowerField('program', cleanVal || 'OTHERS');
+    setBorrowerField('program', cleanVal);
   };
 
   // Handler for Year Level dropdown
@@ -330,52 +333,81 @@ export default function BorrowerForm() {
 
           {/* Academic Information: Clean 2x2 Uniform Dropdown Selectors */}
           <div className="grid grid-cols-2 gap-2 sm:gap-3 items-start">
-            {/* 1. Academic Program */}
+            {/* 1. Academic Program (In-place transformation when 'Others' is selected) */}
             <div>
-              <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
-                isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
-              }`}>
-                Program
-              </label>
-              <select
-                value={isOtherProgram ? 'OTHERS' : borrower.program}
-                onChange={(e) => handleProgramChange(e.target.value)}
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm cursor-pointer transition-all ${
-                  isDark
-                    ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
-                    : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                } ${!borrower.program ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')} ${
-                  errors.program ? 'ring-2 ring-rose-500' : ''
-                }`}
-              >
-                <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Program</option>
-                {ENGINEERING_PROGRAMS.map((prog) => (
-                  <option key={prog} value={prog} className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>
-                    {prog}
-                  </option>
-                ))}
-                <option value="OTHERS" className={isDark ? 'bg-[#0e1422] text-amber-300 font-bold' : 'bg-white text-amber-800 font-bold'}>
-                  Others
-                </option>
-              </select>
+              <div className="flex items-center justify-between mb-1">
+                <label className={`block text-[10.5px] sm:text-sm font-medium ${
+                  isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
+                }`}>
+                  Program
+                </label>
+                {isOtherProgram && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOtherProgram(false);
+                      setCustomProgram('');
+                      setBorrowerField('program', '');
+                    }}
+                    className={`text-[9.5px] sm:text-[10px] font-mono font-bold transition-colors cursor-pointer ${
+                      isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700'
+                    }`}
+                  >
+                    Select from list
+                  </button>
+                )}
+              </div>
 
-              {/* Custom Program Input directly under the Program dropdown */}
-              {isOtherProgram && (
-                <div className="mt-1.5 animate-fade-in">
+              {!isOtherProgram ? (
+                <select
+                  value={borrower.program}
+                  onChange={(e) => handleProgramChange(e.target.value)}
+                  className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm cursor-pointer transition-all ${
+                    isDark
+                      ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
+                      : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                  } ${!borrower.program ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')} ${
+                    errors.program ? 'ring-2 ring-rose-500' : ''
+                  }`}
+                >
+                  <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Program</option>
+                  {ENGINEERING_PROGRAMS.map((prog) => (
+                    <option key={prog} value={prog} className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>
+                      {prog}
+                    </option>
+                  ))}
+                  <option value="OTHERS" className={isDark ? 'bg-[#0e1422] text-amber-300 font-bold' : 'bg-white text-amber-800 font-bold'}>
+                    Others
+                  </option>
+                </select>
+              ) : (
+                <div className="relative w-full">
                   <input
                     type="text"
                     value={customProgram}
                     onChange={(e) => handleCustomProgramChange(e.target.value)}
-                    placeholder="Type course..."
+                    placeholder="Type program (e.g. BSIT)..."
                     autoComplete="off"
                     spellCheck={false}
-                    className={`w-full h-8 sm:h-11 px-2.5 sm:px-3.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all uppercase ${
-                      isDark
-                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-amber-500/40 placeholder:text-slate-600/70 focus:ring-1 focus:ring-cyan-500'
-                        : 'bg-white border border-amber-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                    }`}
                     autoFocus
+                    className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] pl-3 pr-8 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm transition-all uppercase ${
+                      isDark
+                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border border-cyan-500/50 placeholder:text-slate-600 focus:ring-1 focus:ring-cyan-500'
+                        : 'bg-white border border-blue-400 text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                    } ${errors.program ? 'ring-2 ring-rose-500' : ''}`}
                   />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOtherProgram(false);
+                      setCustomProgram('');
+                      setBorrowerField('program', '');
+                    }}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-400 transition-colors p-1 cursor-pointer"
+                    title="Back to list"
+                  >
+                    <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  </button>
                 </div>
               )}
 
