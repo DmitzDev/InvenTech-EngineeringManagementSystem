@@ -103,8 +103,8 @@ export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
         {/* Header */}
         <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-              <Terminal className="w-5 h-5 text-emerald-400" />
+            <div className="w-10 h-10 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+              <Terminal className="w-5 h-5 text-cyan-400" />
             </div>
             <div>
               <h3 className="text-sm sm:text-base font-black font-mono tracking-wider text-white flex items-center gap-2">
@@ -151,7 +151,7 @@ export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
                   onChange={(e) => setPinInput(e.target.value)}
                   placeholder="••••••"
                   autoFocus
-                  className="w-full h-12 px-4 text-center tracking-[0.3em] font-mono text-base rounded-xl bg-[#090d16] border border-slate-700 text-cyan-300 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-12 px-4 text-center tracking-[0.3em] font-mono text-base rounded-xl bg-[#090d16] border border-slate-700 text-cyan-300 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
                 {pinError && (
                   <p className="text-xs text-rose-400 mt-1 flex items-center gap-1 font-mono">
@@ -185,8 +185,8 @@ export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
           /* 2. AUTHENTICATED API KEY CONFIGURATION */
           <form onSubmit={handleTestAndSave} className="flex-1 flex flex-col min-h-0">
             <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
-              <div className="p-3 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 text-xs space-y-1 text-slate-300">
-                <div className="flex items-center gap-1.5 font-bold text-emerald-400 font-mono">
+              <div className="p-3 rounded-2xl bg-cyan-950/30 border border-cyan-500/40 text-xs space-y-1 text-slate-300">
+                <div className="flex items-center gap-1.5 font-bold text-cyan-400 font-mono">
                   <CheckCircle className="w-4 h-4" />
                   <span>[SECURITY STATUS: AUTHENTICATED]</span>
                 </div>
@@ -215,7 +215,7 @@ export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
                   value={apiKeyInput}
                   onChange={(e) => setApiKeyInput(e.target.value)}
                   placeholder={hasExistingKey ? '•••••••••••••••••••••••• (Active)' : 'AIzaSy...'}
-                  className="w-full h-11 px-3 font-mono text-xs rounded-xl bg-[#080d16] border border-slate-700 text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full h-11 px-3 font-mono text-xs rounded-xl bg-[#080d16] border border-slate-700 text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
 
@@ -226,7 +226,7 @@ export default function CpexSettingsModal({ isOpen, onClose, onKeySaved }) {
                     status.state === 'testing'
                       ? 'bg-cyan-950/40 border-cyan-500/40 text-cyan-300'
                       : status.state === 'success'
-                      ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
+                      ? 'bg-cyan-950/40 border-cyan-500/40 text-cyan-300'
                       : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
                   }`}
                 >

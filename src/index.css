@@ -713,7 +713,7 @@
 }
 
 /* =========================================================
-   3. OCEAN BREEZE NEOMORPHISM (KAIRO AI CHATBOT PALETTE)
+   3. OCEAN BREEZE NEOMORPHISM (CPEX COPILOT CHATBOT PALETTE)
    Palette:
    - #dff7ff (Ice Frost Light)
    - #7fcdff (Sky Breeze Cyan-Blue)
@@ -722,129 +722,129 @@
    ========================================================= */
 
 /* Dark Mode Ocean Breeze Chatbot Styles */
-[data-theme="dark"] .kairo-chat-shell {
+[data-theme="dark"] .cpex-chat-shell {
   background: linear-gradient(165deg, #091322 0%, #0d1b30 50%, #07101c 100%);
   box-shadow: 10px 10px 30px #03070e, -10px -10px 30px #13243f, 0 0 35px rgba(127, 220, 255, 0.15);
   border: 1px solid rgba(127, 220, 255, 0.35);
 }
 
-[data-theme="dark"] .kairo-header {
+[data-theme="dark"] .cpex-header {
   background: linear-gradient(180deg, #0e1d35 0%, #0a1628 100%);
   border-bottom: 1px solid rgba(127, 220, 255, 0.25);
   box-shadow: inset 0 1px 0 rgba(223, 247, 255, 0.15);
 }
 
-[data-theme="dark"] .kairo-trigger {
+[data-theme="dark"] .cpex-trigger {
   background: linear-gradient(135deg, #091424 0%, #0e1e36 100%);
   box-shadow: 6px 6px 16px #03070e, -6px -6px 16px #132542, 0 0 20px rgba(127, 220, 255, 0.4);
   border: 1.5px solid rgba(127, 220, 255, 0.7);
 }
 
-[data-theme="dark"] .kairo-trigger:hover {
+[data-theme="dark"] .cpex-trigger:hover {
   box-shadow: 8px 8px 22px #02050b, -8px -8px 22px #182d50, 0 0 30px rgba(127, 220, 255, 0.65);
   border-color: #7fdcff;
 }
 
-[data-theme="dark"] .kairo-bubble-bot {
+[data-theme="dark"] .cpex-bubble-bot {
   background: linear-gradient(145deg, #0c182c 0%, #081222 100%);
   box-shadow: inset 2px 2px 5px rgba(127, 220, 255, 0.08), inset -2px -2px 5px rgba(0, 0, 0, 0.6), 4px 4px 10px #040810;
   border: 1px solid rgba(127, 220, 255, 0.22);
   color: #e2f1f8;
 }
 
-[data-theme="dark"] .kairo-bubble-user {
+[data-theme="dark"] .cpex-bubble-user {
   background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
   box-shadow: 3px 3px 8px #040810, inset 0 1px 0 rgba(223, 247, 255, 0.4), 0 0 14px rgba(127, 205, 255, 0.3);
   border: 1px solid rgba(127, 220, 255, 0.4);
   color: #ffffff;
 }
 
-[data-theme="dark"] .kairo-chip-btn {
+[data-theme="dark"] .cpex-chip-btn {
   background: #0a1628;
   box-shadow: 2px 2px 6px #040810, -2px -2px 6px #10213b;
   border: 1px solid rgba(127, 220, 255, 0.2);
   color: #dff7ff;
 }
 
-[data-theme="dark"] .kairo-chip-btn:hover {
+[data-theme="dark"] .cpex-chip-btn:hover {
   background: #0f223f;
   border-color: #7fdcff;
   color: #ffffff;
   box-shadow: 0 0 12px rgba(127, 220, 255, 0.35);
 }
 
-[data-theme="dark"] .kairo-ocean-btn-primary {
+[data-theme="dark"] .cpex-ocean-btn-primary {
   background: linear-gradient(135deg, #7fdcff 0%, #7fcdff 50%, #38bdf8 100%);
   box-shadow: 0 4px 14px rgba(127, 220, 255, 0.4), inset 0 1px 1px #ffffff;
   color: #05192d;
   font-weight: 800;
 }
 
-[data-theme="dark"] .kairo-ocean-btn-primary:hover {
+[data-theme="dark"] .cpex-ocean-btn-primary:hover {
   background: linear-gradient(135deg, #dff7ff 0%, #7fdcff 60%, #7fcdff 100%);
   box-shadow: 0 6px 20px rgba(127, 220, 255, 0.6), inset 0 1px 1px #ffffff;
 }
 
 /* Light Mode Skeuomorphic Ocean Breeze Chatbot Styles */
-[data-theme="light"] .kairo-chat-shell {
+[data-theme="light"] .cpex-chat-shell {
   background: linear-gradient(165deg, #ffffff 0%, #f0f9ff 60%, #e0f2fe 100%);
   box-shadow: 8px 8px 24px rgba(148, 185, 211, 0.6), -8px -8px 24px #ffffff, 0 0 25px rgba(56, 189, 248, 0.2);
   border: 1.5px solid #bae6fd;
 }
 
-[data-theme="light"] .kairo-header {
+[data-theme="light"] .cpex-header {
   background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
   border-bottom: 1.5px solid #bae6fd;
   box-shadow: inset 0 1px 0 #ffffff;
 }
 
-[data-theme="light"] .kairo-trigger {
+[data-theme="light"] .cpex-trigger {
   background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 60%, #e0f2fe 100%);
   box-shadow: 5px 5px 14px rgba(148, 185, 211, 0.6), -5px -5px 14px #ffffff, 0 0 16px rgba(56, 189, 248, 0.3);
   border: 1.5px solid #7fdcff;
 }
 
-[data-theme="light"] .kairo-trigger:hover {
+[data-theme="light"] .cpex-trigger:hover {
   box-shadow: 7px 7px 18px rgba(125, 172, 205, 0.7), -7px -7px 18px #ffffff, 0 0 24px rgba(56, 189, 248, 0.5);
   border-color: #0284c7;
 }
 
-[data-theme="light"] .kairo-bubble-bot {
+[data-theme="light"] .cpex-bubble-bot {
   background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
   box-shadow: 2px 2px 8px rgba(160, 190, 215, 0.35), inset 1px 1px 0 #ffffff;
   border: 1px solid #cbd5e1;
   color: #0f172a;
 }
 
-[data-theme="light"] .kairo-bubble-user {
+[data-theme="light"] .cpex-bubble-user {
   background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
   box-shadow: 2px 3px 8px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   border: 1px solid #0284c7;
   color: #ffffff !important;
 }
 
-[data-theme="light"] .kairo-chip-btn {
+[data-theme="light"] .cpex-chip-btn {
   background: #ffffff;
   box-shadow: 2px 2px 6px rgba(160, 190, 215, 0.4), -2px -2px 6px #ffffff;
   border: 1px solid #bae6fd;
   color: #0369a1;
 }
 
-[data-theme="light"] .kairo-chip-btn:hover {
+[data-theme="light"] .cpex-chip-btn:hover {
   background: #e0f2fe;
   border-color: #0284c7;
   color: #0284c7;
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
 }
 
-[data-theme="light"] .kairo-ocean-btn-primary {
+[data-theme="light"] .cpex-ocean-btn-primary {
   background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
   box-shadow: 0 4px 10px rgba(2, 132, 199, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
   color: #ffffff;
   font-weight: 700;
 }
 
-[data-theme="light"] .kairo-ocean-btn-primary:hover {
+[data-theme="light"] .cpex-ocean-btn-primary:hover {
   background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
   box-shadow: 0 6px 14px rgba(2, 132, 199, 0.5);
 }

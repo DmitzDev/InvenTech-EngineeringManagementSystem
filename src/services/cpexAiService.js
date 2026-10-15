@@ -15,7 +15,6 @@ export function getStoredApiKey() {
   try {
     const key =
       localStorage.getItem(API_KEY_STORAGE_KEY) ||
-      localStorage.getItem('kairo_gemini_api_key') ||
       import.meta.env.VITE_GEMINI_API_KEY ||
       '';
     return key.trim();
@@ -28,12 +27,9 @@ export function saveApiKey(key) {
   try {
     if (key && key.trim()) {
       localStorage.setItem(API_KEY_STORAGE_KEY, key.trim());
-      localStorage.setItem('kairo_gemini_api_key', key.trim());
     } else {
       localStorage.removeItem(API_KEY_STORAGE_KEY);
-      localStorage.removeItem('kairo_gemini_api_key');
       localStorage.removeItem('cpex_active_model');
-      localStorage.removeItem('kairo_active_model');
     }
   } catch (e) {
     console.error('[CPEX.SYS] Error saving API key to localStorage', e);
@@ -335,7 +331,7 @@ export async function askCpexAi(userMessage, selectedLab, chatHistory = []) {
 
   contents.push({ role: 'user', parts: [{ text: userMessage }] });
 
-  const savedModel = localStorage.getItem('cpex_active_model') || localStorage.getItem('kairo_active_model');
+  const savedModel = localStorage.getItem('cpex_active_model');
   const modelsToTry = savedModel
     ? [savedModel, ...CANDIDATE_MODELS.filter((m) => m !== savedModel)]
     : CANDIDATE_MODELS;
