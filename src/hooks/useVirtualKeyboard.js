@@ -342,6 +342,9 @@ export function useVirtualKeyboard() {
       if (ignoredTypes.includes(type)) return;
 
       if (target.readOnly || target.disabled || target.getAttribute('data-no-osk') === 'true') {
+        if (target.getAttribute('data-no-osk') === 'true') {
+          closeKeyboard();
+        }
         return;
       }
 
@@ -352,16 +355,22 @@ export function useVirtualKeyboard() {
       setIsOpen(true);
     };
 
+    const handleDismissOsk = () => {
+      closeKeyboard();
+    };
+
     document.addEventListener('focusin', handleInputActivation);
     document.addEventListener('pointerdown', handleInputActivation);
     document.addEventListener('click', handleInputActivation);
+    window.addEventListener('kiosk-dismiss-osk', handleDismissOsk);
 
     return () => {
       document.removeEventListener('focusin', handleInputActivation);
       document.removeEventListener('pointerdown', handleInputActivation);
       document.removeEventListener('click', handleInputActivation);
+      window.removeEventListener('kiosk-dismiss-osk', handleDismissOsk);
     };
-  }, []);
+  }, [closeKeyboard]);
 
   // Click-outside trigger to close virtual keyboard
   useEffect(() => {

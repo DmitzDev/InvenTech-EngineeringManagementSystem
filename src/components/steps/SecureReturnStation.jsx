@@ -89,6 +89,9 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
   // Auto-focus on desktop / kiosk displays only (avoids mobile viewport jump)
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('kiosk-dismiss-osk'));
+    }
     if (!lookupAttempted && typeof window !== 'undefined' && window.innerWidth >= 768) {
       inputRef.current?.focus();
     }
@@ -432,6 +435,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       autoComplete="off"
                       spellCheck={false}
                       value={enteredId}
+                      data-no-osk="true"
                       onChange={(e) => {
                         const formatted = handleStudentIdChange(e.target.value, enteredId);
                         setEnteredId(formatted);
