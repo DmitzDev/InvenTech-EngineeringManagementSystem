@@ -139,15 +139,6 @@ export default function Header() {
               <p className="text-xs sm:text-sm text-slate-400 font-medium truncate">
                 School of Engineering
               </p>
-              <button
-                type="button"
-                onClick={handleEmblemTap}
-                className="hidden lg:inline-flex font-mono text-[9px] font-bold px-1.5 py-0.2 rounded border border-slate-700/80 bg-slate-900/60 dark:bg-slate-800 text-slate-400 dark:text-slate-300 hover:text-cyan-400 active:scale-95 transition-all cursor-pointer shrink-0 select-none shadow-2xs"
-                title="System Module Indicator (Tap 3x for Custodian Override)"
-                aria-label="System Module Indicator"
-              >
-                [SYS.MOD // 01]
-              </button>
             </div>
           </div>
         </div>
