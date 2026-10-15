@@ -22,14 +22,15 @@ import { useTransaction } from '../../context/TransactionContext';
 import { askCpexAi, getStoredApiKey } from '../../services/cpexAiService';
 import { getInventory } from '../../data/equipmentData';
 import CpexSettingsModal from '../steps/CpexSettingsModal';
-import { STANDARD_TIME_SLOTS } from '../../data/facultyData';
+import { STANDARD_TIME_SLOTS, FACULTY_MEMBERS } from '../../data/facultyData';
+import { handleStudentIdChange, isValidStudentId } from '../../utils/studentIdFormatter';
 
 // Quick-Action Command Presets for CPEX
 const QUICK_ACTION_COMMANDS = [
   { label: '📦 Check Tool Availability', prompt: 'Check tool availability in the laboratory inventory' },
+  { label: '📅 Reserve Lab Equipment', prompt: 'Gusto ko magpa-reserve ng equipment para sa laboratory' },
   { label: '⚡ How to Return Equipment', prompt: 'How to return equipment and obtain laboratory clearance' },
   { label: '⚠️ Report Damaged Hardware', prompt: 'Report damaged hardware and safety protocols' },
-  { label: '🎓 Laboratory Clearance Guide', prompt: 'Laboratory clearance guide and student restrictions' },
 ];
 
 // Rich Markdown Text Formatter for CPEX Terminal
@@ -160,7 +161,7 @@ function parseFormattedSpans(text, isDark) {
   return parts.length > 0 ? parts : text;
 }
 
-// In-Chat Interactive Reservation Form Component
+// In-Chat Interactive Reservation Form Component (Accurately Synced to Borrower Form Workflow)
 function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) {
   const { borrower, addReservation, checkReservationConflict, showToast } = useTransaction();
   const inventory = getInventory();
@@ -171,33 +172,79 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
     return d.toISOString().split('T')[0];
   };
 
+  const todayStr = new Date().toISOString().split('T')[0];
+
+  // 1. Hardware & Schedule Selection
   const [selectedItemId, setSelectedItemId] = useState(initialItem?.id || (inventory[0]?.id || 'ce-001'));
-  const [reserveDate, setReserveDate] = useState(getTomorrowDate());
-  const [timeSlot, setTimeSlot] = useState(STANDARD_TIME_SLOTS[1]);
   const [qty, setQty] = useState(1);
+  const [reserveDate, setReserveDate] = useState(getTomorrowDate());
+  const [timeSlot, setTimeSlot] = useState(STANDARD_TIME_SLOTS[0]);
+  const [purpose, setPurpose] = useState(borrower.purpose || 'Laboratory Class Experiment');
+
+  // 2. Student & Academic Information (Identical to BorrowerForm.jsx)
+  const [studentId, setStudentId] = useState(borrower.studentId || '');
   const [studentName, setStudentName] = useState(borrower.groupLeader || '');
   const [program, setProgram] = useState(borrower.program || 'BSCPE');
+  const [isOtherProgram, setIsOtherProgram] = useState(
+    Boolean(borrower.program && !['BSCPE', 'BSCE', 'BSCEE', 'BSECE'].includes(borrower.program.toUpperCase()))
+  );
+  const [customProgram, setCustomProgram] = useState(
+    borrower.program && !['BSCPE', 'BSCE', 'BSCEE', 'BSECE'].includes(borrower.program.toUpperCase())
+      ? borrower.program
+      : ''
+  );
+  const [yearLevel, setYearLevel] = useState('3');
+  const [semester, setSemester] = useState('1');
+  const [section, setSection] = useState('01');
   const [courseCode, setCourseCode] = useState(borrower.courseCode || 'CPEC311');
-  const groupNo = borrower.groupNo || '1';
+  const [groupNo, setGroupNo] = useState(borrower.groupNo || '1');
   const [instructor, setInstructor] = useState(borrower.instructor || 'Engr. Jin Benir Macaranas');
+
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submittedRef, setSubmittedRef] = useState('');
+  const [submittedData, setSubmittedData] = useState(null);
 
   const currentItem = inventory.find((i) => i.id === selectedItemId) || inventory[0] || {};
   const conflictInfo = checkReservationConflict(currentItem.id, reserveDate, timeSlot, qty, currentItem.stock || 10);
 
+  const handleProgramChange = (val) => {
+    if (val === 'OTHERS') {
+      setIsOtherProgram(true);
+      setCustomProgram('');
+      setProgram('');
+    } else {
+      setIsOtherProgram(false);
+      setCustomProgram('');
+      setProgram(val);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!studentName.trim()) {
-      showToast('Please enter Reserving Student Name', 'error');
+
+    const cleanId = studentId.replace(/\D/g, '');
+    if (cleanId.length !== 9) {
+      showToast('Student ID must be exactly 9 digits (e.g. 23-1374-693)', 'error');
       return;
     }
+
+    if (!studentName.trim()) {
+      showToast('Please enter Reserving Student / Group Leader Name', 'error');
+      return;
+    }
+
+    const effectiveProgram = isOtherProgram ? customProgram.trim() : program.trim();
+    if (!effectiveProgram) {
+      showToast('Please specify Academic Program', 'error');
+      return;
+    }
+
+    if (!courseCode.trim()) {
+      showToast('Please enter Course Code / Subject', 'error');
+      return;
+    }
+
     if (!instructor.trim()) {
       showToast('Please enter Laboratory Instructor / Professor name', 'error');
-      return;
-    }
-    if (!timeSlot.trim()) {
-      showToast('Please provide a Laboratory Time Schedule', 'error');
       return;
     }
 
@@ -212,15 +259,22 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
       itemId: currentItem.id,
       tagCode: currentItem.tagCode,
       name: currentItem.name,
+      category: currentItem.category,
+      lab: currentItem.lab,
       unit: currentItem.unit || 'pc',
+      qty,
+      studentId: studentId.trim(),
+      studentName: studentName.trim().toUpperCase(),
+      program: effectiveProgram.toUpperCase(),
+      yearLevel: `${yearLevel}${yearLevel === '1' ? 'st' : yearLevel === '2' ? 'nd' : yearLevel === '3' ? 'rd' : 'th'} Year`,
+      semester: semester === '1' ? '1st Sem' : semester === '2' ? '2nd Sem' : 'Summer',
+      section: section || '01',
+      courseCode: courseCode.trim().toUpperCase(),
+      groupNo: String(groupNo || '1'),
+      instructor: instructor.trim(),
+      purpose: purpose.trim(),
       reserveDate,
       timeSlot: timeSlot.trim(),
-      qty,
-      studentName: studentName.trim(),
-      program: program.trim().toUpperCase(),
-      courseCode: courseCode.trim().toUpperCase(),
-      groupNo: String(groupNo),
-      instructor: instructor.trim(),
       status: 'PENDING',
       createdAt: new Date().toLocaleString('en-US', {
         month: 'short',
@@ -232,72 +286,113 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
     };
 
     addReservation(newReservation);
+    setSubmittedData(newReservation);
     setIsSubmitted(true);
-    setSubmittedRef(newReservation.id);
     if (onReservationSubmitted) onReservationSubmitted(newReservation);
+    showToast(`Advance Reservation ${newReservation.id} queued successfully!`, 'success');
   };
 
-  if (isSubmitted) {
+  if (isSubmitted && submittedData) {
     return (
-      <div className={`mt-2 p-3 rounded-xl border space-y-2 text-center animate-fade-in font-mono ${
+      <div className={`mt-2 p-3 sm:p-4 rounded-xl border space-y-3 text-center animate-fade-in font-mono ${
         isDark ? 'bg-[#030914] border-cyan-500/50 text-slate-100' : 'bg-sky-50 border-sky-300 text-sky-950'
       }`}>
-        <div className="flex items-center justify-center gap-1.5 text-cyan-400 font-bold text-xs">
+        <div className="flex items-center justify-center gap-1.5 text-cyan-400 font-bold text-xs sm:text-sm">
           <Check className="w-4 h-4 stroke-[3]" />
           <span>[CPEX.SYS // ADVANCE RESERVATION QUEUED]</span>
         </div>
+
         <p className="text-[11px] text-slate-300">
-          Ref ID: <strong className="font-mono text-cyan-300">{submittedRef}</strong>
+          Ref ID: <strong className="font-mono text-cyan-300 font-bold text-xs">{submittedData.id}</strong>
         </p>
-        <div className="p-2.5 rounded-lg bg-[#071324] border border-slate-800 text-[10.5px] text-left space-y-1">
-          <div><span className="text-slate-400">Unit:</span> <strong className="text-white">{currentItem.name} ({qty} {currentItem.unit}s)</strong></div>
-          <div><span className="text-slate-400">Slot:</span> <strong className="text-cyan-300">{reserveDate} • {timeSlot}</strong></div>
-          <div><span className="text-slate-400">Student:</span> <strong className="text-white">{studentName} ({program})</strong></div>
-          <div><span className="text-slate-400">Faculty:</span> <strong className="text-white">{instructor}</strong></div>
+
+        <div className="p-3 rounded-xl bg-[#071324] border border-slate-800 text-[11px] text-left space-y-1.5 leading-relaxed">
+          <div><span className="text-slate-400">Apparatus:</span> <strong className="text-white">{submittedData.name} ({submittedData.qty} {submittedData.unit}s)</strong></div>
+          <div><span className="text-slate-400">Tag Code:</span> <strong className="text-cyan-300 font-mono">[{submittedData.tagCode}]</strong></div>
+          <div><span className="text-slate-400">Target Schedule:</span> <strong className="text-cyan-300">{submittedData.reserveDate} • {submittedData.timeSlot}</strong></div>
+          <div><span className="text-slate-400">Student Borrower:</span> <strong className="text-white">{submittedData.studentName} ({submittedData.studentId})</strong></div>
+          <div><span className="text-slate-400">Classification:</span> <strong className="text-slate-200">{submittedData.program} - {submittedData.yearLevel} (Sec {submittedData.section})</strong></div>
+          <div><span className="text-slate-400">Subject & Group:</span> <strong className="text-slate-200">{submittedData.courseCode} • Group #{submittedData.groupNo}</strong></div>
+          <div><span className="text-slate-400">Laboratory Faculty:</span> <strong className="text-white">{submittedData.instructor}</strong></div>
+          <div><span className="text-slate-400">Purpose:</span> <strong className="text-slate-200">{submittedData.purpose}</strong></div>
         </div>
-        <p className="text-[9.5px] text-amber-300 font-bold">
-          ⚡ Synced to Custodian Counter terminal for clearance staging.
-        </p>
+
+        <div className="flex items-center justify-between text-[10px] text-amber-300 font-bold px-1">
+          <span>⚡ Synced to Custodian Counter Terminal</span>
+          <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">PENDING REVIEW</span>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setIsSubmitted(false);
+            setSubmittedData(null);
+          }}
+          className="w-full h-8 rounded-lg font-mono font-bold text-[10.5px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all cursor-pointer uppercase"
+        >
+          + Queue Another Apparatus Reservation
+        </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`mt-2 p-3 rounded-xl border space-y-2 text-xs font-mono ${
+    <form onSubmit={handleSubmit} className={`mt-2 p-3 sm:p-3.5 rounded-2xl border space-y-2.5 text-xs font-mono ${
       isDark ? 'bg-[#070e1b] border-slate-800 text-slate-200' : 'bg-slate-50 border-slate-300 text-slate-800'
     }`}>
-      <div className="flex items-center justify-between border-b border-slate-700/60 pb-1.5">
-        <span className={`font-black text-[11px] flex items-center gap-1.5 ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
+      {/* Form Header */}
+      <div className="flex items-center justify-between border-b border-slate-700/60 pb-2">
+        <span className={`font-black text-xs flex items-center gap-1.5 ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
           <Calendar className="w-3.5 h-3.5" />
-          <span>[CPEX.SYS // QUEUE RESERVATION]</span>
+          <span>[CPEX // ADVANCE APPARATUS RESERVATION]</span>
         </span>
-        <span className="text-[8.5px] font-mono font-bold bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/30">
-          TELEMETRY QUEUE
+        <span className="text-[9px] font-mono font-bold bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
+          BORROW FORMAT
         </span>
       </div>
 
-      <div>
-        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Select Hardware Apparatus *</label>
-        <select
-          value={selectedItemId}
-          onChange={(e) => setSelectedItemId(e.target.value)}
-          className={`w-full h-8 px-2 rounded-lg text-xs font-semibold focus:outline-none ${
-            isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-          }`}
-        >
-          {inventory.map((item) => (
-            <option key={item.id} value={item.id} className={isDark ? 'bg-[#0c1527] text-white' : 'bg-white text-black'}>
-              [{item.tagCode}] {item.name} ({item.stock} {item.unit}s)
-            </option>
-          ))}
-        </select>
+      {/* 1. Apparatus & Qty Selection */}
+      <div className="space-y-1">
+        <label className="block text-[9.5px] font-bold text-slate-400 uppercase">Select Hardware Apparatus *</label>
+        <div className="grid grid-cols-4 gap-1.5">
+          <div className="col-span-3">
+            <select
+              value={selectedItemId}
+              onChange={(e) => setSelectedItemId(e.target.value)}
+              className={`w-full h-8 px-2 rounded-lg text-xs font-semibold focus:outline-none ${
+                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+              }`}
+            >
+              {inventory.map((item) => (
+                <option key={item.id} value={item.id} className={isDark ? 'bg-[#0c1527] text-white' : 'bg-white text-black'}>
+                  [{item.tagCode}] {item.name} ({item.stock} {item.unit}s)
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <input
+              type="number"
+              min={1}
+              max={currentItem.stock || 5}
+              value={qty}
+              onChange={(e) => setQty(Math.max(1, Math.min(currentItem.stock || 5, parseInt(e.target.value) || 1)))}
+              title="Quantity to Reserve"
+              className={`w-full h-8 px-2 text-center rounded-lg text-xs font-mono font-bold ${
+                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+              }`}
+            />
+          </div>
+        </div>
       </div>
 
+      {/* 2. Schedule: Date & Timeslot */}
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Date *</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Target Reservation Date *</label>
           <input
             type="date"
+            min={todayStr}
             value={reserveDate}
             onChange={(e) => setReserveDate(e.target.value)}
             className={`w-full h-8 px-2 rounded-lg text-xs font-mono font-bold ${
@@ -307,7 +402,7 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
         </div>
 
         <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Timeslot *</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Laboratory Timeslot *</label>
           <select
             value={timeSlot}
             onChange={(e) => setTimeSlot(e.target.value)}
@@ -324,43 +419,172 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      {/* 3. Student Identification (Student ID + Full Name) */}
+      <div className="grid grid-cols-5 gap-2">
         <div className="col-span-2">
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Student Name *</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Student ID *</label>
+          <input
+            type="text"
+            maxLength={11}
+            value={studentId}
+            onChange={(e) => setStudentId(handleStudentIdChange(e.target.value, studentId))}
+            placeholder="23-1374-693"
+            className={`w-full h-8 px-2 rounded-lg text-xs font-mono font-bold tracking-wider ${
+              isDark ? 'bg-[#0c1527] border border-slate-700 text-cyan-300 placeholder-slate-600' : 'bg-white border border-slate-300 text-slate-900 placeholder-slate-400'
+            }`}
+          />
+        </div>
+
+        <div className="col-span-3">
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Reserving Student Name *</label>
           <input
             type="text"
             value={studentName}
             onChange={(e) => setStudentName(e.target.value.toUpperCase())}
-            placeholder="JASON CAYABYAB"
+            placeholder="JUAN DELA CRUZ"
             className={`w-full h-8 px-2 rounded-lg text-xs uppercase font-bold ${
+              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 placeholder-slate-600' : 'bg-white border border-slate-300 text-slate-900 placeholder-slate-400'
+            }`}
+          />
+        </div>
+      </div>
+
+      {/* 4. Academic Program & Classification (Matches BorrowerForm with in-place OTHERS) */}
+      <div className="grid grid-cols-4 gap-1.5">
+        <div className="col-span-2">
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Academic Program *</label>
+          {isOtherProgram ? (
+            <input
+              type="text"
+              autoFocus
+              value={customProgram}
+              onChange={(e) => setCustomProgram(e.target.value.toUpperCase())}
+              placeholder="ENTER PROGRAM (e.g. BSIT)"
+              className={`w-full h-8 px-2 rounded-lg text-[11px] font-mono font-bold ${
+                isDark ? 'bg-[#0c1527] border border-cyan-500 text-cyan-300' : 'bg-white border border-blue-400 text-slate-900'
+              }`}
+            />
+          ) : (
+            <select
+              value={program}
+              onChange={(e) => handleProgramChange(e.target.value)}
+              className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
+                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+              }`}
+            >
+              <option value="BSCPE">BS Computer Engineering (BSCpE)</option>
+              <option value="BSCE">BS Civil Engineering (BSCE)</option>
+              <option value="BSCEE">BS Ceramic Engineering (BSCEE)</option>
+              <option value="BSECE">BS Electronics Engineering (BSECE)</option>
+              <option value="OTHERS">Others (Type Program...)</option>
+            </select>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Year Level</label>
+          <select
+            value={yearLevel}
+            onChange={(e) => setYearLevel(e.target.value)}
+            className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
+              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+            }`}
+          >
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Section</label>
+          <select
+            value={section}
+            onChange={(e) => setSection(e.target.value)}
+            className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
+              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+            }`}
+          >
+            <option value="01">Sec 01</option>
+            <option value="02">Sec 02</option>
+            <option value="03">Sec 03</option>
+            <option value="04">Sec 04</option>
+          </select>
+        </div>
+      </div>
+
+      {/* 5. Subject Code, Group No, & Faculty */}
+      <div className="grid grid-cols-4 gap-2">
+        <div className="col-span-2">
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Course Code *</label>
+          <input
+            type="text"
+            value={courseCode}
+            onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
+            placeholder="CPEC311"
+            className={`w-full h-8 px-2 rounded-lg text-xs font-bold uppercase ${
               isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
             }`}
           />
         </div>
 
         <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Qty</label>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Group #</label>
           <input
-            type="number"
-            min={1}
-            max={5}
-            value={qty}
-            onChange={(e) => setQty(Math.max(1, Math.min(5, parseInt(e.target.value) || 1)))}
+            type="text"
+            value={groupNo}
+            onChange={(e) => setGroupNo(e.target.value)}
+            placeholder="1"
             className={`w-full h-8 px-2 text-center rounded-lg text-xs font-mono font-bold ${
               isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
             }`}
           />
         </div>
+
+        <div>
+          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Semester</label>
+          <select
+            value={semester}
+            onChange={(e) => setSemester(e.target.value)}
+            className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
+              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+            }`}
+          >
+            <option value="1">1st Sem</option>
+            <option value="2">2nd Sem</option>
+            <option value="3">Summer</option>
+          </select>
+        </div>
       </div>
 
       <div>
-        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Professor / Instructor *</label>
+        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Laboratory Instructor / Professor *</label>
         <input
           type="text"
+          list="cpex-faculty-list"
           value={instructor}
           onChange={(e) => setInstructor(e.target.value)}
           placeholder="Engr. Jin Benir Macaranas"
           className={`w-full h-8 px-2 rounded-lg text-xs font-bold ${
+            isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+          }`}
+        />
+        <datalist id="cpex-faculty-list">
+          {FACULTY_MEMBERS.map((fac, idx) => (
+            <option key={idx} value={fac} />
+          ))}
+        </datalist>
+      </div>
+
+      <div>
+        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Reservation Purpose</label>
+        <input
+          type="text"
+          value={purpose}
+          onChange={(e) => setPurpose(e.target.value)}
+          placeholder="Laboratory Class Experiment"
+          className={`w-full h-8 px-2 rounded-lg text-xs font-medium ${
             isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
           }`}
         />
@@ -371,7 +595,7 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
         className="w-full h-9 rounded-lg font-mono font-bold text-xs bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer uppercase tracking-wider"
       >
         <Zap className="w-3.5 h-3.5 fill-current" />
-        <span>Submit Telemetry Reservation</span>
+        <span>Submit Advance Telemetry Reservation</span>
       </button>
     </form>
   );
@@ -598,7 +822,7 @@ export default function FloatingCpexBot() {
                 </div>
               </div>
 
-              {/* Controls: Reset, Settings, Minimize */}
+              {/* Controls: Reset and Minimize only (Settings removed for security) */}
               <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   type="button"
@@ -611,19 +835,6 @@ export default function FloatingCpexBot() {
                   title="Restart Telemetry Session"
                 >
                   <RotateCcw className="w-4 h-4" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsSettingsOpen(true)}
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-all active:scale-95 border ${
-                    isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
-                      : 'bg-white hover:bg-slate-200 text-slate-700 border-slate-300'
-                  }`}
-                  title="Calibrate Gemini API Token"
-                >
-                  <Settings className="w-4 h-4" />
                 </button>
 
                 <button
