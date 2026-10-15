@@ -17,6 +17,8 @@ import {
   Terminal,
   Activity,
   Cpu,
+  ArrowRight,
+  ArrowLeft,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { askCpexAi, getStoredApiKey } from '../../services/cpexAiService';
@@ -161,7 +163,7 @@ function parseFormattedSpans(text, isDark) {
   return parts.length > 0 ? parts : text;
 }
 
-// In-Chat Interactive Reservation Form Component (Accurately Synced to Borrower Form Workflow)
+// In-Chat Interactive Reservation Form Component (Clean, Intuitive 2-Step Stepper Workflow)
 function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) {
   const { borrower, addReservation, checkReservationConflict, showToast } = useTransaction();
   const inventory = getInventory();
@@ -173,6 +175,9 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
   };
 
   const todayStr = new Date().toISOString().split('T')[0];
+
+  // Stepper state: 1 = Equipment & Schedule, 2 = Student Identification
+  const [formStep, setFormStep] = useState(1);
 
   // 1. Hardware & Schedule Selection
   const [selectedItemId, setSelectedItemId] = useState(initialItem?.id || (inventory[0]?.id || 'ce-001'));
@@ -218,6 +223,18 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
     }
   };
 
+  const handleStep1Next = () => {
+    if (!reserveDate) {
+      showToast('Please select a target reservation date', 'error');
+      return;
+    }
+    if (conflictInfo.hasConflict) {
+      showToast(`Conflict! Only ${conflictInfo.availableSlots} units available for this time slot.`, 'error');
+      return;
+    }
+    setFormStep(2);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -245,11 +262,6 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
 
     if (!instructor.trim()) {
       showToast('Please enter Laboratory Instructor / Professor name', 'error');
-      return;
-    }
-
-    if (conflictInfo.hasConflict) {
-      showToast(`Conflict! Only ${conflictInfo.availableSlots} units available for this time slot.`, 'error');
       return;
     }
 
@@ -294,31 +306,44 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
 
   if (isSubmitted && submittedData) {
     return (
-      <div className={`mt-2 p-3 sm:p-4 rounded-xl border space-y-3 text-center animate-fade-in font-mono ${
-        isDark ? 'bg-[#030914] border-cyan-500/50 text-slate-100' : 'bg-sky-50 border-sky-300 text-sky-950'
+      <div className={`mt-2 p-3 sm:p-4 rounded-2xl border space-y-3 animate-fade-in ${
+        isDark ? 'bg-[#030914] border-cyan-500/40 text-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.5)]' : 'bg-sky-50 border-sky-300 text-sky-950 shadow-sm'
       }`}>
-        <div className="flex items-center justify-center gap-1.5 text-cyan-400 font-bold text-xs sm:text-sm">
-          <Check className="w-4 h-4 stroke-[3]" />
-          <span>[CPEX.SYS // ADVANCE RESERVATION QUEUED]</span>
+        <div className="flex items-center justify-between pb-2 border-b border-slate-700/60">
+          <div className="flex items-center gap-1.5 text-cyan-400 font-bold text-xs">
+            <Check className="w-4 h-4 stroke-[3]" />
+            <span>RESERVATION QUEUED</span>
+          </div>
+          <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+            {submittedData.id}
+          </span>
         </div>
 
-        <p className="text-[11px] text-slate-300">
-          Ref ID: <strong className="font-mono text-cyan-300 font-bold text-xs">{submittedData.id}</strong>
-        </p>
-
-        <div className="p-3 rounded-xl bg-[#071324] border border-slate-800 text-[11px] text-left space-y-1.5 leading-relaxed">
-          <div><span className="text-slate-400">Apparatus:</span> <strong className="text-white">{submittedData.name} ({submittedData.qty} {submittedData.unit}s)</strong></div>
-          <div><span className="text-slate-400">Tag Code:</span> <strong className="text-cyan-300 font-mono">[{submittedData.tagCode}]</strong></div>
-          <div><span className="text-slate-400">Target Schedule:</span> <strong className="text-cyan-300">{submittedData.reserveDate} • {submittedData.timeSlot}</strong></div>
-          <div><span className="text-slate-400">Student Borrower:</span> <strong className="text-white">{submittedData.studentName} ({submittedData.studentId})</strong></div>
-          <div><span className="text-slate-400">Classification:</span> <strong className="text-slate-200">{submittedData.program} - {submittedData.yearLevel} (Sec {submittedData.section})</strong></div>
-          <div><span className="text-slate-400">Subject & Group:</span> <strong className="text-slate-200">{submittedData.courseCode} • Group #{submittedData.groupNo}</strong></div>
-          <div><span className="text-slate-400">Laboratory Faculty:</span> <strong className="text-white">{submittedData.instructor}</strong></div>
-          <div><span className="text-slate-400">Purpose:</span> <strong className="text-slate-200">{submittedData.purpose}</strong></div>
+        <div className="p-3 rounded-xl bg-[#071324] border border-slate-800 text-xs space-y-2 leading-relaxed">
+          <div className="flex justify-between items-center pb-1.5 border-b border-slate-800">
+            <span className="text-slate-400 font-medium">Apparatus:</span>
+            <span className="text-white font-bold text-right truncate max-w-[200px]">{submittedData.name} ({submittedData.qty} {submittedData.unit}s)</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400 font-medium">Schedule:</span>
+            <span className="text-cyan-300 font-bold font-mono">{submittedData.reserveDate} • {submittedData.timeSlot}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400 font-medium">Student:</span>
+            <span className="text-white font-bold">{submittedData.studentName} ({submittedData.studentId})</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400 font-medium">Program & Class:</span>
+            <span className="text-slate-200 font-semibold">{submittedData.program} - {submittedData.yearLevel} ({submittedData.section})</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400 font-medium">Instructor:</span>
+            <span className="text-slate-200 font-semibold">{submittedData.instructor}</span>
+          </div>
         </div>
 
         <div className="flex items-center justify-between text-[10px] text-amber-300 font-bold px-1">
-          <span>⚡ Synced to Custodian Counter Terminal</span>
+          <span>⚡ Synced to Custodian Terminal</span>
           <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">PENDING REVIEW</span>
         </div>
 
@@ -327,40 +352,53 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
           onClick={() => {
             setIsSubmitted(false);
             setSubmittedData(null);
+            setFormStep(1);
           }}
-          className="w-full h-8 rounded-lg font-mono font-bold text-[10.5px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all cursor-pointer uppercase"
+          className="w-full h-8.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all cursor-pointer flex items-center justify-center gap-1.5"
         >
-          + Queue Another Apparatus Reservation
+          <Plus className="w-3.5 h-3.5" />
+          <span>Queue Another Reservation</span>
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`mt-2 p-3 sm:p-3.5 rounded-2xl border space-y-2.5 text-xs font-mono ${
+    <form onSubmit={handleSubmit} className={`mt-2 p-3 sm:p-4 rounded-2xl border space-y-3 text-xs ${
       isDark ? 'bg-[#070e1b] border-slate-800 text-slate-200' : 'bg-slate-50 border-slate-300 text-slate-800'
     }`}>
-      {/* Form Header */}
-      <div className="flex items-center justify-between border-b border-slate-700/60 pb-2">
-        <span className={`font-black text-xs flex items-center gap-1.5 ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
-          <Calendar className="w-3.5 h-3.5" />
-          <span>[CPEX // ADVANCE APPARATUS RESERVATION]</span>
-        </span>
-        <span className="text-[9px] font-mono font-bold bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">
-          BORROW FORMAT
-        </span>
+      {/* Step Indicator Header */}
+      <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+        <div className="flex items-center gap-2">
+          <span className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-[11px] border border-cyan-500/30">
+            {formStep}
+          </span>
+          <span className="font-bold text-xs tracking-wide text-white">
+            {formStep === 1 ? '1. Apparatus & Schedule' : '2. Student Details'}
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className={`w-2 h-2 rounded-full transition-all ${formStep === 1 ? 'bg-cyan-400 w-4' : 'bg-slate-700'}`} />
+          <span className={`w-2 h-2 rounded-full transition-all ${formStep === 2 ? 'bg-cyan-400 w-4' : 'bg-slate-700'}`} />
+        </div>
       </div>
 
-      {/* 1. Apparatus & Qty Selection */}
-      <div className="space-y-1">
-        <label className="block text-[9.5px] font-bold text-slate-400 uppercase">Select Hardware Apparatus *</label>
-        <div className="grid grid-cols-4 gap-1.5">
-          <div className="col-span-3">
+      {/* STEP 1: Hardware & Schedule */}
+      {formStep === 1 && (
+        <div className="space-y-3 animate-fade-in">
+          {/* Apparatus Dropdown */}
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              Hardware Apparatus *
+            </label>
             <select
               value={selectedItemId}
-              onChange={(e) => setSelectedItemId(e.target.value)}
-              className={`w-full h-8 px-2 rounded-lg text-xs font-semibold focus:outline-none ${
-                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+              onChange={(e) => {
+                setSelectedItemId(e.target.value);
+                setQty(1);
+              }}
+              className={`w-full h-9 px-3 rounded-xl text-xs font-semibold focus:outline-none transition-all ${
+                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
               }`}
             >
               {inventory.map((item) => (
@@ -370,233 +408,314 @@ function InChatReservationForm({ initialItem, isDark, onReservationSubmitted }) 
               ))}
             </select>
           </div>
-          <div>
-            <input
-              type="number"
-              min={1}
-              max={currentItem.stock || 5}
-              value={qty}
-              onChange={(e) => setQty(Math.max(1, Math.min(currentItem.stock || 5, parseInt(e.target.value) || 1)))}
-              title="Quantity to Reserve"
-              className={`w-full h-8 px-2 text-center rounded-lg text-xs font-mono font-bold ${
-                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-              }`}
-            />
+
+          {/* Quantity & Target Date */}
+          <div className="grid grid-cols-2 gap-2.5">
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Quantity
+              </label>
+              <div className={`flex items-center h-9 rounded-xl border px-1 ${
+                isDark ? 'bg-[#0c1527] border-slate-700' : 'bg-white border-slate-300'
+              }`}>
+                <button
+                  type="button"
+                  onClick={() => setQty(Math.max(1, qty - 1))}
+                  className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-cyan-400 hover:bg-slate-800 active:scale-95 cursor-pointer text-base"
+                >
+                  -
+                </button>
+                <span className={`flex-1 text-center font-mono font-bold text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  {qty} {currentItem.unit || 'pc'}s
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setQty(Math.min(currentItem.stock || 5, qty + 1))}
+                  className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-cyan-400 hover:bg-slate-800 active:scale-95 cursor-pointer text-base"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Target Date *
+              </label>
+              <input
+                type="date"
+                min={todayStr}
+                value={reserveDate}
+                onChange={(e) => setReserveDate(e.target.value)}
+                className={`w-full h-9 px-2.5 rounded-xl text-xs font-mono font-bold focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
+                }`}
+              />
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* 2. Schedule: Date & Timeslot */}
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Target Reservation Date *</label>
-          <input
-            type="date"
-            min={todayStr}
-            value={reserveDate}
-            onChange={(e) => setReserveDate(e.target.value)}
-            className={`w-full h-8 px-2 rounded-lg text-xs font-mono font-bold ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-            }`}
-          />
-        </div>
-
-        <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Laboratory Timeslot *</label>
-          <select
-            value={timeSlot}
-            onChange={(e) => setTimeSlot(e.target.value)}
-            className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-mono font-bold ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-            }`}
-          >
-            {STANDARD_TIME_SLOTS.map((slot, i) => (
-              <option key={i} value={slot} className={isDark ? 'bg-[#0c1527] text-white' : 'bg-white text-black'}>
-                {slot}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* 3. Student Identification (Student ID + Full Name) */}
-      <div className="grid grid-cols-5 gap-2">
-        <div className="col-span-2">
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Student ID *</label>
-          <input
-            type="text"
-            maxLength={11}
-            value={studentId}
-            onChange={(e) => setStudentId(handleStudentIdChange(e.target.value, studentId))}
-            placeholder="23-1374-693"
-            className={`w-full h-8 px-2 rounded-lg text-xs font-mono font-bold tracking-wider ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-cyan-300 placeholder-slate-600' : 'bg-white border border-slate-300 text-slate-900 placeholder-slate-400'
-            }`}
-          />
-        </div>
-
-        <div className="col-span-3">
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Reserving Student Name *</label>
-          <input
-            type="text"
-            value={studentName}
-            onChange={(e) => setStudentName(e.target.value.toUpperCase())}
-            placeholder="JUAN DELA CRUZ"
-            className={`w-full h-8 px-2 rounded-lg text-xs uppercase font-bold ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 placeholder-slate-600' : 'bg-white border border-slate-300 text-slate-900 placeholder-slate-400'
-            }`}
-          />
-        </div>
-      </div>
-
-      {/* 4. Academic Program & Classification (Matches BorrowerForm with in-place OTHERS) */}
-      <div className="grid grid-cols-4 gap-1.5">
-        <div className="col-span-2">
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Academic Program *</label>
-          {isOtherProgram ? (
-            <input
-              type="text"
-              autoFocus
-              value={customProgram}
-              onChange={(e) => setCustomProgram(e.target.value.toUpperCase())}
-              placeholder="ENTER PROGRAM (e.g. BSIT)"
-              className={`w-full h-8 px-2 rounded-lg text-[11px] font-mono font-bold ${
-                isDark ? 'bg-[#0c1527] border border-cyan-500 text-cyan-300' : 'bg-white border border-blue-400 text-slate-900'
-              }`}
-            />
-          ) : (
+          {/* Time Slot */}
+          <div>
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              Laboratory Timeslot *
+            </label>
             <select
-              value={program}
-              onChange={(e) => handleProgramChange(e.target.value)}
-              className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
-                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+              value={timeSlot}
+              onChange={(e) => setTimeSlot(e.target.value)}
+              className={`w-full h-9 px-3 rounded-xl text-xs font-mono font-bold focus:outline-none ${
+                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
               }`}
             >
-              <option value="BSCPE">BS Computer Engineering (BSCpE)</option>
-              <option value="BSCE">BS Civil Engineering (BSCE)</option>
-              <option value="BSCEE">BS Ceramic Engineering (BSCEE)</option>
-              <option value="BSECE">BS Electronics Engineering (BSECE)</option>
-              <option value="OTHERS">Others (Type Program...)</option>
+              {STANDARD_TIME_SLOTS.map((slot, i) => (
+                <option key={i} value={slot} className={isDark ? 'bg-[#0c1527] text-white' : 'bg-white text-black'}>
+                  {slot}
+                </option>
+              ))}
             </select>
-          )}
-        </div>
+          </div>
 
-        <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Year Level</label>
-          <select
-            value={yearLevel}
-            onChange={(e) => setYearLevel(e.target.value)}
-            className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-            }`}
+          {/* Purpose */}
+          <div>
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              Purpose
+            </label>
+            <select
+              value={purpose}
+              onChange={(e) => setPurpose(e.target.value)}
+              className={`w-full h-9 px-3 rounded-xl text-xs font-semibold focus:outline-none ${
+                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
+              }`}
+            >
+              <option value="Laboratory Class Experiment">Laboratory Class Experiment</option>
+              <option value="Capstone Design / Thesis Research">Capstone Design / Thesis Research</option>
+              <option value="Class Project / Activity">Class Project / Activity</option>
+              <option value="Practical Hands-on Exam">Practical Hands-on Exam</option>
+            </select>
+          </div>
+
+          {/* Step 1 Next Button */}
+          <button
+            type="button"
+            onClick={handleStep1Next}
+            className="w-full h-10 rounded-xl font-bold text-xs bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer mt-1"
           >
-            <option value="1">1st Year</option>
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
-          </select>
+            <span>Next: Student Details</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </div>
+      )}
 
-        <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Section</label>
-          <select
-            value={section}
-            onChange={(e) => setSection(e.target.value)}
-            className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-            }`}
-          >
-            <option value="01">Sec 01</option>
-            <option value="02">Sec 02</option>
-            <option value="03">Sec 03</option>
-            <option value="04">Sec 04</option>
-          </select>
+      {/* STEP 2: Student Details */}
+      {formStep === 2 && (
+        <div className="space-y-3 animate-fade-in">
+          {/* Student ID & Name */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Student ID *
+              </label>
+              <input
+                type="text"
+                maxLength={11}
+                value={studentId}
+                onChange={(e) => setStudentId(handleStudentIdChange(e.target.value, studentId))}
+                placeholder="23-1374-693"
+                className={`w-full h-9 px-2.5 rounded-xl text-xs font-mono font-bold tracking-wider focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-cyan-300 placeholder-slate-600 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-500'
+                }`}
+              />
+            </div>
+
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Student Name *
+              </label>
+              <input
+                type="text"
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value.toUpperCase())}
+                placeholder="JUAN DELA CRUZ"
+                className={`w-full h-9 px-2.5 rounded-xl text-xs font-bold uppercase focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 placeholder-slate-600 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-500'
+                }`}
+              />
+            </div>
+          </div>
+
+          {/* Program with In-Place Others */}
+          <div>
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              Academic Program *
+            </label>
+            {isOtherProgram ? (
+              <div className="relative">
+                <input
+                  type="text"
+                  autoFocus
+                  value={customProgram}
+                  onChange={(e) => setCustomProgram(e.target.value.toUpperCase())}
+                  placeholder="TYPE PROGRAM (e.g. BSIT)"
+                  className={`w-full h-9 px-3 pr-20 rounded-xl text-xs font-mono font-bold focus:outline-none ${
+                    isDark ? 'bg-[#0c1527] border border-cyan-500 text-cyan-300' : 'bg-white border border-blue-400 text-slate-900'
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={() => { setIsOtherProgram(false); setProgram('BSCPE'); }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-bold text-cyan-400 hover:underline cursor-pointer"
+                >
+                  List
+                </button>
+              </div>
+            ) : (
+              <select
+                value={program}
+                onChange={(e) => handleProgramChange(e.target.value)}
+                className={`w-full h-9 px-3 rounded-xl text-xs font-bold focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
+                }`}
+              >
+                <option value="BSCPE">BS Computer Engineering (BSCpE)</option>
+                <option value="BSCE">BS Civil Engineering (BSCE)</option>
+                <option value="BSCEE">BS Ceramic Engineering (BSCEE)</option>
+                <option value="BSECE">BS Electronics Engineering (BSECE)</option>
+                <option value="OTHERS">Others (Type Custom Program...)</option>
+              </select>
+            )}
+          </div>
+
+          {/* Year, Sem, Section in one tidy row */}
+          <div className="grid grid-cols-3 gap-2">
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Year
+              </label>
+              <select
+                value={yearLevel}
+                onChange={(e) => setYearLevel(e.target.value)}
+                className={`w-full h-9 px-2 rounded-xl text-xs font-bold focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+                }`}
+              >
+                <option value="1">1st Yr</option>
+                <option value="2">2nd Yr</option>
+                <option value="3">3rd Yr</option>
+                <option value="4">4th Yr</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Sem
+              </label>
+              <select
+                value={semester}
+                onChange={(e) => setSemester(e.target.value)}
+                className={`w-full h-9 px-2 rounded-xl text-xs font-bold focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+                }`}
+              >
+                <option value="1">1st Sem</option>
+                <option value="2">2nd Sem</option>
+                <option value="3">Summer</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Section
+              </label>
+              <select
+                value={section}
+                onChange={(e) => setSection(e.target.value)}
+                className={`w-full h-9 px-2 rounded-xl text-xs font-bold focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
+                }`}
+              >
+                <option value="01">Sec 01</option>
+                <option value="02">Sec 02</option>
+                <option value="03">Sec 03</option>
+                <option value="04">Sec 04</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Course Code & Group */}
+          <div className="grid grid-cols-3 gap-2">
+            <div className="col-span-2">
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Course Code *
+              </label>
+              <input
+                type="text"
+                value={courseCode}
+                onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
+                placeholder="CPEC311"
+                className={`w-full h-9 px-2.5 rounded-xl text-xs font-bold uppercase focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
+                }`}
+              />
+            </div>
+
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                Group #
+              </label>
+              <input
+                type="text"
+                value={groupNo}
+                onChange={(e) => setGroupNo(e.target.value)}
+                placeholder="1"
+                className={`w-full h-9 px-2 text-center rounded-xl text-xs font-mono font-bold focus:outline-none ${
+                  isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
+                }`}
+              />
+            </div>
+          </div>
+
+          {/* Instructor with Datalist */}
+          <div>
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              Instructor / Professor *
+            </label>
+            <input
+              type="text"
+              list="cpex-faculty-list"
+              value={instructor}
+              onChange={(e) => setInstructor(e.target.value)}
+              placeholder="Engr. Jin Benir Macaranas"
+              className={`w-full h-9 px-3 rounded-xl text-xs font-bold focus:outline-none ${
+                isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100 focus:border-cyan-500' : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500'
+              }`}
+            />
+            <datalist id="cpex-faculty-list">
+              {FACULTY_MEMBERS.map((fac, idx) => (
+                <option key={idx} value={fac} />
+              ))}
+            </datalist>
+          </div>
+
+          {/* Step 2 Buttons: Back and Submit */}
+          <div className="flex items-center gap-2 pt-1">
+            <button
+              type="button"
+              onClick={() => setFormStep(1)}
+              className="h-10 px-3.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
+            </button>
+
+            <button
+              type="submit"
+              className="flex-1 h-10 rounded-xl font-bold text-xs bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer uppercase tracking-wider"
+            >
+              <Zap className="w-3.5 h-3.5 fill-current" />
+              <span>Confirm & Queue Reservation</span>
+            </button>
+          </div>
         </div>
-      </div>
-
-      {/* 5. Subject Code, Group No, & Faculty */}
-      <div className="grid grid-cols-4 gap-2">
-        <div className="col-span-2">
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Course Code *</label>
-          <input
-            type="text"
-            value={courseCode}
-            onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
-            placeholder="CPEC311"
-            className={`w-full h-8 px-2 rounded-lg text-xs font-bold uppercase ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-            }`}
-          />
-        </div>
-
-        <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Group #</label>
-          <input
-            type="text"
-            value={groupNo}
-            onChange={(e) => setGroupNo(e.target.value)}
-            placeholder="1"
-            className={`w-full h-8 px-2 text-center rounded-lg text-xs font-mono font-bold ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-            }`}
-          />
-        </div>
-
-        <div>
-          <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Semester</label>
-          <select
-            value={semester}
-            onChange={(e) => setSemester(e.target.value)}
-            className={`w-full h-8 px-1.5 rounded-lg text-[11px] font-bold ${
-              isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-            }`}
-          >
-            <option value="1">1st Sem</option>
-            <option value="2">2nd Sem</option>
-            <option value="3">Summer</option>
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Laboratory Instructor / Professor *</label>
-        <input
-          type="text"
-          list="cpex-faculty-list"
-          value={instructor}
-          onChange={(e) => setInstructor(e.target.value)}
-          placeholder="Engr. Jin Benir Macaranas"
-          className={`w-full h-8 px-2 rounded-lg text-xs font-bold ${
-            isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-          }`}
-        />
-        <datalist id="cpex-faculty-list">
-          {FACULTY_MEMBERS.map((fac, idx) => (
-            <option key={idx} value={fac} />
-          ))}
-        </datalist>
-      </div>
-
-      <div>
-        <label className="block text-[9.5px] font-bold text-slate-400 mb-0.5 uppercase">Reservation Purpose</label>
-        <input
-          type="text"
-          value={purpose}
-          onChange={(e) => setPurpose(e.target.value)}
-          placeholder="Laboratory Class Experiment"
-          className={`w-full h-8 px-2 rounded-lg text-xs font-medium ${
-            isDark ? 'bg-[#0c1527] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'
-          }`}
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="w-full h-9 rounded-lg font-mono font-bold text-xs bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer uppercase tracking-wider"
-      >
-        <Zap className="w-3.5 h-3.5 fill-current" />
-        <span>Submit Advance Telemetry Reservation</span>
-      </button>
+      )}
     </form>
   );
 }
