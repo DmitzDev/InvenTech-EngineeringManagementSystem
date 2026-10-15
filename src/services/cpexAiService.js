@@ -81,43 +81,26 @@ function buildSystemInstruction(selectedLab) {
 
   const inventory = getInventory();
   const apparatusList = (inventory || []).slice(0, 150).map(
-    (item) => `• [${item.tagCode}] ${item.name} (${item.lab} Lab, Stock: ${item.stock} ${item.unit || 'pcs'}, Bin: ${getCompartmentBin(item)}) - ${item.description || item.category}`
+    (item) => `• [${item.tagCode}] ${item.name} (${item.lab} Lab, Stock: ${item.stock} ${item.unit || 'pcs'}, Bin: ${getCompartmentBin(item)})`
   ).join('\n');
 
-  const presetList = (AI_EXPERIMENT_PRESETS || []).map(
-    (p) => `• [PRESET] "${p.title}" (${p.lab}): Items -> ${p.itemTagCodes?.join(', ')}. Spec: ${p.description}`
-  ).join('\n');
+  return `You are CPEX (Computer Programmed Engineering eXpert), the laboratory AI assistant of the School of Engineering, Universidad de Dagupan.
 
-  return `You are "CPEX" (Computer Programmed Engineering eXpert), the high-precision, engineering-grade laboratory copilot for the InvenTech Engineering Management Kiosk.
-Telemetry ID: [CPEX.SYS // CpE-COPILOT v2.0]
+CRITICAL DIRECTIVES:
+1. BE DIRECT TO THE POINT: Always answer the student's or professor's inquiry directly in 1 to 3 concise, clear sentences.
+2. NO ROBOTIC HEADERS OR FILLER: Do NOT use robotic headers like "### [CPEX.SYS // TELEMETRY]" or introductory fluff like "Hello! As an AI...". Give the direct answer immediately.
+3. EQUIPMENT & STOCK:
+   - If asked about an item, state directly if it is available, the exact stock count, and the exact Bin Compartment (e.g. "Yes, we have 4 units of [ENG-EQ-COMP-408-26] Digital Multimeter available in BIN-A02.").
+4. BORROWING & CLEARANCE RULES:
+   - Maximum of 5 items per student group.
+   - Return cutoff: End of class period or before 5:00 PM on the same day.
+   - To return: Go to Return Station, enter 9-digit Student ID, and present equipment to the laboratory custodian.
+   - Damaged items or unreturned apparatus result in a temporary clearance hold.
+5. LANGUAGE: Match the user's inquiry language naturally (Tagalog, English, or Taglish).
 
-SYSTEM DIRECTIVES:
-1. Role: Computer Engineering & Laboratory Hardware Copilot.
-2. Tone: Direct, concise, technical, precise, and professional. No fluff, no generic corporate filler.
-3. Language: English or Filipino/Taglish, matching the user's inquiry style.
-4. Equipment Referencing: Always format equipment with exact Tag Codes in square brackets, e.g. [ENG-CS-7400-888-26-13], [ENG-EQ-COMP-408-26], with Bin Compartments (e.g., BIN-A01, BIN-B04).
-5. Technical Specs:
-   - Digital Storage Oscilloscope: 50MHz-100MHz Dual Channel, 1GSa/s real-time sampling.
-   - Digital Multimeter: True RMS Auto-ranging, continuity beep, 10A fused protection.
-   - 74xx TTL Series: 7400 (Quad 2-Input NAND), 7402 (NOR), 7404 (Hex Inverter), 7408 (AND), 7432 (OR), 7485 (4-Bit Magnitude Comparator), 7486 (XOR).
-6. Borrowing Rules:
-   - Up to 5 items max per group.
-   - Standard session return cutoff: End of class period (max 5:00 PM same day).
-   - Pre-inspection required: Verify fuse, probe cables, and IC pins before leaving counter.
-7. Return & Clearance Protocol:
-   - Tap "Return" on the top header or kiosk home screen.
-   - Enter Student ID number or scan official Transaction Ref barcode.
-   - Custodian verifies item integrity; clearance status switches to "CLEARED".
-
-ACTIVE CONTEXT:
-${labContext}
-Official Document ID: UdD-FM-LM-01A-01 (Laboratory Equipment Borrower's Sheet)
-
-INVENTORY SAMPLING WITH BINS:
+ACTIVE LABORATORY INVENTORY:
 ${apparatusList}
-
-STANDARD EXPERIMENT PRESETS:
-${presetList}`;
+Context: ${labContext}`;
 }
 
 export function extractApparatusItemsFromText(text) {
@@ -151,56 +134,137 @@ export function extractApparatusItemsFromText(text) {
 }
 
 /**
- * High-Precision Offline Rule-Engine for CPEX Copilot
+ * Direct-to-the-Point Intelligent Engine for CPEX Copilot
+ * Delivers immediate, precise answers for students and faculty
  */
 export function generateOfflineCpexResponse(userMessage, selectedLab) {
   const query = (userMessage || '').trim().toLowerCase();
   const inventory = getInventory();
   const isReservationIntent = /(pa[- ]?reserve|magpa[- ]?reserve|ipareserve|reservation|reserve|booking|pa[- ]?book)/i.test(query);
 
-  // 1. Tool Availability / Specific Catalog Search
-  if (query.includes('tool availability') || query.includes('check tool') || query.includes('available') || query.includes('stock')) {
-    const digitalMatches = inventory.filter((i) => i.lab === 'DIGITAL' || i.lab === 'ECE' || i.category?.includes('Logic') || i.category?.includes('Equipment')).slice(0, 4);
-    const list = digitalMatches.map((i) => `• [${i.tagCode}] **${i.name}**\n  Loc: \`${getCompartmentBin(i)}\` | Available: \`${i.stock} ${i.unit || 'pcs'}\``).join('\n');
+  // 1. Advance Reservation Intent
+  if (isReservationIntent) {
+    const matched = inventory.find((i) => query.includes(i.name.toLowerCase()) || (i.tagCode && query.includes(i.tagCode.toLowerCase())));
     return {
-      text: `### Available Laboratory Tools & Equipment\nHere are currently available apparatus in the active laboratory sector:\n\n${list}\n\nSelect items above or tap "+ Add All to Borrow Cart" to add them to your borrowing slip. Maximum 5 items per student group.`,
+      text: matched
+        ? `Nakahanda na ang reservation para sa **${matched.name}** ([${matched.tagCode}]) sa ${getCompartmentBin(matched)}. Sagutan ang form sa ibaba para maipila sa Custodian.`
+        : `Maaari kang magpa-reserve ng kagamitan. Piliin ang apparatus at oras sa form sa ibaba.`,
       source: 'offline',
-      recommendedItems: digitalMatches,
+      recommendedItems: matched ? [matched] : [],
+      isReservationIntent: true,
+      matchedReservationItem: matched || null,
+    };
+  }
+
+  // 2. Specific Apparatus Search & Availability Check
+  const matchedApparatus = inventory.filter((item) => {
+    const name = item.name.toLowerCase();
+    const tag = (item.tagCode || '').toLowerCase();
+    const cat = (item.category || '').toLowerCase();
+
+    if (query.includes(name) || (tag.length > 4 && query.includes(tag))) return true;
+    if (query.includes('oscilloscope') && (name.includes('oscilloscope') || tag.includes('dso') || tag.includes('osci'))) return true;
+    if ((query.includes('multimeter') || query.includes('tester') || query.includes('voltmeter') || query.includes('ammeter')) && (name.includes('multimeter') || tag.includes('divo') || tag.includes('dcam') || tag.includes('meter'))) return true;
+    if (query.includes('logic probe') && (name.includes('logic') || tag.includes('probe'))) return true;
+    if (query.includes('breadboard') && (name.includes('breadboard') || tag.includes('brd') || cat.includes('prototyping'))) return true;
+    if ((query.includes('jumper') || query.includes('wire') || query.includes('cable')) && (name.includes('wire') || tag.includes('wire') || tag.includes('lead') || tag.includes('probe'))) return true;
+    if (query.includes('power supply') && (name.includes('power') || tag.includes('dcps') || tag.includes('agen'))) return true;
+    if (query.includes('function generator') && (name.includes('generator') || tag.includes('fgen') || tag.includes('agen'))) return true;
+    if (query.includes('trainer') && (tag.includes('bee') || name.includes('module') || name.includes('etek') || name.includes('trainer'))) return true;
+    if (query.includes('relay') && (tag.includes('bulb') || name.includes('relay'))) return true;
+    if (query.includes('switch') && (tag.includes('dips') || name.includes('switch') || name.includes('sw'))) return true;
+    if (query.includes('beaker') && tag.includes('bekr')) return true;
+    if (query.includes('flask') && tag.includes('flsk')) return true;
+
+    // Logic ICs
+    if (query.includes('7400') && tag.includes('7400')) return true;
+    if (query.includes('7402') && tag.includes('7402')) return true;
+    if (query.includes('7404') && tag.includes('7404')) return true;
+    if (query.includes('7408') && tag.includes('7408')) return true;
+    if (query.includes('7432') && tag.includes('7432')) return true;
+    if (query.includes('7485') && tag.includes('7485')) return true;
+    if (query.includes('7486') && tag.includes('7486')) return true;
+    if ((query.includes('nand') || query.includes('nor') || query.includes('xor') || query.includes('logic gate') || query.includes('ic')) && (cat.includes('ic') || cat.includes('logic'))) return true;
+
+    return false;
+  });
+
+  if (matchedApparatus.length > 0) {
+    const topMatches = matchedApparatus.slice(0, 3);
+    const primary = topMatches[0];
+
+    // Check if query is asking for definition ("ano ang", "what is")
+    const isDefinition = query.includes('ano ang') || query.includes('what is') || query.includes('ano po ang') || query.includes('para saan') || query.includes('gamit ng');
+
+    let responseText = '';
+    if (isDefinition && primary) {
+      responseText = `Ang **${primary.name}** ay ${primary.description || 'kagamitan sa laboratoryo'}. Kasalukuyang may **${primary.stock} ${primary.unit || 'pcs'}** na available sa **${getCompartmentBin(primary)}**.`;
+    } else {
+      const itemsList = topMatches
+        .map((i) => `• [${i.tagCode}] **${i.name}** — May **${i.stock} ${i.unit || 'pcs'}** sa **${getCompartmentBin(i)}**`)
+        .join('\n');
+      responseText = `Oo, available sa stock ang mga sumusunod:\n\n${itemsList}\n\nPwede mo itong idagdag sa iyong borrow cart.`;
+    }
+
+    return {
+      text: responseText,
+      source: 'offline',
+      recommendedItems: topMatches,
       isReservationIntent: false,
     };
   }
 
-  // 2. Return Equipment Protocol
-  if (query.includes('how to return') || query.includes('return equipment') || query.includes('sauli') || query.includes('ibalik') || query.includes('return procedure')) {
+  // 3. Borrowing Rules / Limits
+  if (query.includes('limit') || query.includes('ilan') || query.includes('pwede hiramin') || query.includes('maximum') || query.includes('rules') || query.includes('policy') || query.includes('ilang gamit') || query.includes('ilang piraso')) {
     return {
-      text: `### How to Return Laboratory Equipment\nFollow these steps to return borrowed apparatus and receive clearance:\n\n1. **Open Return Station:** Tap the **"Return"** button on the top header dock or Welcome Screen.\n2. **Enter Student ID:** Input your 11-digit Student ID (e.g., \`23-1374-693\`) or scan the barcode from your slip.\n3. **Physical Inspection:** Bring the items to the Custodian Counter for inspection.\n4. **Custodian Sign-off:** Once confirmed, your borrowing status will immediately update to **CLEARED**.`,
+      text: `Hanggang **5 items lamang** ang pinapayagang hiramin bawat student group sa bawat laboratory session. Lahat ay dapat maisauli bago mag-5:00 PM sa araw ding iyon.`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
     };
   }
 
-  // 3. Report Damaged Hardware
-  if (query.includes('report damaged') || query.includes('damaged hardware') || query.includes('sira') || query.includes('basag') || query.includes('defect') || query.includes('broken')) {
+  // 4. Return Procedure & Clearance
+  if (query.includes('return') || query.includes('sauli') || query.includes('ibalik') || query.includes('paano mag-return') || query.includes('paano ibalik') || query.includes('clearance') || query.includes('how to return')) {
     return {
-      text: `### Reporting Damaged Hardware & Defects\nPre-Inspection and safety protocols:\n\n• **Check Before Leaving:** Always inspect probes, multimeter fuses, and IC pins before leaving the dispensing counter.\n• **Immediate Report:** If an item is already damaged upon checkout, inform the Custodian right away so it is logged under maintenance.\n• **Student Accountability:** Items damaged during the class period must be reported to the Laboratory Custodian (Form UdD-FM-LM-01A-01).`,
+      text: `Para magsauli: Buksan ang **Return Station** sa kiosk, ilagay ang iyong **9-digit Student ID** (o i-scan ang barcode), at iabot ang gamit sa laboratory custodian para ma-verify at ma-clear agad.`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
     };
   }
 
-  // 4. Laboratory Clearance Guide
-  if (query.includes('laboratory clearance') || query.includes('clearance guide') || query.includes('clearance') || query.includes('hold') || query.includes('restriction')) {
+  // 5. Return Cutoff & Operating Hours
+  if (query.includes('oras') || query.includes('time') || query.includes('cutoff') || query.includes('kailan ibabalik') || query.includes('deadline') || query.includes('hanggang anong')) {
     return {
-      text: `### Laboratory Clearance Guidelines\nClearance reminders for engineering students:\n\n• **RESTRICTED STATUS:** Happens when borrowed apparatus is not returned before the 5:00 PM cutoff.\n• **Borrowing Lock:** Students with unreturned items cannot borrow new equipment until previous items are cleared.\n• **Settlement:** Visit the Department of Computer Engineering / School of Engineering Custodian Desk to clear pending loans.`,
+      text: `Ang cutoff ng pagbabalik ay bago matapos ang inyong class period o pinakamatagal bago mag-**5:00 PM** ng parehong araw. Ang mga hindi maisasauli sa oras ay magkakaroon ng clearance hold.`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
     };
   }
 
-  // 5. Syllabus Experiment Presets
+  // 6. Damaged / Broken Items
+  if (query.includes('sira') || query.includes('basag') || query.includes('defect') || query.includes('damage') || query.includes('broken') || query.includes('nasira') || query.includes('sunog')) {
+    return {
+      text: `I-report agad sa Laboratory Custodian. Kung napansing may sira bago umalis ng counter, ipapalit agad. Kung nasira habang ginagamit, itatala ito sa Form UdD-FM-LM-01A-01 para sa kaukulang aksyon.`,
+      source: 'offline',
+      recommendedItems: [],
+      isReservationIntent: false,
+    };
+  }
+
+  // 7. Faculty / Custodian In-Charge
+  if (query.includes('custodian') || query.includes('prof') || query.includes('professor') || query.includes('instructor') || query.includes('sino') || query.includes('faculty')) {
+    return {
+      text: `Ang School of Engineering laboratories ay pinangangasiwaan nina **Engr. Jin Benir Macaranas** at **Engr. Rolando De Guzman**.`,
+      source: 'offline',
+      recommendedItems: [],
+      isReservationIntent: false,
+    };
+  }
+
+  // 8. Experiment Syllabi Presets
   const matchedPreset = AI_EXPERIMENT_PRESETS.find(
     (p) =>
       query.includes(p.title.toLowerCase()) ||
@@ -211,78 +275,30 @@ export function generateOfflineCpexResponse(userMessage, selectedLab) {
     const matchedItems = inventory.filter((i) =>
       matchedPreset.itemTagCodes.some((tc) => i.tagCode.replace(/\s+/g, '') === tc.replace(/\s+/g, ''))
     );
-    const tagsFormatted = matchedItems.map((i) => `• [${i.tagCode}] **${i.name}** (\`${getCompartmentBin(i)}\`)`).join('\n');
+    const tagsFormatted = matchedItems.map((i) => `• [${i.tagCode}] **${i.name}** sa \`${getCompartmentBin(i)}\``).join('\n');
 
     return {
-      text: `### Preset Syllabus Bundle: ${matchedPreset.title}\nHere are the recommended items for this experiment in ${matchedPreset.lab} Lab:\n\n${tagsFormatted}\n\n**Experiment Description:** ${matchedPreset.description}\n\nTap the button below to add all items directly to your borrow cart.`,
+      text: `Para sa **${matchedPreset.title}** (${matchedPreset.lab} Lab), ito ang mga kailangan:\n\n${tagsFormatted}\n\nPindutin ang button sa ibaba para mailagay agad sa iyong borrow cart.`,
       source: 'offline',
       recommendedItems: matchedItems,
-      isReservationIntent,
+      isReservationIntent: false,
       matchedReservationItem: matchedItems[0] || null,
     };
   }
 
-  // 6. Direct Hardware Pattern Matcher
-  const matchedApparatus = inventory.filter((item) => {
-    const name = item.name.toLowerCase();
-    const tag = item.tagCode.toLowerCase();
-    if (query.includes(name) || (tag.length > 5 && query.includes(tag))) return true;
-    if (query.includes('oscilloscope') && (name.includes('oscilloscope') || tag.includes('dso') || tag.includes('osci'))) return true;
-    if (query.includes('multimeter') && (name.includes('multimeter') || tag.includes('divo') || tag.includes('dcam') || tag.includes('meter'))) return true;
-    if (query.includes('logic probe') && (name.includes('logic') || tag.includes('probe'))) return true;
-    if (query.includes('ic') && (tag.includes('7400') || tag.includes('7402') || tag.includes('7404') || tag.includes('7408') || tag.includes('7432') || tag.includes('7485'))) return true;
-    if (query.includes('gate') && (name.includes('gate') || tag.includes('7400') || tag.includes('7408') || tag.includes('7432'))) return true;
-    if (query.includes('relay') && (tag.includes('bulb') || name.includes('relay'))) return true;
-    if (query.includes('switch') && (tag.includes('dips') || name.includes('switch') || name.includes('sw'))) return true;
-    if (query.includes('power supply') && (name.includes('power') || tag.includes('agen') || tag.includes('dcps'))) return true;
-    if (query.includes('trainer') && (tag.includes('bee') || name.includes('module') || name.includes('etek'))) return true;
-    if (query.includes('beaker') && tag.includes('bekr')) return true;
-    return false;
-  });
-
-  if (isReservationIntent) {
-    const targetItem = matchedApparatus[0] || null;
+  // 9. Greetings
+  if (query.includes('hi') || query.includes('hello') || query.includes('kumusta') || query.includes('kamusta') || query.includes('cpex') || query.includes('who are you') || query.includes('sino ka')) {
     return {
-      text: targetItem
-        ? `### Equipment Advance Reservation\nSelected Apparatus: **${targetItem.name}** ([${targetItem.tagCode}]) located at \`${getCompartmentBin(targetItem)}\`.\nFill out the reservation form below to queue your booking with the Laboratory Custodian.`
-        : `### Equipment Advance Reservation\nReady to schedule your equipment reservation. Specify the laboratory apparatus and required session timeslot below.`,
-      source: 'offline',
-      recommendedItems: targetItem ? [targetItem] : [],
-      isReservationIntent: true,
-      matchedReservationItem: targetItem,
-    };
-  }
-
-  if (matchedApparatus.length > 0) {
-    const topMatches = matchedApparatus.slice(0, 4);
-    const itemsList = topMatches
-      .map(
-        (i) =>
-          `• [${i.tagCode}] **${i.name}**\n  Bin: \`${getCompartmentBin(i)}\` | Available: \`${i.stock} ${i.unit || 'pcs'}\` (${i.category})`
-      )
-      .join('\n');
-
-    return {
-      text: `### Matched Equipment in Inventory\nFound ${matchedApparatus.length} matching item(s) in active laboratory stock:\n\n${itemsList}\n\n*All items are verified under Official Document Code UdD-FM-LM-01A-01.*`,
-      source: 'offline',
-      recommendedItems: topMatches,
-      isReservationIntent: false,
-    };
-  }
-
-  // 7. General Greetings
-  if (query.includes('hi') || query.includes('hello') || query.includes('kumusta') || query.includes('kamusta') || query.includes('cpex') || query.includes('who are you')) {
-    return {
-      text: `Hello! I am **CPEX** (Computer Programmed Engineering eXpert), your laboratory assistant.\n\n• **Equipment & Stock:** Oscilloscopes, multimeters, 74xx TTL ICs, microcontrollers, and apparatus bins.\n• **Rules & Guidelines:** Maximum 5 items per student group, return within class period.\n• **Procedures:** Equipment return clearance and reporting damaged hardware.\n\nHow can I help you today?`,
+      text: `Ako si **CPEX**, ang laboratory assistant ng School of Engineering. Sabihin mo lang kung anong apparatus, stock, bin location, o patakaran ang nais mong malaman.`,
       source: 'offline',
       recommendedItems: [],
       isReservationIntent: false,
     };
   }
 
-  // 8. Default Direct Technical Fallback
+  // 10. Direct General Help
   return {
-    text: `How can I assist you with the laboratory? You can ask about available apparatus, syllabi experiments, reservation rules, or return procedures. You may also select any of the quick action buttons below.`,
+    text: `Maaari kang magtanong nang direkta tungkol sa stock at lokasyon ng anumang kagamitan, borrowing rules, o return clearance procedures.`,
     source: 'offline',
     recommendedItems: [],
     isReservationIntent: false,
