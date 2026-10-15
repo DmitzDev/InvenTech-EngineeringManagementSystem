@@ -237,9 +237,9 @@ export default function Header() {
           />
 
           {/* Floating Rudder Action Menu Dock (Animated slide-down) */}
-          <div className="fixed top-15 sm:top-22 md:top-24 left-1/2 -translate-x-1/2 z-50 pointer-events-auto w-[calc(100%-16px)] sm:w-auto max-w-[96vw]">
+          <div className="fixed top-14 sm:top-20 md:top-24 left-1/2 -translate-x-1/2 z-50 pointer-events-auto max-w-[calc(100vw-12px)] sm:max-w-none">
             <div
-              className={`animate-slide-down backdrop-blur-2xl px-3 sm:px-6 py-2.5 sm:py-3 rounded-2xl sm:rounded-full flex items-center justify-center gap-2 sm:gap-3.5 flex-wrap sm:flex-nowrap border-2 shadow-[0_20px_50px_rgba(0,0,0,0.85)] ${
+              className={`animate-slide-down backdrop-blur-2xl px-2 sm:px-6 py-1.5 sm:py-3 rounded-full flex items-center justify-center gap-1 sm:gap-3 flex-nowrap border-2 shadow-[0_20px_50px_rgba(0,0,0,0.85)] ${
                 isDark
                   ? 'bg-[#09101d]/95 border-cyan-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.9)]'
                   : 'bg-white border-slate-300 shadow-2xl'
@@ -249,7 +249,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={handleToggleFullscreen}
-                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                className={`h-8 sm:h-11 px-2 sm:px-4 rounded-full sm:rounded-xl text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 border ${
                   isDark
                     ? 'neu-btn-raised text-slate-100 hover:text-white border-slate-700/60'
                     : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300 shadow-xs'
@@ -258,13 +258,15 @@ export default function Header() {
               >
                 {isFullscreen ? (
                   <>
-                    <Minimize2 className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-800'}`} />
-                    <span className="whitespace-nowrap">Exit Full</span>
+                    <Minimize2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-800'}`} />
+                    <span className="whitespace-nowrap hidden xs:inline">Exit Full</span>
+                    <span className="whitespace-nowrap xs:hidden">Exit</span>
                   </>
                 ) : (
                   <>
-                    <Maximize2 className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-800'}`} />
-                    <span className="whitespace-nowrap">Fullscreen</span>
+                    <Maximize2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-slate-800'}`} />
+                    <span className="whitespace-nowrap hidden xs:inline">Fullscreen</span>
+                    <span className="whitespace-nowrap xs:hidden">Full</span>
                   </>
                 )}
               </button>
@@ -273,21 +275,21 @@ export default function Header() {
               <button
                 type="button"
                 onClick={handleHomeClick}
-                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                className={`h-8 sm:h-11 px-2.5 sm:px-4 rounded-full sm:rounded-xl text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 border ${
                   isDark
                     ? 'neu-btn-raised text-slate-100 hover:text-white border-slate-700/60'
                     : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300 shadow-xs'
                 }`}
                 title="Return to Welcome Screen"
               >
-                <Home className={`w-4 h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`} />
+                <Home className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`} />
                 <span>Home</span>
               </button>
 
-              {/* Item 3 (GITNA / CENTER): The InvenTech Logo right in the middle of the 4 buttons! */}
+              {/* Item 3 (GITNA / CENTER): The InvenTech Logo right in the middle of the 4 buttons */}
               <div
                 onClick={() => setIsOpen(false)}
-                className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-full p-0.5 sm:p-1 flex items-center justify-center relative shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-all ${
+                className={`w-8 h-8 sm:w-12 sm:h-12 rounded-full p-0.5 sm:p-1 flex items-center justify-center relative shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-all ${
                   isDark
                     ? 'bg-[#0a1324] border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.6)]'
                     : 'bg-white border-2 border-slate-400 shadow-md'
@@ -301,18 +303,18 @@ export default function Header() {
                 />
               </div>
 
-              {/* Item 4: Return Equipment Modal Station */}
+              {/* Item 4: Return Equipment Modal Station (Clean Cyan - No green indicator) */}
               <button
                 type="button"
                 onClick={handleReturnClick}
-                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                className={`h-8 sm:h-11 px-2.5 sm:px-4 rounded-full sm:rounded-xl text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 border ${
                   isDark
-                    ? 'neu-btn-raised text-emerald-400 hover:text-emerald-300 border-emerald-500/30'
-                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border-emerald-300 shadow-xs'
+                    ? 'neu-btn-raised text-cyan-300 hover:text-cyan-200 border-cyan-500/40'
+                    : 'bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border-cyan-300 shadow-xs'
                 }`}
                 title="Equipment Return & Custodian Clearance"
               >
-                <RotateCcw className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <RotateCcw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`} />
                 <span>Return</span>
               </button>
 
@@ -320,14 +322,14 @@ export default function Header() {
               <button
                 type="button"
                 onClick={handleResetClick}
-                className={`h-9 sm:h-11 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0 border ${
+                className={`h-8 sm:h-11 px-2.5 sm:px-4 rounded-full sm:rounded-xl text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 border ${
                   isDark
                     ? 'neu-btn-raised text-rose-400 hover:text-rose-300 border-rose-500/30'
                     : 'bg-rose-50 hover:bg-rose-100 text-rose-950 border-rose-300 shadow-xs'
                 }`}
                 title="Reset current transaction"
               >
-                <RotateCcw className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
+                <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                 <span>Reset</span>
               </button>
             </div>

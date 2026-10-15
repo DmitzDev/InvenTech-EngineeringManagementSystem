@@ -98,23 +98,25 @@ export default function RudderActionMenu() {
         {isOpen ? (
           <div className="flex flex-col items-center gap-2 sm:gap-2.5 animate-slide-up">
             {/* 1. The 5-Item Horizontal Dock (Exit Fullscreen - Home - InvenTech Center Logo - Return - Reset) */}
-            <div className="bg-[#09101d]/95 border border-cyan-500/40 backdrop-blur-2xl px-3 sm:px-5 py-2 rounded-full shadow-[0_16px_45px_rgba(0,0,0,0.85)] flex items-center justify-center gap-2 sm:gap-3">
+            <div className="bg-[#09101d]/95 border border-cyan-500/40 backdrop-blur-2xl px-2 sm:px-5 py-1.5 sm:py-2 rounded-full shadow-[0_16px_45px_rgba(0,0,0,0.85)] flex items-center justify-center gap-1 sm:gap-3 flex-nowrap max-w-[calc(100vw-16px)] sm:max-w-none">
               {/* Item 1: Exit Full Screen / Fullscreen Toggle */}
               <button
                 type="button"
                 onClick={handleToggleFullscreen}
-                className="h-10 sm:h-11 px-3 sm:px-4 rounded-xl neu-btn-raised text-cyan-400 hover:text-cyan-300 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0"
+                className="h-8 sm:h-11 px-2 sm:px-4 rounded-full sm:rounded-xl neu-btn-raised text-cyan-400 hover:text-cyan-300 text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
                 title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
               >
                 {isFullscreen ? (
                   <>
-                    <Minimize2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                    <span className="whitespace-nowrap">Exit Full</span>
+                    <Minimize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
+                    <span className="whitespace-nowrap hidden xs:inline">Exit Full</span>
+                    <span className="whitespace-nowrap xs:hidden">Exit</span>
                   </>
                 ) : (
                   <>
-                    <Maximize2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                    <span className="whitespace-nowrap">Fullscreen</span>
+                    <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
+                    <span className="whitespace-nowrap hidden xs:inline">Fullscreen</span>
+                    <span className="whitespace-nowrap xs:hidden">Full</span>
                   </>
                 )}
               </button>
@@ -123,16 +125,16 @@ export default function RudderActionMenu() {
               <button
                 type="button"
                 onClick={handleHomeClick}
-                className="h-10 sm:h-11 px-3 sm:px-4 rounded-xl neu-btn-raised text-slate-200 hover:text-white text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0"
+                className="h-8 sm:h-11 px-2.5 sm:px-4 rounded-full sm:rounded-xl neu-btn-raised text-slate-200 hover:text-white text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
                 title="Return to Welcome Screen"
               >
-                <Home className="w-4 h-4 text-cyan-400 shrink-0" />
+                <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
                 <span>Home</span>
               </button>
 
-              {/* Item 3 (GITNA / CENTER): The Elevated InvenTech Circle Logo (Aligned level with all 4 buttons) */}
+              {/* Item 3 (GITNA / CENTER): The Elevated InvenTech Circle Logo */}
               <div
-                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full p-0.5 bg-[#0a1324] border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.6)] flex items-center justify-center relative shrink-0"
+                className="w-8 h-8 sm:w-12 sm:h-12 rounded-full p-0.5 bg-[#0a1324] border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.6)] flex items-center justify-center relative shrink-0"
                 title="InvenTech Core Hub"
               >
                 <img
@@ -146,10 +148,10 @@ export default function RudderActionMenu() {
               <button
                 type="button"
                 onClick={handleReturnClick}
-                className="h-10 sm:h-11 px-3 sm:px-4 rounded-xl neu-btn-raised text-emerald-400 hover:text-emerald-300 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0"
+                className="h-8 sm:h-11 px-2.5 sm:px-4 rounded-full sm:rounded-xl neu-btn-raised text-cyan-300 hover:text-cyan-200 border-cyan-500/40 text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
                 title="Equipment Return & Custodian Clearance"
               >
-                <RotateCcw className="w-4 h-4 shrink-0" />
+                <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
                 <span>Return</span>
               </button>
 
@@ -157,10 +159,10 @@ export default function RudderActionMenu() {
               <button
                 type="button"
                 onClick={handleResetClick}
-                className="h-10 sm:h-11 px-3 sm:px-4 rounded-xl neu-btn-raised text-slate-300 hover:text-rose-400 text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 shrink-0"
+                className="h-8 sm:h-11 px-2.5 sm:px-4 rounded-full sm:rounded-xl neu-btn-raised text-slate-300 hover:text-rose-400 text-[11px] sm:text-sm font-bold transition-all cursor-pointer active:scale-95 flex items-center justify-center gap-1 sm:gap-1.5 shrink-0"
                 title="Reset current transaction"
               >
-                <RotateCcw className="w-4 h-4 shrink-0" />
+                <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400 shrink-0" />
                 <span>Reset</span>
               </button>
             </div>
