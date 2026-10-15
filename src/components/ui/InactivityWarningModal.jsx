@@ -2,6 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { RefreshCw, RotateCcw } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
+import TouchButton from './TouchButton';
 
 export default function InactivityWarningModal({
   isOpen,
@@ -16,7 +17,7 @@ export default function InactivityWarningModal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm animate-fade-in select-none"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in select-none"
       role="alertdialog"
       aria-modal="true"
       aria-labelledby="inactivity-title"
@@ -24,17 +25,17 @@ export default function InactivityWarningModal({
       <div
         className={`w-full max-w-sm rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center space-y-6 shadow-2xl animate-scale-up transition-colors ${
           isDark
-            ? 'bg-[#0f172a] text-slate-100 border border-slate-800 shadow-[0_20px_60px_rgba(0,0,0,0.85)]'
-            : 'bg-white text-slate-900 border border-slate-200 shadow-xl'
+            ? 'neu-card border border-slate-700/80 shadow-[0_20px_60px_rgba(0,0,0,0.9)] text-slate-100'
+            : 'bg-white text-slate-900 border border-slate-200 shadow-2xl'
         }`}
       >
-        {/* Minimalist Countdown Ring */}
+        {/* Minimalist Countdown Ring - Synced to Kiosk Cyber Cyan / Electric Blue */}
         <div className="relative flex items-center justify-center">
           <div
             className={`w-24 h-24 rounded-full flex flex-col items-center justify-center border-4 transition-colors ${
               isDark
-                ? 'border-amber-400/80 bg-amber-950/30 text-amber-400 shadow-[0_0_24px_rgba(251,191,36,0.15)]'
-                : 'border-amber-500 bg-amber-50 text-amber-600'
+                ? 'border-cyan-400 bg-cyan-950/40 text-cyan-300 shadow-[0_0_24px_rgba(6,182,212,0.35)]'
+                : 'border-blue-500 bg-blue-50 text-blue-600 shadow-md'
             }`}
           >
             <span className="text-4xl font-black font-mono tracking-tight tabular-nums leading-none">
@@ -65,34 +66,30 @@ export default function InactivityWarningModal({
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="w-full flex flex-col gap-2.5 pt-1">
-          <button
-            type="button"
+        {/* Action Buttons - Synced with TouchButton (neu-btn-primary and neu-btn-raised) */}
+        <div className="w-full flex flex-col gap-3 pt-1">
+          <TouchButton
+            variant="primary"
+            size="md"
+            icon={RefreshCw}
             onClick={onContinue}
-            className={`w-full min-h-[48px] py-3 px-5 rounded-xl font-black text-sm tracking-wide flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all shadow-md ${
-              isDark
-                ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-[0_0_20px_rgba(251,191,36,0.3)]'
-                : 'bg-amber-500 hover:bg-amber-600 text-white'
-            }`}
+            fullWidth
+            className="w-full font-black text-sm tracking-wide shadow-lg"
             autoFocus
           >
-            <RefreshCw className="w-4 h-4" />
-            <span>Continue Session</span>
-          </button>
+            Continue Session
+          </TouchButton>
 
-          <button
-            type="button"
+          <TouchButton
+            variant="secondary"
+            size="md"
+            icon={RotateCcw}
             onClick={onResetNow}
-            className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all border ${
-              isDark
-                ? 'bg-slate-800/80 hover:bg-rose-950/40 text-slate-300 hover:text-rose-400 border-slate-700/80 hover:border-rose-500/40'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-rose-700 border-slate-300'
-            }`}
+            fullWidth
+            className="w-full font-bold text-xs"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Now</span>
-          </button>
+            Reset Now
+          </TouchButton>
         </div>
       </div>
     </div>,
