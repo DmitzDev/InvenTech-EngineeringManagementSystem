@@ -12,6 +12,8 @@ import {
   LayoutGrid,
   List,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { getInventory, LAB_OPTIONS, getItemImage, isItemConsumable } from '../../data/equipmentData';
@@ -216,6 +218,49 @@ export default function EquipmentCatalog() {
 
     return Array.from(groupsMap.values());
   }, [filteredEquipment]);
+
+  // ----------------------------------------------------------------------
+  // Pagination State & Logic
+  // ----------------------------------------------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = mobileViewMode === 'compact' ? 10 : 12;
+
+  // Auto-reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, activeCategory, mobileLabFilter, selectedLab]);
+
+  const totalPages = Math.max(1, Math.ceil(groupedEquipment.length / itemsPerPage));
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
+
+  const paginatedEquipment = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return groupedEquipment.slice(startIndex, startIndex + itemsPerPage);
+  }, [groupedEquipment, currentPage, itemsPerPage]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > totalPages || newPage === currentPage) return;
+    setCurrentPage(newPage);
+    scrollToTop();
+  };
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    if (currentPage <= 4) {
+      return [1, 2, 3, 4, 5, '...', totalPages];
+    }
+    if (currentPage >= totalPages - 3) {
+      return [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+  };
 
   // Handle scroll detection for back-to-top floating button on phone
   const handleScroll = (e) => {
@@ -521,36 +566,123 @@ export default function EquipmentCatalog() {
               Try adjusting your search query or selecting another category.
             </p>
           </div>
-        ) : mobileViewMode === 'compact' ? (
-          /* Mobile Ultra-Compact Row Strip View (Fits 8-10 items per screen height) */
-          <div className="space-y-1.5 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm:gap-4 sm:space-y-0">
-            {groupedEquipment.map((group) => (
-              <EquipmentCompactRow
-                key={group.id}
-                group={group}
-                onAddToCart={handleAddToCart}
-                onReserve={setSelectedItemForReservation}
-                getItemCartQty={getItemCartQty}
-                getItemActiveReservations={getItemActiveReservations}
-                isDark={isDark}
-              />
-            ))}
-          </div>
         ) : (
-          /* Standard 2-Column Fast Phone Grid / 4-Column Kiosk Grid */
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-4">
-            {groupedEquipment.map((group) => (
-              <EquipmentCard
-                key={group.id}
-                group={group}
-                onAddToCart={handleAddToCart}
-                onReserve={setSelectedItemForReservation}
-                getItemCartQty={getItemCartQty}
-                getItemActiveReservations={getItemActiveReservations}
-                isDark={isDark}
-              />
-            ))}
-          </div>
+          <>
+            {mobileViewMode === 'compact' ? (
+              /* Mobile Ultra-Compact Row Strip View (Fits 8-10 items per screen height) */
+              <div className="space-y-1.5 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm:gap-4 sm:space-y-0">
+                {paginatedEquipment.map((group) => (
+                  <EquipmentCompactRow
+                    key={group.id}
+                    group={group}
+                    onAddToCart={handleAddToCart}
+                    onReserve={setSelectedItemForReservation}
+                    getItemCartQty={getItemCartQty}
+                    getItemActiveReservations={getItemActiveReservations}
+                    isDark={isDark}
+                  />
+                ))}
+              </div>
+            ) : (
+              /* Standard 2-Column Fast Phone Grid / 4-Column Kiosk Grid */
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-4">
+                {paginatedEquipment.map((group) => (
+                  <EquipmentCard
+                    key={group.id}
+                    group={group}
+                    onAddToCart={handleAddToCart}
+                    onReserve={setSelectedItemForReservation}
+                    getItemCartQty={getItemCartQty}
+                    getItemActiveReservations={getItemActiveReservations}
+                    isDark={isDark}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className={`mt-5 mb-4 p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs ${
+                isDark ? 'bg-[#0f172a]/80 border-slate-800' : 'bg-white border-slate-200'
+              }`}>
+                {/* Information */}
+                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 text-center sm:text-left">
+                  Pinapakita ang{' '}
+                  <span className="font-bold text-slate-900 dark:text-slate-200">
+                    {(currentPage - 1) * itemsPerPage + 1}
+                  </span>
+                  –
+                  <span className="font-bold text-slate-900 dark:text-slate-200">
+                    {Math.min(currentPage * itemsPerPage, groupedEquipment.length)}
+                  </span>{' '}
+                  sa{' '}
+                  <span className="font-bold text-slate-900 dark:text-slate-200">
+                    {groupedEquipment.length}
+                  </span>{' '}
+                  kagamitan
+                  <span className="hidden sm:inline text-slate-400 dark:text-slate-500 ml-1.5">
+                    • Pahina {currentPage} ng {totalPages}
+                  </span>
+                </div>
+
+                {/* Page Action Controls */}
+                <div className="flex items-center gap-1.5 flex-wrap justify-center">
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className={`h-9 px-3 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                      isDark
+                        ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                        : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span className="hidden sm:inline">Prev</span>
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {getPageNumbers().map((p, idx) =>
+                      p === '...' ? (
+                        <span key={`ellipsis-${idx}`} className="px-1.5 text-xs text-slate-400 font-bold select-none">
+                          ...
+                        </span>
+                      ) : (
+                        <button
+                          key={p}
+                          type="button"
+                          onClick={() => handlePageChange(p)}
+                          className={`h-9 min-w-[36px] px-2.5 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer ${
+                            currentPage === p
+                              ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-500/30'
+                              : isDark
+                              ? 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'
+                              : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      )
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`h-9 px-3 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                      isDark
+                        ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                        : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
 

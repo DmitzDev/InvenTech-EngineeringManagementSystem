@@ -28,6 +28,7 @@ export default function BorrowerForm() {
     borrower,
     setBorrowerField,
     checkStudentOverdueClearance,
+    lookupStudentInDatabase,
     setStep,
     goToWelcome,
     theme,
@@ -54,8 +55,35 @@ export default function BorrowerForm() {
 
   // Real-time clearance check
   const clearanceStatus = useMemo(() => {
-    return checkStudentOverdueClearance(borrower.studentId, borrower.groupLeader);
+    return checkStudentOverdueClearance(borrower.groupLeader, borrower.studentId);
   }, [borrower.studentId, borrower.groupLeader, checkStudentOverdueClearance]);
+
+  // Database validation check for duplicate active loans and past profiles
+  const databaseCheck = useMemo(() => {
+    return lookupStudentInDatabase?.(borrower.studentId) || {
+      hasDuplicateActiveLoan: false,
+      activeLoanTx: null,
+      previousProfile: null,
+    };
+  }, [borrower.studentId, lookupStudentInDatabase]);
+
+  const handleApplyPreviousProfile = () => {
+    if (!databaseCheck.previousProfile) return;
+    const { studentName, program, yearLevel, section, courseCode, instructor } = databaseCheck.previousProfile;
+    if (studentName) setBorrowerField('groupLeader', studentName);
+    if (program) setBorrowerField('program', program);
+    if (yearLevel) {
+      setSelectedYear(yearLevel);
+      setBorrowerField('yearLevel', yearLevel);
+    }
+    if (section) {
+      setSelectedSection(section);
+      setBorrowerField('section', section);
+    }
+    if (courseCode) setBorrowerField('courseCode', courseCode);
+    if (instructor) setBorrowerField('instructor', instructor);
+    setErrors({});
+  };
 
   const startInputRef = useRef(null);
   const endInputRef = useRef(null);
@@ -251,6 +279,8 @@ export default function BorrowerForm() {
       errs.studentId = 'Student ID Number is required';
     } else if (cleanId.length !== 9) {
       errs.studentId = 'Student ID must be exactly 9 digits (e.g. 23-1374-693)';
+    } else if (databaseCheck.hasDuplicateActiveLoan) {
+      errs.studentId = `Bawal humiram muli: May aktibong hiniram pa ang Student ID na ito (${databaseCheck.activeLoanTx?.transactionId || databaseCheck.activeLoanTx?.txId}). Paki-sauli muna ang mga gamit bago magsimula ng bagong transaksyon.`;
     }
 
     const trimmedInstructor = (borrower.instructor || '').trim();
@@ -621,11 +651,16 @@ export default function BorrowerForm() {
                 }`}>
                   Student ID Number
                 </label>
-                {borrower.studentId && !clearanceStatus.isRestricted && (
+                {borrower.studentId && !clearanceStatus.isRestricted && !databaseCheck.hasDuplicateActiveLoan && (
                   <span className={`text-[10px] font-bold flex items-center gap-0.5 ${
                     isDark ? 'text-emerald-400' : 'text-emerald-700'
                   }`}>
-                    <CheckCircle2 className="w-3 h-3" /> Cleared
+                    <CheckCircle2 className="w-3 h-3" /> Validated
+                  </span>
+                )}
+                {databaseCheck.hasDuplicateActiveLoan && (
+                  <span className="text-[10px] font-bold text-rose-500 flex items-center gap-0.5">
+                    <AlertTriangle className="w-3 h-3" /> May Aktibong Hirap
                   </span>
                 )}
               </div>
@@ -645,7 +680,7 @@ export default function BorrowerForm() {
                 pattern="[0-9]*"
                 enterKeyHint="next"
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-extrabold transition-all uppercase ${
-                  clearanceStatus.isRestricted
+                  clearanceStatus.isRestricted || databaseCheck.hasDuplicateActiveLoan
                     ? isDark
                       ? 'text-rose-400 border border-rose-500 bg-rose-950/40 ring-2 ring-rose-500'
                       : 'text-rose-900 border-2 border-rose-400 bg-rose-50 ring-2 ring-rose-200'
@@ -655,8 +690,56 @@ export default function BorrowerForm() {
                 } ${errors.studentId ? 'ring-2 ring-rose-500 border-rose-500' : ''}`}
               />
               {errors.studentId && (
-                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.studentId}</p>
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-1 font-semibold">{errors.studentId}</p>
               )}
+
+              {/* Duplicate Active Loan Warning */}
+              {databaseCheck.hasDuplicateActiveLoan && (
+                <div className="mt-2 p-2.5 rounded-xl border border-rose-500/40 bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs animate-fade-in">
+                  <div className="flex items-center gap-1.5 font-bold">
+                    <AlertTriangle className="w-4 h-4 shrink-0 text-rose-500" />
+                    <span>May Aktibong Hirap pa sa Database!</span>
+                  </div>
+                  <p className="mt-1 text-[11px] leading-relaxed">
+                    Ang ID na ito ay may kasalukuyang hiniram na gamit sa transaksyon (
+                    <span className="font-mono font-bold">{databaseCheck.activeLoanTx?.transactionId || databaseCheck.activeLoanTx?.txId}</span>
+                    ). Paki-sauli muna ang gamit sa laboratory custodian bago humiram muli.
+                  </p>
+                </div>
+              )}
+
+              {/* Database Registered Profile Match / Auto-fill Helper */}
+              {databaseCheck.previousProfile && !databaseCheck.hasDuplicateActiveLoan && (
+                <div className={`mt-2 p-2.5 rounded-xl border text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 animate-fade-in ${
+                  isDark ? 'bg-blue-950/30 border-blue-500/30 text-blue-300' : 'bg-blue-50/80 border-blue-200 text-blue-900'
+                }`}>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0" />
+                    <div className="truncate">
+                      <span className="font-bold">Record sa Database:</span>{' '}
+                      <span>{databaseCheck.previousProfile.studentName} ({databaseCheck.previousProfile.program})</span>
+                    </div>
+                  </div>
+                  {(!borrower.groupLeader || !borrower.program) && (
+                    <button
+                      type="button"
+                      onClick={handleApplyPreviousProfile}
+                      className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-600 hover:bg-blue-700 text-white shrink-0 active:scale-95 transition-all cursor-pointer shadow-xs"
+                    >
+                      I-fill Out
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Mismatched Name Warning */}
+              {borrower.groupLeader && databaseCheck.previousProfile &&
+                !databaseCheck.previousProfile.studentName.toLowerCase().includes(borrower.groupLeader.trim().toLowerCase()) &&
+                !borrower.groupLeader.trim().toLowerCase().includes(databaseCheck.previousProfile.studentName.toLowerCase()) && (
+                  <p className="text-[11px] text-amber-500 mt-1 font-medium">
+                    ⚠️ Paalala: Ang ID na ito ay nakatala sa database bilang "{databaseCheck.previousProfile.studentName}".
+                  </p>
+                )}
             </div>
           </div>
 
@@ -880,16 +963,20 @@ export default function BorrowerForm() {
         </TouchButton>
 
         <TouchButton
-          variant={clearanceStatus.isRestricted ? 'danger' : 'primary'}
+          variant={clearanceStatus.isRestricted || databaseCheck.hasDuplicateActiveLoan ? 'danger' : 'primary'}
           size="md"
-          icon={clearanceStatus.isRestricted ? AlertTriangle : ArrowRight}
+          icon={clearanceStatus.isRestricted || databaseCheck.hasDuplicateActiveLoan ? AlertTriangle : ArrowRight}
           onClick={handleNext}
-          disabled={clearanceStatus.isRestricted}
+          disabled={clearanceStatus.isRestricted || databaseCheck.hasDuplicateActiveLoan}
           className={`flex-1 sm:flex-initial sm:min-w-[320px] py-2 sm:py-3 text-xs sm:text-base font-extrabold shadow-lg truncate ${
-            clearanceStatus.isRestricted ? 'opacity-60 cursor-not-allowed bg-rose-700' : ''
+            clearanceStatus.isRestricted || databaseCheck.hasDuplicateActiveLoan ? 'opacity-60 cursor-not-allowed bg-rose-700' : ''
           }`}
         >
-          {clearanceStatus.isRestricted ? '⛔ Borrowing Restricted (Clearance Hold)' : 'Next: Select Laboratory'}
+          {clearanceStatus.isRestricted
+            ? '⛔ Borrowing Restricted (Clearance Hold)'
+            : databaseCheck.hasDuplicateActiveLoan
+            ? '⛔ Bawal Humiram (May Aktibong Loan Pa)'
+            : 'Next: Select Laboratory'}
         </TouchButton>
       </div>
     </div>

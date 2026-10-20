@@ -987,8 +987,16 @@ export function TransactionProvider({ children }) {
 
   // Instant validation check for overdue or unreturned apparatus and active clearance holds
   const checkStudentOverdueClearance = (studentName, studentId) => {
-    const sName = (studentName || '').trim().toLowerCase();
-    const rawSId = (studentId || '').trim().toLowerCase();
+    let sName = (studentName || '').trim().toLowerCase();
+    let rawSId = (studentId || '').trim().toLowerCase();
+
+    // Defensive swap in case caller passes (studentId, studentName)
+    if (/\d{2,}/.test(sName) && !/\d{2,}/.test(rawSId)) {
+      const temp = sName;
+      sName = rawSId;
+      rawSId = temp;
+    }
+
     const cleanSId = rawSId.replace(/[^a-z0-9]/gi, '');
 
     if (!sName && !cleanSId) {
@@ -998,8 +1006,8 @@ export function TransactionProvider({ children }) {
     // 1. Query active unreturned transactions in activeTransactions
     const unreturnedTxs = (state.activeTransactions || []).filter((tx) => {
       if (tx.status !== 'BORROWED') return false;
-      const txBorrowerName = (tx.borrower?.groupLeader || '').trim().toLowerCase();
-      const rawTxId = (tx.borrower?.studentId || '').trim().toLowerCase();
+      const txBorrowerName = (tx.borrower?.groupLeader || tx.studentName || '').trim().toLowerCase();
+      const rawTxId = (tx.borrower?.studentId || tx.studentId || '').trim().toLowerCase();
       const cleanTxId = rawTxId.replace(/[^a-z0-9]/gi, '');
 
       const idMatch =
@@ -1103,6 +1111,46 @@ export function TransactionProvider({ children }) {
     };
   };
 
+  // Instant Database Student ID validator: checks for duplicate active loans and past registered records
+  const lookupStudentInDatabase = (studentId) => {
+    if (!studentId) return { hasDuplicateActiveLoan: false, activeLoanTx: null, previousProfile: null };
+    const cleanSId = studentId.replace(/[^a-z0-9]/gi, '').toLowerCase();
+    if (cleanSId.length < 5) return { hasDuplicateActiveLoan: false, activeLoanTx: null, previousProfile: null };
+
+    const txs = state.activeTransactions || [];
+
+    // 1. Check for duplicate active unreturned loan
+    const activeLoanTx = txs.find((tx) => {
+      if (tx.status !== 'BORROWED') return false;
+      const rawTxId = (tx.borrower?.studentId || tx.studentId || '').replace(/[^a-z0-9]/gi, '').toLowerCase();
+      return rawTxId === cleanSId;
+    });
+
+    // 2. Check for existing profile in past transactions
+    const previousMatch = txs.find((tx) => {
+      const rawTxId = (tx.borrower?.studentId || tx.studentId || '').replace(/[^a-z0-9]/gi, '').toLowerCase();
+      return rawTxId === cleanSId;
+    });
+
+    let previousProfile = null;
+    if (previousMatch) {
+      previousProfile = {
+        studentName: previousMatch.borrower?.groupLeader || previousMatch.studentName || '',
+        program: previousMatch.borrower?.program || previousMatch.program || '',
+        yearLevel: previousMatch.borrower?.yearLevel || previousMatch.yearLevel || '',
+        section: previousMatch.borrower?.section || previousMatch.section || '',
+        courseCode: previousMatch.borrower?.courseCode || previousMatch.courseCode || '',
+        instructor: previousMatch.borrower?.instructor || previousMatch.instructor || '',
+      };
+    }
+
+    return {
+      hasDuplicateActiveLoan: Boolean(activeLoanTx),
+      activeLoanTx: activeLoanTx || null,
+      previousProfile,
+    };
+  };
+
   const value = {
     ...state,
     toggleTheme: () => dispatch({ type: 'TOGGLE_THEME' }),
@@ -1164,6 +1212,7 @@ export function TransactionProvider({ children }) {
       dispatch({ type: 'REMOVE_CLEARANCE_HOLD', payload: id }),
     checkReservationConflict,
     checkStudentOverdueClearance,
+    lookupStudentInDatabase,
     prepareTransactionReview: () => dispatch({ type: 'PREPARE_TRANSACTION_REVIEW' }),
     commitTransaction: () => {
       const randomSuffix = Math.floor(1000 + Math.random() * 9000);
