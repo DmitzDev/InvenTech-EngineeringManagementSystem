@@ -599,92 +599,94 @@ export default function EquipmentCatalog() {
                 ))}
               </div>
             )}
-
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div className={`mt-5 mb-4 p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs ${
-                isDark ? 'bg-[#0f172a]/80 border-slate-800' : 'bg-white border-slate-200'
-              }`}>
-                {/* Information */}
-                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 text-center sm:text-left">
-                  Pinapakita ang{' '}
-                  <span className="font-bold text-slate-900 dark:text-slate-200">
-                    {(currentPage - 1) * itemsPerPage + 1}
-                  </span>
-                  –
-                  <span className="font-bold text-slate-900 dark:text-slate-200">
-                    {Math.min(currentPage * itemsPerPage, groupedEquipment.length)}
-                  </span>{' '}
-                  sa{' '}
-                  <span className="font-bold text-slate-900 dark:text-slate-200">
-                    {groupedEquipment.length}
-                  </span>{' '}
-                  kagamitan
-                  <span className="hidden sm:inline text-slate-400 dark:text-slate-500 ml-1.5">
-                    • Pahina {currentPage} ng {totalPages}
-                  </span>
-                </div>
-
-                {/* Page Action Controls */}
-                <div className="flex items-center gap-1.5 flex-wrap justify-center">
-                  <button
-                    type="button"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className={`h-9 px-3 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-                      isDark
-                        ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
-                        : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                    <span className="hidden sm:inline">Prev</span>
-                  </button>
-
-                  <div className="flex items-center gap-1">
-                    {getPageNumbers().map((p, idx) =>
-                      p === '...' ? (
-                        <span key={`ellipsis-${idx}`} className="px-1.5 text-xs text-slate-400 font-bold select-none">
-                          ...
-                        </span>
-                      ) : (
-                        <button
-                          key={p}
-                          type="button"
-                          onClick={() => handlePageChange(p)}
-                          className={`h-9 min-w-[36px] px-2.5 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer ${
-                            currentPage === p
-                              ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-500/30'
-                              : isDark
-                              ? 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'
-                              : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
-                          }`}
-                        >
-                          {p}
-                        </button>
-                      )
-                    )}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className={`h-9 px-3 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-                      isDark
-                        ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
-                        : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    <span className="hidden sm:inline">Next</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            )}
           </>
         )}
       </div>
+
+      {/* 5. Fixed / Sticky Pagination Bar (NOT included in scrolling - always docked at bottom for fast navigation!) */}
+      {totalPages > 1 && (
+        <div className={`shrink-0 pt-2.5 sm:pt-3 pb-1 border-t flex flex-col sm:flex-row items-center justify-between gap-2.5 z-20 ${
+          isDark
+            ? 'bg-[#0a0e17]/95 border-slate-800/90 backdrop-blur-sm'
+            : 'bg-slate-100/95 border-slate-200/90 backdrop-blur-sm'
+        }`}>
+          {/* Information */}
+          <div className="text-xs font-medium text-slate-500 dark:text-slate-400 text-center sm:text-left">
+            Pinapakita ang{' '}
+            <span className="font-bold text-slate-900 dark:text-slate-200">
+              {(currentPage - 1) * itemsPerPage + 1}
+            </span>
+            –
+            <span className="font-bold text-slate-900 dark:text-slate-200">
+              {Math.min(currentPage * itemsPerPage, groupedEquipment.length)}
+            </span>{' '}
+            sa{' '}
+            <span className="font-bold text-slate-900 dark:text-slate-200">
+              {groupedEquipment.length}
+            </span>{' '}
+            kagamitan
+            <span className="hidden sm:inline text-slate-400 dark:text-slate-500 ml-1.5">
+              • Pahina {currentPage} ng {totalPages}
+            </span>
+          </div>
+
+          {/* Page Action Controls */}
+          <div className="flex items-center gap-1.5 flex-wrap justify-center">
+            <button
+              type="button"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`h-9 sm:h-10 px-3 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                isDark
+                  ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
+              }`}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Prev</span>
+            </button>
+
+            <div className="flex items-center gap-1">
+              {getPageNumbers().map((p, idx) =>
+                p === '...' ? (
+                  <span key={`ellipsis-${idx}`} className="px-1.5 text-xs text-slate-400 font-bold select-none">
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => handlePageChange(p)}
+                    className={`h-9 sm:h-10 min-w-[36px] sm:min-w-[40px] px-2.5 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer ${
+                      currentPage === p
+                        ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-500/30 font-black'
+                        : isDark
+                        ? 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'
+                        : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                )
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`h-9 sm:h-10 px-3 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                isDark
+                  ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
+              }`}
+            >
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Floating Scroll to Top Quick Jump Button (Phone View Only) */}
       {showScrollTop && (
