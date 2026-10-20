@@ -163,6 +163,7 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
                   src={borrower.signature}
                   alt="Student Digital Signature"
                   className="h-8 max-w-[120px] object-contain absolute -top-4 pointer-events-none"
+                  style={{ filter: 'grayscale(100%) contrast(200%)' }}
                 />
               )}
               <span>{borrower.groupLeader || '______________________________'}</span>
@@ -214,6 +215,7 @@ export default function BorrowerSheet({ isScreenPreview = false }) {
                   src={borrower.signature}
                   alt="Student Digital Signature"
                   className="h-8 max-w-[120px] object-contain absolute -top-4 pointer-events-none"
+                  style={{ filter: 'grayscale(100%) contrast(200%)' }}
                 />
               )}
               <span>{borrower.groupLeader || '_________________________________'}</span>
