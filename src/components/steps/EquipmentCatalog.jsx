@@ -383,15 +383,15 @@ export default function EquipmentCatalog() {
             </div>
           </div>
 
-          {/* Right: Dedicated Borrow Cart Button (Desktop / Kiosk Only) */}
-          <div className="hidden sm:flex sm:w-auto justify-end shrink-0">
+          {/* Right: Dedicated Borrow Cart Button (Responsive on all screen sizes) */}
+          <div className="flex sm:w-auto justify-end shrink-0">
             <button
               type="button"
               onClick={openCartDrawer}
-              className={`w-auto flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+              className={`w-auto flex items-center justify-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                 isDark
-                  ? 'neu-btn-raised text-slate-200 hover:text-white shadow-md'
-                  : 'bg-white border border-slate-200 text-slate-800 hover:bg-slate-50 shadow-sm'
+                  ? 'neu-btn-raised text-slate-100 hover:text-white shadow-md'
+                  : 'bg-white border border-slate-300 text-slate-900 hover:bg-slate-50 shadow-xs'
               }`}
               title="Open Borrow Cart"
             >
@@ -402,9 +402,9 @@ export default function EquipmentCatalog() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="text-xs sm:text-sm font-bold">Borrow Cart</span>
-              <span className={`px-2 py-0.5 rounded-full text-xs font-mono font-extrabold shadow-sm ${
-                isDark ? 'bg-white text-slate-950' : 'bg-slate-900 text-white'
+              <span className="text-xs sm:text-sm font-bold">Cart</span>
+              <span className={`px-2 py-0.5 rounded-full text-xs font-bold shadow-xs ${
+                isDark ? 'bg-cyan-500 text-slate-950 font-black' : 'bg-slate-900 text-white font-bold'
               }`}>
                 {totalUnitsCount}
               </span>
@@ -754,16 +754,16 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             </div>
           )}
 
-          {/* Bottom-Left Live Stock Indicator Capsule */}
+          {/* Bottom-Left Clean Stock Indicator Capsule */}
           <div
-            className={`absolute bottom-1.5 left-1.5 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded-md border shadow-md font-mono text-[9px] sm:text-[10px] font-black pointer-events-none ${
+            className={`absolute bottom-2 left-2 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-lg border shadow-sm font-sans text-xs font-bold pointer-events-none ${
               isDark
                 ? 'bg-slate-950/95 backdrop-blur-md border-white/15 text-white'
-                : 'bg-[#090e17] text-white border-slate-700 shadow-md'
+                : 'bg-slate-900/90 backdrop-blur-md text-white border-slate-700'
             }`}
           >
             <span
-              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full shrink-0 ${
+              className={`w-2 h-2 rounded-full shrink-0 ${
                 isMaintenance
                   ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
                   : isAllInCart
@@ -775,62 +775,58 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                   : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
               }`}
             />
-            <span className="truncate font-bold text-white keep-white">
+            <span className="truncate">
               {isMaintenance
-                ? 'Repair'
+                ? 'Under Repair'
                 : isAllInCart
-                ? `Max (${inCartQty})`
+                ? `Max in cart (${inCartQty})`
                 : isOutOfStock
-                ? '0 stock'
-                : `${availableStock} left`}
+                ? 'Out of stock'
+                : `${availableStock} available`}
             </span>
             {totalReservedQty > 0 && !isMaintenance && (
-              <span className="text-[8px] sm:text-[8.5px] font-mono shrink-0 font-bold text-amber-300 keep-white">
+              <span className="text-[11px] shrink-0 font-medium text-amber-300">
                 • {totalReservedQty} rsv
               </span>
             )}
           </div>
         </div>
 
-        {/* Clean Categorization Badges Row */}
+        {/* Clean Categorization Badges Row (Decluttered: Tag Code + Lab Only) */}
         <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
-          {/* Tag Code Badge / Locker Location Pill */}
-          <span className={`font-mono px-2 py-0.5 rounded text-xs border ${
-            isDark ? 'text-slate-200 bg-slate-900/90 border-slate-800 font-black' : 'bg-blue-50 text-blue-700 font-medium border-blue-200/50'
+          <span className={`px-2 py-0.5 rounded-md text-xs font-semibold border ${
+            isDark ? 'text-slate-200 bg-slate-900/90 border-slate-800' : 'bg-slate-100 text-slate-800 font-semibold border-slate-200'
           }`}>
             {currentItem.tagCode}
           </span>
 
-          {/* Lab & Type Pills */}
-          <span className={`text-[9px] sm:text-[10px] font-mono font-black px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${accent.badge}`}>
-            {currentItem.lab}
+          <span className={`text-xs font-semibold px-2 py-0.5 rounded-md uppercase border ${accent.badge}`}>
+            {currentItem.lab} Lab
           </span>
-          <span
-            className={`text-[9px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded uppercase border backdrop-blur-md ${
-              isItemConsumable(currentItem)
-                ? isDark
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/30 font-black'
-                  : 'bg-amber-50 text-amber-800 border border-amber-200/60 font-semibold'
-                : isDark
-                ? 'bg-blue-500/20 text-blue-300 border-blue-500/30 font-black'
-                : 'bg-slate-100 text-slate-700 border border-slate-200 font-semibold'
-            }`}
-          >
-            {isItemConsumable(currentItem) ? 'Consumable' : 'Tool'}
-          </span>
+
+          {isItemConsumable(currentItem) && (
+            <span className={`text-xs px-2 py-0.5 rounded-md font-semibold border ${
+              isDark
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                : 'bg-amber-50 text-amber-900 border-amber-200'
+            }`}>
+              Consumable
+            </span>
+          )}
         </div>
 
         {/* Tool Title */}
-        <h3 className={`text-base font-semibold leading-snug line-clamp-1 ${
-          isDark ? 'text-slate-100 group-hover:text-cyan-300 font-black' : 'text-slate-900 group-hover:text-blue-700'
+        <h3 className={`text-sm sm:text-base font-bold leading-snug line-clamp-1 ${
+          isDark ? 'text-slate-100 group-hover:text-cyan-300' : 'text-slate-900 group-hover:text-blue-700'
         }`}>
           {group.baseName}
         </h3>
-        {/* Specifications & Model Subtext */}
+
+        {/* Clean Specifications Subtext */}
         <p className={`text-xs line-clamp-1 leading-normal mt-0.5 ${
-          isDark ? 'text-slate-400' : 'text-slate-600'
+          isDark ? 'text-slate-400' : 'text-slate-600 font-normal'
         }`}>
-          {currentItem.description || `${currentItem.category} • ${currentItem.lab} Laboratory`}
+          {currentItem.description || currentItem.category}
         </p>
 
         {/* Variant Selector */}
@@ -840,10 +836,10 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
               <select
                 value={selectedVariantId}
                 onChange={(e) => setSelectedVariantId(e.target.value)}
-                className={`w-full h-8 pl-2.5 pr-8 rounded-xl font-mono text-[10.5px] sm:text-[11px] font-bold appearance-none cursor-pointer focus:outline-none transition-all truncate ${
+                className={`w-full h-8 pl-2.5 pr-8 rounded-xl text-xs font-semibold appearance-none cursor-pointer focus:outline-none transition-all truncate ${
                   isDark
                     ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white shadow-inner'
-                    : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
+                    : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                 }`}
               >
                 {group.variants.map((v) => {
@@ -854,9 +850,9 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                     <option
                       key={v.id}
                       value={v.id}
-                      className={isDark ? 'bg-[#131b28] text-slate-100 py-1.5 font-mono' : 'bg-white text-slate-900 py-1.5 font-mono font-medium'}
+                      className={isDark ? 'bg-[#131b28] text-slate-100 py-1.5' : 'bg-white text-slate-900 py-1.5'}
                     >
-                      {v.variantLabel} {vQty > 0 ? `(${vQty} in cart)` : ''} — {vAvail === 0 ? 'Out of stock' : `${vAvail} left`}
+                      {v.variantLabel} • {vAvail === 0 ? 'Out of stock' : `${vAvail} left`} {vQty > 0 ? `(${vQty} in cart)` : ''}
                     </option>
                   );
                 })}
@@ -871,24 +867,24 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
         )}
       </div>
 
-      {/* Card Footer: Action Buttons */}
-      <div className={`mt-2.5 pt-2 border-t flex items-center gap-2 ${
-        isDark ? 'border-slate-700/60' : 'border-slate-200'
+      {/* Card Footer: Action Buttons (Consistent Height, Sizing, Tactile Feedback) */}
+      <div className={`mt-3 pt-2.5 border-t flex items-center gap-2 ${
+        isDark ? 'border-slate-800' : 'border-slate-200'
       }`}>
         {/* Reserve Button */}
         <button
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className={`h-8 sm:h-9 px-2.5 rounded-lg flex items-center justify-center gap-1 active:scale-95 active:bg-amber-100 transition-transform duration-75 ease-out touch-manipulation disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 ${
+          className={`h-9 sm:h-10 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform duration-75 ease-out touch-manipulation disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 font-semibold text-xs ${
             isDark
-              ? 'neu-btn-raised text-amber-300'
-              : 'bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-medium text-xs shadow-xs'
+              ? 'neu-btn-raised text-amber-300 hover:text-amber-200 border-amber-500/30'
+              : 'bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 shadow-xs'
           }`}
-          title={isMaintenance ? 'Item Locked' : 'Reserve Equipment'}
+          title={isMaintenance ? 'Item Locked' : 'Reserve Equipment in Advance'}
         >
           <Calendar className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline text-xs font-semibold">Reserve</span>
+          <span className="hidden sm:inline">Reserve</span>
         </button>
 
         {/* Card Action Button: Add to Cart */}
@@ -896,14 +892,16 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           type="button"
           onClick={() => onAddToCart(currentItem)}
           disabled={isOutOfStock || isAllInCart || isMaintenance}
-          className={`flex-1 h-8 sm:h-9 text-xs font-bold py-2 px-3 rounded-lg shadow-sm transition-transform duration-75 ease-out touch-manipulation flex items-center justify-center gap-1 active:scale-95 cursor-pointer ${
+          className={`flex-1 h-9 sm:h-10 text-xs font-bold px-3 rounded-xl shadow-xs transition-transform duration-75 ease-out touch-manipulation flex items-center justify-center gap-1.5 active:scale-[0.97] cursor-pointer ${
             isMaintenance || isOutOfStock || isAllInCart
-              ? 'opacity-40 cursor-not-allowed neu-inset text-slate-400'
+              ? 'opacity-40 cursor-not-allowed bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700'
               : inCartQty > 0
               ? isDark
-                ? 'neu-btn-secondary text-white font-black'
-                : 'neu-btn-primary text-white ring-2 ring-slate-400'
-              : 'neu-btn-primary text-white'
+                ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black shadow-md'
+                : 'bg-slate-900 hover:bg-slate-800 text-white font-bold ring-2 ring-slate-400'
+              : isDark
+              ? 'neu-btn-primary text-white font-bold'
+              : 'bg-slate-900 hover:bg-slate-800 text-white font-bold'
           }`}
           title="Add apparatus to cart"
         >
@@ -912,12 +910,12 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             {isMaintenance
               ? 'Locked'
               : isAllInCart
-              ? 'Max'
+              ? 'Max Added'
               : isOutOfStock
               ? '0 Stock'
               : inCartQty > 0
-              ? `Add (${inCartQty})`
-              : 'Add'}
+              ? `Add (+1) • ${inCartQty}`
+              : 'Add to Cart'}
           </span>
         </button>
       </div>
@@ -948,15 +946,15 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
       className={`${
         isDark
           ? 'neu-card neu-card-hover'
-          : 'bg-white border border-slate-200/90 rounded-xl shadow-sm'
-      } p-2.5 flex items-center justify-between gap-2.5 transition-transform duration-75 ease-out active:scale-[0.99] select-none touch-manipulation ${
+          : 'bg-white border border-slate-200/90 rounded-2xl shadow-sm'
+      } p-3 flex items-center justify-between gap-3 transition-transform duration-75 ease-out active:scale-[0.99] select-none touch-manipulation ${
         isMaintenance ? 'border-rose-500/40 opacity-80' : ''
       }`}
     >
       {/* Thumbnail + Left Info */}
-      <div className="min-w-0 flex-1 flex items-center gap-2.5">
+      <div className="min-w-0 flex-1 flex items-center gap-3">
         {itemImg && (
-          <div className={`w-12 h-12 rounded-lg shrink-0 overflow-hidden flex items-center justify-center transition-colors ${
+          <div className={`w-12 h-12 rounded-xl shrink-0 overflow-hidden flex items-center justify-center transition-colors ${
             isDark ? 'neu-inset-sm bg-[#080d16]' : 'bg-slate-100 border border-slate-200/80'
           }`}>
             <img
@@ -970,54 +968,52 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
 
         <div className="min-w-0 flex-1 flex flex-col">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border shrink-0 ${
-              isDark ? 'text-slate-200 bg-slate-900 border-slate-700/60 font-black' : 'bg-blue-50 text-blue-700 font-medium border-blue-200/50'
+            <span className={`text-xs px-2 py-0.5 rounded font-semibold border shrink-0 ${
+              isDark ? 'text-slate-200 bg-slate-900 border-slate-700/60' : 'bg-slate-100 text-slate-800 border-slate-200'
             }`}>
               {currentItem.tagCode}
             </span>
-            <span className={`text-[8.5px] font-mono font-black px-1.5 py-0.5 rounded uppercase shrink-0 border ${accent.badge}`}>
+            <span className={`text-xs font-semibold px-1.5 py-0.5 rounded uppercase shrink-0 border ${accent.badge}`}>
               {currentItem.lab}
             </span>
-            <span className={`text-[10px] font-mono font-bold truncate flex items-center gap-1.5 ${
-              isDark ? 'text-slate-200' : 'text-slate-900'
-            }`}>
+            <span className="text-xs font-medium truncate flex items-center gap-1.5">
               <span
                 className={`w-2 h-2 rounded-full shrink-0 ${
                   isMaintenance
-                    ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
+                    ? 'bg-rose-400'
                     : isAllInCart
-                    ? 'bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)]'
+                    ? 'bg-sky-400'
                     : isOutOfStock
-                    ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
+                    ? 'bg-rose-400'
                     : isLowStock
-                    ? 'bg-amber-400 animate-pulse shadow-[0_0_6px_rgba(251,191,36,0.8)]'
-                    : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                    ? 'bg-amber-400 animate-pulse'
+                    : 'bg-emerald-400'
                 }`}
               />
-              <span className={`truncate font-bold ${
+              <span className={`truncate font-semibold ${
                 isMaintenance
-                  ? isDark ? 'text-rose-400' : 'text-rose-800 bg-rose-50 px-1 rounded border border-rose-200/60'
+                  ? isDark ? 'text-rose-400' : 'text-rose-800'
                   : isAllInCart
                   ? isDark ? 'text-cyan-300' : 'text-slate-900'
                   : isOutOfStock
-                  ? isDark ? 'text-rose-400' : 'text-rose-800 bg-rose-50 px-1 rounded border border-rose-200/60'
+                  ? isDark ? 'text-rose-400' : 'text-rose-800'
                   : isLowStock
-                  ? isDark ? 'text-amber-300' : 'text-amber-800 bg-amber-50 px-1 rounded border border-amber-200/60'
-                  : isDark ? 'text-slate-200' : 'text-emerald-800 bg-emerald-50 px-1 rounded border border-emerald-200/60'
+                  ? isDark ? 'text-amber-300' : 'text-amber-800'
+                  : isDark ? 'text-slate-200' : 'text-emerald-800'
               }`}>
                 {isMaintenance
                   ? 'Repair'
                   : isAllInCart
-                  ? `Max (${inCartQty}/${totalStock})`
+                  ? `Max (${inCartQty})`
                   : isOutOfStock
                   ? '0 stock'
-                  : `${availableStock}/${totalStock} left`}
+                  : `${availableStock} left`}
               </span>
             </span>
           </div>
 
-          <h4 className={`text-xs sm:text-sm font-semibold truncate leading-tight mt-0.5 ${
-            isDark ? 'text-slate-100 font-black' : 'text-slate-900'
+          <h4 className={`text-xs sm:text-sm font-bold truncate leading-tight mt-1 ${
+            isDark ? 'text-slate-100' : 'text-slate-900'
           }`}>
             {group.baseName}
           </h4>
@@ -1028,7 +1024,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
               <select
                 value={selectedVariantId}
                 onChange={(e) => setSelectedVariantId(e.target.value)}
-                className={`w-full h-6 pl-2 pr-6 rounded-lg font-mono text-[9px] font-bold appearance-none cursor-pointer focus:outline-none truncate ${
+                className={`w-full h-6 pl-2 pr-6 rounded-lg text-[10px] font-semibold appearance-none cursor-pointer focus:outline-none truncate ${
                   isDark
                     ? 'neu-inset text-slate-100'
                     : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
@@ -1044,7 +1040,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
                       value={v.id}
                       className={isDark ? 'bg-[#131b28] text-slate-200' : 'bg-white text-slate-900 font-medium'}
                     >
-                      {v.variantLabel} {vQty > 0 ? `(${vQty})` : ''} — {vAvail} left
+                      {v.variantLabel} • {vAvail} left {vQty > 0 ? `(${vQty})` : ''}
                     </option>
                   );
                 })}
@@ -1060,38 +1056,41 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, ge
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-1.5 shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         <button
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className={`w-7.5 h-7.5 rounded-lg flex items-center justify-center active:scale-95 active:bg-amber-100 transition-transform duration-75 ease-out touch-manipulation shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${
+          className={`h-9 px-2.5 rounded-xl flex items-center justify-center active:scale-[0.97] transition-transform duration-75 ease-out touch-manipulation shrink-0 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer font-semibold text-xs ${
             isDark
-              ? 'neu-btn-raised text-amber-300'
-              : 'bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-medium text-xs shadow-xs'
+              ? 'neu-btn-raised text-amber-300 hover:text-amber-200'
+              : 'bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 shadow-xs'
           }`}
           title={isMaintenance ? 'Under Maintenance' : 'Reserve'}
         >
           <Calendar className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Reserve</span>
         </button>
 
         <button
           type="button"
           disabled={isOutOfStock || isMaintenance}
           onClick={() => onAddToCart(currentItem)}
-          className={`h-7.5 px-3 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95 transition-transform duration-75 ease-out touch-manipulation disabled:opacity-40 disabled:cursor-not-allowed shrink-0 cursor-pointer shadow-sm ${
+          className={`h-9 px-3.5 rounded-xl text-xs font-bold flex items-center gap-1 active:scale-[0.97] transition-transform duration-75 ease-out touch-manipulation disabled:opacity-40 disabled:cursor-not-allowed shrink-0 cursor-pointer shadow-xs ${
             isMaintenance || isOutOfStock
-              ? 'opacity-40 cursor-not-allowed neu-inset text-slate-400'
+              ? 'opacity-40 cursor-not-allowed bg-slate-100 dark:bg-slate-800 text-slate-400'
               : inCartQty > 0
               ? isDark
-                ? 'neu-btn-secondary text-white font-black'
-                : 'neu-btn-primary text-white ring-1 ring-slate-400'
-              : 'neu-btn-primary text-white'
+                ? 'bg-cyan-500 text-slate-950 font-black'
+                : 'bg-slate-900 text-white font-bold ring-1 ring-slate-400'
+              : isDark
+              ? 'neu-btn-primary text-white font-bold'
+              : 'bg-slate-900 text-white font-bold'
           }`}
         >
           <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
           <span>{isMaintenance ? 'Locked' : isOutOfStock ? (isAllInCart ? 'Max' : '0') : 'Add'}</span>
-          {inCartQty > 0 && !isMaintenance && <span className="text-[9px] font-bold font-mono">({inCartQty})</span>}
+          {inCartQty > 0 && !isMaintenance && <span className="text-[10px] font-bold">({inCartQty})</span>}
         </button>
       </div>
     </div>

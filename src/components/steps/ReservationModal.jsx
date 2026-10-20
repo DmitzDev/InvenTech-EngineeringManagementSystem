@@ -133,29 +133,58 @@ export default function ReservationModal({ item, isOpen, onClose }) {
   // Formatted Time Slot
   const formattedLabTime = `${startHour.padStart(2, '0')}:${startMinute.padStart(2, '0')} ${startPeriod} - ${endHour.padStart(2, '0')}:${endMinute.padStart(2, '0')} ${endPeriod}`;
 
+  const [errors, setErrors] = useState({});
+
   // Real-time conflict check
   const conflictInfo = checkReservationConflict(item.id, reserveDate, formattedLabTime, qty, item.stock);
 
-  const handleConfirmReservation = (e) => {
-    e.preventDefault();
+  const validate = () => {
+    const errs = {};
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (!reserveDate) {
+      errs.reserveDate = 'Please select a reservation date';
+    } else if (reserveDate < todayStr) {
+      errs.reserveDate = 'Reservation date cannot be in the past';
+    }
+
     if (!studentName.trim()) {
-      showToast('Please enter the Reserving Student / Group Leader Name', 'error');
-      return;
+      errs.studentName = 'Student / Group Leader Name is required';
+    } else if (studentName.trim().length < 3) {
+      errs.studentName = 'Name must be at least 3 characters';
     }
+
     if (!instructor.trim()) {
-      showToast('Please enter the Laboratory Instructor / Professor name', 'error');
-      return;
+      errs.instructor = 'Laboratory Instructor / Professor name is required';
+    } else if (instructor.trim().length < 3) {
+      errs.instructor = 'Instructor name must be at least 3 characters';
     }
+
     if (isOtherProgram && !customProgram.trim()) {
-      showToast('Please enter your specific Academic Program / Department', 'error');
-      return;
+      errs.customProgram = 'Please enter your Academic Program (e.g., BSIT)';
+    }
+
+    if (!courseCode.trim()) {
+      errs.courseCode = 'Course Code required (e.g. 41-BSCE-01)';
+    }
+
+    if (!qty || qty < 1) {
+      errs.qty = 'Quantity must be at least 1';
+    } else if (qty > item.stock) {
+      errs.qty = `Maximum available stock is ${item.stock}`;
     }
 
     if (conflictInfo.hasConflict) {
-      showToast(
-        `Double-booking conflict! Only ${conflictInfo.availableSlots} units available for this time slot.`,
-        'error'
-      );
+      errs.conflict = `Double-booking conflict! Only ${conflictInfo.availableSlots} units available for this schedule.`;
+    }
+
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
+  const handleConfirmReservation = (e) => {
+    e.preventDefault();
+    if (!validate()) {
+      showToast('Please fix the highlighted errors before confirming.', 'error');
       return;
     }
 
@@ -389,8 +418,13 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     type="date"
                     value={reserveDate}
                     min={new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setReserveDate(e.target.value)}
+                    onChange={(e) => {
+                      setErrors((prev) => ({ ...prev, reserveDate: null }));
+                      setReserveDate(e.target.value);
+                    }}
                     className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono focus:outline-none transition-all ${
+                      errors.reserveDate ? 'ring-2 ring-rose-500 border-rose-500' : ''
+                    } ${
                       isDark
                         ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
                         : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
@@ -398,6 +432,9 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     style={{ colorScheme: isDark ? 'dark' : 'light' }}
                     required
                   />
+                  {errors.reserveDate && (
+                    <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.reserveDate}</p>
+                  )}
                 </div>
 
                 <div>
@@ -405,19 +442,27 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     isDark ? 'text-slate-300 font-bold' : 'text-slate-700 font-medium'
                   }`}>
                     <BookOpen className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-slate-700'} shrink-0`} />
-                    <span>Subject / Course Code</span>
+                    <span>Subject / Course Code *</span>
                   </label>
                   <input
                     type="text"
                     value={courseCode}
-                    onChange={(e) => setCourseCode(e.target.value.toUpperCase())}
+                    onChange={(e) => {
+                      setErrors((prev) => ({ ...prev, courseCode: null }));
+                      setCourseCode(e.target.value.toUpperCase());
+                    }}
                     placeholder="e.g. 41-BSCPE-01"
                     className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono font-bold focus:outline-none transition-all ${
+                      errors.courseCode ? 'ring-2 ring-rose-500 border-rose-500' : ''
+                    } ${
                       isDark
                         ? 'neu-inset text-cyan-300 focus:ring-1 focus:ring-white'
                         : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                     }`}
                   />
+                  {errors.courseCode && (
+                    <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.courseCode}</p>
+                  )}
                 </div>
               </div>
 
@@ -436,7 +481,10 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                       <button
                         key={progOption}
                         type="button"
-                        onClick={() => handleProgramChange(progOption)}
+                        onClick={() => {
+                          setErrors((prev) => ({ ...prev, program: null, customProgram: null }));
+                          handleProgramChange(progOption);
+                        }}
                         className={`h-8 sm:h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center cursor-pointer active:scale-95 ${
                           isSelected
                             ? isDark
@@ -458,15 +506,23 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                     <input
                       type="text"
                       value={customProgram}
-                      onChange={(e) => setCustomProgram(e.target.value.toUpperCase())}
+                      onChange={(e) => {
+                        setErrors((prev) => ({ ...prev, customProgram: null }));
+                        setCustomProgram(e.target.value.toUpperCase());
+                      }}
                       placeholder="Type your course name (e.g., BSIT, BSCS, BSHM)..."
                       className={`w-full h-8 sm:h-10 px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold uppercase focus:outline-none transition-all ${
+                        errors.customProgram ? 'ring-2 ring-rose-500 border-rose-500' : ''
+                      } ${
                         isDark
                           ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
                           : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                       }`}
                       required
                     />
+                    {errors.customProgram && (
+                      <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.customProgram}</p>
+                    )}
                   </div>
                 )}
               </div>
@@ -563,15 +619,23 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                 <input
                   type="text"
                   value={studentName}
-                  onChange={(e) => setStudentName(e.target.value)}
+                  onChange={(e) => {
+                    setErrors((prev) => ({ ...prev, studentName: null }));
+                    setStudentName(e.target.value);
+                  }}
                   placeholder="e.g. Jason Cayabyab"
                   className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium focus:outline-none transition-all ${
+                    errors.studentName ? 'ring-2 ring-rose-500 border-rose-500' : ''
+                  } ${
                     isDark
                       ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
                       : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                   }`}
                   required
                 />
+                {errors.studentName && (
+                  <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.studentName}</p>
+                )}
               </div>
 
               {/* 6. Laboratory Instructor */}
@@ -585,15 +649,23 @@ export default function ReservationModal({ item, isOpen, onClose }) {
                 <input
                   type="text"
                   value={instructor}
-                  onChange={(e) => setInstructor(e.target.value)}
+                  onChange={(e) => {
+                    setErrors((prev) => ({ ...prev, instructor: null }));
+                    setInstructor(e.target.value);
+                  }}
                   placeholder="e.g. Engr. Jin Benir Macaranas"
                   className={`w-full h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium focus:outline-none transition-all ${
+                    errors.instructor ? 'ring-2 ring-rose-500 border-rose-500' : ''
+                  } ${
                     isDark
                       ? 'neu-inset text-slate-100 focus:ring-1 focus:ring-white'
                       : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                   }`}
                   required
                 />
+                {errors.instructor && (
+                  <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.instructor}</p>
+                )}
               </div>
 
               {/* 7. Structured Time of Laboratory Schedule */}

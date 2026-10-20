@@ -48,6 +48,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   // State management
   const [enteredId, setEnteredId] = useState('');
   const [lookupAttempted, setLookupAttempted] = useState(false);
+  const [inputError, setInputError] = useState('');
   const [selectedItems, setSelectedItems] = useState(new Set()); // set of "txId:itemId"
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedSummary, setSubmittedSummary] = useState(null);
@@ -172,6 +173,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   const handleNumpadPress = (char) => {
     if (isLocked) return;
     if (!/\d/.test(char)) return; // Only accept digits; dashes are auto-formatted
+    setInputError('');
     const currentDigits = enteredId.replace(/\D/g, '');
     if (currentDigits.length >= 9) return; // Strict 9 digits maximum
     const newDigits = currentDigits + char;
@@ -180,6 +182,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
   const handleBackspace = () => {
     if (isLocked) return;
+    setInputError('');
     const currentDigits = enteredId.replace(/\D/g, '');
     if (!currentDigits) return;
     const newDigits = currentDigits.slice(0, -1);
@@ -188,6 +191,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
   const handleClearInput = () => {
     if (isLocked) return;
+    setInputError('');
     setEnteredId('');
     setLookupAttempted(false);
   };
@@ -200,14 +204,17 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
     }
     const digitsOnly = enteredId.replace(/\D/g, '');
     if (!digitsOnly) {
+      setInputError('Please enter your Student ID number');
       showToast('Please enter your Student ID number', 'error');
       return;
     }
     if (digitsOnly.length !== 9) {
+      setInputError('Student ID must be exactly 9 digits (e.g. 23-1374-693)');
       showToast('Student ID must be exactly 9 digits (e.g. 23-1374-693)', 'error');
       return;
     }
 
+    setInputError('');
     const cleanEnteredId = enteredId.trim().toUpperCase();
     const matchingLoans = activeTransactions.filter((tx) => {
       if (tx.status !== 'BORROWED') return false;
@@ -221,6 +228,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
         showToast(`[ SECURITY LOCKOUT // EXCESSIVE ATTEMPTS DETECTED - COOLDOWN ${res.remainingSeconds}s ]`, 'error');
       } else {
         const remaining = maxAttempts - res.failedAttempts;
+        setInputError(`No active loans found for ${enteredId}`);
         showToast(`No active loans found for ${enteredId}. ${remaining} attempt(s) remaining before lockout.`, 'error');
       }
       setLookupAttempted(true);
@@ -437,12 +445,15 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       value={enteredId}
                       data-no-osk="true"
                       onChange={(e) => {
+                        setInputError('');
                         const formatted = handleStudentIdChange(e.target.value, enteredId);
                         setEnteredId(formatted);
                       }}
                       placeholder="e.g. 23-1374-693"
                       className={`w-full h-12 sm:h-14 px-4 pr-12 rounded-xl font-mono text-center text-lg sm:text-xl tracking-widest font-black focus:outline-none transition-all shadow-inner touch-manipulation disabled:opacity-50 ${
-                        isDark
+                        inputError
+                          ? 'border-2 border-rose-500 ring-2 ring-rose-500/50 text-rose-600'
+                          : isDark
                           ? 'neu-inset text-cyan-300 placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-400/50'
                           : 'bg-white border-2 border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100'
                       }`}
@@ -458,6 +469,11 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                       </button>
                     )}
                   </div>
+                  {inputError && (
+                    <p className="text-xs text-rose-500 font-semibold text-center mt-2 animate-fadeIn">
+                      {inputError}
+                    </p>
+                  )}
                 </form>
 
                 {/* Touch-Friendly On-Screen Numpad (Desktop / Kiosk Viewports >= 1024px Only - Strictly Hidden on Mobile) */}

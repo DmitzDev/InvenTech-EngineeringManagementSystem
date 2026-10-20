@@ -76,6 +76,7 @@ export default function BorrowerForm() {
 
   // Handler for Academic Program dropdown
   const handleProgramChange = (val) => {
+    setErrors((prev) => ({ ...prev, program: null, courseCode: null }));
     if (val === 'OTHERS') {
       setIsOtherProgram(true);
       setCustomProgram('');
@@ -88,6 +89,7 @@ export default function BorrowerForm() {
   };
 
   const handleCustomProgramChange = (val) => {
+    setErrors((prev) => ({ ...prev, program: null, courseCode: null }));
     const cleanVal = val.toUpperCase();
     setCustomProgram(cleanVal);
     setBorrowerField('program', cleanVal);
@@ -95,6 +97,7 @@ export default function BorrowerForm() {
 
   // Handler for Year Level dropdown
   const handleYearChange = (yearId) => {
+    setErrors((prev) => ({ ...prev, year: null, courseCode: null }));
     setSelectedYear(yearId);
     if ((yearId === '1' || yearId === '4') && selectedSem === '3') {
       setSelectedSem('');
@@ -103,11 +106,13 @@ export default function BorrowerForm() {
 
   // Handler for Semester / Term dropdown
   const handleSemChange = (semId) => {
+    setErrors((prev) => ({ ...prev, sem: null, courseCode: null }));
     setSelectedSem(semId);
   };
 
   // Handler for Section dropdown
   const handleSectionChange = (sec) => {
+    setErrors((prev) => ({ ...prev, section: null, courseCode: null }));
     setSelectedSection(sec);
   };
 
@@ -212,18 +217,53 @@ export default function BorrowerForm() {
 
   const validate = () => {
     const errs = {};
-    if (!borrower.program?.trim()) errs.program = 'Select or specify a Program';
-    if (!borrower.courseCode?.trim()) errs.courseCode = 'Course Code required (e.g. 41-BSCPE-01)';
-    if (!borrower.groupLeader?.trim()) errs.groupLeader = 'Student Name is required';
+    if (!borrower.program?.trim()) {
+      errs.program = 'Please select or enter an Academic Program';
+    } else if (isOtherProgram && customProgram.trim().length < 2) {
+      errs.program = 'Please specify your Program name (e.g. BSIT)';
+    }
+
+    if (!selectedYear) {
+      errs.year = 'Select Year Level';
+    }
+    if (!selectedSem) {
+      errs.sem = 'Select Semester';
+    }
+    if (!selectedSection) {
+      errs.section = 'Select Section';
+    }
+
+    if (!borrower.courseCode?.trim()) {
+      errs.courseCode = 'Course Code required (complete Program, Year, Sem & Section)';
+    }
+
+    const trimmedLeader = (borrower.groupLeader || '').trim();
+    if (!trimmedLeader) {
+      errs.groupLeader = 'Student / Borrower Name is required';
+    } else if (trimmedLeader.length < 3) {
+      errs.groupLeader = 'Name must be at least 3 characters';
+    } else if (!/^[A-Za-z\s.\-ñÑ]+$/.test(trimmedLeader)) {
+      errs.groupLeader = 'Name should only contain letters and spaces';
+    }
+
     const cleanId = (borrower.studentId || '').replace(/\D/g, '');
     if (!cleanId) {
       errs.studentId = 'Student ID Number is required';
     } else if (cleanId.length !== 9) {
       errs.studentId = 'Student ID must be exactly 9 digits (e.g. 23-1374-693)';
     }
-    if (!borrower.instructor?.trim()) errs.instructor = 'Instructor name required';
+
+    const trimmedInstructor = (borrower.instructor || '').trim();
+    if (!trimmedInstructor) {
+      errs.instructor = 'Laboratory Instructor name is required';
+    } else if (trimmedInstructor.length < 3) {
+      errs.instructor = 'Instructor name must be at least 3 characters';
+    }
+
     if (!borrower.labTime?.trim() || !startHour || !endHour) {
-      errs.labTime = 'Please complete the time schedule range';
+      errs.labTime = 'Please complete both Start and End time schedule';
+    } else if (startHour === endHour && startMinute === endMinute && startPeriod === endPeriod) {
+      errs.labTime = 'Start and End time cannot be identical';
     }
 
     // Overdue Clearance Lockout Validation Check
@@ -430,7 +470,7 @@ export default function BorrowerForm() {
                   isDark
                     ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
                     : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                } ${!selectedYear ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
+                } ${errors.year ? 'ring-2 ring-rose-500 border-rose-500' : ''} ${!selectedYear ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
               >
                 <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Year</option>
                 {YEAR_LEVELS.map((y) => (
@@ -439,6 +479,9 @@ export default function BorrowerForm() {
                   </option>
                 ))}
               </select>
+              {errors.year && (
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.year}</p>
+              )}
             </div>
 
             {/* 3. Term / Semester */}
@@ -455,7 +498,7 @@ export default function BorrowerForm() {
                   isDark
                     ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
                     : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                } ${!selectedSem ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
+                } ${errors.sem ? 'ring-2 ring-rose-500 border-rose-500' : ''} ${!selectedSem ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
               >
                 <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Semester</option>
                 <option value="1" className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>1st Semester</option>
@@ -464,6 +507,9 @@ export default function BorrowerForm() {
                   <option value="3" className={isDark ? 'bg-[#0e1422] text-amber-300 font-bold' : 'bg-white text-amber-800 font-bold'}>Summer Term</option>
                 )}
               </select>
+              {errors.sem && (
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.sem}</p>
+              )}
             </div>
 
             {/* 4. Class Section */}
@@ -476,19 +522,22 @@ export default function BorrowerForm() {
               <select
                 value={selectedSection}
                 onChange={(e) => handleSectionChange(e.target.value)}
-                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-mono cursor-pointer transition-all ${
+                className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-2 sm:px-3.5 rounded-lg sm:rounded-xl text-xs sm:text-sm cursor-pointer transition-all ${
                   isDark
                     ? 'neu-inset bg-[#0e1422] border border-slate-800 focus:ring-1 focus:ring-cyan-500'
                     : 'bg-white border border-slate-300 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                } ${!selectedSection ? (isDark ? 'text-slate-400/50 font-sans' : 'text-slate-400 font-sans') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
+                } ${errors.section ? 'ring-2 ring-rose-500 border-rose-500' : ''} ${!selectedSection ? (isDark ? 'text-slate-400/50' : 'text-slate-400') : (isDark ? 'text-slate-100 font-bold' : 'text-slate-900 font-bold')}`}
               >
-                <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500 font-sans' : 'bg-white text-slate-400 font-sans'}>Select Section</option>
+                <option value="" className={isDark ? 'bg-[#0e1422] text-slate-500' : 'bg-white text-slate-400'}>Select Section</option>
                 {SECTIONS.map((sec) => (
-                  <option key={sec} value={sec} className={isDark ? 'bg-[#0e1422] text-slate-100 font-mono font-bold' : 'bg-white text-slate-900 font-mono font-bold'}>
+                  <option key={sec} value={sec} className={isDark ? 'bg-[#0e1422] text-slate-100 font-bold' : 'bg-white text-slate-900 font-semibold'}>
                     Section {sec}
                   </option>
                 ))}
               </select>
+              {errors.section && (
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.section}</p>
+              )}
             </div>
           </div>
 
@@ -546,7 +595,10 @@ export default function BorrowerForm() {
               <input
                 type="text"
                 value={borrower.groupLeader}
-                onChange={(e) => setBorrowerField('groupLeader', e.target.value.toUpperCase())}
+                onChange={(e) => {
+                  setErrors((prev) => ({ ...prev, groupLeader: null }));
+                  setBorrowerField('groupLeader', e.target.value.toUpperCase());
+                }}
                 placeholder="e.g. JASON CAYABYAB"
                 autoComplete="off"
                 spellCheck={false}
@@ -555,7 +607,7 @@ export default function BorrowerForm() {
                   isDark
                     ? 'neu-inset text-slate-100 placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500'
                     : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                } ${errors.groupLeader ? 'ring-2 ring-rose-500' : ''}`}
+                } ${errors.groupLeader ? 'ring-2 ring-rose-500 border-rose-500' : ''}`}
               />
               {errors.groupLeader && (
                 <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.groupLeader}</p>
@@ -581,6 +633,7 @@ export default function BorrowerForm() {
                 type="text"
                 value={borrower.studentId || ''}
                 onChange={(e) => {
+                  setErrors((prev) => ({ ...prev, studentId: null }));
                   const formatted = handleStudentIdChange(e.target.value, borrower.studentId);
                   setBorrowerField('studentId', formatted);
                 }}
@@ -599,7 +652,7 @@ export default function BorrowerForm() {
                     : isDark
                       ? 'neu-inset text-cyan-300 placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500'
                       : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                } ${errors.studentId ? 'ring-2 ring-rose-500' : ''}`}
+                } ${errors.studentId ? 'ring-2 ring-rose-500 border-rose-500' : ''}`}
               />
               {errors.studentId && (
                 <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.studentId}</p>
@@ -657,7 +710,10 @@ export default function BorrowerForm() {
               <input
                 type="text"
                 value={borrower.instructor}
-                onChange={(e) => setBorrowerField('instructor', e.target.value)}
+                onChange={(e) => {
+                  setErrors((prev) => ({ ...prev, instructor: null }));
+                  setBorrowerField('instructor', e.target.value);
+                }}
                 placeholder="e.g. Engr. Jin Benir Macaranas"
                 autoComplete="off"
                 spellCheck={false}
@@ -666,7 +722,7 @@ export default function BorrowerForm() {
                   isDark
                     ? 'neu-inset text-slate-100 placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500'
                     : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                } ${errors.instructor ? 'ring-2 ring-rose-500' : ''}`}
+                } ${errors.instructor ? 'ring-2 ring-rose-500 border-rose-500' : ''}`}
               />
               {errors.instructor && (
                 <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.instructor}</p>
@@ -692,6 +748,8 @@ export default function BorrowerForm() {
             </div>
 
             <div className={`w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl border ${
+              errors.labTime ? 'ring-2 ring-rose-500 border-rose-500' : ''
+            } ${
               isDark ? 'neu-inset border-slate-800/80' : 'bg-slate-50 border border-slate-200 shadow-xs'
             }`}>
               <div className="flex items-center justify-between gap-2 sm:gap-3">
@@ -721,6 +779,7 @@ export default function BorrowerForm() {
                       return `${String(h).padStart(2, '0')}:${startMinute || '00'}`;
                     })()}
                     onChange={(e) => {
+                      setErrors((prev) => ({ ...prev, labTime: null }));
                       const val = e.target.value;
                       if (val) {
                         const [hStr, mStr] = val.split(':');
@@ -777,6 +836,7 @@ export default function BorrowerForm() {
                       return `${String(h).padStart(2, '0')}:${endMinute || '00'}`;
                     })()}
                     onChange={(e) => {
+                      setErrors((prev) => ({ ...prev, labTime: null }));
                       const val = e.target.value;
                       if (val) {
                         const [hStr, mStr] = val.split(':');

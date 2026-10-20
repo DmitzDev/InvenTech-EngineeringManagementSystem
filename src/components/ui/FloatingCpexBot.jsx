@@ -852,30 +852,6 @@ export default function FloatingCpexBot() {
       {/* 1. FLOATING CPEX TACTILE ACTION HUB */}
       {!isOpen && (
         <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 select-none flex items-center gap-2.5">
-          {/* Mobile-Only Floating Cart Button */}
-          {currentStep === 3 && (
-            <div className="sm:hidden relative shrink-0">
-              <button
-                type="button"
-                onClick={openCartDrawer}
-                title="Open Borrow Cart"
-                className="group relative w-11 h-11 rounded-full border border-cyan-500/50 shadow-[0_4px_16px_rgba(0,0,0,0.6)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer overflow-hidden bg-white"
-              >
-                <img
-                  src="/images/engrCartLogo.jpg"
-                  alt="Engineering Cart"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              </button>
-
-              {totalUnitsInCart > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-mono font-black text-[10px] flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.6)] border border-slate-950 animate-fade-in z-20 pointer-events-none">
-                  {totalUnitsInCart}
-                </span>
-              )}
-            </div>
-          )}
-
           {/* CPEX AI Trigger Button: Pure Edge-to-Edge Circle Icon */}
           <div className="relative shrink-0">
             <button
