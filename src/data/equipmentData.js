@@ -54,10 +54,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Adapter — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Adapter \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Adapter.webp"
   },
   {
     "id": "chem-002",
@@ -69,10 +70,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Alcohol Lamp — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Alcohol Lamp \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Alcohol Lamp.webp"
   },
   {
     "id": "chem-003",
@@ -84,10 +86,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Asbestos Mat — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Asbestos Mat \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Asbestos Mat.webp"
   },
   {
     "id": "chem-004",
@@ -99,10 +102,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Beaker (1000 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Beaker (1000 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (1000ml).webp"
   },
   {
     "id": "chem-005",
@@ -114,10 +118,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Beaker (500 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Beaker (500 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (500ml).webp"
   },
   {
     "id": "chem-006",
@@ -129,10 +134,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Beaker (250 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Beaker (250 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-007",
@@ -144,10 +150,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Beaker (100 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Beaker (100 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (100ml).webp"
   },
   {
     "id": "chem-008",
@@ -159,10 +166,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Buchner Funnel — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Buchner Funnel \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Buchner Funnel.webp"
   },
   {
     "id": "chem-009",
@@ -174,10 +182,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Crucible w/ Cover — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Crucible w/ Cover \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Crucible (with cover).webp"
   },
   {
     "id": "chem-010",
@@ -189,10 +198,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Crucible Tong — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Crucible Tong \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Crucible Tong.webp"
   },
   {
     "id": "chem-011",
@@ -204,10 +214,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Desiccator — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Desiccator \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Desiccator.webp"
   },
   {
     "id": "chem-012",
@@ -219,10 +230,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Distilling Flask — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Distilling Flask \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Distilling Flask.webp"
   },
   {
     "id": "chem-013",
@@ -234,10 +246,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Drying Tube — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Drying Tube \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-014",
@@ -249,10 +262,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Erlenmeyer Flask (250 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Erlenmeyer Flask (250 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Erlenmeyer Flask (250ml).webp"
   },
   {
     "id": "chem-015",
@@ -264,10 +278,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Evaporating Dish (med) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Evaporating Dish (med) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Evaporating Dish.webp"
   },
   {
     "id": "chem-016",
@@ -279,10 +294,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "(",
-    "description": "Extension Clamp — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Extension Clamp \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Extension Clamp_.webp"
   },
   {
     "id": "chem-033",
@@ -294,10 +310,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Fish Tail — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Fish Tail \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Fish Tail.webp"
   },
   {
     "id": "chem-034",
@@ -309,10 +326,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Florence Flask (500 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Florence Flask (500 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Florence Flask (500ml).webp"
   },
   {
     "id": "chem-035",
@@ -324,10 +342,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Florence Flask (150 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Florence Flask (150 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Florence Flask (150ml).webp"
   },
   {
     "id": "chem-036",
@@ -339,10 +358,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Florence Flask (100 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Florence Flask (100 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Florence Flask (100ml).webp"
   },
   {
     "id": "chem-037",
@@ -354,10 +374,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Funnel (big) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Funnel (big) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Buchner Funnel.webp"
   },
   {
     "id": "chem-038",
@@ -369,10 +390,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Funnel (med) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Funnel (med) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Funnel (Medium).webp"
   },
   {
     "id": "chem-039",
@@ -384,10 +406,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Funnel (sm) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Funnel (sm) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Funnel (Small).webp"
   },
   {
     "id": "chem-040",
@@ -399,10 +422,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Glass Tubing — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Glass Tubing \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Glass Tubing.webp"
   },
   {
     "id": "chem-041",
@@ -414,10 +438,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Graduated Cylinder (100 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Graduated Cylinder (100 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Graduated Cylinder (100ml).webp"
   },
   {
     "id": "chem-042",
@@ -429,10 +454,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Graduated Cylinder (50 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Graduated Cylinder (50 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Graduated Cylinder (50ml).webp"
   },
   {
     "id": "chem-043",
@@ -444,10 +470,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Graduated Cylinder (25 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Graduated Cylinder (25 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Graduated Cylinder (25ml).webp"
   },
   {
     "id": "chem-044",
@@ -459,10 +486,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Graduated Cylinder (10 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Graduated Cylinder (10 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Graduated Cylinder (10ml).webp"
   },
   {
     "id": "chem-045",
@@ -474,10 +502,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Iron Ring — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Iron Ring \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Iron Ring.webp"
   },
   {
     "id": "chem-046",
@@ -489,10 +518,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Iron Clamp — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Iron Clamp \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Iron Clamp.webp"
   },
   {
     "id": "chem-047",
@@ -504,10 +534,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Iron Stand — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Iron Stand \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Iron Stand.webp"
   },
   {
     "id": "chem-048",
@@ -519,10 +550,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "J-Tube (Big) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "J-Tube (Big) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/J-tube (Big).webp"
   },
   {
     "id": "chem-049",
@@ -534,10 +566,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "J-Tube (Small) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "J-Tube (Small) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-050",
@@ -549,10 +582,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Leveling Bulb — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Leveling Bulb \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-051",
@@ -564,10 +598,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Medicine Dropper — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Medicine Dropper \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-052",
@@ -579,10 +614,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Metal Rods — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Metal Rods \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-053",
@@ -594,10 +630,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Microscope (Binocular) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Microscope (Binocular) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "1 unit",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-054",
@@ -609,10 +646,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Mortar and pestle — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Mortar and pestle \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Iron Stand.webp"
   },
   {
     "id": "chem-055",
@@ -624,10 +662,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Petri Dish — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Petri Dish \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Evaporating Dish.webp"
   },
   {
     "id": "chem-056",
@@ -639,10 +678,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Reagent Bottle (1000 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Reagent Bottle (1000 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (1000ml).webp"
   },
   {
     "id": "chem-057",
@@ -654,10 +694,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Reagent Bottle (500 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Reagent Bottle (500 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (500ml).webp"
   },
   {
     "id": "chem-058",
@@ -669,10 +710,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Reagent Bottle (250 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Reagent Bottle (250 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-059",
@@ -684,10 +726,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Reagent Bottle (100 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Reagent Bottle (100 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (1000ml).webp"
   },
   {
     "id": "chem-060",
@@ -699,10 +742,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Reagent Bottle (60 ml) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Reagent Bottle (60 ml) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-061",
@@ -714,10 +758,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Rubber Aspirator — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Rubber Aspirator \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-062",
@@ -729,10 +774,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Separatory Flask — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Separatory Flask \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Distilling Flask.webp"
   },
   {
     "id": "chem-063",
@@ -744,10 +790,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Spatula (ceramic/metal) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Spatula (ceramic/metal) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-064",
@@ -759,10 +806,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Stirring Rod — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Stirring Rod \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-065",
@@ -774,10 +822,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "box",
-    "description": "Syringe — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Syringe \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-066",
@@ -789,10 +838,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Test Tube Brush — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Test Tube Brush \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-067",
@@ -804,10 +854,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Test Tube Holder — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Test Tube Holder \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-068",
@@ -819,10 +870,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Test Tube (XL) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Test Tube (XL) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-069",
@@ -834,10 +886,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Test Tube (L) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Test Tube (L) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-070",
@@ -849,10 +902,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Test Tube (M) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Test Tube (M) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "60 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-071",
@@ -864,10 +918,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Test Tube (S) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Test Tube (S) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-072",
@@ -879,10 +934,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Test Tube Rack — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Test Tube Rack \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-073",
@@ -894,10 +950,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Thistle Tube — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Thistle Tube \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Drying Tube.webp"
   },
   {
     "id": "chem-074",
@@ -909,10 +966,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "TLC Glass Plates — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "TLC Glass Plates \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Glass Tubing.webp"
   },
   {
     "id": "chem-075",
@@ -924,10 +982,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Triangular File — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Triangular File \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-076",
@@ -939,10 +998,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Tripod — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Tripod \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-077",
@@ -954,10 +1014,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Wash Bottle — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Wash Bottle \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-078",
@@ -969,10 +1030,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Watch Glass — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Watch Glass \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Glass Tubing.webp"
   },
   {
     "id": "chem-079",
@@ -984,10 +1046,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Water Trough — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Water Trough \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-080",
@@ -999,10 +1062,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Wire Gauze — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Wire Gauze \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-081",
@@ -1014,10 +1078,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Black Rubber Stopper (sm) — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Black Rubber Stopper (sm) \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-082",
@@ -1029,10 +1094,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Cor Stopper — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Cor Stopper \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-083",
@@ -1044,10 +1110,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "roll",
-    "description": "Copper Wire — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Copper Wire \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "1 roll",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-084",
@@ -1059,10 +1126,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "roll",
-    "description": "Fuse Wire — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Fuse Wire \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "1 roll",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-085",
@@ -1074,10 +1142,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "rolls",
-    "description": "Magnesium Ribbon — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Magnesium Ribbon \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "2 rolls",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-086",
@@ -1089,10 +1158,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "roll",
-    "description": "Nichrome Wire — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Nichrome Wire \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "1 roll",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "chem-087",
@@ -1104,10 +1174,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "rolls",
-    "description": "Rubber Tubing — Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
+    "description": "Rubber Tubing \u2014 Located at F201 CHEMISTRY LAB. Safety: Safe for Use.",
     "chedReq": "2 rolls",
     "room": "F201 CHEMISTRY LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Chemistry/Glass Tubing.webp"
   },
   {
     "id": "ce-001",
@@ -1119,10 +1190,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Compass — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Compass \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Compass.webp"
   },
   {
     "id": "ce-002",
@@ -1134,10 +1206,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Dewalt Grinder — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Dewalt Grinder \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Dewalt Grinder.webp"
   },
   {
     "id": "ce-003",
@@ -1149,14 +1222,15 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Dewalt Orbital Sander — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Dewalt Orbital Sander \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Dewalt Orbital Sander.webp"
   },
   {
     "id": "ce-004",
-    "name": "Dewalt Planet",
+    "name": "Dewalt Planer",
     "tagCode": "ENG-EQ-DEWA-413-26",
     "category": "Equipment & Apparatus",
     "lab": "CE",
@@ -1164,10 +1238,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Dewalt Planet — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Dewalt Planer \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Dewalt Planer.webp"
   },
   {
     "id": "ce-005",
@@ -1179,10 +1254,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "DW-2 Eclectic Strain Unconfirmed Compression Tester — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "DW-2 Eclectic Strain Unconfirmed Compression Tester \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/DW-2 Eclectic Strain Unconfirmed Compression Tester.webp"
   },
   {
     "id": "ce-006",
@@ -1194,10 +1270,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Engineer's Hammer — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Engineer's Hammer \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Engineer_s Hammer.webp"
   },
   {
     "id": "ce-007",
@@ -1209,10 +1286,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "unit",
-    "description": "Flow (Current) Meter Digital — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Flow (Current) Meter Digital \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Flow (Current) Meter Digital.webp"
   },
   {
     "id": "ce-008",
@@ -1224,10 +1302,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Graduated Cylinder 1000 ml — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Graduated Cylinder 1000 ml \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Graduated Cylinder 1000 ml.webp"
   },
   {
     "id": "ce-009",
@@ -1239,10 +1318,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Graduated Cylinder 500 ml — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Graduated Cylinder 500 ml \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Graduated Cylinder 500 ml.webp"
   },
   {
     "id": "ce-010",
@@ -1254,10 +1334,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Hard Hat — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Hard Hat \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Hard Hat.webp"
   },
   {
     "id": "ce-011",
@@ -1269,10 +1350,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "HSS Drill Bit Set (5pcs each set) — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "HSS Drill Bit Set (5pcs each set) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/HSS Drill Bit Set (5pcs each set).webp"
   },
   {
     "id": "ce-012",
@@ -1284,10 +1366,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Hydraulic Measuring Device — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Hydraulic Measuring Device \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Hydraulic Measuring Device.webp"
   },
   {
     "id": "ce-013",
@@ -1299,10 +1382,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "set",
-    "description": "Laboratory Mixer (1 set) — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Laboratory Mixer (1 set) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Laboratory Mixer (1 set).webp"
   },
   {
     "id": "ce-014",
@@ -1314,10 +1398,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Leveling Bubbles — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Leveling Bubbles \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Leveling Bubbles.webp"
   },
   {
     "id": "ce-015",
@@ -1329,10 +1414,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Manometer ( - 1205) — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Manometer ( - 1205) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Manometer ( - 1205).webp"
   },
   {
     "id": "ce-016",
@@ -1344,10 +1430,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "set",
-    "description": "Masonry Drill Bit Set (5pcs each set) — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Masonry Drill Bit Set (5pcs each set) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Masonry Drill Bit Set (5pcs each set).webp"
   },
   {
     "id": "ce-017",
@@ -1359,10 +1446,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "set",
-    "description": "Masonry Drill Bit Set (9pcs each set) — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Masonry Drill Bit Set (9pcs each set) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Masonry Drill Bit Set (9pcs each set).webp"
   },
   {
     "id": "ce-018",
@@ -1374,10 +1462,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Moisture cans w/ lid — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Moisture cans w/ lid \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Moisture cans w_ lid.webp"
   },
   {
     "id": "ce-019",
@@ -1389,10 +1478,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Moisture cans w/o Lid — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Moisture cans w/o Lid \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Moisture cans w_o lid.webp"
   },
   {
     "id": "ce-020",
@@ -1404,10 +1494,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "unit",
-    "description": "Piping System — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Piping System \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Piping System.webp"
   },
   {
     "id": "ce-021",
@@ -1419,10 +1510,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Rectangular Scoop — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Rectangular Scoop \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Rectangular Scoop.webp"
   },
   {
     "id": "ce-022",
@@ -1434,10 +1526,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Rounded File — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Rounded File \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Rounded File.webp"
   },
   {
     "id": "ce-023",
@@ -1449,10 +1542,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Rounded Scoop — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Rounded Scoop \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Rounded Scoop.webp"
   },
   {
     "id": "ce-024",
@@ -1464,10 +1558,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Sieves (40,50,60,100,120,200,200) — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Sieves (40,50,60,100,120,200,200) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Sieves (40,50,60,100,120,200,200).webp"
   },
   {
     "id": "ce-025",
@@ -1479,10 +1574,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "bottle",
-    "description": "Sodium Silicate (500 grams) — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Sodium Silicate (500 grams) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Sodium Silicate (500 grams).webp"
   },
   {
     "id": "ce-026",
@@ -1494,10 +1590,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Soil Hydrometer MODEL S10 — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Soil Hydrometer MODEL S10 \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Soil Hydrometer MODEL S10.webp"
   },
   {
     "id": "ce-027",
@@ -1509,10 +1606,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Spatula — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Spatula \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Spatula.webp"
   },
   {
     "id": "ce-028",
@@ -1524,10 +1622,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "unit",
-    "description": "STCBR-1 CBR Testing Apparatus — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "STCBR-1 CBR Testing Apparatus \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/STCBR-1 CBR Testing Apparatus.webp"
   },
   {
     "id": "ce-029",
@@ -1539,10 +1638,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "unit",
-    "description": "STMH-3 Los Angeles Splitter Abrasion Testing Machine — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "STMH-3 Los Angeles Splitter Abrasion Testing Machine \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/STMH-3 Los Angeles Splitter Abrasion Testing Machine.webp"
   },
   {
     "id": "ce-030",
@@ -1554,10 +1654,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "unit",
-    "description": "STWKY-2 Vicat Apparatus — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "STWKY-2 Vicat Apparatus \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/STWKY-2 Vicat Apparatus.webp"
   },
   {
     "id": "ce-031",
@@ -1569,10 +1670,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "unit",
-    "description": "STYE-100 Digital Display Hydraulic Compression Testing Machine — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "STYE-100 Digital Display Hydraulic Compression Testing Machine \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/STYE-100 Digital Display Hydraulic Compression Testing Machine.webp"
   },
   {
     "id": "ce-032",
@@ -1584,10 +1686,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "unit",
-    "description": "STZJ-1 Heavy-Duty Portable Compactor — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "STZJ-1 Heavy-Duty Portable Compactor \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/STZJ-1 Heavy-Duty Portable Compactor.webp"
   },
   {
     "id": "ce-033",
@@ -1599,10 +1702,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Surveying Grade rods — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Surveying Grade rods \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/SURVEYING GRADE RODS.webp"
   },
   {
     "id": "ce-034",
@@ -1614,10 +1718,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Surveying Range Pole — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Surveying Range Pole \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/SURVEYING RANGE POLE.webp"
   },
   {
     "id": "ce-035",
@@ -1629,10 +1734,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Surveying Rods/Pole Bags — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Surveying Rods/Pole Bags \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/SURVEYING RODS_POLE BAGS.webp"
   },
   {
     "id": "ce-036",
@@ -1644,10 +1750,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Surveying Tripods — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Surveying Tripods \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/SURVEYING TRIPODS.webp"
   },
   {
     "id": "ce-037",
@@ -1659,10 +1766,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Taper File — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Taper File \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Taper File.webp"
   },
   {
     "id": "ce-038",
@@ -1674,10 +1782,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Trowels — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Trowels \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Trowels.webp"
   },
   {
     "id": "ce-039",
@@ -1689,10 +1798,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Operational",
     "condition": "Good",
     "unit": "pc",
-    "description": "Water Tank — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Water Tank \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/Water Tank.webp"
   },
   {
     "id": "ce-040",
@@ -1704,10 +1814,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Available",
     "condition": "Functional",
     "unit": "pc",
-    "description": "GPS EMINGEN — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "GPS EMINGEN \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/GPS EMINGEN.webp"
   },
   {
     "id": "ce-041",
@@ -1719,10 +1830,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Available",
     "condition": "Functional",
     "unit": "pc",
-    "description": "DIGITAL HEIGHT AND DEPTH GAUGE — Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "DIGITAL HEIGHT AND DEPTH GAUGE \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Civil/DIGITAL HEIGHT AND DEPTH GAUGE.webp"
   },
   {
     "id": "digital-001",
@@ -1734,10 +1846,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "12V SPST RELAY 5P — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "12V SPST RELAY 5P \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/12V SPST RELAY 5P_.webp"
   },
   {
     "id": "digital-002",
@@ -1749,10 +1862,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "DIP SW 4P — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "DIP SW 4P \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/DIPS 888-26-14 DIP SW 4P_.webp"
   },
   {
     "id": "digital-003",
@@ -1764,10 +1878,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "FUSE STD SIZE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "FUSE STD SIZE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/FUSE STD SIZE_.webp"
   },
   {
     "id": "digital-004",
@@ -1779,10 +1894,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "IRRX — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "IRRX \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/IRRX.webp"
   },
   {
     "id": "digital-005",
@@ -1794,10 +1910,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "IRTX — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "IRTX \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/IRTX_.webp"
   },
   {
     "id": "digital-006",
@@ -1809,10 +1926,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "PB SW NC — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "PB SW NC \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/PB SW NC_.webp"
   },
   {
     "id": "digital-007",
@@ -1824,10 +1942,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "PB SW NO — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "PB SW NO \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/PB SW NO.webp"
   },
   {
     "id": "digital-008",
@@ -1839,10 +1958,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "TL081 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "TL081 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/TL081_.webp"
   },
   {
     "id": "digital-009",
@@ -1854,10 +1974,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "10A10 DIODE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "10A10 DIODE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/10A10 DIODE_.webp"
   },
   {
     "id": "digital-010",
@@ -1869,10 +1990,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "1N5402 DIODE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "1N5402 DIODE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/1N5402 DIODE_.webp"
   },
   {
     "id": "digital-011",
@@ -1884,10 +2006,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "ELS511 7SEG 5 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ELS511 7SEG 5 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/ELS511 7SEG 5.webp"
   },
   {
     "id": "digital-012",
@@ -1899,10 +2022,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "KBPC601 6 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "KBPC601 6 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/KBPC601 6.webp"
   },
   {
     "id": "digital-013",
@@ -1914,10 +2038,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "WO2M 20 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "WO2M 20 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/WO2M 20.webp"
   },
   {
     "id": "digital-014",
@@ -1929,10 +2054,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "LED BLU — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "LED BLU \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/LED BLU_.webp"
   },
   {
     "id": "digital-015",
@@ -1944,10 +2070,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "LED GRN — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "LED GRN \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/LED GRN_.webp"
   },
   {
     "id": "digital-016",
@@ -1959,10 +2086,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "LED RED — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "LED RED \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/LED RED.webp"
   },
   {
     "id": "digital-017",
@@ -1974,10 +2102,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "LED TRANSP — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "LED TRANSP \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/LED TRANSP_.webp"
   },
   {
     "id": "digital-018",
@@ -1989,10 +2118,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "2N2222A — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "2N2222A \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/2N2222A.webp"
   },
   {
     "id": "digital-019",
@@ -2004,10 +2134,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "2N2907 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "2N2907 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/2N2907_.webp"
   },
   {
     "id": "digital-020",
@@ -2019,10 +2150,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "2N3904 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "2N3904 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/2N3904_.webp"
   },
   {
     "id": "digital-021",
@@ -2034,10 +2166,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "2N3906 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "2N3906 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/2N3906_.webp"
   },
   {
     "id": "digital-022",
@@ -2049,10 +2182,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "BD139 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "BD139 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/BD139_.webp"
   },
   {
     "id": "digital-023",
@@ -2064,10 +2198,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "TIP32 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "TIP32 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/TIP32_.webp"
   },
   {
     "id": "digital-024",
@@ -2079,10 +2214,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "TIP41 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "TIP41 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/TIP41_.webp"
   },
   {
     "id": "digital-025",
@@ -2094,10 +2230,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "TIP42 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "TIP42 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/TIP42_.webp"
   },
   {
     "id": "digital-026",
@@ -2109,10 +2246,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7400 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7400 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7400.webp"
   },
   {
     "id": "digital-027",
@@ -2124,10 +2262,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7402 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7402 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7402.webp"
   },
   {
     "id": "digital-028",
@@ -2139,10 +2278,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7404 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7404 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7404.webp"
   },
   {
     "id": "digital-029",
@@ -2154,10 +2294,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7405 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7405 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7405.webp"
   },
   {
     "id": "digital-030",
@@ -2169,10 +2310,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "74138 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "74138 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/74138.webp"
   },
   {
     "id": "digital-031",
@@ -2184,10 +2326,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "74169 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "74169 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/74169_.webp"
   },
   {
     "id": "digital-032",
@@ -2199,10 +2342,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7432 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7432 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7432.webp"
   },
   {
     "id": "digital-033",
@@ -2214,10 +2358,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7445 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7445 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7445.webp"
   },
   {
     "id": "digital-034",
@@ -2229,10 +2374,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7449 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7449 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7449.webp"
   },
   {
     "id": "digital-035",
@@ -2244,10 +2390,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7473 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7473 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7473.webp"
   },
   {
     "id": "digital-036",
@@ -2259,10 +2406,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7476 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7476 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7476.webp"
   },
   {
     "id": "digital-037",
@@ -2274,10 +2422,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "7477 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "7477 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7477.webp"
   },
   {
     "id": "digital-046",
@@ -2289,10 +2438,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "1000UF/50V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "1000UF/50V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/1000UF_50V_.webp"
   },
   {
     "id": "digital-047",
@@ -2304,10 +2454,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "2200UF/50V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "2200UF/50V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/2200UF_50V.webp"
   },
   {
     "id": "digital-048",
@@ -2319,10 +2470,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "4700UF/50 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "4700UF/50 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/4700UF_50.webp"
   },
   {
     "id": "digital-049",
@@ -2334,10 +2486,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "LED STD SIZE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "LED STD SIZE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "25",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/LED STD SIZE.webp"
   },
   {
     "id": "digital-050",
@@ -2349,10 +2502,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "RELAY MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "RELAY MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "6",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/RELAY MODULE.webp"
   },
   {
     "id": "digital-051",
@@ -2364,10 +2518,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Available",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Laboratory Equipment — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "Laboratory Equipment \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/7400.webp"
   },
   {
     "id": "digital-052",
@@ -2379,10 +2534,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "1UFD/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "1UFD/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/1UFD_450V.webp"
   },
   {
     "id": "digital-053",
@@ -2394,10 +2550,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "1.2UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "1.2UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/1.2UF_450V.webp"
   },
   {
     "id": "digital-054",
@@ -2409,10 +2566,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "1.5UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "1.5UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/1.5UF_450V.webp"
   },
   {
     "id": "digital-055",
@@ -2424,10 +2582,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "1.7UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "1.7UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/1.7UF_450V.webp"
   },
   {
     "id": "digital-056",
@@ -2439,10 +2598,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "2UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "2UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/2UF_450V.webp"
   },
   {
     "id": "digital-057",
@@ -2454,10 +2614,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "2.5UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "2.5UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/2.5UF_450V.webp"
   },
   {
     "id": "digital-058",
@@ -2469,10 +2630,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "3UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "3UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/3UF_450V.webp"
   },
   {
     "id": "digital-059",
@@ -2484,10 +2646,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "4UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "4UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/4UF_450V.webp"
   },
   {
     "id": "digital-060",
@@ -2499,10 +2662,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "6UF/450V — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "6UF/450V \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/consumables/6UF_450V.webp"
   },
   {
     "id": "ece-001",
@@ -2514,10 +2678,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "DC Ammeter 0-500mA — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "DC Ammeter 0-500mA \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/DC Ammeter 0-500mA.webp"
   },
   {
     "id": "ece-002",
@@ -2529,14 +2694,15 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "DC Voltmeter 0-30v — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "DC Voltmeter 0-30v \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/DC Voltmeter 0-30v.webp"
   },
   {
     "id": "ece-003",
-    "name": "ETEK BEE 2015-01-DC SOURCE, SWITCHES, OHM’S LAW, VOLTAGE DEVIDER-MODULES",
+    "name": "ETEK BEE 2015-01-DC SOURCE, SWITCHES, OHM\u2019S LAW, VOLTAGE DEVIDER-MODULES",
     "tagCode": "ENG-EQ-BEE-620-26-01-05",
     "category": "Trainer Modules & Instruments",
     "lab": "ECE",
@@ -2544,10 +2710,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-01-DC SOURCE, SWITCHES, OHM’S LAW, VOLTAGE DEVIDER-MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-01-DC SOURCE, SWITCHES, OHM\u2019S LAW, VOLTAGE DEVIDER-MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-01-DC SOURCE, SWITCHES, OHM\u2019S LAW, VOLTAGE DEVIDER-MODULES.webp"
   },
   {
     "id": "ece-004",
@@ -2559,10 +2726,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-02-SERIES, PARALLEL, SERIES-PARALLEL RESISTIVE CIRCUIT-MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-02-SERIES, PARALLEL, SERIES-PARALLEL RESISTIVE CIRCUIT-MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-02-SERIES, PARALLEL, SERIES-PARALLEL RESISTIVE MODULE.webp"
   },
   {
     "id": "ece-005",
@@ -2574,10 +2742,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-03-DC CIRCUITS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-03-DC CIRCUITS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-03-DC CIRCUITS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES.webp"
   },
   {
     "id": "ece-006",
@@ -2589,14 +2758,15 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-04-AC CIRCUITS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-04-AC CIRCUITS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-04-AC CIRCUITS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES.webp"
   },
   {
     "id": "ece-007",
-    "name": "ETEK BEE 2015-05-KIRCHHOFF’S LAW, THEVENIN’S THEOREM, NORTON’S THEOREM MODULES",
+    "name": "ETEK BEE 2015-05-KIRCHHOFF\u2019S LAW, THEVENIN\u2019S THEOREM, NORTON\u2019S THEOREM MODULES",
     "tagCode": "ENG-EQ-BEE-620-26-05-05",
     "category": "Trainer Modules & Instruments",
     "lab": "ECE",
@@ -2604,14 +2774,15 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-05-KIRCHHOFF’S LAW, THEVENIN’S THEOREM, NORTON’S THEOREM MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-05-KIRCHHOFF\u2019S LAW, THEVENIN\u2019S THEOREM, NORTON\u2019S THEOREM MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-05-KIRCHHOFF\u2019S LAW, THEVENIN\u2019S THEOREM, NORTON\u2019S THEOREM MODULES.webp"
   },
   {
     "id": "ece-008",
-    "name": "ETEK BEE 2015-06-MAGNETIC FIELD AND AMPERE’S LAW-MODULES",
+    "name": "ETEK BEE 2015-06-MAGNETIC FIELD AND AMPERE\u2019S LAW-MODULES",
     "tagCode": "ENG-EQ-BEE-620-26-06-05",
     "category": "Trainer Modules & Instruments",
     "lab": "ECE",
@@ -2619,10 +2790,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-06-MAGNETIC FIELD AND AMPERE’S LAW-MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-06-MAGNETIC FIELD AND AMPERE\u2019S LAW-MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-06-MAGNETIC FIELD AND AMPERE\u2019S LAW-MODULES.webp"
   },
   {
     "id": "ece-009",
@@ -2634,10 +2806,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-07-COILS, MAGNETS, DC MOTOR-MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-07-COILS, MAGNETS, DC MOTOR-MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-01-DC SOURCE, SWITCHES, OHM\u2019S LAW, VOLTAGE DEVIDER-MODULES.webp"
   },
   {
     "id": "ece-010",
@@ -2649,10 +2822,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK BEE 2015-08-SEMICONDUCTORS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK BEE 2015-08-SEMICONDUCTORS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-08-SEMICONDUCTORS FOR BASIC ELECTRICITY AND ELECTRONICS-MODULES.webp"
   },
   {
     "id": "ece-011",
@@ -2664,10 +2838,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "set",
-    "description": "ETEK FG-2002-6 MOD — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK FG-2002-6 MOD \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 set",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK FG-2002-6 MOD.webp"
   },
   {
     "id": "ece-012",
@@ -2679,10 +2854,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "set",
-    "description": "ETEK ACS-3000-8 MOD — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-8 MOD \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 set",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-8 MOD.webp"
   },
   {
     "id": "ece-013",
@@ -2694,10 +2870,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "set",
-    "description": "ETEK-DCS-6000-Module Series-8 MOD — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK-DCS-6000-Module Series-8 MOD \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 set",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK-DCS-6000-Module Series-8 MOD.webp"
   },
   {
     "id": "ece-014",
@@ -2709,10 +2886,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "set",
-    "description": "ETEK OFC-9000-Module Series-6 MOD — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK OFC-9000-Module Series-6 MOD \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 set",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK OFC-9000-Module Series-6 MOD.webp"
   },
   {
     "id": "ece-016",
@@ -2724,10 +2902,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK FG-2002-01-05-FUNCTION GENERATORS, SPLIT DC POWER SUPPLY — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK FG-2002-01-05-FUNCTION GENERATORS, SPLIT DC POWER SUPPLY \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5 MODULES",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK FG-2002-01-05-FUNCTION GENERATORS, SPLIT DC POWER SUPPLY.webp"
   },
   {
     "id": "ece-017",
@@ -2739,10 +2918,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-01-SECOND ORDER ACTIVE FILTER-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-01-SECOND ORDER ACTIVE FILTER-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-01-SECOND ORDER ACTIVE FILTER-MODULE.webp"
   },
   {
     "id": "ece-018",
@@ -2754,10 +2934,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-02-AM MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-02-AM MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-02-AM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-019",
@@ -2769,10 +2950,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-03-DSB-SC AND SSB MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-03-DSB-SC AND SSB MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-03-DSB-SC AND SSB MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-020",
@@ -2784,10 +2966,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-04-FM MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-04-FM MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-04-FM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-021",
@@ -2799,10 +2982,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-05-TDM MULTIPLEXER-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-05-TDM MULTIPLEXER-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-05-TDM MULTIPLEXER-MODULE.webp"
   },
   {
     "id": "ece-022",
@@ -2814,10 +2998,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-06-FDM MULTIPLEXER-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-06-FDM MULTIPLEXER-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-06-FDM MULTIPLEXER-MODULE.webp"
   },
   {
     "id": "ece-023",
@@ -2829,10 +3014,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-07-ADC CONVERTERS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-07-ADC CONVERTERS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-07-ADC CONVERTERS-MODULE.webp"
   },
   {
     "id": "ece-024",
@@ -2844,10 +3030,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-3000-08-FREQUENCY CONVERTERS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-3000-08-FREQUENCY CONVERTERS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-08-FREQUENCY CONVERTERS-MODULE.webp"
   },
   {
     "id": "ece-025",
@@ -2859,10 +3046,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK DCS-6000-01-LINE CODE ENCODER-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK DCS-6000-01-LINE CODE ENCODER-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK DCS-6000-02-PWM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-026",
@@ -2874,10 +3062,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-6000-02-PWM MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-6000-02-PWM MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-6000-04-DM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-027",
@@ -2889,10 +3078,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-6000-03-PCM MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-6000-03-PCM MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-6000-04-DM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-028",
@@ -2904,10 +3094,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Available",
     "condition": "Functional",
     "unit": "pc",
-    "description": "ETEK ACS-9001-OPTICAL FIBER DATA COMMUNICATION-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-9001-OPTICAL FIBER DATA COMMUNICATION-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-9001-OPTICAL FIBER DATA COMMUNICATION-MODULE.webp"
   },
   {
     "id": "ece-031",
@@ -2919,10 +3110,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-6000-04-DM MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-6000-04-DM MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-6000-04-DM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-032",
@@ -2934,10 +3126,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-6000-05-ADM MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-6000-05-ADM MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-6000-05-ADM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-033",
@@ -2949,10 +3142,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-6000-06-ASK MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-6000-06-ASK MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-6000-04-DM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-034",
@@ -2964,10 +3158,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-6000-07-FSK MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-6000-07-FSK MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-6000-04-DM MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-035",
@@ -2979,10 +3174,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK ACS-6000-08-PSK MODULATORS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK ACS-6000-08-PSK MODULATORS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-6000-08-PSK MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-036",
@@ -2994,10 +3190,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK OFC-9001-OPTICAL FIBERS TRANSMITTERS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK OFC-9001-OPTICAL FIBERS TRANSMITTERS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK OFC-9001-OPTICAL FIBERS TRANSMITTERS-MODULE.webp"
   },
   {
     "id": "ece-037",
@@ -3009,10 +3206,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK OFC-9002-OPTICAL FIBERS RECEIVERS-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK OFC-9002-OPTICAL FIBERS RECEIVERS-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK OFC-9002-OPTICAL FIBERS RECEIVERS-MODULE.webp"
   },
   {
     "id": "ece-038",
@@ -3024,10 +3222,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK OFC-9003-OPTICAL FIBERS DATA COMMUNICATION-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK OFC-9003-OPTICAL FIBERS DATA COMMUNICATION-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK OFC-9003-OPTICAL FIBERS DATA COMMUNICATION-MODULE.webp"
   },
   {
     "id": "ece-039",
@@ -3039,10 +3238,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK OFC-9004-AM/ASK MODULATOR AND DEMODULATOR-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK OFC-9004-AM/ASK MODULATOR AND DEMODULATOR-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-03-DSB-SC AND SSB MODULATORS-MODULE.webp"
   },
   {
     "id": "ece-040",
@@ -3054,10 +3254,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK OFC-9005-CVSD ENCODER AND DECODER-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK OFC-9005-CVSD ENCODER AND DECODER-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK OFC-9005-CVSD ENCODER AND DECODER-MODULE.webp"
   },
   {
     "id": "ece-041",
@@ -3069,10 +3270,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "module",
-    "description": "ETEK OFC-9006-TV SIGNAL MODULATOR-MODULE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "ETEK OFC-9006-TV SIGNAL MODULATOR-MODULE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "1 MODULE",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK OFC-9006-TV SIGNAL MODULATOR-MODULE.webp"
   },
   {
     "id": "ece-042",
@@ -3084,10 +3286,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "WHEELER AUDIO GENERATOR WAG808 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "WHEELER AUDIO GENERATOR WAG808 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/WHEELER AUDIO GENERATOR WAG808.webp"
   },
   {
     "id": "ece-043",
@@ -3099,10 +3302,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "LOADSTAR FUNCTION GENERATOR FG2020B — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "LOADSTAR FUNCTION GENERATOR FG2020B \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/LOADSTAR FUNCTION GENERATOR FG2020B.webp"
   },
   {
     "id": "ece-044",
@@ -3114,10 +3318,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "LOADSTAR DIGITAL FUNCTION GENERATOR LS3005B — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "LOADSTAR DIGITAL FUNCTION GENERATOR LS3005B \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/LOADSTAR DIGITAL FUNCTION GENERATOR LS3005B.webp"
   },
   {
     "id": "ece-045",
@@ -3129,10 +3334,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "GWINSTEK GDS1052U DIGITAL STORAGE OSCILLOSCOPE — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "GWINSTEK GDS1052U DIGITAL STORAGE OSCILLOSCOPE \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/GWINSTEK GDS1052U DIGITAL STORAGE OSCILLOSCOPE.webp"
   },
   {
     "id": "ece-046",
@@ -3144,10 +3350,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "WHEELER DC POWER SUPPLY WPS303 — Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
+    "description": "WHEELER DC POWER SUPPLY WPS303 \u2014 Located at F303-F304 DIGITAL LAB. Safety: Safe for Use.",
     "chedReq": "5",
     "room": "F303-F304 DIGITAL LAB",
-    "safetyClearance": "Safe for Use"
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Digital Lab/ece inventory/WHEELER DC POWER SUPPLY WPS303.webp"
   },
   {
     "id": "physics-001",
@@ -3159,10 +3366,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Beaker — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Beaker \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-002",
@@ -3174,10 +3382,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Calorimeter — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Calorimeter \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-003",
@@ -3189,10 +3398,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Centripetal force apparatus — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Centripetal force apparatus \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Centripetal-Force-Apparatus.webp"
   },
   {
     "id": "physics-004",
@@ -3204,10 +3414,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Clamp — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Clamp \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Clamp.webp"
   },
   {
     "id": "physics-005",
@@ -3219,10 +3430,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Compass — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Compass \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Compass.webp"
   },
   {
     "id": "physics-006",
@@ -3234,10 +3446,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Component holder — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Component holder \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Component Holder.webp"
   },
   {
     "id": "physics-007",
@@ -3249,10 +3462,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Crossed Arrow Target — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Crossed Arrow Target \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-008",
@@ -3264,10 +3478,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Force Table Set — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Force Table Set \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-009",
@@ -3279,10 +3494,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Free Fall Apparatus — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Free Fall Apparatus \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Free Fall Apparatus.webp"
   },
   {
     "id": "physics-010",
@@ -3294,10 +3510,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Friction Board with Pulley — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Friction Board with Pulley \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Friction Board Apparatus.webp"
   },
   {
     "id": "physics-011",
@@ -3309,10 +3526,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Hydrometer Jar — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Hydrometer Jar \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Hydrometer Jar.webp"
   },
   {
     "id": "physics-012",
@@ -3324,10 +3542,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Inclined Plane — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Inclined Plane \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Inclined Plane.webp"
   },
   {
     "id": "physics-013",
@@ -3339,10 +3558,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Inverted U-tube — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Inverted U-tube \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/U-Tube.webp"
   },
   {
     "id": "physics-014",
@@ -3354,10 +3574,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Linear Air Track with Blower and Trolley — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Linear Air Track with Blower and Trolley \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Linear Air Track.webp"
   },
   {
     "id": "physics-016",
@@ -3369,10 +3590,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Metal Stand — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Metal Stand \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-017",
@@ -3384,10 +3606,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Meter Stick — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Meter Stick \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Meter Stick.webp"
   },
   {
     "id": "physics-018",
@@ -3399,10 +3622,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Optics Bench — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Optics Bench \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-019",
@@ -3414,10 +3638,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Panel Board / Circuit Board — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Panel Board / Circuit Board \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Friction Board Apparatus.webp"
   },
   {
     "id": "physics-020",
@@ -3429,10 +3654,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Potentiometer — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Potentiometer \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Potentiometer.webp"
   },
   {
     "id": "physics-021",
@@ -3444,10 +3670,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Ramp / Launcher — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Ramp / Launcher \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 sets",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Ramp or Launcher.webp"
   },
   {
     "id": "physics-022",
@@ -3459,10 +3686,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Reversing Switch — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Reversing Switch \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Reversing Switch.webp"
   },
   {
     "id": "physics-023",
@@ -3474,10 +3702,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Ring — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Ring \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 sets",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Ring.webp"
   },
   {
     "id": "physics-024",
@@ -3489,10 +3718,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Solenoid — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Solenoid \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-025",
@@ -3504,10 +3734,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Stopwatch — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Stopwatch \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-026",
@@ -3519,10 +3750,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Support Rod — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Support Rod \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-027",
@@ -3534,10 +3766,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Thermal Expansion apparatus — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Thermal Expansion apparatus \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Thermal Expansion Apparatus.webp"
   },
   {
     "id": "physics-028",
@@ -3549,10 +3782,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Thermometer — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Thermometer \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-029",
@@ -3564,10 +3798,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "U-Tube — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "U-Tube \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/U-Tube.webp"
   },
   {
     "id": "physics-031",
@@ -3579,10 +3814,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Bar Magnets — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Bar Magnets \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Bar Magnets.webp"
   },
   {
     "id": "physics-032",
@@ -3594,10 +3830,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Beaker — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Beaker \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-033",
@@ -3609,10 +3846,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Blackwood Ballistic Pendulum — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Blackwood Ballistic Pendulum \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Blackwood Ballistic Pendulum.webp"
   },
   {
     "id": "physics-034",
@@ -3624,10 +3862,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Bridging plugs / connecting wires — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Bridging plugs / connecting wires \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 sets",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Connecting Wires.webp"
   },
   {
     "id": "physics-035",
@@ -3639,10 +3878,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Calorimeter — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Calorimeter \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Force Table Set.webp"
   },
   {
     "id": "physics-036",
@@ -3654,10 +3894,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Centripetal force apparatus — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Centripetal force apparatus \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Centripetal-Force-Apparatus.webp"
   },
   {
     "id": "physics-037",
@@ -3669,10 +3910,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Clamp — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Clamp \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Clamp.webp"
   },
   {
     "id": "physics-038",
@@ -3684,10 +3926,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Connecting Wires — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Connecting Wires \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 sets",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Connecting Wires.webp"
   },
   {
     "id": "physics-039",
@@ -3699,14 +3942,15 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Convex Lens — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Convex Lens \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Convex Lens.webp"
   },
   {
     "id": "physics-040",
-    "name": "Fixed Capacitor (330 μF)",
+    "name": "Fixed Capacitor (330 \u03bcF)",
     "tagCode": "ENG-CS-FIXE-366-26",
     "category": "Consumables",
     "lab": "PHYSICS",
@@ -3714,10 +3958,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Fixed Capacitor (330 μF) — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Fixed Capacitor (330 \u03bcF) \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Fixed Capacitor (330 uf).webp"
   },
   {
     "id": "physics-041",
@@ -3729,10 +3974,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Fixed Resistors — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Fixed Resistors \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 sets",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Fixed Resistor.webp"
   },
   {
     "id": "physics-042",
@@ -3744,10 +3990,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Glass Plate — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Glass Plate \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Glass Plate.webp"
   },
   {
     "id": "physics-043",
@@ -3759,10 +4006,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Mass with Hook — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Mass with Hook \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Mass with Hooks.webp"
   },
   {
     "id": "physics-044",
@@ -3774,10 +4022,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Masses — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Masses \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 sets",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Masses.webp"
   },
   {
     "id": "physics-045",
@@ -3789,10 +4038,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Parallel ray lens — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Parallel ray lens \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5 pcs",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Convex Lens.webp"
   },
   {
     "id": "physics-046",
@@ -3804,10 +4054,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Ray Optics Mirror — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Ray Optics Mirror \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Spherical Mirror.webp"
   },
   {
     "id": "physics-047",
@@ -3819,10 +4070,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Ring — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Ring \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Ring.webp"
   },
   {
     "id": "physics-048",
@@ -3834,10 +4086,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Rubber Hammer — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Rubber Hammer \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Rubber Hammer.webp"
   },
   {
     "id": "physics-049",
@@ -3849,10 +4102,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Set of Weights — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Set of Weights \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Set of Weights.webp"
   },
   {
     "id": "physics-050",
@@ -3864,10 +4118,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Slit mask — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Slit mask \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Slit Plate.webp"
   },
   {
     "id": "physics-051",
@@ -3879,14 +4134,15 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Slit plate — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Slit plate \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Slit Plate.webp"
   },
   {
     "id": "physics-052",
-    "name": "Slotted Masses (5–500g)",
+    "name": "Slotted Masses (5\u2013500g)",
     "tagCode": "ENG-CS-SLOT-384-26",
     "category": "Consumables",
     "lab": "PHYSICS",
@@ -3894,10 +4150,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Slotted Masses (5–500g) — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Slotted Masses (5\u2013500g) \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Slotted Masses (5\u2013500g).webp"
   },
   {
     "id": "physics-053",
@@ -3909,10 +4166,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "SPDT switch — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "SPDT switch \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/SPDT Switch.webp"
   },
   {
     "id": "physics-054",
@@ -3924,10 +4182,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Specimen for Shot — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Specimen for Shot \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Stirrer for Shot.webp"
   },
   {
     "id": "physics-055",
@@ -3939,10 +4198,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Spherical Mirror — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Spherical Mirror \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Spherical Mirror.webp"
   },
   {
     "id": "physics-056",
@@ -3954,10 +4214,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Stirrer for Shot — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Stirrer for Shot \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Stirrer for Shot.webp"
   },
   {
     "id": "physics-057",
@@ -3969,10 +4230,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Natural Magnets — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Natural Magnets \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Bar Magnets.webp"
   },
   {
     "id": "physics-058",
@@ -3984,18 +4246,19 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Lamps/Bulbs (Sodium/Mercury) — Located at F204 – F205 PHYSICS LAB. Safety: Safe for Use.",
+    "description": "Lamps/Bulbs (Sodium/Mercury) \u2014 Located at F204 \u2013 F205 PHYSICS LAB. Safety: Safe for Use.",
     "chedReq": "5",
-    "room": "F204 – F205 PHYSICS LAB",
-    "safetyClearance": "Safe for Use"
+    "room": "F204 \u2013 F205 PHYSICS LAB",
+    "safetyClearance": "Safe for Use",
+    "image": "/images/equipment/Physics/Lamps or Bulbs (Sodium or Mercury).webp"
   }
 ];
 
-const STORAGE_KEY = 'udd_master_lab_inventory_v7';
+const STORAGE_KEY = 'udd_master_lab_inventory_v8';
 
 // Clean old test cache keys from previous testing sessions
 try {
-  ['udd_master_lab_inventory_v1', 'udd_master_lab_inventory_v2', 'udd_master_lab_inventory_v3', 'udd_master_lab_inventory_v4', 'udd_master_lab_inventory_v5', 'udd_master_lab_inventory_v6', 'udd_kiosk_incident_logs_v1'].forEach((k) => {
+  ['udd_master_lab_inventory_v1', 'udd_master_lab_inventory_v2', 'udd_master_lab_inventory_v3', 'udd_master_lab_inventory_v4', 'udd_master_lab_inventory_v5', 'udd_master_lab_inventory_v6', 'udd_master_lab_inventory_v7', 'udd_kiosk_incident_logs_v1'].forEach((k) => {
     localStorage.removeItem(k);
   });
 } catch {
@@ -4240,184 +4503,77 @@ export function getItemImage(item) {
   const name = (item.name || '').toLowerCase();
   const lab = (item.lab || '').toUpperCase();
 
-  if (lab === 'CE' || name.includes('theodolite') || name.includes('total station') || name.includes('slump') || name.includes('vicat') || name.includes('sieve') || name.includes('cbr') || name.includes('surveying') || name.includes('hydrometer') || name.includes('silicate')) {
-    if (name.includes('theodolite') || name.includes('total station') || name.includes('transit') || name.includes('gps') || name.includes('flow (current) meter')) {
-      return '/images/equipment/civil/theodolite_total_station.jpg';
+  // Civil Lab
+  if (lab === 'CE') {
+    if (name.includes('theodolite') || name.includes('total station') || name.includes('gps')) {
+      return '/images/equipment/Civil/GPS EMINGEN.webp';
     }
-    if (name.includes('slump')) {
-      return '/images/equipment/civil/concrete_slump_cone.jpg';
-    }
-    if (name.includes('vicat') || name.includes('stwky') || name.includes('soil hydrometer') || name.includes('hydrometer')) {
-      return '/images/equipment/civil/vicat_apparatus.jpg';
+    if (name.includes('slump') || name.includes('vicat') || name.includes('stwky')) {
+      return '/images/equipment/Civil/STWKY-2 Vicat Apparatus.webp';
     }
     if (name.includes('sieve')) {
-      return '/images/equipment/civil/soil_sieves.jpg';
+      return '/images/equipment/Civil/Sieves (40,50,60,100,120,200,200).webp';
     }
-    if (name.includes('cbr') || name.includes('stcbr') || name.includes('stye') || name.includes('compression') || name.includes('compactor') || name.includes('splitter') || name.includes('abrasion') || name.includes('strain') || name.includes('mixer') || name.includes('tank') || name.includes('piping') || name.includes('manometer') || name.includes('hydraulic')) {
-      return '/images/equipment/civil/compression_machine.jpg';
+    if (name.includes('cbr') || name.includes('stcbr')) {
+      return '/images/equipment/Civil/STCBR-1 CBR Testing Apparatus.webp';
     }
-    if (name.includes('surveying') || name.includes('grade rod') || name.includes('range pole') || name.includes('tripod') || name.includes('leveling') || name.includes('gauge') || name.includes('compass')) {
-      return '/images/equipment/civil/surveying_equipment.jpg';
+    if (name.includes('compression') || name.includes('stye') || name.includes('strain')) {
+      return '/images/equipment/Civil/STYE-100 Digital Display Hydraulic Compression Testing Machine.webp';
     }
-    if (name.includes('hard hat') || name.includes('hammer') || name.includes('trowel') || name.includes('scoop') || name.includes('file') || name.includes('triangular file') || name.includes('drill bit') || name.includes('grinder') || name.includes('sander') || name.includes('planet') || name.includes('moisture can')) {
-      return '/images/equipment/civil/civil_safety_gear.jpg';
+    if (name.includes('surveying') || name.includes('tripod') || name.includes('pole') || name.includes('rod')) {
+      return '/images/equipment/Civil/SURVEYING TRIPODS.webp';
     }
-    if (name.includes('sodium silicate') || name.includes('silicate') || name.includes('chemical') || name.includes('reagent')) {
-      return '/images/equipment/chemistry/reagent_bottle.jpg';
+    if (name.includes('grinder') || name.includes('hammer') || name.includes('trowel') || name.includes('scoop') || name.includes('file')) {
+      return '/images/equipment/Civil/Dewalt Grinder.webp';
     }
-    if (lab === 'CE') {
-      return '/images/equipment/civil/compression_machine.jpg';
-    }
+    return '/images/equipment/Civil/STCBR-1 CBR Testing Apparatus.webp';
   }
 
-  // ==========================================
-  // CHEMISTRY APPARATUS & GLASSWARE
-  // ==========================================
-  if (name.includes('alcohol lamp') || name.includes('burner')) return '/images/equipment/chemistry/alcohol_lamp.jpg';
-  if (name.includes('beaker')) return '/images/equipment/chemistry/beaker.jpg';
-  if (name.includes('separatory') || name.includes('adapter') || name.includes('connecting tube')) return '/images/equipment/chemistry/separatory_funnel.jpg';
-  if (name.includes('flask') || name.includes('erlenmeyer') || name.includes('florence') || name.includes('distill')) {
-    return '/images/equipment/chemistry/erlenmeyer_flask.jpg';
-  }
-  if (name.includes('crucible') || name.includes('tong')) return '/images/equipment/chemistry/crucible_with_cover.jpg';
-  if (name.includes('evaporating dish') || name.includes('watch glass') || name.includes('tlc') || name.includes('plate')) return '/images/equipment/chemistry/evaporating_dish.jpg';
-  if (name.includes('graduated cylinder') || name.includes('hydrometer') || (name.includes('cylinder') && lab === 'CHEM')) return '/images/equipment/chemistry/graduated_cylinder.jpg';
-  if (name.includes('funnel') || name.includes('buchner') || name.includes('thistle') || name.includes('fish tail')) {
-    return '/images/equipment/chemistry/buchner_funnel.jpg';
-  }
-  if (name.includes('desiccator')) return '/images/equipment/chemistry/desiccator.jpg';
-  if (name.includes('mortar') || name.includes('pestle')) return '/images/equipment/chemistry/mortar_and_pestle.jpg';
-  if (name.includes('petri dish') || name.includes('petri')) return '/images/equipment/chemistry/petri_dish.jpg';
-  if (name.includes('microscope')) return '/images/equipment/chemistry/microscope.jpg';
-  if (name.includes('wash bottle') || name.includes('test tube brush') || name.includes('brush') || name.includes('rubber tubing') || name.includes('tubing')) {
-    return '/images/equipment/chemistry/wash_bottle.jpg';
-  }
-  if (name.includes('dropper') || name.includes('aspirator') || name.includes('pipette') || name.includes('syringe') || name.includes('spatula') || name.includes('stirring rod')) {
-    return '/images/equipment/chemistry/medicine_dropper.jpg';
-  }
-  if (name.includes('reagent') || name.includes('bottle') || name.includes('stopper') || name.includes('bung') || name.includes('leveling bulb') || name.includes('water trough') || name.includes('sodium silicate')) {
-    return '/images/equipment/chemistry/reagent_bottle.jpg';
-  }
-  if (name.includes('test tube') || name.includes('j-tube') || name.includes('drying tube') || name.includes('glass tubing')) {
-    return '/images/equipment/chemistry/test_tube_rack.jpg';
-  }
-  if (name.includes('iron stand') || name.includes('iron ring') || name.includes('iron clamp') || name.includes('extension clamp') || name.includes('clamp') || name.includes('metal rod') || name.includes('support rod') || name.includes('rod')) {
-    return '/images/equipment/chemistry/iron_stand_clamp.jpg';
-  }
-  if (name.includes('nichrome wire') || name.includes('copper wire') || name.includes('fuse wire') || name.includes('magnesium') || name.includes('ribbon') || (name.includes('wire') && !name.includes('gauze'))) {
-    return '/images/equipment/chemistry/nichrome_wire.jpg';
-  }
-  if (name.includes('tripod') || name.includes('wire gauze') || name.includes('gauze') || name.includes('asbestos mat') || name.includes('asbestos')) {
-    return '/images/equipment/chemistry/tripod_wire_gauze.jpg';
-  }
-  if (name.includes('triangular file') || name.includes('file')) {
-    return '/images/equipment/civil/civil_safety_gear.jpg';
-  }
-
+  // Chemistry Lab
   if (lab === 'CHEM') {
-    return '/images/equipment/chemistry/beaker.jpg';
+    if (name.includes('lamp') || name.includes('burner')) return '/images/equipment/Chemistry/Alcohol Lamp.webp';
+    if (name.includes('beaker')) return '/images/equipment/Chemistry/Beaker (250ml).webp';
+    if (name.includes('flask')) return '/images/equipment/Chemistry/Erlenmeyer Flask (250ml).webp';
+    if (name.includes('crucible')) return '/images/equipment/Chemistry/Crucible (with cover).webp';
+    if (name.includes('cylinder')) return '/images/equipment/Chemistry/Graduated Cylinder (50ml).webp';
+    if (name.includes('funnel')) return '/images/equipment/Chemistry/Buchner Funnel.webp';
+    if (name.includes('dish') || name.includes('watch glass')) return '/images/equipment/Chemistry/Evaporating Dish.webp';
+    if (name.includes('stand') || name.includes('clamp') || name.includes('ring')) return '/images/equipment/Chemistry/Iron Stand.webp';
+    return '/images/equipment/Chemistry/Beaker (250ml).webp';
   }
 
-  // ==========================================
-  // DIGITAL LABORATORY (USER'S MANUAL IMAGES)
-  // ==========================================
+  // Digital Lab
   if (lab === 'DIGITAL') {
-    // 1. 74xx TTL Logic Integrated Circuits
-    if (name.includes('74138')) return '/images/equipment/digital/74138.png';
-    if (name.includes('74169')) return '/images/equipment/digital/74169.png';
-    if (name.includes('7400')) return '/images/equipment/digital/7400.png';
-    if (name.includes('7402')) return '/images/equipment/digital/7402.png';
-    if (name.includes('7404')) return '/images/equipment/digital/7404.png';
-    if (name.includes('7405')) return '/images/equipment/digital/7405.png';
-    if (name.includes('7432')) return '/images/equipment/digital/7432.png';
-    if (name.includes('7445')) return '/images/equipment/digital/7445.png';
-    if (name.includes('7449')) return '/images/equipment/digital/7449.png';
-    if (name.includes('7473')) return '/images/equipment/digital/7473.png';
-    if (name.includes('7476')) return '/images/equipment/digital/7476.png';
-    if (name.includes('7477')) return '/images/equipment/digital/7477.png';
-    if (name.includes('7485')) return '/images/equipment/digital/7485.png';
-    if (name.includes('7490')) return '/images/equipment/digital/7490.png';
-    if (name.includes('7492')) return '/images/equipment/digital/7492.png';
-    if (name.includes('7493')) return '/images/equipment/digital/7493.png';
-    if (name.includes('74ls01')) return '/images/equipment/digital/74LS01.png';
-    if (name.includes('74ls02')) return '/images/equipment/digital/74LS02.png';
-    if (name.includes('74ls04')) return '/images/equipment/digital/74LS04.png';
-    if (name.includes('74ls32')) return '/images/equipment/digital/74LS32.png';
-
-    // 2. Diodes, Bridge Rectifiers & 7-Segment
-    if (name.includes('10a10')) return '/images/equipment/digital/10A10 DIODE.png';
-    if (name.includes('1n5402')) return '/images/equipment/digital/1N5402 DIODE.png';
-    if (name.includes('kbpc601') || name.includes('kbpc')) return '/images/equipment/digital/KBPC601 6.png';
-    if (name.includes('wo2m')) return '/images/equipment/digital/WO2M 20.png';
-    if (name.includes('7seg') || name.includes('els511') || name.includes('display')) return '/images/equipment/digital/ELS511 7SEG 5.png';
-
-    // 3. LEDs
-    if (name.includes('led blu') || name.includes('blue')) return '/images/equipment/digital/LED BLU.png';
-    if (name.includes('led grn') || name.includes('green')) return '/images/equipment/digital/LED GRN.png';
-    if (name.includes('led red')) return '/images/equipment/digital/LED RED.png';
-    if (name.includes('led transp') || name.includes('clear')) return '/images/equipment/digital/LED TRANSP.png';
-    if (name.includes('led std') || name.includes('led')) return '/images/equipment/digital/LED STD.png';
-
-    // 4. Transistors & Linear Op-Amps
-    if (name.includes('2n2222')) return '/images/equipment/digital/2N2222A.png';
-    if (name.includes('2n2907')) return '/images/equipment/digital/2N2907.png';
-    if (name.includes('2n3904')) return '/images/equipment/digital/2N3904.png';
-    if (name.includes('2n3906')) return '/images/equipment/digital/2N3906.png';
-    if (name.includes('bd139')) return '/images/equipment/digital/BD139.png';
-    if (name.includes('tip32')) return '/images/equipment/digital/TIP32.png';
-    if (name.includes('tip41')) return '/images/equipment/digital/TIP41.png';
-    if (name.includes('tip42')) return '/images/equipment/digital/TIP42.png';
-    if (name.includes('tl081')) return '/images/equipment/digital/TL081.png';
-
-    // 5. Relays, Switches & Fuses
-    if (name.includes('relay module')) return '/images/equipment/digital/RELAY MODULE.png';
-    if (name.includes('relay') || name.includes('12v spst')) return '/images/equipment/digital/12V SPST RELAY 5P.png';
-    if (name.includes('dip sw') || name.includes('dip')) return '/images/equipment/digital/DIP SW 4P.png';
-    if (name.includes('pb sw no')) return '/images/equipment/digital/PB SW NO.png';
-    if (name.includes('pb sw nc')) return '/images/equipment/digital/PB SW NC.png';
-    if (name.includes('fuse')) return '/images/equipment/digital/FUSE STD SIZE.png';
-    if (name.includes('irrx') || name.includes('irtx') || name.includes('ir')) return '/images/equipment/digital/IRRX.png';
-
-    // 6. Capacitors (50V & 450V)
-    if (name.includes('1000uf')) return '/images/equipment/digital/1000UF-50V.png';
-    if (name.includes('2200uf')) return '/images/equipment/digital/2200UF-50V.png';
-    if (name.includes('4700uf')) return '/images/equipment/digital/4700UF-50.png';
-    if (name.includes('1.2uf')) return '/images/equipment/digital/1.2UF-450V.png';
-    if (name.includes('1.5uf')) return '/images/equipment/digital/1.5UF-450V.png';
-    if (name.includes('1.7uf')) return '/images/equipment/digital/1.7UF-450V.png';
-    if (name.includes('1uf') || name.includes('1ufd')) return '/images/equipment/digital/1UFD-450V.png';
-    if (name.includes('2.5uf')) return '/images/equipment/digital/2.5UF-450V.png';
-    if (name.includes('2uf')) return '/images/equipment/digital/2UF-450V.png';
-    if (name.includes('3uf')) return '/images/equipment/digital/3UF-450V.png';
-    if (name.includes('4uf')) return '/images/equipment/digital/4UF-450V.png';
-    if (name.includes('6uf')) return '/images/equipment/digital/6UF-450V.png';
-
-    return '/images/equipment/digital/7400.png';
+    if (name.includes('7400')) return '/images/equipment/Digital Lab/consumables/7400.webp';
+    if (name.includes('7402')) return '/images/equipment/Digital Lab/consumables/7402.webp';
+    if (name.includes('7404') || name.includes('74ls04')) return '/images/equipment/Digital Lab/consumables/74LS04.webp';
+    if (name.includes('7432') || name.includes('74ls32')) return '/images/equipment/Digital Lab/consumables/74LS32_.webp';
+    if (name.includes('led')) return '/images/equipment/Digital Lab/consumables/LED RED.webp';
+    if (name.includes('relay')) return '/images/equipment/Digital Lab/consumables/RELAY MODULE.webp';
+    return '/images/equipment/Digital Lab/consumables/7400.webp';
   }
 
-  // ==========================================
-  // ECE LABORATORY EQUIPMENT
-  // ==========================================
+  // ECE Lab
   if (lab === 'ECE') {
-    if (name.includes('oscilloscope') || name.includes('gds1052') || name.includes('gds-1052') || name.includes('gwinstek')) {
-      return '/images/equipment/ece/gwinstek_oscilloscope.jpg';
-    }
-    if (name.includes('power supply') || name.includes('wps303') || name.includes('dc source') || name.includes('split dc')) {
-      return '/images/equipment/ece/wheeler_dc_power_supply.jpg';
-    }
-    if (name.includes('function generator') || name.includes('audio generator') || name.includes('fg2020') || name.includes('ls3005') || name.includes('wag808') || name.includes('signal generator')) {
-      return '/images/equipment/ece/loadstar_function_generator.jpg';
-    }
-    if (name.includes('etek') || name.includes('mod') || name.includes('trainer') || name.includes('optical fiber') || name.includes('modulator') || name.includes('multiplexer') || name.includes('converter') || name.includes('encoder') || name.includes('filter')) {
-      return '/images/equipment/ece/etek_modular_trainer.jpg';
-    }
-    if (name.includes('ammeter') || name.includes('voltmeter') || name.includes('meter')) {
-      return '/images/equipment/ece/analog_dc_meter.jpg';
-    }
-    return '/images/equipment/ece/gwinstek_oscilloscope.jpg';
+    if (name.includes('oscilloscope')) return '/images/equipment/Digital Lab/ece inventory/GWINSTEK GDS1052U DIGITAL STORAGE OSCILLOSCOPE.webp';
+    if (name.includes('power supply')) return '/images/equipment/Digital Lab/ece inventory/WHEELER DC POWER SUPPLY WPS303.webp';
+    if (name.includes('generator')) return '/images/equipment/Digital Lab/ece inventory/LOADSTAR DIGITAL FUNCTION GENERATOR LS3005B.webp';
+    if (name.includes('etek')) return '/images/equipment/Digital Lab/ece inventory/ETEK ACS-3000-8 MOD.webp';
+    return '/images/equipment/Digital Lab/ece inventory/GWINSTEK GDS1052U DIGITAL STORAGE OSCILLOSCOPE.webp';
   }
 
-  return null;
+  // Physics Lab
+  if (lab === 'PHYSICS') {
+    if (name.includes('magnet')) return '/images/equipment/Physics/Bar Magnets.webp';
+    if (name.includes('pendulum')) return '/images/equipment/Physics/Blackwood Ballistic Pendulum.webp';
+    if (name.includes('centripetal')) return '/images/equipment/Physics/Centripetal-Force-Apparatus.webp';
+    if (name.includes('table')) return '/images/equipment/Physics/Force Table Set.webp';
+    if (name.includes('mass')) return '/images/equipment/Physics/Set of Weights.webp';
+    if (name.includes('air track')) return '/images/equipment/Physics/Linear Air Track.webp';
+    return '/images/equipment/Physics/Force Table Set.webp';
+  }
+
+  return '/images/equipment/Chemistry/Beaker (250ml).webp';
 }
 
 export function resetMasterInventory() {
