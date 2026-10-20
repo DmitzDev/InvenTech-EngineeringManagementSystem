@@ -114,18 +114,19 @@ export const saveStoredTransactions = (transactions) => {
 
 /**
  * Initial Theme Resolver
- * Reads deliberate manual preference from localStorage with clean fallback to 'dark'
+ * Defaults to 'light' mode on startup with persistence in udd_kiosk_theme_v2
  */
 export function getInitialTheme() {
   try {
-    const saved = localStorage.getItem('udd_kiosk_theme');
+    localStorage.removeItem('udd_kiosk_theme'); // Purge legacy dark default key
+    const saved = localStorage.getItem('udd_kiosk_theme_v2');
     if (saved === 'light' || saved === 'dark') {
       return saved;
     }
   } catch {
     // fallback
   }
-  return 'dark';
+  return 'light';
 }
 
 const initialState = {
@@ -221,7 +222,7 @@ function transactionReducer(state, action) {
 
     case 'TOGGLE_THEME': {
       const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('udd_kiosk_theme', nextTheme);
+      localStorage.setItem('udd_kiosk_theme_v2', nextTheme);
       return {
         ...state,
         theme: nextTheme,
@@ -229,7 +230,7 @@ function transactionReducer(state, action) {
     }
 
     case 'SET_THEME': {
-      localStorage.setItem('udd_kiosk_theme', action.payload);
+      localStorage.setItem('udd_kiosk_theme_v2', action.payload);
       return {
         ...state,
         theme: action.payload,

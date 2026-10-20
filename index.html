@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark overflow-x-hidden overscroll-x-none max-w-full">
+<html lang="en" class="overflow-x-hidden overscroll-x-none max-w-full" data-theme="light">
 
 <head>
   <meta charset="UTF-8" />
@@ -15,15 +15,18 @@
   <script>
     (function () {
       try {
-        var savedTheme = localStorage.getItem('udd_kiosk_theme');
-        if (savedTheme === 'light') {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.setAttribute('data-theme', 'light');
-        } else {
+        var savedTheme = localStorage.getItem('udd_kiosk_theme_v2');
+        if (savedTheme === 'dark') {
           document.documentElement.classList.add('dark');
           document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.setAttribute('data-theme', 'light');
         }
-      } catch (e) {}
+      } catch (e) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
     })();
   </script>
 </head>
