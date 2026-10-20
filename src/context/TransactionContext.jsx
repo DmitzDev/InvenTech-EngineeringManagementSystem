@@ -14,6 +14,15 @@ import {
   SECURITY_EVENT_TYPES,
   SEVERITY_LEVELS,
 } from '../services/securityAuditService';
+import {
+  saveTransactionToSupabase,
+  fetchTransactionsFromSupabase,
+  markTransactionReturnedInSupabase,
+  saveReservationToSupabase,
+  fetchReservationsFromSupabase,
+  updateReservationStatusInSupabase,
+  subscribeToTable,
+} from '../services/supabaseDataService';
 
 const TransactionContext = createContext();
 
@@ -884,6 +893,56 @@ export function TransactionProvider({ children }) {
     }
   }, [state.theme]);
 
+  // 1. Initial Cloud Sync from Supabase & Realtime Listeners
+  useEffect(() => {
+    let isMounted = true;
+    async function loadCloudData() {
+      try {
+        const [cloudTxs, cloudRes] = await Promise.all([
+          fetchTransactionsFromSupabase(),
+          fetchReservationsFromSupabase(),
+        ]);
+        if (!isMounted) return;
+        if (Array.isArray(cloudTxs) && cloudTxs.length > 0) {
+          saveStoredTransactions(cloudTxs);
+          dispatch({ type: 'SYNC_STORED_TRANSACTIONS', payload: cloudTxs });
+        }
+        if (Array.isArray(cloudRes) && cloudRes.length > 0) {
+          saveStoredReservations(cloudRes);
+          dispatch({ type: 'SYNC_STORED_RESERVATIONS', payload: cloudRes });
+        }
+      } catch (err) {
+        console.warn('[SUPABASE] Initial load skipped:', err);
+      }
+    }
+
+    loadCloudData();
+
+    // Subscribe to live changes in transactions
+    const unsubTxs = subscribeToTable('transactions', async () => {
+      const fresh = await fetchTransactionsFromSupabase();
+      if (fresh && isMounted) {
+        saveStoredTransactions(fresh);
+        dispatch({ type: 'SYNC_STORED_TRANSACTIONS', payload: fresh });
+      }
+    });
+
+    // Subscribe to live changes in reservations
+    const unsubRes = subscribeToTable('reservations', async () => {
+      const fresh = await fetchReservationsFromSupabase();
+      if (fresh && isMounted) {
+        saveStoredReservations(fresh);
+        dispatch({ type: 'SYNC_STORED_RESERVATIONS', payload: fresh });
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      if (unsubTxs) unsubTxs();
+      if (unsubRes) unsubRes();
+    };
+  }, []);
+
   // Sync live transactions and reservations across browser tabs
   useEffect(() => {
     const handleStorageChange = (e) => {
@@ -1066,16 +1125,34 @@ export function TransactionProvider({ children }) {
     openCartDrawer: () => dispatch({ type: 'SET_CART_DRAWER', payload: true }),
     closeCartDrawer: () => dispatch({ type: 'SET_CART_DRAWER', payload: false }),
     toggleCartDrawer: () => dispatch({ type: 'TOGGLE_CART_DRAWER' }),
-    addReservation: (reservationData) =>
-      dispatch({ type: 'ADD_RESERVATION', payload: reservationData }),
-    cancelReservation: (id) =>
-      dispatch({ type: 'CANCEL_RESERVATION', payload: id }),
-    updateReservationStatus: (id, status) =>
-      dispatch({ type: 'UPDATE_RESERVATION_STATUS', payload: { id, status } }),
+    addReservation: (reservationData) => {
+      dispatch({ type: 'ADD_RESERVATION', payload: reservationData });
+      saveReservationToSupabase(reservationData).catch((err) => {
+        console.warn('[SUPABASE] Async save reservation error:', err);
+      });
+    },
+    cancelReservation: (id) => {
+      dispatch({ type: 'CANCEL_RESERVATION', payload: id });
+      updateReservationStatusInSupabase(id, 'CANCELLED').catch((err) => {
+        console.warn('[SUPABASE] Async cancel reservation error:', err);
+      });
+    },
+    updateReservationStatus: (id, status) => {
+      dispatch({ type: 'UPDATE_RESERVATION_STATUS', payload: { id, status } });
+      updateReservationStatusInSupabase(id, status).catch((err) => {
+        console.warn('[SUPABASE] Async update reservation error:', err);
+      });
+    },
     prepareReservationToSlip: (reservation) =>
       dispatch({ type: 'PREPARE_RESERVATION_TO_SLIP', payload: reservation }),
-    returnEquipmentTransaction: (payload) =>
-      dispatch({ type: 'RETURN_EQUIPMENT_TRANSACTION', payload }),
+    returnEquipmentTransaction: (payload) => {
+      dispatch({ type: 'RETURN_EQUIPMENT_TRANSACTION', payload });
+      if (payload?.txId) {
+        markTransactionReturnedInSupabase(payload.txId, payload.custodianNotes).catch((err) => {
+          console.warn('[SUPABASE] Async return transaction error:', err);
+        });
+      }
+    },
     restoreInventoryItem: (itemId, resolutionNotes) =>
       dispatch({ type: 'RESTORE_INVENTORY_ITEM', payload: { itemId, resolutionNotes } }),
     setActiveClearanceRecord: (record) =>
@@ -1087,7 +1164,36 @@ export function TransactionProvider({ children }) {
     checkReservationConflict,
     checkStudentOverdueClearance,
     prepareTransactionReview: () => dispatch({ type: 'PREPARE_TRANSACTION_REVIEW' }),
-    commitTransaction: () => dispatch({ type: 'COMMIT_TRANSACTION' }),
+    commitTransaction: () => {
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      const today = new Date();
+      const dateCode = today.toISOString().slice(0, 10).replace(/-/g, '');
+      const txId = state.transactionId || `UDD-${state.selectedLab || 'ENG'}-${dateCode}-${randomSuffix}`;
+      const timeStr = state.timestamp || today.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+
+      const txRecord = {
+        txId,
+        id: txId,
+        status: 'BORROWED',
+        borrower: { ...state.borrower },
+        items: [...state.cart],
+        borrowedAt: `${state.borrower.date} • ${timeStr}`,
+        timestamp: today.toISOString(),
+        returnedAt: null,
+        custodianNotes: '',
+      };
+
+      dispatch({ type: 'COMMIT_TRANSACTION' });
+
+      // Persist to Supabase Cloud
+      saveTransactionToSupabase(txRecord).catch((err) => {
+        console.warn('[SUPABASE] Async save transaction error:', err);
+      });
+    },
     setSafetyAgreement: (val) => dispatch({ type: 'SET_SAFETY_AGREEMENT', payload: val }),
     toggleSafetyAgreement: () => dispatch({ type: 'TOGGLE_SAFETY_AGREEMENT' }),
     addGroupMember: (memberId) => dispatch({ type: 'ADD_GROUP_MEMBER', payload: memberId }),
