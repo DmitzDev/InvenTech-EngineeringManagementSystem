@@ -378,7 +378,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Buchner Funnel.webp"
+    "image": "/images/equipment/Chemistry/Funnel (Large).webp"
   },
   {
     "id": "chem-038",
@@ -570,7 +570,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/J-tube (Big).webp"
   },
   {
     "id": "chem-050",
@@ -586,7 +586,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Adapter.webp"
   },
   {
     "id": "chem-051",
@@ -602,7 +602,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Medicine Dropper.webp"
   },
   {
     "id": "chem-052",
@@ -618,7 +618,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Iron Stand.webp"
   },
   {
     "id": "chem-053",
@@ -634,7 +634,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "1 unit",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Microscope (Binocular).webp"
   },
   {
     "id": "chem-054",
@@ -650,7 +650,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Iron Stand.webp"
+    "image": "/images/equipment/Chemistry/Mortar and pestle.webp"
   },
   {
     "id": "chem-055",
@@ -666,7 +666,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Evaporating Dish.webp"
+    "image": "/images/equipment/Chemistry/Petri Dish.webp"
   },
   {
     "id": "chem-056",
@@ -682,7 +682,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (1000ml).webp"
+    "image": "/images/equipment/Chemistry/Reagent Bottle.webp"
   },
   {
     "id": "chem-057",
@@ -698,7 +698,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (500ml).webp"
+    "image": "/images/equipment/Chemistry/Reagent Bottle.webp"
   },
   {
     "id": "chem-058",
@@ -714,7 +714,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Reagent Bottle.webp"
   },
   {
     "id": "chem-059",
@@ -730,7 +730,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (1000ml).webp"
+    "image": "/images/equipment/Chemistry/Reagent Bottle.webp"
   },
   {
     "id": "chem-060",
@@ -746,7 +746,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Reagent Bottle.webp"
   },
   {
     "id": "chem-061",
@@ -762,11 +762,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Rubber Aspirator.webp"
   },
   {
     "id": "chem-062",
-    "name": "Separatory Flask",
+    "name": "Separatory Funnel",
     "tagCode": "ENG-EQ-SEPA-057-26",
     "category": "Equipment & Apparatus",
     "lab": "CHEM",
@@ -778,7 +778,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Distilling Flask.webp"
+    "image": "/images/equipment/Chemistry/Separatory Funnel.webp"
   },
   {
     "id": "chem-063",
@@ -794,7 +794,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Spatula.webp"
   },
   {
     "id": "chem-064",
@@ -810,7 +810,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Stirring Rod.webp"
   },
   {
     "id": "chem-065",
@@ -826,7 +826,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Syringe.webp"
   },
   {
     "id": "chem-066",
@@ -842,7 +842,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Test Tube Brush.webp"
   },
   {
     "id": "chem-067",
@@ -858,7 +858,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Test Tube Holder.webp"
   },
   {
     "id": "chem-068",
@@ -874,7 +874,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Test Tube.webp"
   },
   {
     "id": "chem-069",
@@ -890,7 +890,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Test Tube.webp"
   },
   {
     "id": "chem-070",
@@ -906,7 +906,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "60 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Test Tube.webp"
   },
   {
     "id": "chem-071",
@@ -922,7 +922,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "25 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Test Tube.webp"
   },
   {
     "id": "chem-072",
@@ -938,7 +938,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Test Tube Rack.webp"
   },
   {
     "id": "chem-073",
@@ -954,7 +954,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Drying Tube.webp"
+    "image": "/images/equipment/Chemistry/Thistle Tube.webp"
   },
   {
     "id": "chem-074",
@@ -970,7 +970,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Glass Tubing.webp"
+    "image": "/images/equipment/Chemistry/Watch Glass.webp"
   },
   {
     "id": "chem-075",
@@ -986,7 +986,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Civil/Taper File.webp"
   },
   {
     "id": "chem-076",
@@ -1002,7 +1002,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Tripod.webp"
   },
   {
     "id": "chem-077",
@@ -1018,7 +1018,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Wash Bottle.webp"
   },
   {
     "id": "chem-078",
@@ -1034,7 +1034,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Glass Tubing.webp"
+    "image": "/images/equipment/Chemistry/Watch Glass.webp"
   },
   {
     "id": "chem-079",
@@ -1050,7 +1050,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Desiccator.webp"
   },
   {
     "id": "chem-080",
@@ -1066,7 +1066,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Wire Gauze.webp"
   },
   {
     "id": "chem-081",
@@ -1082,11 +1082,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Rubber Stopper.webp"
   },
   {
     "id": "chem-082",
-    "name": "Cor Stopper",
+    "name": "Cork Stopper",
     "tagCode": "ENG-CS-CORP-002-26",
     "category": "Consumables",
     "lab": "CHEM",
@@ -1098,7 +1098,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Rubber Stopper.webp"
   },
   {
     "id": "chem-083",
@@ -1114,7 +1114,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "1 roll",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Nichrome Wire.webp"
   },
   {
     "id": "chem-084",
@@ -1130,7 +1130,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "1 roll",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Nichrome Wire.webp"
   },
   {
     "id": "chem-085",
@@ -1146,7 +1146,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "2 rolls",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Nichrome Wire.webp"
   },
   {
     "id": "chem-086",
@@ -1162,7 +1162,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "1 roll",
     "room": "F201 CHEMISTRY LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
+    "image": "/images/equipment/Chemistry/Nichrome Wire.webp"
   },
   {
     "id": "chem-087",
@@ -1246,7 +1246,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
   },
   {
     "id": "ce-005",
-    "name": "DW-2 Eclectic Strain Unconfirmed Compression Tester",
+    "name": "DW-2 Electric Strain Unconfined Compression Tester",
     "tagCode": "ENG-EQ-DWEA-415-26",
     "category": "Equipment & Apparatus",
     "lab": "CE",
@@ -1254,7 +1254,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "DW-2 Eclectic Strain Unconfirmed Compression Tester \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "DW-2 Electric Strain Unconfined Compression Tester \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
     "safetyClearance": "Safe for Use",
@@ -1406,7 +1406,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
   },
   {
     "id": "ce-015",
-    "name": "Manometer ( - 1205)",
+    "name": "Digital Manometer (HT-1205)",
     "tagCode": "ENG-EQ-MANO-428-26",
     "category": "Equipment & Apparatus",
     "lab": "CE",
@@ -1414,7 +1414,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "status": "Passed Inspection",
     "condition": "Functional",
     "unit": "pc",
-    "description": "Manometer ( - 1205) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
+    "description": "Digital Manometer (HT-1205) \u2014 Located at F301 CIVIL ENGINEERING LAB. Safety: Safe for Use.",
     "chedReq": "",
     "room": "F301 CIVIL ENGINEERING LAB",
     "safetyClearance": "Safe for Use",
@@ -3370,7 +3370,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "physics-002",
@@ -3386,7 +3386,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Physics/Calomiter.webp"
   },
   {
     "id": "physics-003",
@@ -3466,7 +3466,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Physics/Slit Plate.webp"
   },
   {
     "id": "physics-008",
@@ -3594,7 +3594,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Chemistry/Iron Stand.webp"
   },
   {
     "id": "physics-017",
@@ -3626,7 +3626,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Physics/Linear Air Track.webp"
   },
   {
     "id": "physics-019",
@@ -3722,7 +3722,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Digital Lab/ece inventory/ETEK BEE 2015-06-MAGNETIC FIELD AND AMPERE\u2019S LAW-MODULES.webp"
   },
   {
     "id": "physics-025",
@@ -3738,7 +3738,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Physics/Free Fall Apparatus.webp"
   },
   {
     "id": "physics-026",
@@ -3754,7 +3754,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Chemistry/Iron Stand.webp"
   },
   {
     "id": "physics-027",
@@ -3786,7 +3786,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Physics/Thermal Expansion Apparatus.webp"
   },
   {
     "id": "physics-029",
@@ -3834,7 +3834,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Chemistry/Beaker (250ml).webp"
   },
   {
     "id": "physics-033",
@@ -3882,7 +3882,7 @@ const DEFAULT_EQUIPMENT_ITEMS = [
     "chedReq": "5 pcs",
     "room": "F204 \u2013 F205 PHYSICS LAB",
     "safetyClearance": "Safe for Use",
-    "image": "/images/equipment/Physics/Force Table Set.webp"
+    "image": "/images/equipment/Physics/Calomiter.webp"
   },
   {
     "id": "physics-036",
@@ -4254,11 +4254,11 @@ const DEFAULT_EQUIPMENT_ITEMS = [
   }
 ];
 
-const STORAGE_KEY = 'udd_master_lab_inventory_v8';
+const STORAGE_KEY = 'udd_master_lab_inventory_v9';
 
 // Clean old test cache keys from previous testing sessions
 try {
-  ['udd_master_lab_inventory_v1', 'udd_master_lab_inventory_v2', 'udd_master_lab_inventory_v3', 'udd_master_lab_inventory_v4', 'udd_master_lab_inventory_v5', 'udd_master_lab_inventory_v6', 'udd_master_lab_inventory_v7', 'udd_kiosk_incident_logs_v1'].forEach((k) => {
+  ['udd_master_lab_inventory_v1', 'udd_master_lab_inventory_v2', 'udd_master_lab_inventory_v3', 'udd_master_lab_inventory_v4', 'udd_master_lab_inventory_v5', 'udd_master_lab_inventory_v6', 'udd_master_lab_inventory_v7', 'udd_master_lab_inventory_v8', 'udd_kiosk_incident_logs_v1'].forEach((k) => {
     localStorage.removeItem(k);
   });
 } catch {
@@ -4505,10 +4505,16 @@ export function getItemImage(item) {
 
   // Civil Lab
   if (lab === 'CE') {
-    if (name.includes('theodolite') || name.includes('total station') || name.includes('gps')) {
+    if (name.includes('theodolite') || name.includes('total station')) {
+      return '/images/equipment/Civil/Theodolite Total Station.webp';
+    }
+    if (name.includes('gps')) {
       return '/images/equipment/Civil/GPS EMINGEN.webp';
     }
-    if (name.includes('slump') || name.includes('vicat') || name.includes('stwky')) {
+    if (name.includes('slump')) {
+      return '/images/equipment/Civil/Concrete Slump Cone.webp';
+    }
+    if (name.includes('vicat') || name.includes('stwky')) {
       return '/images/equipment/Civil/STWKY-2 Vicat Apparatus.webp';
     }
     if (name.includes('sieve')) {
@@ -4520,25 +4526,85 @@ export function getItemImage(item) {
     if (name.includes('compression') || name.includes('stye') || name.includes('strain')) {
       return '/images/equipment/Civil/STYE-100 Digital Display Hydraulic Compression Testing Machine.webp';
     }
-    if (name.includes('surveying') || name.includes('tripod') || name.includes('pole') || name.includes('rod')) {
+    if (name.includes('compactor') || name.includes('stzj')) {
+      return '/images/equipment/Civil/STZJ-1 Heavy-Duty Portable Compactor.webp';
+    }
+    if (name.includes('tripod')) {
       return '/images/equipment/Civil/SURVEYING TRIPODS.webp';
     }
-    if (name.includes('grinder') || name.includes('hammer') || name.includes('trowel') || name.includes('scoop') || name.includes('file')) {
+    if (name.includes('range pole')) {
+      return '/images/equipment/Civil/SURVEYING RANGE POLE.webp';
+    }
+    if (name.includes('grade rod') || name.includes('grade rods')) {
+      return '/images/equipment/Civil/SURVEYING GRADE RODS.webp';
+    }
+    if (name.includes('pole bag') || name.includes('rod bag')) {
+      return '/images/equipment/Civil/SURVEYING RODS_POLE BAGS.webp';
+    }
+    if (name.includes('hard hat')) {
+      return '/images/equipment/Civil/Hard Hat.webp';
+    }
+    if (name.includes('hammer')) {
+      return '/images/equipment/Civil/Engineer_s Hammer.webp';
+    }
+    if (name.includes('trowel')) {
+      return '/images/equipment/Civil/Trowels.webp';
+    }
+    if (name.includes('grinder')) {
       return '/images/equipment/Civil/Dewalt Grinder.webp';
+    }
+    if (name.includes('sander')) {
+      return '/images/equipment/Civil/Dewalt Orbital Sander.webp';
+    }
+    if (name.includes('planer')) {
+      return '/images/equipment/Civil/Dewalt Planer.webp';
+    }
+    if (name.includes('moisture can')) {
+      return '/images/equipment/Civil/Moisture cans w_ lid.webp';
+    }
+    if (name.includes('gauge')) {
+      return '/images/equipment/Civil/DIGITAL HEIGHT AND DEPTH GAUGE.webp';
     }
     return '/images/equipment/Civil/STCBR-1 CBR Testing Apparatus.webp';
   }
 
   // Chemistry Lab
   if (lab === 'CHEM') {
+    if (name.includes('microscope')) return '/images/equipment/Chemistry/Microscope (Binocular).webp';
+    if (name.includes('dropper')) return '/images/equipment/Chemistry/Medicine Dropper.webp';
+    if (name.includes('mortar')) return '/images/equipment/Chemistry/Mortar and pestle.webp';
+    if (name.includes('petri')) return '/images/equipment/Chemistry/Petri Dish.webp';
+    if (name.includes('reagent bottle') || name.includes('bottle')) return '/images/equipment/Chemistry/Reagent Bottle.webp';
+    if (name.includes('separatory')) return '/images/equipment/Chemistry/Separatory Funnel.webp';
+    if (name.includes('spatula') || name.includes('scoopula')) return '/images/equipment/Chemistry/Spatula.webp';
+    if (name.includes('stirring rod') || name.includes('glass rod')) return '/images/equipment/Chemistry/Stirring Rod.webp';
+    if (name.includes('syringe')) return '/images/equipment/Chemistry/Syringe.webp';
+    if (name.includes('brush')) return '/images/equipment/Chemistry/Test Tube Brush.webp';
+    if (name.includes('holder') && name.includes('test tube')) return '/images/equipment/Chemistry/Test Tube Holder.webp';
+    if (name.includes('test tube rack') || name.includes('rack')) return '/images/equipment/Chemistry/Test Tube Rack.webp';
+    if (name.includes('test tube')) return '/images/equipment/Chemistry/Test Tube.webp';
+    if (name.includes('thistle')) return '/images/equipment/Chemistry/Thistle Tube.webp';
+    if (name.includes('watch glass')) return '/images/equipment/Chemistry/Watch Glass.webp';
+    if (name.includes('wire gauze') || name.includes('gauze')) return '/images/equipment/Chemistry/Wire Gauze.webp';
+    if (name.includes('tripod')) return '/images/equipment/Chemistry/Tripod.webp';
+    if (name.includes('stopper') || name.includes('bung') || name.includes('cork')) return '/images/equipment/Chemistry/Rubber Stopper.webp';
+    if (name.includes('aspirator') || name.includes('pipette bulb')) return '/images/equipment/Chemistry/Rubber Aspirator.webp';
+    if (name.includes('wash bottle')) return '/images/equipment/Chemistry/Wash Bottle.webp';
+    if (name.includes('wire') || name.includes('ribbon')) return '/images/equipment/Chemistry/Nichrome Wire.webp';
     if (name.includes('lamp') || name.includes('burner')) return '/images/equipment/Chemistry/Alcohol Lamp.webp';
     if (name.includes('beaker')) return '/images/equipment/Chemistry/Beaker (250ml).webp';
-    if (name.includes('flask')) return '/images/equipment/Chemistry/Erlenmeyer Flask (250ml).webp';
+    if (name.includes('erlenmeyer') || name.includes('flask')) return '/images/equipment/Chemistry/Erlenmeyer Flask (250ml).webp';
+    if (name.includes('florence')) return '/images/equipment/Chemistry/Florence Flask (500ml).webp';
+    if (name.includes('crucible tong')) return '/images/equipment/Chemistry/Crucible Tong.webp';
     if (name.includes('crucible')) return '/images/equipment/Chemistry/Crucible (with cover).webp';
     if (name.includes('cylinder')) return '/images/equipment/Chemistry/Graduated Cylinder (50ml).webp';
-    if (name.includes('funnel')) return '/images/equipment/Chemistry/Buchner Funnel.webp';
-    if (name.includes('dish') || name.includes('watch glass')) return '/images/equipment/Chemistry/Evaporating Dish.webp';
-    if (name.includes('stand') || name.includes('clamp') || name.includes('ring')) return '/images/equipment/Chemistry/Iron Stand.webp';
+    if (name.includes('buchner')) return '/images/equipment/Chemistry/Buchner Funnel.webp';
+    if (name.includes('funnel')) return '/images/equipment/Chemistry/Funnel (Medium).webp';
+    if (name.includes('evaporating') || name.includes('dish')) return '/images/equipment/Chemistry/Evaporating Dish.webp';
+    if (name.includes('stand')) return '/images/equipment/Chemistry/Iron Stand.webp';
+    if (name.includes('ring')) return '/images/equipment/Chemistry/Iron Ring.webp';
+    if (name.includes('clamp')) return '/images/equipment/Chemistry/Iron Clamp.webp';
+    if (name.includes('desiccator')) return '/images/equipment/Chemistry/Desiccator.webp';
     return '/images/equipment/Chemistry/Beaker (250ml).webp';
   }
 
@@ -4564,12 +4630,18 @@ export function getItemImage(item) {
 
   // Physics Lab
   if (lab === 'PHYSICS') {
+    if (name.includes('beaker')) return '/images/equipment/Chemistry/Beaker (250ml).webp';
+    if (name.includes('calorimeter') || name.includes('calomiter')) return '/images/equipment/Physics/Calomiter.webp';
     if (name.includes('magnet')) return '/images/equipment/Physics/Bar Magnets.webp';
     if (name.includes('pendulum')) return '/images/equipment/Physics/Blackwood Ballistic Pendulum.webp';
     if (name.includes('centripetal')) return '/images/equipment/Physics/Centripetal-Force-Apparatus.webp';
-    if (name.includes('table')) return '/images/equipment/Physics/Force Table Set.webp';
-    if (name.includes('mass')) return '/images/equipment/Physics/Set of Weights.webp';
+    if (name.includes('force table') || name.includes('table')) return '/images/equipment/Physics/Force Table Set.webp';
+    if (name.includes('weight') || name.includes('mass')) return '/images/equipment/Physics/Set of Weights.webp';
     if (name.includes('air track')) return '/images/equipment/Physics/Linear Air Track.webp';
+    if (name.includes('wire') || name.includes('plug')) return '/images/equipment/Physics/Connecting Wires.webp';
+    if (name.includes('lens')) return '/images/equipment/Physics/Convex Lens.webp';
+    if (name.includes('mirror')) return '/images/equipment/Physics/Spherical Mirror.webp';
+    if (name.includes('stand') || name.includes('rod')) return '/images/equipment/Chemistry/Iron Stand.webp';
     return '/images/equipment/Physics/Force Table Set.webp';
   }
 

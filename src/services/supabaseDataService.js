@@ -1,16 +1,5 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 
-/**
- * =============================================================================
- * INVENTECH KIOSK • SUPABASE CLOUD DATA & SYNC SERVICE
- * Provides hybrid cloud persistence with seamless offline fallback.
- * =============================================================================
- */
-
-// -----------------------------------------------------------------------------
-// 1. EQUIPMENT INVENTORY
-// -----------------------------------------------------------------------------
-
 export async function fetchEquipmentFromSupabase() {
   if (!isSupabaseConfigured || !supabase) return null;
   try {
@@ -26,7 +15,6 @@ export async function fetchEquipmentFromSupabase() {
 
     if (!Array.isArray(data) || data.length === 0) return null;
 
-    // Map database snake_case to frontend camelCase
     return data.map((row) => ({
       id: row.id,
       tagCode: row.tag_code,
@@ -68,10 +56,6 @@ export async function updateEquipmentStockInSupabase(itemId, newStock) {
     return false;
   }
 }
-
-// -----------------------------------------------------------------------------
-// 2. BORROW TRANSACTIONS
-// -----------------------------------------------------------------------------
 
 export async function saveTransactionToSupabase(tx) {
   if (!isSupabaseConfigured || !supabase || !tx) return null;
@@ -175,10 +159,6 @@ export async function markTransactionReturnedInSupabase(txId, returnNotes) {
     return false;
   }
 }
-
-// -----------------------------------------------------------------------------
-// 3. ADVANCE RESERVATIONS
-// -----------------------------------------------------------------------------
 
 export async function saveReservationToSupabase(reservation) {
   if (!isSupabaseConfigured || !supabase || !reservation) return null;
@@ -286,10 +266,6 @@ export async function updateReservationStatusInSupabase(resId, nextStatus) {
   }
 }
 
-// -----------------------------------------------------------------------------
-// 4. INCIDENT & DAMAGE LOGS
-// -----------------------------------------------------------------------------
-
 export async function saveIncidentLogToSupabase(log) {
   if (!isSupabaseConfigured || !supabase || !log) return null;
   try {
@@ -317,12 +293,8 @@ export async function saveIncidentLogToSupabase(log) {
   }
 }
 
-// -----------------------------------------------------------------------------
-// 5. REALTIME SUBSCRIPTION HELPER
-// -----------------------------------------------------------------------------
-
 export function subscribeToTable(table, onPayload) {
-  if (!isSupabaseConfigured || !supabase) return () => {};
+  if (!isSupabaseConfigured || !supabase) return () => { };
   try {
     const channel = supabase
       .channel(`realtime_${table}`)
@@ -342,6 +314,6 @@ export function subscribeToTable(table, onPayload) {
     };
   } catch (err) {
     console.warn(`[SUPABASE] Subscription to ${table} failed:`, err);
-    return () => {};
+    return () => { };
   }
 }
