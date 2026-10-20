@@ -223,7 +223,7 @@ export default function EquipmentCatalog() {
   // Pagination State & Logic
   // ----------------------------------------------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = mobileViewMode === 'compact' ? 10 : 12;
+  const itemsPerPage = mobileViewMode === 'compact' ? 10 : 8;
 
   // Auto-reset to page 1 whenever filters change
   useEffect(() => {
@@ -309,246 +309,204 @@ export default function EquipmentCatalog() {
   const totalUnitsCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
-    <div className="flex-1 max-w-[1720px] mx-auto w-full max-w-full overflow-x-hidden p-2.5 sm:p-4 lg:p-5 flex flex-col justify-between select-none min-h-0 relative">
-      {/* 1. Top Department Breadcrumb & Mobile View Controls */}
-      <div className={`flex flex-col gap-1.5 sm:gap-2 pb-2 mb-1.5 border-b shrink-0 ${
-        isDark ? 'border-slate-800/80' : 'border-slate-200'
+    <div className="flex-1 max-w-[1720px] mx-auto w-full max-w-full overflow-x-hidden p-2 sm:p-3 lg:p-4 flex flex-col justify-between select-none min-h-0 relative">
+      {/* 1. Header Navigation Bar (Clean 15" Kiosk & Mobile Header) */}
+      <div className={`p-2 sm:p-2.5 rounded-2xl border mb-2 flex items-center justify-between gap-2.5 shrink-0 shadow-xs ${
+        isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200'
       }`}>
-        <div className="flex items-center justify-between gap-2">
-          {/* Left: Change Lab Breadcrumb */}
-          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-            <TouchButton
-              variant="secondary"
-              size="sm"
-              icon={ArrowLeft}
-              onClick={() => setStep(2)}
-              className="px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-bold shrink-0"
-            >
-              Change Lab
-            </TouchButton>
-            <span className={isDark ? 'text-slate-700' : 'text-slate-300'}>|</span>
-            <div className="flex items-center gap-1.5 truncate">
-              <span className={`text-xs font-mono font-black px-2 py-0.5 rounded-full shrink-0 ${
-                isDark ? 'text-cyan-400 neu-inset-sm' : 'bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold'
-              }`}>
-                {currentLabInfo.shortName}
-              </span>
-              <span className={`text-xs font-bold hidden md:inline truncate ${
-                isDark ? 'text-slate-300' : 'text-slate-700'
-              }`}>
-                {currentLabInfo.name}
-              </span>
-            </div>
-          </div>
+        {/* Left: Change Lab Breadcrumb */}
+        <div className="flex items-center gap-2 min-w-0">
+          <button
+            type="button"
+            onClick={() => setStep(2)}
+            className={`h-10 px-3.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-transform active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
+              isDark
+                ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                : 'bg-slate-50 border-slate-300 text-slate-700 hover:bg-slate-100'
+            }`}
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Change Lab</span>
+          </button>
 
-          {/* Phone-Only: View Mode Toggle (Grid vs Ultra-Compact List Strip) */}
-          <div className={`sm:hidden flex items-center gap-1 p-1 rounded-xl shrink-0 ${
-            isDark ? 'neu-inset' : 'bg-slate-100 border border-slate-200'
+          <div className="flex items-center gap-2 truncate">
+            <span className={`text-xs font-mono font-black px-2.5 py-1 rounded-lg border shrink-0 ${
+              isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' : 'bg-blue-50 text-blue-800 border-blue-200'
+            }`}>
+              {currentLabInfo.shortName}
+            </span>
+            <span className={`text-xs sm:text-sm font-bold truncate hidden md:inline ${
+              isDark ? 'text-slate-200' : 'text-slate-800'
+            }`}>
+              {currentLabInfo.name}
+            </span>
+          </div>
+        </div>
+
+        {/* Right: Phone View Switcher & Borrow Cart */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Phone-Only: View Mode Switcher */}
+          <div className={`sm:hidden flex items-center gap-0.5 p-0.5 rounded-xl border ${
+            isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-200'
           }`}>
             <button
               type="button"
               onClick={() => setMobileViewMode('grid')}
-              title="2-Column Grid View"
-              className={`p-1.5 rounded-lg transition-all ${mobileViewMode === 'grid'
-                  ? 'neu-btn-primary text-white shadow-sm'
-                  : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
-                }`}
+              title="Grid View"
+              className={`p-1.5 rounded-lg transition-all ${
+                mobileViewMode === 'grid'
+                  ? 'bg-blue-600 text-white shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
             >
-              <LayoutGrid className="w-3.5 h-3.5" />
+              <LayoutGrid className="w-4 h-4" />
             </button>
             <button
               type="button"
               onClick={() => setMobileViewMode('compact')}
-              title="Compact Single-Line List View (Faster Scrolling)"
-              className={`p-1.5 rounded-lg transition-all ${mobileViewMode === 'compact'
-                  ? 'neu-btn-primary text-white shadow-sm'
-                  : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
-                }`}
+              title="Compact View"
+              className={`p-1.5 rounded-lg transition-all ${
+                mobileViewMode === 'compact'
+                  ? 'bg-blue-600 text-white shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
             >
-              <List className="w-3.5 h-3.5" />
+              <List className="w-4 h-4" />
             </button>
           </div>
-        </div>
 
-        {/* 2. Fast Search & Category Filter Pills */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-2.5 w-full">
-          {/* Instant Search Box */}
-          <div className="relative w-full sm:w-60 md:w-64 lg:w-80 shrink-0">
-            <Search className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 ${
-              isDark ? 'text-slate-400' : 'text-slate-400'
-            }`} />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search apparatus..."
-              className={`w-full min-h-[36px] sm:min-h-[40px] pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
-                isDark
-                  ? 'neu-inset text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-white'
-                  : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-              }`}
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className={`absolute right-2.5 top-1/2 -translate-y-1/2 text-xs p-1 ${
-                  isDark ? 'text-slate-400 hover:text-white' : 'text-slate-400 hover:text-slate-700'
-                }`}
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-
-          {/* Category Filter Chips (ALL, APPARATUS, INSTRUMENTS, CONSUMABLES...) */}
-          <div className="w-full sm:flex-1 min-w-0 max-w-full overflow-hidden">
-            <div className="flex items-center gap-2 w-full max-w-full overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              {categories.map((cat) => {
-                const isActive = activeCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setActiveCategory(cat)}
-                    className={`min-h-[36px] sm:min-h-[40px] px-3.5 sm:px-4 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation cursor-pointer flex items-center justify-center ${
-                      isActive
-                        ? isDark
-                          ? 'neu-btn-primary shadow-md text-slate-950 font-black'
-                          : 'bg-slate-900 text-white shadow-sm font-semibold'
-                        : isDark
-                        ? 'neu-btn-raised text-slate-300 hover:text-white font-medium'
-                        : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 font-medium'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
+          {/* Borrow Cart Button */}
+          <button
+            type="button"
+            onClick={openCartDrawer}
+            className={`h-10 px-3.5 sm:px-4 rounded-xl border flex items-center gap-2 transition-transform duration-75 ease-out active:scale-[0.97] touch-manipulation cursor-pointer shadow-xs ${
+              isDark
+                ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
+                : 'bg-white hover:bg-slate-50 text-slate-900 border-slate-300'
+            }`}
+          >
+            <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-xs">
+              <img src="/images/engrCartLogo.jpg" alt="Cart" className="w-full h-full object-cover" />
             </div>
-          </div>
+            <span className="text-xs sm:text-sm font-bold">Cart</span>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-bold shadow-xs ${
+              isDark ? 'bg-cyan-500 text-slate-950 font-black' : 'bg-blue-600 text-white font-bold'
+            }`}>
+              {totalUnitsCount}
+            </span>
+          </button>
+        </div>
+      </div>
 
-          {/* Right: Dedicated Borrow Cart Button (Responsive on all screen sizes) */}
-          <div className="flex sm:w-auto justify-end shrink-0">
+      {/* 2. Fast Search & Category Filters (Responsive & Horizontal Swipe on Touch) */}
+      <div className={`p-2 sm:p-2.5 rounded-2xl border mb-2 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 shrink-0 shadow-xs ${
+        isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200'
+      }`}>
+        {/* Instant Search Box */}
+        <div className="relative w-full md:w-72 lg:w-80 shrink-0">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search apparatus..."
+            className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
+              isDark
+                ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500'
+                : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white'
+            }`}
+          />
+          {searchQuery && (
             <button
               type="button"
-              onClick={openCartDrawer}
-              className={`w-auto flex items-center justify-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[40px] rounded-xl transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
-                isDark
-                  ? 'neu-btn-raised text-slate-100 hover:text-white shadow-md'
-                  : 'bg-white border border-slate-300 text-slate-900 hover:bg-slate-50 shadow-xs'
-              }`}
-              title="Open Borrow Cart"
+              onClick={() => setSearchQuery('')}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
             >
-              <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-xs">
-                <img
-                  src="/images/engrCartLogo.jpg"
-                  alt="Engineering Cart"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="text-xs sm:text-sm font-bold">Cart</span>
-              <span className={`px-2 py-0.5 rounded-full text-xs font-bold shadow-xs ${
-                isDark ? 'bg-cyan-500 text-slate-950 font-black' : 'bg-slate-900 text-white font-bold'
-              }`}>
-                {totalUnitsCount}
-              </span>
+              <X className="w-3.5 h-3.5" />
             </button>
-          </div>
+          )}
         </div>
 
-        {/* 3. Sub-Lab Switcher Pills Placed Directly Below Search Bar on Phone */}
-        {selectedLab === 'CE_CHEM' && (
-          <div className="sm:hidden w-full max-w-full overflow-hidden">
-            <div className="flex items-center gap-2 w-full max-w-full overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileLabFilter('ALL');
-                  setActiveCategory('ALL');
-                }}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
-                    ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
-                    : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-                  }`}
-              >
-                ALL ITEMS ({subLabCounts.total})
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileLabFilter('CE');
-                  setActiveCategory('ALL');
-                }}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CE'
-                    ? isDark ? 'bg-amber-500 text-slate-950 font-black shadow-sm' : 'bg-amber-500 text-slate-950 font-bold shadow-sm'
-                    : isDark ? 'neu-btn-raised text-amber-300' : 'bg-white text-amber-800 border border-amber-200 hover:bg-amber-50'
-                  }`}
-              >
-                Civil Lab ({subLabCounts.ceCount})
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileLabFilter('CHEM');
-                  setActiveCategory('ALL');
-                }}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'CHEM'
-                    ? isDark ? 'bg-emerald-500 text-slate-950 font-black shadow-sm' : 'bg-emerald-600 text-white font-bold shadow-sm'
-                    : isDark ? 'neu-btn-raised text-emerald-300' : 'bg-white text-emerald-800 border border-emerald-200 hover:bg-emerald-50'
-                  }`}
-              >
-                Chemistry Lab ({subLabCounts.chemCount})
-              </button>
-            </div>
-          </div>
-        )}
+        {/* Sub-Lab & Category Chips Container */}
+        <div className="flex-1 min-w-0 max-w-full overflow-hidden">
+          <div className="flex items-center gap-1.5 overflow-x-auto touch-pan-x scroll-smooth py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {/* Sub-Lab switcher for CE_CHEM */}
+            {selectedLab === 'CE_CHEM' && (
+              <div className="flex items-center gap-1.5 shrink-0 pr-2 border-r border-slate-300 dark:border-slate-700">
+                {[
+                  { id: 'ALL', label: `All (${subLabCounts.total})` },
+                  { id: 'CE', label: `Civil (${subLabCounts.ceCount})` },
+                  { id: 'CHEM', label: `Chem (${subLabCounts.chemCount})` },
+                ].map((sub) => (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => {
+                      setMobileLabFilter(sub.id);
+                      setActiveCategory('ALL');
+                    }}
+                    className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer ${
+                      mobileLabFilter === sub.id
+                        ? 'bg-blue-600 text-white shadow-xs'
+                        : isDark
+                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    {sub.label}
+                  </button>
+                ))}
+              </div>
+            )}
 
-        {selectedLab === 'DIGITAL_ECE' && (
-          <div className="sm:hidden w-full max-w-full overflow-hidden">
-            <div className="flex items-center gap-2 w-full max-w-full overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain scroll-smooth py-1 px-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            {/* Sub-Lab switcher for DIGITAL_ECE */}
+            {selectedLab === 'DIGITAL_ECE' && (
+              <div className="flex items-center gap-1.5 shrink-0 pr-2 border-r border-slate-300 dark:border-slate-700">
+                {[
+                  { id: 'ALL', label: `All (${subLabCounts.total})` },
+                  { id: 'DIGITAL', label: `Digital (${subLabCounts.digCount})` },
+                  { id: 'ECE', label: `ECE (${subLabCounts.eceCount})` },
+                ].map((sub) => (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => {
+                      setMobileLabFilter(sub.id);
+                      setActiveCategory('ALL');
+                    }}
+                    className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer ${
+                      mobileLabFilter === sub.id
+                        ? 'bg-blue-600 text-white shadow-xs'
+                        : isDark
+                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    {sub.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Category Filter Chips */}
+            {categories.map((cat) => (
               <button
+                key={cat}
                 type="button"
-                onClick={() => {
-                  setMobileLabFilter('ALL');
-                  setActiveCategory('ALL');
-                }}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ALL'
-                    ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
-                    : isDark ? 'neu-btn-raised text-slate-300' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
-                  }`}
+                onClick={() => setActiveCategory(cat)}
+                className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 whitespace-nowrap transition-transform active:scale-[0.97] cursor-pointer ${
+                  activeCategory === cat
+                    ? 'bg-slate-900 dark:bg-cyan-500 text-white dark:text-slate-950 font-black shadow-xs'
+                    : isDark
+                    ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
               >
-                ALL ITEMS ({subLabCounts.total})
+                {cat}
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileLabFilter('DIGITAL');
-                  setActiveCategory('ALL');
-                }}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'DIGITAL'
-                    ? isDark ? 'bg-cyan-500 text-slate-950 font-black shadow-sm' : 'bg-slate-900 text-white font-semibold shadow-sm'
-                    : isDark ? 'neu-btn-raised text-cyan-300' : 'bg-white text-blue-800 border border-blue-200 hover:bg-blue-50'
-                  }`}
-              >
-                Digital Lab ({subLabCounts.digCount})
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileLabFilter('ECE');
-                  setActiveCategory('ALL');
-                }}
-                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 whitespace-nowrap active:scale-95 transition-transform duration-75 ease-out touch-manipulation ${mobileLabFilter === 'ECE'
-                    ? isDark ? 'bg-indigo-500 text-slate-950 font-black shadow-sm' : 'bg-indigo-600 text-white font-semibold shadow-sm'
-                    : isDark ? 'neu-btn-raised text-indigo-300' : 'bg-white text-indigo-900 border border-indigo-200 hover:bg-indigo-50'
-                  }`}
-              >
-                ECE / Circuits ({subLabCounts.eceCount})
-              </button>
-            </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
 
       {/* 4. Fast Catalog Grid / Compact View (Ultra-fast scrolling on mobile, 4-columns on 15" kiosk/desktop) */}
@@ -556,7 +514,7 @@ export default function EquipmentCatalog() {
         id="equipment-scroll-area"
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 min-h-0 overflow-y-auto pr-1 pb-28 md:pb-6 scroll-smooth"
+        className="flex-1 min-h-0 overflow-y-auto pr-1 pb-3 md:pb-4 scroll-smooth"
       >
         {groupedEquipment.length === 0 ? (
           <div className="h-48 sm:h-64 flex flex-col items-center justify-center text-center p-6 text-slate-500 space-y-2">
@@ -603,33 +561,74 @@ export default function EquipmentCatalog() {
         )}
       </div>
 
-      {/* 5. Fixed / Sticky Pagination Bar (Centered at bottom) */}
+      {/* 5. Fixed / Sticky Pagination Bar (Centered at bottom, adaptive for Mobile & Kiosk) */}
       {totalPages > 1 && (
-        <div className={`shrink-0 py-2 sm:py-2.5 border-t flex items-center justify-center z-20 ${
+        <div className={`shrink-0 py-2 sm:py-2.5 px-3 border-t flex items-center justify-center z-20 pb-[max(0.6rem,env(safe-area-inset-bottom,8px))] ${
           isDark
             ? 'bg-[#0a0e17]/95 border-slate-800/90 backdrop-blur-sm'
             : 'bg-slate-100/95 border-slate-200/90 backdrop-blur-sm'
         }`}>
-          {/* Centered Page Action Controls */}
-          <div className="flex items-center gap-1.5 flex-wrap justify-center">
+          {/* A. Mobile Browser View (< sm): Compact 3-piece control that never wraps */}
+          <div className="flex sm:hidden items-center justify-center gap-2 w-full max-w-xs">
             <button
               type="button"
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`h-9 sm:h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                isDark
+                  ? 'bg-slate-800 border-slate-700 text-slate-200'
+                  : 'bg-white border-slate-300 text-slate-800 shadow-xs'
+              }`}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Prev</span>
+            </button>
+
+            {/* Mobile Page Status Badge */}
+            <div className={`h-10 px-4 rounded-xl border flex items-center justify-center text-xs font-bold min-w-[90px] shadow-xs ${
+              isDark
+                ? 'bg-slate-900 border-slate-700 text-slate-200'
+                : 'bg-white border-slate-300 text-slate-800'
+            }`}>
+              <span className="text-blue-600 dark:text-cyan-400 font-extrabold mr-1">{currentPage}</span>
+              <span className="text-slate-400 font-medium">/ {totalPages}</span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                isDark
+                  ? 'bg-slate-800 border-slate-700 text-slate-200'
+                  : 'bg-white border-slate-300 text-slate-800 shadow-xs'
+              }`}
+            >
+              <span>Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* B. 15" Kiosk & Desktop View (>= sm): Full Centered Numeric Button Group */}
+          <div className="hidden sm:flex items-center gap-1.5 flex-wrap justify-center">
+            <button
+              type="button"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                 isDark
                   ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
                   : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
               }`}
             >
               <ChevronLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Prev</span>
+              <span>Prev</span>
             </button>
 
             <div className="flex items-center gap-1">
               {getPageNumbers().map((p, idx) =>
                 p === '...' ? (
-                  <span key={`ellipsis-${idx}`} className="px-1.5 text-xs text-slate-400 font-bold select-none">
+                  <span key={`ellipsis-${idx}`} className="px-2 text-xs text-slate-400 font-bold select-none">
                     ...
                   </span>
                 ) : (
@@ -637,9 +636,9 @@ export default function EquipmentCatalog() {
                     key={p}
                     type="button"
                     onClick={() => handlePageChange(p)}
-                    className={`h-9 sm:h-10 min-w-[36px] sm:min-w-[40px] px-2.5 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer ${
+                    className={`h-10 min-w-[40px] px-3 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer ${
                       currentPage === p
-                        ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-500/30 font-black'
+                        ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-500/30 font-black'
                         : isDark
                         ? 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'
                         : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
@@ -655,13 +654,13 @@ export default function EquipmentCatalog() {
               type="button"
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`h-9 sm:h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                 isDark
                   ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
                   : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
               }`}
             >
-              <span className="hidden sm:inline">Next</span>
+              <span>Next</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
