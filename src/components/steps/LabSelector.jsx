@@ -25,23 +25,29 @@ export default function LabSelector() {
   const getAccentCardStyle = (lab) => {
     if (selectedLab === lab.id) {
       if (isDark) {
-        if (lab.id === 'CE_CHEM' || lab.id === 'CE' || lab.id === 'CHEM') return 'neu-card ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]';
-        if (lab.id === 'DIGITAL_ECE' || lab.id === 'DIGITAL' || lab.id === 'ECE') return 'neu-card ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]';
+        if (lab.id === 'CE') return 'neu-card ring-2 ring-amber-500/80 shadow-[0_0_24px_rgba(245,158,11,0.25)]';
+        if (lab.id === 'CHEM') return 'neu-card ring-2 ring-emerald-500/80 shadow-[0_0_24px_rgba(16,185,129,0.25)]';
+        if (lab.id === 'DIGITAL' || lab.id === 'DIGITAL_ECE') return 'neu-card ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]';
         if (lab.id === 'PHYSICS') return 'neu-card ring-2 ring-rose-500/80 shadow-[0_0_24px_rgba(244,63,94,0.25)]';
         return 'neu-card ring-2 ring-white/60';
       }
       return 'bg-white border-2 border-slate-900 ring-2 ring-slate-900/15 shadow-md';
     }
-    return isDark ? 'neu-card neu-card-hover' : 'bg-white border border-slate-200 shadow-sm';
+    return isDark ? 'neu-card neu-card-hover' : 'bg-white border border-slate-200 shadow-sm hover:border-slate-300';
   };
 
   const getIconContainerStyle = (labId) => {
     if (isDark) {
-      if (labId === 'CE_CHEM' || labId === 'CE' || labId === 'CHEM') return 'neu-inset text-emerald-400 border border-emerald-500/20';
-      if (labId === 'DIGITAL_ECE' || labId === 'DIGITAL' || labId === 'ECE') return 'neu-inset text-cyan-400 border border-cyan-500/20';
+      if (labId === 'CE') return 'neu-inset text-amber-400 border border-amber-500/20';
+      if (labId === 'CHEM') return 'neu-inset text-emerald-400 border border-emerald-500/20';
+      if (labId === 'DIGITAL' || labId === 'DIGITAL_ECE') return 'neu-inset text-cyan-400 border border-cyan-500/20';
       if (labId === 'PHYSICS') return 'neu-inset text-rose-400 border border-rose-500/20';
       return 'neu-inset text-slate-400';
     }
+    if (labId === 'CE') return 'bg-amber-50 border border-amber-200 text-amber-700 shadow-xs';
+    if (labId === 'CHEM') return 'bg-emerald-50 border border-emerald-200 text-emerald-700 shadow-xs';
+    if (labId === 'DIGITAL' || labId === 'DIGITAL_ECE') return 'bg-cyan-50 border border-cyan-200 text-cyan-700 shadow-xs';
+    if (labId === 'PHYSICS') return 'bg-rose-50 border border-rose-200 text-rose-700 shadow-xs';
     return 'bg-slate-50 border border-slate-200 text-slate-900 shadow-xs';
   };
 
@@ -65,8 +71,8 @@ export default function LabSelector() {
         </p>
       </div>
 
-      {/* 2. 3 Large Department Selection Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mt-3 sm:mt-4 md:mt-0 md:my-auto py-3">
+      {/* 2. 4 Department Selection Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 mt-3 sm:mt-4 md:mt-0 md:my-auto py-3">
         {LAB_OPTIONS.map((lab) => {
           const Icon = ICON_MAP[lab.iconName] || Building2;
           const isSelected = selectedLab === lab.id;
@@ -78,21 +84,21 @@ export default function LabSelector() {
             <div
               key={lab.id}
               onClick={() => handleSelectLab(lab.id)}
-              className={`p-5 sm:p-6 lg:p-7 rounded-3xl cursor-pointer flex flex-col justify-between group active:scale-95 transition-transform duration-75 ease-out touch-manipulation min-h-[200px] sm:min-h-[250px] lg:min-h-[300px] xl:min-h-[340px] ${getAccentCardStyle(
+              className={`p-4 sm:p-5 lg:p-6 rounded-3xl cursor-pointer flex flex-col justify-between group active:scale-95 transition-transform duration-75 ease-out touch-manipulation min-h-[220px] sm:min-h-[250px] lg:min-h-[280px] xl:min-h-[310px] ${getAccentCardStyle(
                 lab
               )}`}
             >
               <div>
                 {/* Top Badge & Icon */}
-                <div className="flex items-center justify-between mb-4 sm:mb-5">
+                <div className="flex items-center justify-between mb-3.5 sm:mb-4">
                   <div
-                    className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 ${getIconContainerStyle(
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 ${getIconContainerStyle(
                       lab.id
                     )}`}
                   >
-                    <Icon className="w-7 h-7 sm:w-8 sm:h-8" />
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
                   </div>
-                  <span className={`text-xs font-mono px-3 py-1 rounded-full font-bold border ${
+                  <span className={`text-[11px] sm:text-xs font-mono px-2.5 py-1 rounded-full font-bold border ${
                     isDark
                       ? 'neu-inset text-slate-300 border-slate-700/60'
                       : 'bg-slate-100 text-slate-800 border-slate-200'
@@ -102,19 +108,21 @@ export default function LabSelector() {
                 </div>
 
                 {/* Title & Description */}
-                <h3 className={`text-lg sm:text-xl lg:text-2xl font-black leading-snug transition-colors ${
+                <h3 className={`text-base sm:text-lg lg:text-xl font-black leading-snug transition-colors ${
                   isDark
                     ? 'text-slate-100 group-hover:text-white'
                     : 'text-slate-900 group-hover:text-slate-950'
                 }`}>
                   {lab.name}
                 </h3>
-                <p className={`text-xs sm:text-sm font-bold mt-1 uppercase tracking-wider ${
+                <p className={`text-xs font-bold mt-1 uppercase tracking-wider ${
                   isDark ? 'text-cyan-400' : 'text-slate-700'
                 }`}>
-                  {lab.shortName} • {itemCount} Items
+                  {lab.id === 'DIGITAL'
+                    ? `Consumables & ECE • ${itemCount} Items`
+                    : `${lab.shortName} • ${itemCount} Items`}
                 </p>
-                <p className={`text-xs sm:text-sm mt-2.5 sm:mt-3 line-clamp-3 leading-relaxed ${
+                <p className={`text-xs mt-2 line-clamp-3 leading-relaxed ${
                   isDark ? 'text-slate-300' : 'text-slate-600 font-medium'
                 }`}>
                   {lab.description}

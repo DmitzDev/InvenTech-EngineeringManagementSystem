@@ -1,33 +1,42 @@
 export const LAB_OPTIONS = [
   {
-    "id": "CE_CHEM",
-    "name": "Civil & Chemistry Engineering Lab",
-    "shortName": "Civil & Chem Lab",
-    "tag": "CE/CHM-LAB",
-    "accentColor": "emerald",
-    "description": "Surveying, Concrete Technology, Soil Mechanics, Materials Testing, Glassware & Analytical Chemistry",
+    "id": "CE",
+    "name": "Civil Engineering Laboratory",
+    "shortName": "Civil Engr Lab",
+    "tag": "CE-LAB",
+    "accentColor": "amber",
+    "description": "Surveying instruments, Total Stations, Concrete Slump Cones, Soil Mechanics, and Materials Testing apparatus.",
     "iconName": "Building2",
-    "room": "F201 & F301 CE-CHEM LAB",
-    "subLabs": ["CE", "CHEM"]
+    "room": "F301 CIVIL LAB"
   },
   {
-    "id": "DIGITAL_ECE",
-    "name": "Digital, Microcontroller & ECE Lab",
-    "shortName": "Digital & ECE Lab",
-    "tag": "DIG/ECE-LAB",
+    "id": "CHEM",
+    "name": "Chemistry Laboratory",
+    "shortName": "Chemistry Lab",
+    "tag": "CHEM-LAB",
+    "accentColor": "emerald",
+    "description": "Glassware, Analytical Balances, Burettes, Reagents, Test Tubes, Bunsen Burners, and Chemical Analysis tools.",
+    "iconName": "FlaskConical",
+    "room": "F201 CHEMISTRY LAB"
+  },
+  {
+    "id": "DIGITAL",
+    "name": "Digital Laboratory",
+    "shortName": "Digital Lab",
+    "tag": "DIG-LAB",
     "accentColor": "cyan",
-    "description": "Digital Logic, Microcontrollers, Prototyping, ETEK Modular Trainers & Communications",
+    "description": "Consumables, electronic components, ICs, logic trainers, and ECE communications inventory.",
     "iconName": "Cpu",
-    "room": "F303-F304 DIGITAL & ECE LAB",
+    "room": "F303-F304 DIGITAL LAB",
     "subLabs": ["DIGITAL", "ECE"]
   },
   {
     "id": "PHYSICS",
-    "name": "Physics & Mechanics Lab",
+    "name": "Physics Laboratory",
     "shortName": "Physics Lab",
     "tag": "PHY-LAB",
     "accentColor": "rose",
-    "description": "Classical Mechanics, Centripetal Forces, Optics, Magnetism, Calorimetry & Balances",
+    "description": "Classical Mechanics, Centripetal Forces, Optics, Magnetism, Calorimetry, and Balances.",
     "iconName": "Atom",
     "room": "F204 – F205 PHYSICS LAB"
   }

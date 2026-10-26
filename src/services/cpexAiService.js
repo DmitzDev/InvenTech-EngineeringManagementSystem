@@ -72,7 +72,7 @@ export function getCompartmentBin(item) {
 
 function buildSystemInstruction(selectedLab) {
   const labContext = selectedLab
-    ? `Active Sector: ${selectedLab === 'DIGITAL_ECE' ? 'Digital Logic, Microcontroller & ECE Communications Laboratory' : selectedLab}`
+    ? `Active Sector: ${selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE' ? 'Digital Logic, Microcontroller & ECE Communications Laboratory' : selectedLab}`
     : 'All Engineering Laboratories (Computer Engineering, ECE, Civil, Chemistry, Physics)';
 
   const inventory = getInventory();

@@ -53,8 +53,8 @@ export default function EquipmentCatalog() {
   const currentLabInfo = useMemo(() => {
     return (
       LAB_OPTIONS.find((l) => l.id === selectedLab) || {
-        name: 'Civil & Chemistry Lab',
-        shortName: 'Civil & Chem',
+        name: 'Engineering Laboratory',
+        shortName: 'Engr Lab',
       }
     );
   }, [selectedLab]);
@@ -63,9 +63,13 @@ export default function EquipmentCatalog() {
   const labEquipment = useMemo(() => {
     if (!selectedLab) return allEquipment;
     let list = [];
-    if (selectedLab === 'CE_CHEM' || selectedLab === 'CE' || selectedLab === 'CHEM') {
+    if (selectedLab === 'CE') {
+      list = allEquipment.filter((item) => item.lab === 'CE');
+    } else if (selectedLab === 'CHEM') {
+      list = allEquipment.filter((item) => item.lab === 'CHEM');
+    } else if (selectedLab === 'CE_CHEM') {
       list = allEquipment.filter((item) => item.lab === 'CE' || item.lab === 'CHEM');
-    } else if (selectedLab === 'DIGITAL_ECE') {
+    } else if (selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') {
       list = allEquipment.filter((item) => item.lab === 'DIGITAL' || item.lab === 'ECE');
     } else {
       list = allEquipment.filter((item) => item.lab === selectedLab);
@@ -459,13 +463,13 @@ export default function EquipmentCatalog() {
               </div>
             )}
 
-            {/* Sub-Lab switcher for DIGITAL_ECE */}
-            {selectedLab === 'DIGITAL_ECE' && (
+            {/* Sub-Lab switcher for Digital Lab: Consumables & ECE Inventory */}
+            {(selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') && (
               <div className="flex items-center gap-1.5 shrink-0 pr-2 border-r border-slate-300 dark:border-slate-700">
                 {[
                   { id: 'ALL', label: `All (${subLabCounts.total})` },
-                  { id: 'DIGITAL', label: `Digital (${subLabCounts.digCount})` },
-                  { id: 'ECE', label: `ECE (${subLabCounts.eceCount})` },
+                  { id: 'DIGITAL', label: `Consumables (${subLabCounts.digCount})` },
+                  { id: 'ECE', label: `ECE Inventory (${subLabCounts.eceCount})` },
                 ].map((sub) => (
                   <button
                     key={sub.id}
