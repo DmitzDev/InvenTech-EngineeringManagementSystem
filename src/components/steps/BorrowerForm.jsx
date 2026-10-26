@@ -332,59 +332,77 @@ export default function BorrowerForm() {
         </p>
       </div>
 
-      {/* Overdue / Clearance Hold Lockout Alert Banner */}
+      {/* Overdue / Clearance Hold Alert Banner (Clean & Elegant Institutional Card) */}
       {clearanceStatus.isRestricted && (
-        <div className={`my-2 p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 shadow-xl animate-fade-in shrink-0 ${
+        <div className={`my-2 p-3.5 sm:p-4 rounded-2xl border transition-all animate-fade-in shrink-0 shadow-xs ${
           isDark
-            ? 'bg-rose-950/80 border-rose-500/80 text-rose-100'
-            : 'bg-rose-50 border-rose-300 text-rose-900 shadow-sm'
+            ? 'bg-[#121927] border-rose-500/30 text-slate-200'
+            : 'bg-white border-rose-200 text-slate-800'
         }`}>
-          <div className="flex items-start gap-3">
-            <ShieldAlert className={`w-6 h-6 sm:w-7 sm:h-7 shrink-0 mt-0.5 animate-pulse ${
-              isDark ? 'text-rose-400' : 'text-rose-600'
-            }`} />
-            <div className="flex-1">
-              <div className="flex items-center justify-between flex-wrap gap-1">
-                <span className={`text-xs sm:text-sm font-extrabold uppercase tracking-wider ${
-                  isDark ? 'text-rose-300' : 'text-rose-900'
-                }`}>
-                  ⛔ BORROWING RESTRICTED — Clearance Lockout Active
-                </span>
-                <span className={`text-[10px] sm:text-xs font-mono px-2 py-0.5 rounded border ${
-                  isDark
-                    ? 'bg-rose-900/90 border-rose-400/40 text-rose-200'
-                    : 'bg-rose-100 border-rose-200 text-rose-800 font-semibold'
-                }`}>
-                  Hold Reference: {clearanceStatus.clearanceHold?.id || 'UNRETURNED_SESSION'}
-                </span>
+          {/* Top Row: Icon + Title + Reference Badge */}
+          <div className="flex items-start justify-between gap-3 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
+                isDark
+                  ? 'bg-rose-950/60 border-rose-800/60 text-rose-400'
+                  : 'bg-rose-50 border-rose-200 text-rose-600'
+              }`}>
+                <ShieldAlert className="w-5 h-5" />
               </div>
-              <p className={`text-xs sm:text-sm font-bold mt-1 ${
-                isDark ? 'text-rose-100' : 'text-rose-800'
-              }`}>
-                {clearanceStatus.reason}
-              </p>
+              <div>
+                <h3 className={`text-sm sm:text-base font-bold leading-tight ${
+                  isDark ? 'text-rose-300' : 'text-rose-950'
+                }`}>
+                  Borrowing Restricted — Clearance Hold Active
+                </h3>
+                <p className={`text-xs mt-0.5 ${
+                  isDark ? 'text-slate-400' : 'text-slate-600'
+                }`}>
+                  You have unreturned apparatus from a previous session. Please settle with the lab custodian to clear your account.
+                </p>
+              </div>
+            </div>
 
-              {/* Unreturned Items Breakdown */}
-              <div className={`mt-2.5 pt-2 border-t grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs ${
-                isDark ? 'border-rose-800/60' : 'border-rose-200'
+            <div className="shrink-0 self-start sm:self-center">
+              <span className={`text-[10px] sm:text-xs font-mono font-bold px-2.5 py-1 rounded-lg border ${
+                isDark
+                  ? 'bg-slate-900 border-slate-700 text-slate-300'
+                  : 'bg-slate-100 border-slate-200 text-slate-700'
               }`}>
-                {clearanceStatus.overdueItems.slice(0, 4).map((item, idx) => (
-                  <div key={idx} className={`p-2 rounded-lg border flex items-center justify-between ${
-                    isDark ? 'bg-rose-900/40 border-rose-700/40' : 'bg-white border-rose-200 shadow-xs'
-                  }`}>
-                    <div>
-                      <span className={`font-extrabold ${isDark ? 'text-rose-200' : 'text-rose-900'}`}>{item.name}</span>
-                      <div className={`text-[10px] font-mono ${isDark ? 'text-rose-300' : 'text-rose-700'}`}>Tag: {item.tagCode || 'N/A'}</div>
+                Ref: {clearanceStatus.clearanceHold?.id || 'HOLD-001'}
+              </span>
+            </div>
+          </div>
+
+          {/* Unreturned Items Grid */}
+          {clearanceStatus.overdueItems && clearanceStatus.overdueItems.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {clearanceStatus.overdueItems.slice(0, 6).map((item, idx) => (
+                  <div
+                    key={idx}
+                    className={`px-3 py-2 rounded-xl border flex items-center justify-between gap-2 transition-colors ${
+                      isDark
+                        ? 'bg-slate-900/60 border-slate-800'
+                        : 'bg-slate-50/80 border-slate-200/80'
+                    }`}
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs sm:text-sm font-bold truncate text-slate-900 dark:text-slate-100">
+                        {item.name}
+                      </p>
+                      <p className="text-[10.5px] font-mono text-slate-500 dark:text-slate-400 truncate">
+                        {item.tagCode || 'N/A'} • Qty: {item.qty}
+                      </p>
                     </div>
-                    <div className="text-right">
-                      <span className={`text-[10px] font-bold ${isDark ? 'text-amber-300' : 'text-amber-800'}`}>Due: {item.dueDate || item.date}</span>
-                      <div className={`text-[10px] ${isDark ? 'text-rose-300' : 'text-rose-700'}`}>Qty: {item.qty}</div>
-                    </div>
+                    <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/60">
+                      Due {item.dueDate || item.date}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
@@ -973,9 +991,9 @@ export default function BorrowerForm() {
           }`}
         >
           {clearanceStatus.isRestricted
-            ? '⛔ Borrowing Restricted (Clearance Hold)'
+            ? 'Borrowing Restricted (Clearance Hold)'
             : databaseCheck.hasDuplicateActiveLoan
-            ? '⛔ Bawal Humiram (May Aktibong Loan Pa)'
+            ? 'Borrowing Restricted (Active Loan)'
             : 'Next: Select Laboratory'}
         </TouchButton>
       </div>
