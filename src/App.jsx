@@ -52,6 +52,43 @@ function KioskContent() {
     }
   }, [isWarningVisible, osk.closeKeyboard]);
 
+  // Kiosk Lockdown: Disable right-click, long-press contextmenu, and DevTools inspection shortcuts
+  React.useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    };
+
+    const handleKeyDown = (e) => {
+      // F12 DevTools
+      if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+I / J / C (Inspect / Console / Element Picker)
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I', 'J', 'C', 'i', 'j', 'c'].includes(e.key)) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+U (View Source)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu, { capture: true });
+    window.addEventListener('contextmenu', handleContextMenu, { capture: true });
+    document.addEventListener('keydown', handleKeyDown, { capture: true });
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu, { capture: true });
+      window.removeEventListener('contextmenu', handleContextMenu, { capture: true });
+      document.removeEventListener('keydown', handleKeyDown, { capture: true });
+    };
+  }, []);
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 0:

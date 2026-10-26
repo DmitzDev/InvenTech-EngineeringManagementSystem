@@ -27,11 +27,17 @@
         document.documentElement.classList.remove('dark');
         document.documentElement.setAttribute('data-theme', 'light');
       }
+
+      // Kiosk Hardening: Disable right-click context menu, long-press inspect, and drag gestures
+      window.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        return false;
+      }, { capture: true });
     })();
   </script>
 </head>
 
-<body class="font-sans antialiased select-none min-h-screen w-full max-w-full overflow-x-hidden overscroll-x-none lg:overflow-hidden lg:h-screen lg:w-screen relative">
+<body oncontextmenu="return false;" class="font-sans antialiased select-none min-h-screen w-full max-w-full overflow-x-hidden overscroll-x-none lg:overflow-hidden lg:h-screen lg:w-screen relative">
   <div id="root" class="min-h-screen lg:h-full w-full max-w-full overflow-x-hidden relative"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
