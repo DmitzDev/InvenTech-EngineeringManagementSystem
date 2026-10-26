@@ -741,6 +741,7 @@ export default function FloatingCpexBot() {
   const [hasApiKey, setHasApiKey] = useState(false);
   const [addedBundleKeys, setAddedBundleKeys] = useState([]);
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
+  const [isOskOpen, setIsOskOpen] = useState(false);
 
   const messagesEndRef = useRef(null);
 
@@ -753,6 +754,22 @@ export default function FloatingCpexBot() {
       scrollToBottom();
     }
   }, [messages, isOpen]);
+
+  // Adjust position and scroll to view when Virtual Keyboard opens
+  useEffect(() => {
+    const handleOskChange = (e) => {
+      const open = Boolean(e.detail?.isOpen);
+      setIsOskOpen(open);
+      if (open) {
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      }
+    };
+
+    window.addEventListener('kiosk-osk-state', handleOskChange);
+    return () => window.removeEventListener('kiosk-osk-state', handleOskChange);
+  }, []);
 
   const refreshKeyStatus = () => {
     setHasApiKey(Boolean(getStoredApiKey()));
@@ -880,9 +897,13 @@ export default function FloatingCpexBot() {
             className="hidden sm:block fixed inset-0 z-40 bg-black/40 backdrop-blur-xs animate-fade-in"
           />
 
-          {/* Dialog Container */}
+          {/* Dialog Container (Dynamically lifts above Virtual Keyboard when typing) */}
           <div
-            className={`cpex-chat-shell fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[470px] sm:max-w-[calc(100vw-3rem)] sm:h-[640px] sm:max-h-[85vh] z-50 rounded-none sm:rounded-3xl flex flex-col overflow-hidden animate-slide-up backdrop-blur-2xl select-none shadow-2xl border-0 sm:border-2 ${
+            className={`cpex-chat-shell fixed z-50 transition-all duration-200 ease-out select-none flex flex-col overflow-hidden backdrop-blur-2xl shadow-2xl border-0 sm:border-2 ${
+              isOskOpen
+                ? 'inset-x-2 bottom-[265px] top-2 sm:inset-auto sm:right-6 sm:bottom-[270px] sm:w-[470px] sm:max-w-[calc(100vw-3rem)] sm:h-[calc(100vh-290px)] max-h-[calc(100vh-285px)] rounded-2xl sm:rounded-3xl'
+                : 'inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[470px] sm:max-w-[calc(100vw-3rem)] sm:h-[640px] sm:max-h-[85vh] rounded-none sm:rounded-3xl'
+            } ${
               isDark
                 ? 'bg-[#090e18]/95 border-slate-700 text-slate-100 shadow-[0_20px_60px_rgba(0,0,0,0.9)]'
                 : 'bg-white/95 border-slate-300 text-slate-900 shadow-2xl'
@@ -1148,6 +1169,8 @@ export default function FloatingCpexBot() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="ENTER COMMAND OR QUERY TO CPEX..."
+                data-osk-label="CPEX AI CHAT"
+                autoComplete="off"
                 className={`flex-1 h-11 px-4 rounded-xl text-xs font-mono font-bold transition-all focus:outline-none ${
                   isDark
                     ? 'bg-[#050912] border border-slate-800 text-slate-100 placeholder-slate-600 focus:ring-1 focus:ring-cyan-500'
@@ -1157,6 +1180,7 @@ export default function FloatingCpexBot() {
 
               <button
                 type="submit"
+                data-keep-osk="true"
                 disabled={!inputText.trim() || isLoading}
                 className="h-11 px-4 rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 cursor-pointer shadow-md shrink-0 bg-cyan-600 hover:bg-cyan-500 text-white uppercase tracking-wider"
               >

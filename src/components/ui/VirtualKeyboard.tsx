@@ -136,6 +136,7 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
     isOpen,
     layout,
     activeInputLabel,
+    activeInputValue,
     isCaps,
     keyboardContainerRef,
     closeKeyboard,
@@ -184,22 +185,31 @@ export default function VirtualKeyboard({ controller, onClose }: VirtualKeyboard
       role="region"
       aria-label="Kiosk On-Screen Keyboard Terminal"
     >
-      {/* Minimalist Clean Header */}
-      <div className="max-w-3xl mx-auto flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-300 dark:border-slate-800">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
-            {layout === 'numeric' ? 'Number Pad' : 'Keyboard'}
+      {/* Minimalist Clean Header with Live Typing Mirror */}
+      <div className="max-w-3xl mx-auto flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-300 dark:border-slate-800 gap-2">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider shrink-0">
+            {layout === 'numeric' ? 'NumPad' : 'Keyboard'}
           </span>
           {activeInputLabel && (
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate max-w-[200px] sm:max-w-xs">
+            <span className="text-[11px] text-cyan-600 dark:text-cyan-400 font-bold truncate max-w-[130px] sm:max-w-[170px] shrink-0">
               • {activeInputLabel}
             </span>
           )}
+
+          {/* Real-time Live Typing Mirror on the Keyboard Header */}
+          {activeInputValue ? (
+            <div className="hidden xs:flex items-center gap-1.5 min-w-0 flex-1 px-2.5 py-0.5 rounded-lg bg-white/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700 text-xs font-mono text-slate-900 dark:text-slate-100 truncate shadow-2xs">
+              <span className="text-[10px] text-slate-400 dark:text-slate-500 font-sans font-medium shrink-0">Typing:</span>
+              <span className="truncate font-bold">{activeInputValue}</span>
+              <span className="w-1.5 h-3.5 bg-cyan-500 animate-pulse shrink-0 inline-block rounded-xs" />
+            </div>
+          ) : null}
         </div>
 
         <KioskKey
           onPress={handleClose}
-          className="flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold bg-slate-300/60 hover:bg-rose-500 hover:text-white dark:bg-slate-800 dark:hover:bg-rose-600 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 cursor-pointer active:scale-95 transition-all"
+          className="flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold bg-slate-300/60 hover:bg-rose-500 hover:text-white dark:bg-slate-800 dark:hover:bg-rose-600 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 cursor-pointer active:scale-95 transition-all shrink-0"
           ariaLabel="Close keyboard"
         >
           <X className="w-3.5 h-3.5" />

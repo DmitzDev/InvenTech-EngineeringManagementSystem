@@ -205,12 +205,55 @@ export function useVirtualKeyboard() {
   const [activeInputLabel, setActiveInputLabel] = useState('TERMINAL INPUT');
   const [isCaps, setIsCaps] = useState(true); // Default to uppercase for laboratory forms
   const [isKioskViewport, setIsKioskViewport] = useState(isKioskTouchDevice);
+  const [activeInputValue, setActiveInputValue] = useState('');
 
   const keyboardContainerRef = useRef(null);
+
+  // Sync activeInputValue with DOM input element in real-time
+  useEffect(() => {
+    if (!activeInput) {
+      setActiveInputValue('');
+      return;
+    }
+    setActiveInputValue(activeInput.value || '');
+
+    const handleSync = () => {
+      setActiveInputValue(activeInput.value || '');
+    };
+
+    activeInput.addEventListener('input', handleSync);
+    activeInput.addEventListener('change', handleSync);
+    return () => {
+      activeInput.removeEventListener('input', handleSync);
+      activeInput.removeEventListener('change', handleSync);
+    };
+  }, [activeInput]);
+
+  // Global broadcast of OSK state for floating dialogs (like CPEX chat)
+  useEffect(() => {
+    const isActuallyOpen = isOpen && isKioskViewport;
+    window.dispatchEvent(
+      new CustomEvent('kiosk-osk-state', {
+        detail: {
+          isOpen: isActuallyOpen,
+          activeInputId: activeInput?.id || null,
+          activeInputLabel: activeInputLabel,
+          height: 260,
+        },
+      })
+    );
+
+    if (isActuallyOpen) {
+      document.body.classList.add('kiosk-osk-active');
+    } else {
+      document.body.classList.remove('kiosk-osk-active');
+    }
+  }, [isOpen, isKioskViewport, activeInput, activeInputLabel]);
 
   // Close the keyboard cleanly and clear active input
   const closeKeyboard = useCallback(() => {
     setIsOpen(false);
+    setActiveInputValue('');
     setActiveInput((prev) => {
       if (prev && typeof prev.blur === 'function') {
         try {
@@ -230,6 +273,7 @@ export function useVirtualKeyboard() {
 
     const detected = forcedLayout || detectInputLayoutMode(element);
     setActiveInput(element);
+    setActiveInputValue(element.value || '');
     setActiveInputLabel(getInputTelemetryLabel(element));
     setLayout(detected);
     setIsOpen(true);
@@ -247,6 +291,7 @@ export function useVirtualKeyboard() {
     (char) => {
       if (!activeInput) return;
       handleCharInjection(activeInput, char);
+      setActiveInputValue(activeInput.value || '');
       // Ensure cursor visibility and focus
       try {
         activeInput.focus({ preventScroll: true });
@@ -260,6 +305,7 @@ export function useVirtualKeyboard() {
   const deleteChar = useCallback(() => {
     if (!activeInput) return;
     handleBackspaceInjection(activeInput);
+    setActiveInputValue(activeInput.value || '');
     try {
       activeInput.focus({ preventScroll: true });
     } catch {
@@ -270,6 +316,7 @@ export function useVirtualKeyboard() {
   const clearInput = useCallback(() => {
     if (!activeInput) return;
     injectSyntheticValue(activeInput, '', 0);
+    setActiveInputValue('');
     try {
       activeInput.focus({ preventScroll: true });
     } catch {
@@ -429,6 +476,7 @@ export function useVirtualKeyboard() {
     setLayout,
     activeInput,
     activeInputLabel,
+    activeInputValue,
     isCaps,
     isKioskViewport,
     keyboardContainerRef,
