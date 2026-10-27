@@ -284,7 +284,8 @@ export default function MaterialTimePicker({
               onPointerDown={onDialPointerDown}
               onPointerMove={onDialPointerMove}
               onPointerUp={onDialPointerUp}
-              className="relative w-64 h-64 rounded-full bg-[#3c3e44] cursor-pointer touch-none select-none shadow-inner"
+              className="relative shrink-0 rounded-full bg-[#3c3e44] cursor-pointer touch-none select-none shadow-inner"
+              style={{ width: `${dialRadius * 2}px`, height: `${dialRadius * 2}px` }}
             >
               {/* Hand Line (from center to target) */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
