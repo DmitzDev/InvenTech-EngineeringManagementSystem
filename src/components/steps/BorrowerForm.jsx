@@ -717,12 +717,7 @@ export default function BorrowerForm() {
                   <span className={`text-[10px] font-bold flex items-center gap-0.5 ${
                     isDark ? 'text-emerald-400' : 'text-emerald-700'
                   }`}>
-                    <CheckCircle2 className="w-3 h-3" /> Full Name Validated
-                  </span>
-                )}
-                {!isFullNameValid && trimmedLeader.length > 0 && (
-                  <span className="text-[10px] font-bold text-amber-500">
-                    {!trimmedLeader.includes(' ') ? 'Kulang ng Last Name' : trimmedLeader.length < 5 ? 'Masyadong maikli' : ''}
+                    <CheckCircle2 className="w-3 h-3" /> Validated
                   </span>
                 )}
               </div>
@@ -761,11 +756,6 @@ export default function BorrowerForm() {
                     isDark ? 'text-emerald-400' : 'text-emerald-700'
                   }`}>
                     <CheckCircle2 className="w-3 h-3" /> 9-Digit ID Validated
-                  </span>
-                )}
-                {!isStudentIdValid && cleanStudentId.length > 0 && (
-                  <span className="text-[10px] font-bold text-amber-500">
-                    {cleanStudentId.length}/9 digits (Kulang pa ng {9 - cleanStudentId.length})
                   </span>
                 )}
                 {databaseCheck.hasDuplicateActiveLoan && (
@@ -907,11 +897,6 @@ export default function BorrowerForm() {
                     isDark ? 'text-emerald-400' : 'text-emerald-700'
                   }`}>
                     <CheckCircle2 className="w-3 h-3" /> Validated
-                  </span>
-                )}
-                {!isInstructorValid && trimmedInstructor.length > 0 && (
-                  <span className="text-[10px] font-bold text-amber-500">
-                    {trimmedInstructor.length < 3 ? 'Masyadong maikli' : 'Mga letra lamang'}
                   </span>
                 )}
               </div>
