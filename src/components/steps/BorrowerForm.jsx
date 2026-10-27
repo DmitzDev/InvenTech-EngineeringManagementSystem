@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
+import MaterialTimePicker from '../ui/MaterialTimePicker';
 import { handleStudentIdChange, isValidStudentId } from '../../utils/studentIdFormatter';
 
 const ENGINEERING_PROGRAMS = ['BSCPE', 'BSCE', 'BSCEE', 'BSECE'];
@@ -59,23 +60,28 @@ export default function BorrowerForm() {
   const [endMinute, setEndMinute] = useState('');
   const [endPeriod, setEndPeriod] = useState('AM');
 
-  // Mobile native time picker input refs
-  const startInputRef = useRef(null);
-  const endInputRef = useRef(null);
+  // Active Material Time Picker ('start' | 'end' | null)
+  const [activePicker, setActivePicker] = useState(null);
 
-  const openTimePicker = (ref) => {
-    if (ref?.current) {
-      if (typeof ref.current.showPicker === 'function') {
-        try {
-          ref.current.showPicker();
-        } catch {
-          ref.current.focus();
-        }
-      } else {
-        ref.current.focus();
-      }
-    }
-  };
+  const startH24 = useMemo(() => {
+    if (!startHour) return 8;
+    let h = parseInt(startHour, 10);
+    if (startPeriod === 'PM' && h !== 12) h += 12;
+    if (startPeriod === 'AM' && h === 12) h = 0;
+    return h;
+  }, [startHour, startPeriod]);
+
+  const startMin = useMemo(() => parseInt(startMinute || '0', 10), [startMinute]);
+
+  const endH24 = useMemo(() => {
+    if (!endHour) return 11;
+    let h = parseInt(endHour, 10);
+    if (endPeriod === 'PM' && h !== 12) h += 12;
+    if (endPeriod === 'AM' && h === 12) h = 0;
+    return h;
+  }, [endHour, endPeriod]);
+
+  const endMin = useMemo(() => parseInt(endMinute || '0', 10), [endMinute]);
 
 
 
@@ -952,119 +958,101 @@ export default function BorrowerForm() {
               )}
             </div>
 
-            {/* Laboratory Schedule Time Selector (Native Browser Time Inputs) */}
-            <div className={`p-2 sm:p-2.5 rounded-xl sm:rounded-2xl border transition-all ${
+            {/* Laboratory Schedule Time Selector (Material 3 Android Time Picker) */}
+            <div className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border transition-all ${
               (hasSubmitted || touched.labTime) && errors.labTime ? 'ring-2 ring-rose-500 border-rose-500' : ''
             } ${
               isDark ? 'neu-inset border-slate-800/80 bg-[#080d19]' : 'bg-slate-50 border border-slate-200 shadow-xs'
             }`}>
               <div className="flex items-center justify-between gap-2 sm:gap-3">
-                {/* Start Time */}
-                <div
-                  className="flex-1 cursor-pointer"
-                  onClick={() => openTimePicker(startInputRef)}
+                {/* Start Time Card */}
+                <button
+                  type="button"
+                  onClick={() => setActivePicker('start')}
+                  className={`flex-1 p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
+                    isDark
+                      ? 'bg-[#0f172a] hover:bg-[#15213b] border-slate-800 hover:border-cyan-500/50 shadow-sm'
+                      : 'bg-white hover:bg-blue-50/50 border-slate-200 hover:border-blue-400 shadow-xs'
+                  }`}
                 >
-                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}>
-                    Start
-                  </span>
-                  <input
-                    ref={startInputRef}
-                    type="time"
-                    data-no-osk="true"
-                    onBlur={() => setTouched((prev) => ({ ...prev, labTime: true }))}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openTimePicker(startInputRef);
-                    }}
-                    value={(() => {
-                      if (!startHour) return '';
-                      let h = parseInt(startHour, 10);
-                      if (startPeriod === 'PM' && h !== 12) h += 12;
-                      if (startPeriod === 'AM' && h === 12) h = 0;
-                      return `${String(h).padStart(2, '0')}:${startMinute || '00'}`;
-                    })()}
-                    onChange={(e) => {
-                      setErrors((prev) => ({ ...prev, labTime: null }));
-                      const val = e.target.value;
-                      if (val) {
-                        const [hStr, mStr] = val.split(':');
-                        let h = parseInt(hStr, 10);
-                        const period = h >= 12 ? 'PM' : 'AM';
-                        if (h === 0) h = 12;
-                        else if (h > 12) h -= 12;
-                        setStartHour(String(h).padStart(2, '0'));
-                        setStartMinute(mStr);
-                        setStartPeriod(period);
-                      }
-                    }}
-                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
-                      isDark
-                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
-                        : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                    }`}
-                    style={{ colorScheme: isDark ? 'dark' : 'light' }}
-                  />
-                </div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className={`text-[10px] sm:text-xs uppercase font-bold tracking-wider flex items-center gap-1.5 ${
+                      isDark ? 'text-cyan-400' : 'text-blue-700'
+                    }`}>
+                      <Clock className="w-3.5 h-3.5" /> Start Time
+                    </span>
+                    <span className={`text-[9.5px] font-bold px-2 py-0.5 rounded-md ${
+                      startPeriod === 'AM'
+                        ? isDark ? 'text-amber-400 bg-amber-500/10' : 'text-amber-800 bg-amber-100'
+                        : isDark ? 'text-cyan-400 bg-cyan-500/10' : 'text-blue-800 bg-blue-100'
+                    }`}>
+                      {startPeriod || 'AM'}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-1.5 font-mono">
+                    <span className={`text-xl sm:text-2xl font-black tracking-tight ${
+                      startHour
+                        ? isDark ? 'text-slate-100' : 'text-slate-900'
+                        : isDark ? 'text-slate-500' : 'text-slate-400'
+                    }`}>
+                      {startHour ? `${startHour}:${startMinute || '00'}` : '--:--'}
+                    </span>
+                    <span className={`text-[10px] font-bold ${
+                      isDark ? 'text-slate-400' : 'text-slate-500'
+                    }`}>
+                      {startPeriod || 'AM'}
+                    </span>
+                  </div>
+                </button>
 
                 {/* "to" separator */}
-                <div className="flex flex-col items-center justify-center pt-3 sm:pt-4">
-                  <span className={`text-[10px] sm:text-sm font-black uppercase tracking-widest px-1 shrink-0 select-none ${
+                <div className="flex flex-col items-center justify-center shrink-0">
+                  <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest px-1 select-none ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
                   }`}>
                     to
                   </span>
                 </div>
 
-                {/* End Time */}
-                <div
-                  className="flex-1 cursor-pointer"
-                  onClick={() => openTimePicker(endInputRef)}
+                {/* End Time Card */}
+                <button
+                  type="button"
+                  onClick={() => setActivePicker('end')}
+                  className={`flex-1 p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
+                    isDark
+                      ? 'bg-[#0f172a] hover:bg-[#15213b] border-slate-800 hover:border-cyan-500/50 shadow-sm'
+                      : 'bg-white hover:bg-blue-50/50 border-slate-200 hover:border-blue-400 shadow-xs'
+                  }`}
                 >
-                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}>
-                    End
-                  </span>
-                  <input
-                    ref={endInputRef}
-                    type="time"
-                    data-no-osk="true"
-                    onBlur={() => setTouched((prev) => ({ ...prev, labTime: true }))}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openTimePicker(endInputRef);
-                    }}
-                    value={(() => {
-                      if (!endHour) return '';
-                      let h = parseInt(endHour, 10);
-                      if (endPeriod === 'PM' && h !== 12) h += 12;
-                      if (endPeriod === 'AM' && h === 12) h = 0;
-                      return `${String(h).padStart(2, '0')}:${endMinute || '00'}`;
-                    })()}
-                    onChange={(e) => {
-                      setErrors((prev) => ({ ...prev, labTime: null }));
-                      const val = e.target.value;
-                      if (val) {
-                        const [hStr, mStr] = val.split(':');
-                        let h = parseInt(hStr, 10);
-                        const period = h >= 12 ? 'PM' : 'AM';
-                        if (h === 0) h = 12;
-                        else if (h > 12) h -= 12;
-                        setEndHour(String(h).padStart(2, '0'));
-                        setEndMinute(mStr);
-                        setEndPeriod(period);
-                      }
-                    }}
-                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
-                      isDark
-                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
-                        : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                    }`}
-                    style={{ colorScheme: isDark ? 'dark' : 'light' }}
-                  />
-                </div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className={`text-[10px] sm:text-xs uppercase font-bold tracking-wider flex items-center gap-1.5 ${
+                      isDark ? 'text-cyan-400' : 'text-blue-700'
+                    }`}>
+                      <Clock className="w-3.5 h-3.5" /> End Time
+                    </span>
+                    <span className={`text-[9.5px] font-bold px-2 py-0.5 rounded-md ${
+                      endPeriod === 'AM'
+                        ? isDark ? 'text-amber-400 bg-amber-500/10' : 'text-amber-800 bg-amber-100'
+                        : isDark ? 'text-cyan-400 bg-cyan-500/10' : 'text-blue-800 bg-blue-100'
+                    }`}>
+                      {endPeriod || 'AM'}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-1.5 font-mono">
+                    <span className={`text-xl sm:text-2xl font-black tracking-tight ${
+                      endHour
+                        ? isDark ? 'text-slate-100' : 'text-slate-900'
+                        : isDark ? 'text-slate-500' : 'text-slate-400'
+                    }`}>
+                      {endHour ? `${endHour}:${endMinute || '00'}` : '--:--'}
+                    </span>
+                    <span className={`text-[10px] font-bold ${
+                      isDark ? 'text-slate-400' : 'text-slate-500'
+                    }`}>
+                      {endPeriod || 'AM'}
+                    </span>
+                  </div>
+                </button>
               </div>
             </div>
 
@@ -1104,6 +1092,38 @@ export default function BorrowerForm() {
             : 'Next: Select Laboratory'}
         </TouchButton>
       </div>
+
+      {/* Material 3 Android Time Picker Modal */}
+      <MaterialTimePicker
+        isOpen={activePicker !== null}
+        title={activePicker === 'start' ? 'Select Start Time' : 'Select End Time'}
+        initialHour24={activePicker === 'start' ? startH24 : endH24}
+        initialMinute={activePicker === 'start' ? startMin : endMin}
+        onSave={({ hour12, minuteStr, period }) => {
+          if (activePicker === 'start') {
+            setStartHour(hour12);
+            setStartMinute(minuteStr);
+            setStartPeriod(period);
+          } else {
+            setEndHour(hour12);
+            setEndMinute(minuteStr);
+            setEndPeriod(period);
+          }
+          setErrors((prev) => ({ ...prev, labTime: null }));
+          setTouched((prev) => ({ ...prev, labTime: true }));
+        }}
+        onClear={() => {
+          if (activePicker === 'start') {
+            setStartHour('');
+            setStartMinute('');
+          } else {
+            setEndHour('');
+            setEndMinute('');
+          }
+          setTouched((prev) => ({ ...prev, labTime: true }));
+        }}
+        onClose={() => setActivePicker(null)}
+      />
     </div>
   );
 }
