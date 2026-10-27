@@ -9,6 +9,8 @@ import {
   ShieldAlert,
   CheckCircle2,
   X,
+  Plus,
+  Minus,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
@@ -23,17 +25,6 @@ const YEAR_LEVELS = [
 ];
 const SECTIONS = ['01', '02', '03', '04'];
 
-const HOUR_OPTIONS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-const MINUTE_OPTIONS = ['00', '15', '30', '45'];
-
-const LAB_SCHEDULE_PRESETS = [
-  { label: '7:30 - 10:30 AM', sH: '07', sM: '30', sP: 'AM', eH: '10', eM: '30', eP: 'AM' },
-  { label: '8:00 - 11:00 AM', sH: '08', sM: '00', sP: 'AM', eH: '11', eM: '00', eP: 'AM' },
-  { label: '10:30 AM - 1:30 PM', sH: '10', sM: '30', sP: 'AM', eH: '01', eM: '30', eP: 'PM' },
-  { label: '1:00 - 4:00 PM', sH: '01', sM: '00', sP: 'PM', eH: '04', eM: '00', eP: 'PM' },
-  { label: '1:30 - 4:30 PM', sH: '01', sM: '30', sP: 'PM', eH: '04', eM: '30', eP: 'PM' },
-  { label: '4:30 - 7:30 PM', sH: '04', sM: '30', sP: 'PM', eH: '07', eM: '30', eP: 'PM' },
-];
 
 export default function BorrowerForm() {
   const {
@@ -67,6 +58,64 @@ export default function BorrowerForm() {
   const [endHour, setEndHour] = useState('');
   const [endMinute, setEndMinute] = useState('');
   const [endPeriod, setEndPeriod] = useState('AM');
+
+  // Mobile native time picker input refs
+  const startInputRef = useRef(null);
+  const endInputRef = useRef(null);
+
+  const openTimePicker = (ref) => {
+    if (ref?.current) {
+      if (typeof ref.current.showPicker === 'function') {
+        try {
+          ref.current.showPicker();
+        } catch {
+          ref.current.focus();
+        }
+      } else {
+        ref.current.focus();
+      }
+    }
+  };
+
+  // Desktop custom grid popover picker state
+  const [activeDesktopPicker, setActiveDesktopPicker] = useState(null);
+  const pickerRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (pickerRef.current && !pickerRef.current.contains(e.target)) {
+        setActiveDesktopPicker(null);
+      }
+    };
+    if (activeDesktopPicker) {
+      document.addEventListener('mousedown', handleOutsideClick);
+      document.addEventListener('touchstart', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('touchstart', handleOutsideClick);
+    };
+  }, [activeDesktopPicker]);
+
+  const stepHour = (currentHour, delta, isEnd = false) => {
+    setErrors((prev) => ({ ...prev, labTime: null }));
+    setTouched((prev) => ({ ...prev, labTime: true }));
+    let h = parseInt(currentHour || (isEnd ? '11' : '8'), 10);
+    if (isNaN(h)) h = isEnd ? 11 : 8;
+    h = ((h - 1 + delta + 12) % 12) + 1;
+    return String(h).padStart(2, '0');
+  };
+
+  const stepMinute = (currentMinute, delta) => {
+    setErrors((prev) => ({ ...prev, labTime: null }));
+    setTouched((prev) => ({ ...prev, labTime: true }));
+    const steps = ['00', '15', '30', '45'];
+    const cur = currentMinute || '00';
+    let idx = steps.indexOf(cur);
+    if (idx === -1) idx = 0;
+    const nextIdx = (idx + delta + steps.length) % steps.length;
+    return steps[nextIdx];
+  };
 
   // Real-time clearance check
   const clearanceStatus = useMemo(() => {
@@ -941,215 +990,509 @@ export default function BorrowerForm() {
               )}
             </div>
 
-            {/* Quick 1-Tap Lab Schedule Presets */}
-            <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-1.5 mb-2 scrollbar-none">
-              <span className={`text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider shrink-0 ${
-                isDark ? 'text-slate-400' : 'text-slate-500'
+            {/* MOBILE VIEW (< md): 100% Native OS Time Picker (iOS Wheel / Android Clock Dialog) */}
+            <div className="block md:hidden">
+              <div className={`p-2.5 rounded-xl border transition-all ${
+                (hasSubmitted || touched.labTime) && errors.labTime ? 'ring-2 ring-rose-500 border-rose-500' : ''
+              } ${
+                isDark ? 'neu-inset border-slate-800/80 bg-[#080d19]' : 'bg-slate-50 border border-slate-200 shadow-xs'
               }`}>
-                Presets:
-              </span>
-              {LAB_SCHEDULE_PRESETS.map((p) => {
-                const isSelected =
-                  startHour === p.sH &&
-                  startMinute === p.sM &&
-                  startPeriod === p.sP &&
-                  endHour === p.eH &&
-                  endMinute === p.eM &&
-                  endPeriod === p.eP;
-
-                return (
-                  <button
-                    key={p.label}
-                    type="button"
-                    onClick={() => {
-                      setStartHour(p.sH);
-                      setStartMinute(p.sM);
-                      setStartPeriod(p.sP);
-                      setEndHour(p.eH);
-                      setEndMinute(p.eM);
-                      setEndPeriod(p.eP);
-                      setErrors((prev) => ({ ...prev, labTime: null }));
-                      setTouched((prev) => ({ ...prev, labTime: true }));
-                    }}
-                    className={`px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono font-bold whitespace-nowrap transition-all active:scale-95 cursor-pointer border ${
-                      isSelected
-                        ? isDark
-                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/80 ring-1 ring-cyan-400/60'
-                          : 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                        : isDark
-                        ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border-slate-700'
-                        : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300 shadow-xs'
-                    }`}
+                <div className="flex items-center justify-between gap-2">
+                  {/* Start Time */}
+                  <div
+                    className="flex-1 cursor-pointer"
+                    onClick={() => openTimePicker(startInputRef)}
                   >
-                    {p.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Touch Pods Container */}
-            <div className={`p-2 sm:p-2.5 rounded-xl sm:rounded-2xl border transition-all ${
-              (hasSubmitted || touched.labTime) && errors.labTime ? 'ring-2 ring-rose-500 border-rose-500' : ''
-            } ${
-              isDark ? 'neu-inset border-slate-800/80 bg-[#080d19]' : 'bg-slate-50 border border-slate-200 shadow-xs'
-            }`}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 items-center">
-                {/* START TIME POD */}
-                <div className={`p-2 rounded-xl border flex flex-col gap-1 ${
-                  isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200 shadow-xs'
-                }`}>
-                  <span className={`text-[10px] font-bold uppercase tracking-wider ${
-                    isDark ? 'text-cyan-400' : 'text-blue-700'
-                  }`}>
-                    Start Time
-                  </span>
-                  <div className="flex items-center gap-1 sm:gap-1.5">
-                    {/* Hour Select */}
-                    <select
-                      value={startHour}
+                    <span className={`block text-[9px] uppercase font-bold mb-0.5 ${
+                      isDark ? 'text-slate-400' : 'text-slate-600'
+                    }`}>
+                      Start
+                    </span>
+                    <input
+                      ref={startInputRef}
+                      type="time"
+                      data-no-osk="true"
+                      onBlur={() => setTouched((prev) => ({ ...prev, labTime: true }))}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openTimePicker(startInputRef);
+                      }}
+                      value={(() => {
+                        if (!startHour) return '';
+                        let h = parseInt(startHour, 10);
+                        if (startPeriod === 'PM' && h !== 12) h += 12;
+                        if (startPeriod === 'AM' && h === 12) h = 0;
+                        return `${String(h).padStart(2, '0')}:${startMinute || '00'}`;
+                      })()}
                       onChange={(e) => {
-                        setStartHour(e.target.value);
                         setErrors((prev) => ({ ...prev, labTime: null }));
-                        setTouched((prev) => ({ ...prev, labTime: true }));
+                        const val = e.target.value;
+                        if (val) {
+                          const [hStr, mStr] = val.split(':');
+                          let h = parseInt(hStr, 10);
+                          const period = h >= 12 ? 'PM' : 'AM';
+                          if (h === 0) h = 12;
+                          else if (h > 12) h -= 12;
+                          setStartHour(String(h).padStart(2, '0'));
+                          setStartMinute(mStr);
+                          setStartPeriod(period);
+                        }
                       }}
-                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
+                      className={`w-full h-9 px-2 rounded-lg font-mono text-xs font-extrabold transition-all cursor-pointer ${
                         isDark
-                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
-                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
+                          ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
+                          : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                       }`}
-                    >
-                      <option value="">Hr</option>
-                      {HOUR_OPTIONS.map((h) => (
-                        <option key={h} value={h} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
-                          {h}
-                        </option>
-                      ))}
-                    </select>
+                      style={{ colorScheme: isDark ? 'dark' : 'light' }}
+                    />
+                  </div>
 
-                    <span className="font-extrabold text-sm select-none opacity-40">:</span>
+                  <div className="flex flex-col items-center justify-center pt-3">
+                    <span className={`text-[10px] font-black uppercase tracking-widest px-1 shrink-0 select-none ${
+                      isDark ? 'text-slate-400' : 'text-slate-600'
+                    }`}>
+                      to
+                    </span>
+                  </div>
 
-                    {/* Minute Select */}
-                    <select
-                      value={startMinute || '00'}
+                  {/* End Time */}
+                  <div
+                    className="flex-1 cursor-pointer"
+                    onClick={() => openTimePicker(endInputRef)}
+                  >
+                    <span className={`block text-[9px] uppercase font-bold mb-0.5 ${
+                      isDark ? 'text-slate-400' : 'text-slate-600'
+                    }`}>
+                      End
+                    </span>
+                    <input
+                      ref={endInputRef}
+                      type="time"
+                      data-no-osk="true"
+                      onBlur={() => setTouched((prev) => ({ ...prev, labTime: true }))}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openTimePicker(endInputRef);
+                      }}
+                      value={(() => {
+                        if (!endHour) return '';
+                        let h = parseInt(endHour, 10);
+                        if (endPeriod === 'PM' && h !== 12) h += 12;
+                        if (endPeriod === 'AM' && h === 12) h = 0;
+                        return `${String(h).padStart(2, '0')}:${endMinute || '00'}`;
+                      })()}
                       onChange={(e) => {
-                        setStartMinute(e.target.value);
                         setErrors((prev) => ({ ...prev, labTime: null }));
-                        setTouched((prev) => ({ ...prev, labTime: true }));
+                        const val = e.target.value;
+                        if (val) {
+                          const [hStr, mStr] = val.split(':');
+                          let h = parseInt(hStr, 10);
+                          const period = h >= 12 ? 'PM' : 'AM';
+                          if (h === 0) h = 12;
+                          else if (h > 12) h -= 12;
+                          setEndHour(String(h).padStart(2, '0'));
+                          setEndMinute(mStr);
+                          setEndPeriod(period);
+                        }
                       }}
-                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
+                      className={`w-full h-9 px-2 rounded-lg font-mono text-xs font-extrabold transition-all cursor-pointer ${
                         isDark
-                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
-                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
+                          ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
+                          : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                       }`}
-                    >
-                      {MINUTE_OPTIONS.map((m) => (
-                        <option key={m} value={m} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
-                          {m}
-                        </option>
-                      ))}
-                    </select>
-
-                    {/* AM/PM Button */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setStartPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
-                        setErrors((prev) => ({ ...prev, labTime: null }));
-                        setTouched((prev) => ({ ...prev, labTime: true }));
-                      }}
-                      className={`h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-3 rounded-lg font-mono text-xs sm:text-sm font-black active:scale-95 transition-all cursor-pointer border select-none ${
-                        startPeriod === 'AM'
-                          ? isDark
-                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                            : 'bg-amber-100 text-amber-900 border-amber-300 font-bold'
-                          : isDark
-                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                          : 'bg-blue-100 text-blue-900 border-blue-300 font-bold'
-                      }`}
-                      title="Tap to toggle AM/PM"
-                    >
-                      {startPeriod}
-                    </button>
+                      style={{ colorScheme: isDark ? 'dark' : 'light' }}
+                    />
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* END TIME POD */}
-                <div className={`p-2 rounded-xl border flex flex-col gap-1 ${
-                  isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200 shadow-xs'
-                }`}>
-                  <span className={`text-[10px] font-bold uppercase tracking-wider ${
-                    isDark ? 'text-cyan-400' : 'text-blue-700'
+            {/* DESKTOP / KIOSK VIEW (>= md): Custom Tactile Steppers & Fast Grid Picker (Zero Ugly OS Popups, Zero Presets) */}
+            <div className="hidden md:block">
+              <div className={`p-2.5 rounded-2xl border transition-all ${
+                (hasSubmitted || touched.labTime) && errors.labTime ? 'ring-2 ring-rose-500 border-rose-500' : ''
+              } ${
+                isDark ? 'neu-inset border-slate-800/80 bg-[#080d19]' : 'bg-slate-50 border border-slate-200 shadow-xs'
+              }`}>
+                <div className="grid grid-cols-2 gap-2.5 relative" ref={pickerRef}>
+                  {/* START TIME POD */}
+                  <div className={`p-2 rounded-xl border flex flex-col justify-between transition-all ${
+                    activeDesktopPicker === 'start'
+                      ? isDark ? 'bg-[#0f172a] border-cyan-500/80 shadow-md ring-1 ring-cyan-500/40' : 'bg-white border-blue-500 shadow-md ring-1 ring-blue-500/30'
+                      : isDark ? 'bg-[#0f172a]/90 border-slate-800 hover:border-slate-700' : 'bg-white border-slate-200 shadow-xs hover:border-slate-300'
                   }`}>
-                    End Time
-                  </span>
-                  <div className="flex items-center gap-1 sm:gap-1.5">
-                    {/* Hour Select */}
-                    <select
-                      value={endHour}
-                      onChange={(e) => {
-                        setEndHour(e.target.value);
-                        setErrors((prev) => ({ ...prev, labTime: null }));
-                        setTouched((prev) => ({ ...prev, labTime: true }));
-                      }}
-                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
-                        isDark
-                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
-                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
-                      }`}
-                    >
-                      <option value="">Hr</option>
-                      {HOUR_OPTIONS.map((h) => (
-                        <option key={h} value={h} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
-                          {h}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 ${
+                        isDark ? 'text-cyan-400' : 'text-blue-700'
+                      }`}>
+                        <Clock className="w-3 h-3" /> Start Time
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setActiveDesktopPicker(activeDesktopPicker === 'start' ? null : 'start')}
+                        className={`text-[9.5px] font-bold px-2 py-0.5 rounded transition-all active:scale-95 cursor-pointer border ${
+                          activeDesktopPicker === 'start'
+                            ? isDark ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50' : 'bg-blue-100 text-blue-900 border-blue-300'
+                            : isDark ? 'bg-slate-800 text-slate-300 border-slate-700 hover:text-cyan-300' : 'bg-slate-100 text-slate-700 border-slate-200 hover:text-blue-700'
+                        }`}
+                      >
+                        {activeDesktopPicker === 'start' ? 'Close' : 'Grid Pick'}
+                      </button>
+                    </div>
 
-                    <span className="font-extrabold text-sm select-none opacity-40">:</span>
+                    <div className="flex items-center justify-between gap-1">
+                      {/* Hour Stepper */}
+                      <div className="flex items-center gap-0.5 bg-slate-900/10 dark:bg-slate-950/40 rounded-lg p-0.5 border border-slate-300/60 dark:border-slate-800">
+                        <button
+                          type="button"
+                          onClick={() => setStartHour((prev) => stepHour(prev, -1, false))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Bawasan ang oras"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveDesktopPicker('start')}
+                          className={`w-8 h-7 flex items-center justify-center font-mono font-extrabold text-xs sm:text-sm rounded cursor-pointer transition-all ${
+                            isDark ? 'text-cyan-300 hover:bg-cyan-950/40' : 'text-slate-900 hover:bg-blue-50'
+                          }`}
+                          title="Pindutin para magbukas ang grid"
+                        >
+                          {startHour || '08'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setStartHour((prev) => stepHour(prev, 1, false))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Dagdagan ang oras"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
 
-                    {/* Minute Select */}
-                    <select
-                      value={endMinute || '00'}
-                      onChange={(e) => {
-                        setEndMinute(e.target.value);
-                        setErrors((prev) => ({ ...prev, labTime: null }));
-                        setTouched((prev) => ({ ...prev, labTime: true }));
-                      }}
-                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
-                        isDark
-                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
-                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
-                      }`}
-                    >
-                      {MINUTE_OPTIONS.map((m) => (
-                        <option key={m} value={m} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
-                          {m}
-                        </option>
-                      ))}
-                    </select>
+                      <span className="font-mono font-black text-sm opacity-40 select-none">:</span>
 
-                    {/* AM/PM Button */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEndPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
-                        setErrors((prev) => ({ ...prev, labTime: null }));
-                        setTouched((prev) => ({ ...prev, labTime: true }));
-                      }}
-                      className={`h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-3 rounded-lg font-mono text-xs sm:text-sm font-black active:scale-95 transition-all cursor-pointer border select-none ${
-                        endPeriod === 'AM'
-                          ? isDark
-                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                            : 'bg-amber-100 text-amber-900 border-amber-300 font-bold'
-                          : isDark
-                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                          : 'bg-blue-100 text-blue-900 border-blue-300 font-bold'
-                      }`}
-                      title="Tap to toggle AM/PM"
-                    >
-                      {endPeriod}
-                    </button>
+                      {/* Minute Stepper */}
+                      <div className="flex items-center gap-0.5 bg-slate-900/10 dark:bg-slate-950/40 rounded-lg p-0.5 border border-slate-300/60 dark:border-slate-800">
+                        <button
+                          type="button"
+                          onClick={() => setStartMinute((prev) => stepMinute(prev, -1))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Bawasan ang minuto (15m)"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveDesktopPicker('start')}
+                          className={`w-8 h-7 flex items-center justify-center font-mono font-extrabold text-xs sm:text-sm rounded cursor-pointer transition-all ${
+                            isDark ? 'text-cyan-300 hover:bg-cyan-950/40' : 'text-slate-900 hover:bg-blue-50'
+                          }`}
+                          title="Pindutin para magbukas ang grid"
+                        >
+                          {startMinute || '00'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setStartMinute((prev) => stepMinute(prev, 1))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Dagdagan ang minuto (15m)"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+
+                      {/* AM/PM Toggle */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStartPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
+                          setErrors((prev) => ({ ...prev, labTime: null }));
+                          setTouched((prev) => ({ ...prev, labTime: true }));
+                        }}
+                        className={`h-7 px-2.5 rounded-lg font-mono text-xs font-black active:scale-95 transition-all cursor-pointer border select-none shrink-0 ${
+                          startPeriod === 'AM'
+                            ? isDark
+                              ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                              : 'bg-amber-100 text-amber-900 border-amber-300 font-bold'
+                            : isDark
+                            ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                            : 'bg-blue-100 text-blue-900 border-blue-300 font-bold'
+                        }`}
+                        title="Tap to toggle AM/PM"
+                      >
+                        {startPeriod}
+                      </button>
+                    </div>
                   </div>
+
+                  {/* END TIME POD */}
+                  <div className={`p-2 rounded-xl border flex flex-col justify-between transition-all ${
+                    activeDesktopPicker === 'end'
+                      ? isDark ? 'bg-[#0f172a] border-cyan-500/80 shadow-md ring-1 ring-cyan-500/40' : 'bg-white border-blue-500 shadow-md ring-1 ring-blue-500/30'
+                      : isDark ? 'bg-[#0f172a]/90 border-slate-800 hover:border-slate-700' : 'bg-white border-slate-200 shadow-xs hover:border-slate-300'
+                  }`}>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 ${
+                        isDark ? 'text-cyan-400' : 'text-blue-700'
+                      }`}>
+                        <Clock className="w-3 h-3" /> End Time
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setActiveDesktopPicker(activeDesktopPicker === 'end' ? null : 'end')}
+                        className={`text-[9.5px] font-bold px-2 py-0.5 rounded transition-all active:scale-95 cursor-pointer border ${
+                          activeDesktopPicker === 'end'
+                            ? isDark ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50' : 'bg-blue-100 text-blue-900 border-blue-300'
+                            : isDark ? 'bg-slate-800 text-slate-300 border-slate-700 hover:text-cyan-300' : 'bg-slate-100 text-slate-700 border-slate-200 hover:text-blue-700'
+                        }`}
+                      >
+                        {activeDesktopPicker === 'end' ? 'Close' : 'Grid Pick'}
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-1">
+                      {/* Hour Stepper */}
+                      <div className="flex items-center gap-0.5 bg-slate-900/10 dark:bg-slate-950/40 rounded-lg p-0.5 border border-slate-300/60 dark:border-slate-800">
+                        <button
+                          type="button"
+                          onClick={() => setEndHour((prev) => stepHour(prev, -1, true))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Bawasan ang oras"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveDesktopPicker('end')}
+                          className={`w-8 h-7 flex items-center justify-center font-mono font-extrabold text-xs sm:text-sm rounded cursor-pointer transition-all ${
+                            isDark ? 'text-cyan-300 hover:bg-cyan-950/40' : 'text-slate-900 hover:bg-blue-50'
+                          }`}
+                          title="Pindutin para magbukas ang grid"
+                        >
+                          {endHour || '11'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEndHour((prev) => stepHour(prev, 1, true))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Dagdagan ang oras"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+
+                      <span className="font-mono font-black text-sm opacity-40 select-none">:</span>
+
+                      {/* Minute Stepper */}
+                      <div className="flex items-center gap-0.5 bg-slate-900/10 dark:bg-slate-950/40 rounded-lg p-0.5 border border-slate-300/60 dark:border-slate-800">
+                        <button
+                          type="button"
+                          onClick={() => setEndMinute((prev) => stepMinute(prev, -1))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Bawasan ang minuto (15m)"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveDesktopPicker('end')}
+                          className={`w-8 h-7 flex items-center justify-center font-mono font-extrabold text-xs sm:text-sm rounded cursor-pointer transition-all ${
+                            isDark ? 'text-cyan-300 hover:bg-cyan-950/40' : 'text-slate-900 hover:bg-blue-50'
+                          }`}
+                          title="Pindutin para magbukas ang grid"
+                        >
+                          {endMinute || '00'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEndMinute((prev) => stepMinute(prev, 1))}
+                          className={`w-6 h-7 rounded flex items-center justify-center font-bold text-xs active:scale-90 transition-all cursor-pointer ${
+                            isDark ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-white hover:bg-slate-100 text-slate-700 shadow-xs'
+                          }`}
+                          title="Dagdagan ang minuto (15m)"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+
+                      {/* AM/PM Toggle */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEndPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
+                          setErrors((prev) => ({ ...prev, labTime: null }));
+                          setTouched((prev) => ({ ...prev, labTime: true }));
+                        }}
+                        className={`h-7 px-2.5 rounded-lg font-mono text-xs font-black active:scale-95 transition-all cursor-pointer border select-none shrink-0 ${
+                          endPeriod === 'AM'
+                            ? isDark
+                              ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                              : 'bg-amber-100 text-amber-900 border-amber-300 font-bold'
+                            : isDark
+                            ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                            : 'bg-blue-100 text-blue-900 border-blue-300 font-bold'
+                        }`}
+                        title="Tap to toggle AM/PM"
+                      >
+                        {endPeriod}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* FAST GRID POPOVER PICKER (Opens when user clicks Grid Pick or any number) */}
+                  {activeDesktopPicker && (
+                    <div className={`col-span-2 mt-2 p-3 rounded-xl border shadow-xl z-20 animate-in fade-in zoom-in-95 duration-150 ${
+                      isDark ? 'bg-[#0b1220] border-slate-700 shadow-black/70' : 'bg-white border-slate-200 shadow-xl'
+                    }`}>
+                      <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-slate-200 dark:border-slate-800">
+                        <span className={`text-[11px] font-bold uppercase tracking-wider ${
+                          isDark ? 'text-cyan-400' : 'text-blue-700'
+                        }`}>
+                          Select {activeDesktopPicker === 'start' ? 'Start Time' : 'End Time'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setActiveDesktopPicker(null)}
+                          className="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 cursor-pointer"
+                        >
+                          Done ✓
+                        </button>
+                      </div>
+
+                      {/* Quick Hours Grid */}
+                      <div className="mb-2">
+                        <span className="text-[9.5px] uppercase font-bold text-slate-400 mb-1 block">Hour:</span>
+                        <div className="grid grid-cols-6 gap-1">
+                          {['07', '08', '09', '10', '11', '12', '01', '02', '03', '04', '05', '06'].map((h) => {
+                            const isSelected = activeDesktopPicker === 'start' ? (startHour || '08') === h : (endHour || '11') === h;
+                            return (
+                              <button
+                                key={h}
+                                type="button"
+                                onClick={() => {
+                                  if (activeDesktopPicker === 'start') {
+                                    setStartHour(h);
+                                    if (!startMinute) setStartMinute('00');
+                                  } else {
+                                    setEndHour(h);
+                                    if (!endMinute) setEndMinute('00');
+                                  }
+                                  setErrors((prev) => ({ ...prev, labTime: null }));
+                                  setTouched((prev) => ({ ...prev, labTime: true }));
+                                }}
+                                className={`py-1.5 rounded-lg font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer border ${
+                                  isSelected
+                                    ? isDark
+                                      ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
+                                      : 'bg-blue-600 text-white border-blue-600 font-black shadow-xs'
+                                    : isDark
+                                    ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
+                                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200'
+                                }`}
+                              >
+                                {h}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Minutes & Period */}
+                      <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-200 dark:border-slate-800">
+                        <div>
+                          <span className="text-[9.5px] uppercase font-bold text-slate-400 mb-1 block">Minutes:</span>
+                          <div className="grid grid-cols-4 gap-1">
+                            {['00', '15', '30', '45'].map((m) => {
+                              const isSelected = activeDesktopPicker === 'start' ? (startMinute || '00') === m : (endMinute || '00') === m;
+                              return (
+                                <button
+                                  key={m}
+                                  type="button"
+                                  onClick={() => {
+                                    if (activeDesktopPicker === 'start') {
+                                      setStartMinute(m);
+                                      if (!startHour) setStartHour('08');
+                                    } else {
+                                      setEndMinute(m);
+                                      if (!endHour) setEndHour('11');
+                                    }
+                                    setErrors((prev) => ({ ...prev, labTime: null }));
+                                    setTouched((prev) => ({ ...prev, labTime: true }));
+                                  }}
+                                  className={`py-1 rounded-md font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer border ${
+                                    isSelected
+                                      ? isDark
+                                        ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
+                                        : 'bg-blue-600 text-white border-blue-600 font-black shadow-xs'
+                                      : isDark
+                                      ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
+                                      : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200'
+                                  }`}
+                                >
+                                  :{m}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-[9.5px] uppercase font-bold text-slate-400 mb-1 block">Period:</span>
+                          <div className="grid grid-cols-2 gap-1">
+                            {['AM', 'PM'].map((p) => {
+                              const isSelected = activeDesktopPicker === 'start' ? startPeriod === p : endPeriod === p;
+                              return (
+                                <button
+                                  key={p}
+                                  type="button"
+                                  onClick={() => {
+                                    if (activeDesktopPicker === 'start') {
+                                      setStartPeriod(p);
+                                    } else {
+                                      setEndPeriod(p);
+                                    }
+                                    setErrors((prev) => ({ ...prev, labTime: null }));
+                                    setTouched((prev) => ({ ...prev, labTime: true }));
+                                  }}
+                                  className={`py-1 rounded-md font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer border ${
+                                    isSelected
+                                      ? p === 'AM'
+                                        ? isDark
+                                          ? 'bg-amber-500/30 text-amber-300 border-amber-500/60 font-black'
+                                          : 'bg-amber-200 text-amber-950 border-amber-400 font-black'
+                                        : isDark
+                                        ? 'bg-cyan-500/30 text-cyan-300 border-cyan-500/60 font-black'
+                                        : 'bg-blue-200 text-blue-950 border-blue-400 font-black'
+                                      : isDark
+                                      ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border-slate-700'
+                                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
+                                  }`}
+                                >
+                                  {p}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
