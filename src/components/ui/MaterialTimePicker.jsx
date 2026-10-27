@@ -3,219 +3,201 @@ import { Keyboard, Clock } from 'lucide-react';
 
 /**
  * MaterialTimePicker
- * 1:1 Pixel-Accurate Recreation of Android Material 3 Time Picker Dialog
+ * Official Material 3 Time Picker Dialog
  * Features:
- * - Clean matte header with thin time digits (00:27 style)
- * - True 24-hour dual-ring clock face (Outer: 1-12, Inner: 00, 13-23)
- * - Properly centered pivot dot and indicator hand line
- * - Seamless pointer tracking and auto-advance to minute on release
- * - Keyboard manual numeric entry toggle
+ * - Clean 12-hour single-ring clock face (12, 1..11) for zero clutter & huge touch targets
+ * - Material 3 Segmented AM / PM switch in header
+ * - Direct tap on any number button OR smooth radial touch/drag
+ * - Auto-advances from Hour to Minute upon hour selection
+ * - Exact center pivot dot and line geometry
+ * - Manual numeric keypad mode toggle
  * - Clean "Clear", "Cancel", "Set" actions
  */
 export default function MaterialTimePicker({
   isOpen,
-  initialHour24 = 8,
-  initialMinute = 0,
+  initialHour = '08',
+  initialMinute = '00',
+  initialPeriod = 'AM',
   onSave,
   onClose,
   onClear,
 }) {
   const [mode, setMode] = useState('hour'); // 'hour' | 'minute'
   const [inputStyle, setInputStyle] = useState('dial'); // 'dial' | 'keyboard'
-  const [selectedHour, setSelectedHour] = useState(initialHour24);
-  const [selectedMinute, setSelectedMinute] = useState(initialMinute);
 
-  // Manual keyboard temp values
-  const [manualHour, setManualHour] = useState('');
-  const [manualMinute, setManualMinute] = useState('');
+  // Time states
+  const [hour, setHour] = useState(8); // 1..12
+  const [minute, setMinute] = useState(0); // 0..59
+  const [period, setPeriod] = useState('AM'); // 'AM' | 'PM'
+
+  // Manual keypad inputs
+  const [manualHour, setManualHour] = useState('08');
+  const [manualMinute, setManualMinute] = useState('00');
 
   const dialRef = useRef(null);
 
-  // Sync state whenever modal opens
+  // Sync initial state when modal opens
   useEffect(() => {
     if (isOpen) {
-      const h = Number.isInteger(initialHour24) ? Math.max(0, Math.min(23, initialHour24)) : 8;
-      const m = Number.isInteger(initialMinute) ? Math.max(0, Math.min(59, initialMinute)) : 0;
-      setSelectedHour(h);
-      setSelectedMinute(m);
+      let h = parseInt(initialHour, 10);
+      if (isNaN(h) || h < 1 || h > 12) h = 8;
+      let m = parseInt(initialMinute, 10);
+      if (isNaN(m) || m < 0 || m > 59) m = 0;
+      const p = initialPeriod === 'PM' ? 'PM' : 'AM';
+
+      setHour(h);
+      setMinute(m);
+      setPeriod(p);
       setManualHour(String(h).padStart(2, '0'));
       setManualMinute(String(m).padStart(2, '0'));
       setMode('hour');
       setInputStyle('dial');
     }
-  }, [isOpen, initialHour24, initialMinute]);
+  }, [isOpen, initialHour, initialMinute, initialPeriod]);
 
+  // Sync manual inputs when dial changes
   useEffect(() => {
-    setManualHour(String(selectedHour).padStart(2, '0'));
-    setManualMinute(String(selectedMinute).padStart(2, '0'));
-  }, [selectedHour, selectedMinute]);
+    setManualHour(String(hour).padStart(2, '0'));
+    setManualMinute(String(minute).padStart(2, '0'));
+  }, [hour, minute]);
 
-  const handleDialPointer = useCallback(
-    (e, isRelease = false) => {
+  // Direct selection of an hour
+  const selectHour = (h) => {
+    setHour(h);
+    // Smoothly advance to minute mode
+    setTimeout(() => {
+      setMode('minute');
+    }, 220);
+  };
+
+  // Direct selection of a minute
+  const selectMinute = (m) => {
+    setMinute(m);
+  };
+
+  // Dial drag/pointer tracker
+  const handlePointerAtPoint = useCallback(
+    (clientX, clientY, isRelease = false) => {
       if (!dialRef.current) return;
       const rect = dialRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX);
-      const clientY = e.clientY ?? (e.touches && e.touches[0]?.clientY);
-      if (clientX === undefined || clientY === undefined) return;
 
       const dx = clientX - centerX;
       const dy = clientY - centerY;
-      const dist = Math.hypot(dx, dy);
 
-      // Angle in degrees (0° = 12 o'clock / top, clockwise)
+      // Angle: 0° at top (12 o'clock), clockwise
       let angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
       if (angle < 0) angle += 360;
 
       if (mode === 'hour') {
-        // Outer ring radius: 96px, Inner ring radius: 56px. Boundary: 76px
-        const isInner = dist < 76;
-        const index = Math.round(angle / 30) % 12; // 0..11
-
-        let hourVal;
-        if (isInner) {
-          hourVal = index === 0 ? 0 : index + 12;
-        } else {
-          hourVal = index === 0 ? 12 : index;
-        }
-        setSelectedHour(hourVal);
-
+        const index = Math.round(angle / 30) % 12;
+        const selectedH = index === 0 ? 12 : index;
+        setHour(selectedH);
         if (isRelease) {
-          setMode('minute');
+          setTimeout(() => setMode('minute'), 200);
         }
       } else {
-        const minuteVal = Math.round(angle / 6) % 60;
-        setSelectedMinute(minuteVal);
+        const selectedM = Math.round(angle / 6) % 60;
+        setMinute(selectedM);
       }
     },
     [mode]
   );
 
-  const onPointerDown = (e) => {
-    handleDialPointer(e, false);
-    window.addEventListener('pointermove', onGlobalPointerMove);
-    window.addEventListener('pointerup', onGlobalPointerUp);
+  const onDialPointerDown = (e) => {
+    e.preventDefault();
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
+    handlePointerAtPoint(e.clientX, e.clientY, false);
   };
 
-  const onGlobalPointerMove = (e) => {
-    handleDialPointer(e, false);
+  const onDialPointerMove = (e) => {
+    if (e.buttons === 0 && e.pointerType === 'mouse') return;
+    handlePointerAtPoint(e.clientX, e.clientY, false);
   };
 
-  const onGlobalPointerUp = (e) => {
-    handleDialPointer(e, true);
-    window.removeEventListener('pointermove', onGlobalPointerMove);
-    window.removeEventListener('pointerup', onGlobalPointerUp);
+  const onDialPointerUp = (e) => {
+    handlePointerAtPoint(e.clientX, e.clientY, true);
   };
-
-  useEffect(() => {
-    return () => {
-      window.removeEventListener('pointermove', onGlobalPointerMove);
-      window.removeEventListener('pointerup', onGlobalPointerUp);
-    };
-  }, []);
 
   if (!isOpen) return null;
 
-  // Geometry calculations
-  const dialRadius = 128; // 256px / 2
-  let handAngle = 0;
-  let handRadius = 96;
+  // Geometry: 256px circle, radius 128px, numbers at radius 96px
+  const dialRadius = 128;
+  const numRadius = 96;
 
+  let handAngle = 0;
   if (mode === 'hour') {
-    const isInner = selectedHour === 0 || selectedHour >= 13;
-    handRadius = isInner ? 56 : 96;
-    if (isInner) {
-      handAngle = (selectedHour === 0 ? 0 : selectedHour - 12) * 30;
-    } else {
-      handAngle = (selectedHour === 12 ? 0 : selectedHour) * 30;
-    }
+    handAngle = (hour === 12 ? 0 : hour) * 30;
   } else {
-    handRadius = 96;
-    handAngle = selectedMinute * 6;
+    handAngle = minute * 6;
   }
 
   const rad = ((handAngle - 90) * Math.PI) / 180;
-  const targetX = dialRadius + handRadius * Math.cos(rad);
-  const targetY = dialRadius + handRadius * Math.sin(rad);
+  const targetX = dialRadius + numRadius * Math.cos(rad);
+  const targetY = dialRadius + numRadius * Math.sin(rad);
 
-  // Selected label inside bubble
-  let selectedBubbleLabel = '';
-  if (mode === 'hour') {
-    if (selectedHour === 0) selectedBubbleLabel = '00';
-    else selectedBubbleLabel = String(selectedHour);
-  } else {
-    selectedBubbleLabel = String(selectedMinute).padStart(2, '0');
-  }
-
-  // Hours definition
-  const outerHours = [
-    { label: '12', hour: 12, angle: 0 },
-    { label: '1', hour: 1, angle: 30 },
-    { label: '2', hour: 2, angle: 60 },
-    { label: '3', hour: 3, angle: 90 },
-    { label: '4', hour: 4, angle: 120 },
-    { label: '5', hour: 5, angle: 150 },
-    { label: '6', hour: 6, angle: 180 },
-    { label: '7', hour: 7, angle: 210 },
-    { label: '8', hour: 8, angle: 240 },
-    { label: '9', hour: 9, angle: 270 },
-    { label: '10', hour: 10, angle: 300 },
-    { label: '11', hour: 11, angle: 330 },
+  // 12 Numbers for Hour Face
+  const hoursList = [
+    { label: '12', val: 12, angle: 0 },
+    { label: '1', val: 1, angle: 30 },
+    { label: '2', val: 2, angle: 60 },
+    { label: '3', val: 3, angle: 90 },
+    { label: '4', val: 4, angle: 120 },
+    { label: '5', val: 5, angle: 150 },
+    { label: '6', val: 6, angle: 180 },
+    { label: '7', val: 7, angle: 210 },
+    { label: '8', val: 8, angle: 240 },
+    { label: '9', val: 9, angle: 270 },
+    { label: '10', val: 10, angle: 300 },
+    { label: '11', val: 11, angle: 330 },
   ];
 
-  const innerHours = [
-    { label: '00', hour: 0, angle: 0 },
-    { label: '13', hour: 13, angle: 30 },
-    { label: '14', hour: 14, angle: 60 },
-    { label: '15', hour: 15, angle: 90 },
-    { label: '16', hour: 16, angle: 120 },
-    { label: '17', hour: 17, angle: 150 },
-    { label: '18', hour: 18, angle: 180 },
-    { label: '19', hour: 19, angle: 210 },
-    { label: '20', hour: 20, angle: 240 },
-    { label: '21', hour: 21, angle: 270 },
-    { label: '22', hour: 22, angle: 300 },
-    { label: '23', hour: 23, angle: 330 },
-  ];
-
+  // 12 Numbers for Minute Face
   const minutesList = [
-    { label: '00', min: 0, angle: 0 },
-    { label: '05', min: 5, angle: 30 },
-    { label: '10', min: 10, angle: 60 },
-    { label: '15', min: 15, angle: 90 },
-    { label: '20', min: 20, angle: 120 },
-    { label: '25', min: 25, angle: 150 },
-    { label: '30', min: 30, angle: 180 },
-    { label: '35', min: 35, angle: 210 },
-    { label: '40', min: 40, angle: 240 },
-    { label: '45', min: 45, angle: 270 },
-    { label: '50', min: 50, angle: 300 },
-    { label: '55', min: 55, angle: 330 },
+    { label: '00', val: 0, angle: 0 },
+    { label: '05', val: 5, angle: 30 },
+    { label: '10', val: 10, angle: 60 },
+    { label: '15', val: 15, angle: 90 },
+    { label: '20', val: 20, angle: 120 },
+    { label: '25', val: 25, angle: 150 },
+    { label: '30', val: 30, angle: 180 },
+    { label: '35', val: 35, angle: 210 },
+    { label: '40', val: 40, angle: 240 },
+    { label: '45', val: 45, angle: 270 },
+    { label: '50', val: 50, angle: 300 },
+    { label: '55', val: 55, angle: 330 },
   ];
 
   const handleSave = () => {
-    let finalH = selectedHour;
-    let finalM = selectedMinute;
+    let finalH = hour;
+    let finalM = minute;
 
     if (inputStyle === 'keyboard') {
       const parsedH = parseInt(manualHour, 10);
       const parsedM = parseInt(manualMinute, 10);
-      if (!isNaN(parsedH)) finalH = Math.max(0, Math.min(23, parsedH));
+      if (!isNaN(parsedH)) finalH = Math.max(1, Math.min(12, parsedH));
       if (!isNaN(parsedM)) finalM = Math.max(0, Math.min(59, parsedM));
     }
 
-    let h12 = finalH % 12;
-    if (h12 === 0) h12 = 12;
-    const period = finalH >= 12 ? 'PM' : 'AM';
+    const hStr = String(finalH).padStart(2, '0');
+    const mStr = String(finalM).padStart(2, '0');
+
+    // 24-hour value
+    let h24 = finalH;
+    if (period === 'PM' && finalH !== 12) h24 += 12;
+    if (period === 'AM' && finalH === 12) h24 = 0;
 
     onSave?.({
-      hour24: finalH,
-      minute: finalM,
-      hour12: String(h12).padStart(2, '0'),
-      minuteStr: String(finalM).padStart(2, '0'),
+      hour12: hStr,
+      minuteStr: mStr,
       period,
-      formattedTime: `${String(h12).padStart(2, '0')}:${String(finalM).padStart(2, '0')} ${period}`,
+      hour24: h24,
+      formattedTime: `${hStr}:${mStr} ${period}`,
     });
     onClose?.();
   };
@@ -227,37 +209,68 @@ export default function MaterialTimePicker({
 
   return (
     <div
-      className="fixed inset-0 z-[150] flex items-center justify-center bg-black/70 backdrop-blur-xs p-4 animate-fade-in"
+      className="fixed inset-0 z-[150] flex items-center justify-center bg-black/75 backdrop-blur-xs p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[320px] bg-[#222428] rounded-[28px] shadow-2xl border border-white/5 overflow-hidden select-none"
+        className="w-full max-w-[328px] bg-[#222428] rounded-[28px] shadow-2xl border border-white/10 overflow-hidden select-none"
         onClick={(e) => e.stopPropagation()}
         style={{
-          boxShadow: '0 24px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)',
+          boxShadow: '0 24px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06)',
         }}
       >
-        {/* Top Header Card (Lighter charcoal with huge clean time display 00:27) */}
-        <div className="bg-[#35373c] py-7 px-6 rounded-t-[28px] flex items-center justify-center">
-          <div className="flex items-center justify-center font-sans text-5xl font-light tracking-tight select-none">
+        {/* Top Header Card (Material 3 Header with Time Digits and Segmented AM/PM) */}
+        <div className="bg-[#35373c] py-5 px-6 rounded-t-[28px] flex items-center justify-between">
+          {/* Big Time Display */}
+          <div className="flex items-center font-sans text-5xl font-light tracking-tight select-none">
             <button
               type="button"
               onClick={() => setMode('hour')}
-              className={`transition-colors cursor-pointer px-1 ${
-                mode === 'hour' ? 'text-white font-normal' : 'text-[#8e9299] hover:text-[#c4c7cc]'
+              className={`transition-all cursor-pointer px-2 py-0.5 rounded-lg ${
+                mode === 'hour'
+                  ? 'bg-[#444850] text-[#a8c7fa] font-normal shadow-xs'
+                  : 'text-[#9ea2a9] hover:text-[#d3e3fd]'
               }`}
             >
-              {String(selectedHour).padStart(2, '0')}
+              {String(hour).padStart(2, '0')}
             </button>
-            <span className="text-[#8e9299] font-light pb-1">:</span>
+            <span className="text-[#9ea2a9] font-light px-0.5">:</span>
             <button
               type="button"
               onClick={() => setMode('minute')}
-              className={`transition-colors cursor-pointer px-1 ${
-                mode === 'minute' ? 'text-white font-normal' : 'text-[#8e9299] hover:text-[#c4c7cc]'
+              className={`transition-all cursor-pointer px-2 py-0.5 rounded-lg ${
+                mode === 'minute'
+                  ? 'bg-[#444850] text-[#a8c7fa] font-normal shadow-xs'
+                  : 'text-[#9ea2a9] hover:text-[#d3e3fd]'
               }`}
             >
-              {String(selectedMinute).padStart(2, '0')}
+              {String(minute).padStart(2, '0')}
+            </button>
+          </div>
+
+          {/* Material 3 Segmented AM / PM Button */}
+          <div className="flex flex-col rounded-xl overflow-hidden border border-white/10 bg-[#222428] shadow-sm">
+            <button
+              type="button"
+              onClick={() => setPeriod('AM')}
+              className={`px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+                period === 'AM'
+                  ? 'bg-[#a8c7fa] text-[#041e49] shadow-xs'
+                  : 'text-[#9ea2a9] hover:text-white'
+              }`}
+            >
+              AM
+            </button>
+            <button
+              type="button"
+              onClick={() => setPeriod('PM')}
+              className={`px-3 py-1.5 text-xs font-bold transition-all cursor-pointer border-t border-white/10 ${
+                period === 'PM'
+                  ? 'bg-[#a8c7fa] text-[#041e49] shadow-xs'
+                  : 'text-[#9ea2a9] hover:text-white'
+              }`}
+            >
+              PM
             </button>
           </div>
         </div>
@@ -268,10 +281,12 @@ export default function MaterialTimePicker({
             /* Dial Circle Plate */
             <div
               ref={dialRef}
-              onPointerDown={onPointerDown}
+              onPointerDown={onDialPointerDown}
+              onPointerMove={onDialPointerMove}
+              onPointerUp={onDialPointerUp}
               className="relative w-64 h-64 rounded-full bg-[#3c3e44] cursor-pointer touch-none select-none shadow-inner"
             >
-              {/* Dial Hand Line (from center to target) */}
+              {/* Hand Line (from center to target) */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
                 <line
                   x1={dialRadius}
@@ -279,13 +294,13 @@ export default function MaterialTimePicker({
                   x2={targetX}
                   y2={targetY}
                   stroke="#a8c7fa"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                 />
               </svg>
 
               {/* Exact Center Pivot Dot */}
               <div
-                className="absolute w-2 h-2 rounded-full bg-[#a8c7fa] z-20 pointer-events-none"
+                className="absolute w-2.5 h-2.5 rounded-full bg-[#a8c7fa] z-20 pointer-events-none"
                 style={{
                   left: `${dialRadius}px`,
                   top: `${dialRadius}px`,
@@ -293,9 +308,9 @@ export default function MaterialTimePicker({
                 }}
               />
 
-              {/* Selected Value Indicator Circle (Light blue bubble replacing the number) */}
+              {/* Selected Bubble Indicator */}
               <div
-                className="absolute w-[36px] h-[36px] rounded-full bg-[#a8c7fa] flex items-center justify-center z-20 pointer-events-none shadow-md"
+                className="absolute w-10 h-10 rounded-full bg-[#a8c7fa] flex items-center justify-center z-20 pointer-events-none shadow-md"
                 style={{
                   left: `${targetX}px`,
                   top: `${targetY}px`,
@@ -303,110 +318,60 @@ export default function MaterialTimePicker({
                 }}
               >
                 <span className="font-sans font-bold text-sm text-[#041e49]">
-                  {selectedBubbleLabel}
+                  {mode === 'hour' ? hour : String(minute).padStart(2, '0')}
                 </span>
               </div>
 
-              {/* Numbers Layout */}
-              {mode === 'hour' ? (
-                <>
-                  {/* Outer Hours: 12, 1..11 */}
-                  {outerHours.map(({ label, hour, angle }) => {
-                    const r = 96;
-                    const radA = ((angle - 90) * Math.PI) / 180;
-                    const x = dialRadius + r * Math.cos(radA);
-                    const y = dialRadius + r * Math.sin(radA);
-                    const isSelected = selectedHour === hour;
+              {/* Numbers on the Clock Face */}
+              {(mode === 'hour' ? hoursList : minutesList).map(({ label, val, angle }) => {
+                const radA = ((angle - 90) * Math.PI) / 180;
+                const x = dialRadius + numRadius * Math.cos(radA);
+                const y = dialRadius + numRadius * Math.sin(radA);
+                const isSelected = mode === 'hour' ? hour === val : minute === val;
 
-                    return (
-                      <div
-                        key={`outer-${label}`}
-                        className={`absolute w-7 h-7 flex items-center justify-center text-[14px] font-sans font-medium pointer-events-none transition-opacity duration-150 ${
-                          isSelected ? 'opacity-0' : 'text-[#c5c7ce]'
-                        }`}
-                        style={{
-                          left: `${x}px`,
-                          top: `${y}px`,
-                          transform: 'translate(-50%, -50%)',
-                        }}
-                      >
-                        {label}
-                      </div>
-                    );
-                  })}
-
-                  {/* Inner Hours: 00, 13..23 */}
-                  {innerHours.map(({ label, hour, angle }) => {
-                    const r = 56;
-                    const radA = ((angle - 90) * Math.PI) / 180;
-                    const x = dialRadius + r * Math.cos(radA);
-                    const y = dialRadius + r * Math.sin(radA);
-                    const isSelected = selectedHour === hour;
-
-                    return (
-                      <div
-                        key={`inner-${label}`}
-                        className={`absolute w-6 h-6 flex items-center justify-center text-[12px] font-sans font-medium pointer-events-none transition-opacity duration-150 ${
-                          isSelected ? 'opacity-0' : 'text-[#8e9299]'
-                        }`}
-                        style={{
-                          left: `${x}px`,
-                          top: `${y}px`,
-                          transform: 'translate(-50%, -50%)',
-                        }}
-                      >
-                        {label}
-                      </div>
-                    );
-                  })}
-                </>
-              ) : (
-                /* Minutes Dial: 00, 05, 10..55 */
-                minutesList.map(({ label, min, angle }) => {
-                  const r = 96;
-                  const radA = ((angle - 90) * Math.PI) / 180;
-                  const x = dialRadius + r * Math.cos(radA);
-                  const y = dialRadius + r * Math.sin(radA);
-                  const isSelected = selectedMinute === min;
-
-                  return (
-                    <div
-                      key={`min-${label}`}
-                      className={`absolute w-7 h-7 flex items-center justify-center text-[14px] font-sans font-medium pointer-events-none transition-opacity duration-150 ${
-                        isSelected ? 'opacity-0' : 'text-[#c5c7ce]'
-                      }`}
-                      style={{
-                        left: `${x}px`,
-                        top: `${y}px`,
-                        transform: 'translate(-50%, -50%)',
-                      }}
-                    >
-                      {label}
-                    </div>
-                  );
-                })
-              )}
+                return (
+                  <button
+                    key={`${mode}-${label}`}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (mode === 'hour') selectHour(val);
+                      else selectMinute(val);
+                    }}
+                    className={`absolute w-9 h-9 rounded-full flex items-center justify-center text-[15px] font-sans font-medium transition-all cursor-pointer z-10 active:scale-95 ${
+                      isSelected ? 'opacity-0' : 'text-[#d2d4da] hover:text-white hover:bg-white/10'
+                    }`}
+                    style={{
+                      left: `${x}px`,
+                      top: `${y}px`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
             </div>
           ) : (
             /* Manual Keyboard Numeric Entry Mode */
             <div className="w-64 h-64 flex flex-col items-center justify-center gap-4">
               <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">
-                Type Time (24-Hour)
+                Type Time ({period})
               </span>
               <div className="flex items-center gap-2">
                 <input
                   type="number"
-                  min="0"
-                  max="23"
+                  min="1"
+                  max="12"
                   value={manualHour}
                   onChange={(e) => {
                     const v = e.target.value.slice(0, 2);
                     setManualHour(v);
                     const n = parseInt(v, 10);
-                    if (!isNaN(n)) setSelectedHour(Math.max(0, Math.min(23, n)));
+                    if (!isNaN(n)) setHour(Math.max(1, Math.min(12, n)));
                   }}
                   className="w-20 h-16 rounded-xl bg-[#3c3e44] text-center font-mono text-3xl font-bold text-[#a8c7fa] border border-white/10 focus:border-[#a8c7fa] focus:outline-none"
-                  placeholder="00"
+                  placeholder="08"
                 />
                 <span className="text-3xl text-slate-400 font-bold">:</span>
                 <input
@@ -418,7 +383,7 @@ export default function MaterialTimePicker({
                     const v = e.target.value.slice(0, 2);
                     setManualMinute(v);
                     const n = parseInt(v, 10);
-                    if (!isNaN(n)) setSelectedMinute(Math.max(0, Math.min(59, n)));
+                    if (!isNaN(n)) setMinute(Math.max(0, Math.min(59, n)));
                   }}
                   className="w-20 h-16 rounded-xl bg-[#3c3e44] text-center font-mono text-3xl font-bold text-[#a8c7fa] border border-white/10 focus:border-[#a8c7fa] focus:outline-none"
                   placeholder="00"
@@ -429,13 +394,13 @@ export default function MaterialTimePicker({
         </div>
 
         {/* Bottom Action Footer */}
-        <div className="px-5 py-4 flex items-center justify-between bg-[#222428]">
+        <div className="px-5 py-3.5 flex items-center justify-between bg-[#222428] border-t border-white/5">
           {/* Toggle Dial / Keyboard icon */}
           <button
             type="button"
             onClick={() => setInputStyle((prev) => (prev === 'dial' ? 'keyboard' : 'dial'))}
-            className="p-1 text-[#a8c7fa] hover:text-[#d3e3fd] transition-colors cursor-pointer active:scale-95"
-            title={inputStyle === 'dial' ? 'Switch to text input' : 'Switch to dial picker'}
+            className="p-1.5 rounded-full text-[#a8c7fa] hover:bg-white/10 transition-colors cursor-pointer active:scale-95"
+            title={inputStyle === 'dial' ? 'Switch to text input' : 'Switch to clock dial'}
           >
             {inputStyle === 'dial' ? (
               <Keyboard className="w-5 h-5 text-[#a8c7fa]" />
@@ -463,7 +428,7 @@ export default function MaterialTimePicker({
             <button
               type="button"
               onClick={handleSave}
-              className="text-sm font-medium text-[#a8c7fa] hover:text-[#d3e3fd] transition-colors cursor-pointer"
+              className="text-sm font-bold text-[#a8c7fa] hover:text-[#d3e3fd] transition-colors cursor-pointer"
             >
               Set
             </button>

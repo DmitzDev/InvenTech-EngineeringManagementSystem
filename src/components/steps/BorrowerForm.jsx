@@ -63,26 +63,6 @@ export default function BorrowerForm() {
   // Active Material Time Picker ('start' | 'end' | null)
   const [activePicker, setActivePicker] = useState(null);
 
-  const startH24 = useMemo(() => {
-    if (!startHour) return 8;
-    let h = parseInt(startHour, 10);
-    if (startPeriod === 'PM' && h !== 12) h += 12;
-    if (startPeriod === 'AM' && h === 12) h = 0;
-    return h;
-  }, [startHour, startPeriod]);
-
-  const startMin = useMemo(() => parseInt(startMinute || '0', 10), [startMinute]);
-
-  const endH24 = useMemo(() => {
-    if (!endHour) return 11;
-    let h = parseInt(endHour, 10);
-    if (endPeriod === 'PM' && h !== 12) h += 12;
-    if (endPeriod === 'AM' && h === 12) h = 0;
-    return h;
-  }, [endHour, endPeriod]);
-
-  const endMin = useMemo(() => parseInt(endMinute || '0', 10), [endMinute]);
-
 
 
   // Real-time clearance check
@@ -1102,9 +1082,9 @@ export default function BorrowerForm() {
       {/* Material 3 Android Time Picker Modal */}
       <MaterialTimePicker
         isOpen={activePicker !== null}
-        title={activePicker === 'start' ? 'Select Start Time' : 'Select End Time'}
-        initialHour24={activePicker === 'start' ? startH24 : endH24}
-        initialMinute={activePicker === 'start' ? startMin : endMin}
+        initialHour={activePicker === 'start' ? (startHour || '08') : (endHour || '11')}
+        initialMinute={activePicker === 'start' ? (startMinute || '00') : (endMinute || '00')}
+        initialPeriod={activePicker === 'start' ? (startPeriod || 'AM') : (endPeriod || 'AM')}
         onSave={({ hour12, minuteStr, period }) => {
           if (activePicker === 'start') {
             setStartHour(hour12);
