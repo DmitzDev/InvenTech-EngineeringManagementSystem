@@ -23,6 +23,18 @@ const YEAR_LEVELS = [
 ];
 const SECTIONS = ['01', '02', '03', '04'];
 
+const HOUR_OPTIONS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+const MINUTE_OPTIONS = ['00', '15', '30', '45'];
+
+const LAB_SCHEDULE_PRESETS = [
+  { label: '7:30 - 10:30 AM', sH: '07', sM: '30', sP: 'AM', eH: '10', eM: '30', eP: 'AM' },
+  { label: '8:00 - 11:00 AM', sH: '08', sM: '00', sP: 'AM', eH: '11', eM: '00', eP: 'AM' },
+  { label: '10:30 AM - 1:30 PM', sH: '10', sM: '30', sP: 'AM', eH: '01', eM: '30', eP: 'PM' },
+  { label: '1:00 - 4:00 PM', sH: '01', sM: '00', sP: 'PM', eH: '04', eM: '00', eP: 'PM' },
+  { label: '1:30 - 4:30 PM', sH: '01', sM: '30', sP: 'PM', eH: '04', eM: '30', eP: 'PM' },
+  { label: '4:30 - 7:30 PM', sH: '04', sM: '30', sP: 'PM', eH: '07', eM: '30', eP: 'PM' },
+];
+
 export default function BorrowerForm() {
   const {
     borrower,
@@ -99,23 +111,6 @@ export default function BorrowerForm() {
     if (courseCode) setBorrowerField('courseCode', courseCode);
     if (instructor) setBorrowerField('instructor', instructor);
     setErrors({});
-  };
-
-  const startInputRef = useRef(null);
-  const endInputRef = useRef(null);
-
-  const openTimePicker = (ref) => {
-    if (ref?.current) {
-      try {
-        if (typeof ref.current.showPicker === 'function') {
-          ref.current.showPicker();
-        } else {
-          ref.current.focus();
-        }
-      } catch {
-        ref.current?.focus();
-      }
-    }
   };
 
   // Handler for Academic Program dropdown
@@ -924,16 +919,16 @@ export default function BorrowerForm() {
             </div>
           </div>
 
-          {/* Time Schedule */}
+          {/* Time Schedule Selector (Touch-Optimized for Kiosk Displays) */}
           <div>
-            <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center justify-between mb-1.5">
               <label className={`text-[10.5px] sm:text-sm font-medium ${
                 isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
               }`}>
                 Time Schedule
               </label>
               {borrower.labTime && isTimeScheduleValid && (
-                <span className={`text-[10px] sm:text-xs font-mono font-extrabold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border truncate max-w-[190px] sm:max-w-[240px] ${
+                <span className={`text-[10px] sm:text-xs font-mono font-extrabold px-2.5 py-0.5 rounded-full border truncate max-w-[210px] ${
                   isDark ? 'text-cyan-400 bg-cyan-950/70 border-cyan-500/40' : 'bg-blue-50 text-blue-800 border border-blue-200/60 font-semibold'
                 }`}>
                   {borrower.labTime}
@@ -946,123 +941,221 @@ export default function BorrowerForm() {
               )}
             </div>
 
-            <div className={`w-full py-1.5 sm:py-2.5 px-2.5 sm:px-3.5 rounded-xl sm:rounded-2xl border ${
+            {/* Quick 1-Tap Lab Schedule Presets */}
+            <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-1.5 mb-2 scrollbar-none">
+              <span className={`text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider shrink-0 ${
+                isDark ? 'text-slate-400' : 'text-slate-500'
+              }`}>
+                Presets:
+              </span>
+              {LAB_SCHEDULE_PRESETS.map((p) => {
+                const isSelected =
+                  startHour === p.sH &&
+                  startMinute === p.sM &&
+                  startPeriod === p.sP &&
+                  endHour === p.eH &&
+                  endMinute === p.eM &&
+                  endPeriod === p.eP;
+
+                return (
+                  <button
+                    key={p.label}
+                    type="button"
+                    onClick={() => {
+                      setStartHour(p.sH);
+                      setStartMinute(p.sM);
+                      setStartPeriod(p.sP);
+                      setEndHour(p.eH);
+                      setEndMinute(p.eM);
+                      setEndPeriod(p.eP);
+                      setErrors((prev) => ({ ...prev, labTime: null }));
+                      setTouched((prev) => ({ ...prev, labTime: true }));
+                    }}
+                    className={`px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono font-bold whitespace-nowrap transition-all active:scale-95 cursor-pointer border ${
+                      isSelected
+                        ? isDark
+                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/80 ring-1 ring-cyan-400/60'
+                          : 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                        : isDark
+                        ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border-slate-700'
+                        : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300 shadow-xs'
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Touch Pods Container */}
+            <div className={`p-2 sm:p-2.5 rounded-xl sm:rounded-2xl border transition-all ${
               (hasSubmitted || touched.labTime) && errors.labTime ? 'ring-2 ring-rose-500 border-rose-500' : ''
             } ${
-              isDark ? 'neu-inset border-slate-800/80' : 'bg-slate-50 border border-slate-200 shadow-xs'
+              isDark ? 'neu-inset border-slate-800/80 bg-[#080d19]' : 'bg-slate-50 border border-slate-200 shadow-xs'
             }`}>
-              <div className="flex items-center justify-between gap-2 sm:gap-3">
-                {/* Start Time */}
-                <div
-                  className="flex-1 cursor-pointer"
-                  onClick={() => openTimePicker(startInputRef)}
-                >
-                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 items-center">
+                {/* START TIME POD */}
+                <div className={`p-2 rounded-xl border flex flex-col gap-1 ${
+                  isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200 shadow-xs'
+                }`}>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                    isDark ? 'text-cyan-400' : 'text-blue-700'
                   }`}>
-                    Start
+                    Start Time
                   </span>
-                  <input
-                    ref={startInputRef}
-                    type="time"
-                    data-no-osk="true"
-                    onBlur={() => setTouched((prev) => ({ ...prev, labTime: true }))}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openTimePicker(startInputRef);
-                    }}
-                    value={(() => {
-                      if (!startHour) return '';
-                      let h = parseInt(startHour, 10);
-                      if (startPeriod === 'PM' && h !== 12) h += 12;
-                      if (startPeriod === 'AM' && h === 12) h = 0;
-                      return `${String(h).padStart(2, '0')}:${startMinute || '00'}`;
-                    })()}
-                    onChange={(e) => {
-                      setErrors((prev) => ({ ...prev, labTime: null }));
-                      const val = e.target.value;
-                      if (val) {
-                        const [hStr, mStr] = val.split(':');
-                        let h = parseInt(hStr, 10);
-                        const period = h >= 12 ? 'PM' : 'AM';
-                        if (h === 0) h = 12;
-                        else if (h > 12) h -= 12;
-                        setStartHour(String(h).padStart(2, '0'));
-                        setStartMinute(mStr);
-                        setStartPeriod(period);
-                      }
-                    }}
-                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
-                      isDark
-                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
-                        : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                    }`}
-                    style={{ colorScheme: isDark ? 'dark' : 'light' }}
-                  />
+                  <div className="flex items-center gap-1 sm:gap-1.5">
+                    {/* Hour Select */}
+                    <select
+                      value={startHour}
+                      onChange={(e) => {
+                        setStartHour(e.target.value);
+                        setErrors((prev) => ({ ...prev, labTime: null }));
+                        setTouched((prev) => ({ ...prev, labTime: true }));
+                      }}
+                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
+                        isDark
+                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
+                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
+                      }`}
+                    >
+                      <option value="">Hr</option>
+                      {HOUR_OPTIONS.map((h) => (
+                        <option key={h} value={h} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
+                          {h}
+                        </option>
+                      ))}
+                    </select>
+
+                    <span className="font-extrabold text-sm select-none opacity-40">:</span>
+
+                    {/* Minute Select */}
+                    <select
+                      value={startMinute || '00'}
+                      onChange={(e) => {
+                        setStartMinute(e.target.value);
+                        setErrors((prev) => ({ ...prev, labTime: null }));
+                        setTouched((prev) => ({ ...prev, labTime: true }));
+                      }}
+                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
+                        isDark
+                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
+                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
+                      }`}
+                    >
+                      {MINUTE_OPTIONS.map((m) => (
+                        <option key={m} value={m} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
+                          {m}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* AM/PM Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStartPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
+                        setErrors((prev) => ({ ...prev, labTime: null }));
+                        setTouched((prev) => ({ ...prev, labTime: true }));
+                      }}
+                      className={`h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-3 rounded-lg font-mono text-xs sm:text-sm font-black active:scale-95 transition-all cursor-pointer border select-none ${
+                        startPeriod === 'AM'
+                          ? isDark
+                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                            : 'bg-amber-100 text-amber-900 border-amber-300 font-bold'
+                          : isDark
+                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                          : 'bg-blue-100 text-blue-900 border-blue-300 font-bold'
+                      }`}
+                      title="Tap to toggle AM/PM"
+                    >
+                      {startPeriod}
+                    </button>
+                  </div>
                 </div>
 
-                {/* "to" separator */}
-                <div className="flex flex-col items-center justify-center pt-3 sm:pt-4">
-                  <span className={`text-[10px] sm:text-sm font-black uppercase tracking-widest px-1 shrink-0 select-none ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
+                {/* END TIME POD */}
+                <div className={`p-2 rounded-xl border flex flex-col gap-1 ${
+                  isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200 shadow-xs'
+                }`}>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                    isDark ? 'text-cyan-400' : 'text-blue-700'
                   }`}>
-                    to
+                    End Time
                   </span>
-                </div>
+                  <div className="flex items-center gap-1 sm:gap-1.5">
+                    {/* Hour Select */}
+                    <select
+                      value={endHour}
+                      onChange={(e) => {
+                        setEndHour(e.target.value);
+                        setErrors((prev) => ({ ...prev, labTime: null }));
+                        setTouched((prev) => ({ ...prev, labTime: true }));
+                      }}
+                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
+                        isDark
+                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
+                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
+                      }`}
+                    >
+                      <option value="">Hr</option>
+                      {HOUR_OPTIONS.map((h) => (
+                        <option key={h} value={h} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
+                          {h}
+                        </option>
+                      ))}
+                    </select>
 
-                {/* End Time */}
-                <div
-                  className="flex-1 cursor-pointer"
-                  onClick={() => openTimePicker(endInputRef)}
-                >
-                  <span className={`block text-[9px] sm:text-xs uppercase font-bold mb-0.5 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}>
-                    End
-                  </span>
-                  <input
-                    ref={endInputRef}
-                    type="time"
-                    data-no-osk="true"
-                    onBlur={() => setTouched((prev) => ({ ...prev, labTime: true }))}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openTimePicker(endInputRef);
-                    }}
-                    value={(() => {
-                      if (!endHour) return '';
-                      let h = parseInt(endHour, 10);
-                      if (endPeriod === 'PM' && h !== 12) h += 12;
-                      if (endPeriod === 'AM' && h === 12) h = 0;
-                      return `${String(h).padStart(2, '0')}:${endMinute || '00'}`;
-                    })()}
-                    onChange={(e) => {
-                      setErrors((prev) => ({ ...prev, labTime: null }));
-                      const val = e.target.value;
-                      if (val) {
-                        const [hStr, mStr] = val.split(':');
-                        let h = parseInt(hStr, 10);
-                        const period = h >= 12 ? 'PM' : 'AM';
-                        if (h === 0) h = 12;
-                        else if (h > 12) h -= 12;
-                        setEndHour(String(h).padStart(2, '0'));
-                        setEndMinute(mStr);
-                        setEndPeriod(period);
-                      }
-                    }}
-                    className={`w-full h-8 sm:h-11 px-2 sm:px-3 rounded-lg sm:rounded-xl font-mono text-xs sm:text-base font-extrabold transition-all cursor-pointer ${
-                      isDark
-                        ? 'neu-inset text-cyan-300 bg-[#0e1422] border-slate-800/80 focus:ring-1 focus:ring-cyan-500'
-                        : 'bg-white border border-slate-300 text-slate-900 font-bold focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
-                    }`}
-                    style={{ colorScheme: isDark ? 'dark' : 'light' }}
-                  />
+                    <span className="font-extrabold text-sm select-none opacity-40">:</span>
+
+                    {/* Minute Select */}
+                    <select
+                      value={endMinute || '00'}
+                      onChange={(e) => {
+                        setEndMinute(e.target.value);
+                        setErrors((prev) => ({ ...prev, labTime: null }));
+                        setTouched((prev) => ({ ...prev, labTime: true }));
+                      }}
+                      className={`flex-1 h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-2 rounded-lg font-mono text-xs sm:text-sm font-extrabold cursor-pointer transition-all ${
+                        isDark
+                          ? 'bg-[#182338] text-slate-100 border border-slate-700 focus:ring-1 focus:ring-cyan-500'
+                          : 'bg-slate-100 text-slate-900 border border-slate-300 focus:ring-2 focus:ring-blue-100'
+                      }`}
+                    >
+                      {MINUTE_OPTIONS.map((m) => (
+                        <option key={m} value={m} className={isDark ? 'bg-slate-900 text-slate-100' : 'bg-white text-slate-900'}>
+                          {m}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* AM/PM Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEndPeriod((prev) => (prev === 'AM' ? 'PM' : 'AM'));
+                        setErrors((prev) => ({ ...prev, labTime: null }));
+                        setTouched((prev) => ({ ...prev, labTime: true }));
+                      }}
+                      className={`h-9 sm:h-10 min-h-[36px] sm:min-h-[40px] px-3 rounded-lg font-mono text-xs sm:text-sm font-black active:scale-95 transition-all cursor-pointer border select-none ${
+                        endPeriod === 'AM'
+                          ? isDark
+                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                            : 'bg-amber-100 text-amber-900 border-amber-300 font-bold'
+                          : isDark
+                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                          : 'bg-blue-100 text-blue-900 border-blue-300 font-bold'
+                      }`}
+                      title="Tap to toggle AM/PM"
+                    >
+                      {endPeriod}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
             {(hasSubmitted || touched.labTime) && errors.labTime && (
-              <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.labTime}</p>
+              <p className="text-[10px] sm:text-xs text-rose-500 mt-1 font-semibold">{errors.labTime}</p>
             )}
           </div>
         </div>
