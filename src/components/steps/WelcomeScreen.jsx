@@ -69,19 +69,21 @@ export default function WelcomeScreen() {
         isDark ? 'bg-cyan-500/8' : 'bg-slate-300/20'
       } blur-[180px] rounded-full pointer-events-none -z-0`} />
 
-      {/* 1. Top Header Bar (Live Digital Clock & Theme Toggle) */}
-      <div className="flex items-center justify-end w-full max-w-full overflow-hidden relative z-10 shrink-0 pb-1">
-        {/* Right: Manual Theme Toggle & Live Digital Clock Pod */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <ThemeToggle />
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono shadow-xs ${
-            isDark ? 'neu-inset text-cyan-400' : 'bg-white border border-slate-300 text-slate-900 font-bold'
-          }`}>
-            <Clock className="w-3.5 h-3.5" />
-            <span className="font-extrabold tracking-wider">{time}</span>
+      {/* 1. Top Header Bar (Live Digital Clock & Theme Toggle - Hidden in Return View) */}
+      {viewMode !== 'return' && (
+        <div className="flex items-center justify-end w-full max-w-full overflow-hidden relative z-10 shrink-0 pb-1">
+          {/* Right: Manual Theme Toggle & Live Digital Clock Pod */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <ThemeToggle />
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono shadow-xs ${
+              isDark ? 'neu-inset text-cyan-400' : 'bg-white border border-slate-300 text-slate-900 font-bold'
+            }`}>
+              <Clock className="w-3.5 h-3.5" />
+              <span className="font-extrabold tracking-wider">{time}</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* =========================================================================
           VIEW A: IDLE / LANDING SCREEN (Tap to Start / Tap to Continue)

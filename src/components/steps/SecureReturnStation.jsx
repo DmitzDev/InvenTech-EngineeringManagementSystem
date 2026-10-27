@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
+import ThemeToggle from '../ui/ThemeToggle';
 import { formatStudentId, handleStudentIdChange } from '../../utils/studentIdFormatter';
 import { useRateLimiter } from '../../utils/rateLimiter';
 
@@ -313,48 +314,55 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
   return (
     <div className="flex-1 w-full max-w-full overflow-x-hidden min-h-[100dvh] lg:min-h-0 lg:h-full flex flex-col justify-between px-2.5 sm:px-4 py-2 sm:py-3.5 max-w-4xl mx-auto relative z-10 select-none animate-fade-in">
-      {/* 1. Top Telemetry & Security Header Bar */}
+      {/* 1. Clean Institutional Header Bar */}
       <div
-        className={`w-full max-w-full overflow-hidden border-b pb-2.5 sm:pb-3 pt-1 flex items-center justify-between gap-2 shrink-0 ${
+        className={`w-full max-w-full overflow-hidden border-b pb-3 pt-1 flex items-center justify-between gap-3 shrink-0 ${
           isDark ? 'border-slate-800' : 'border-slate-200'
         }`}
       >
-        <div className="flex items-center gap-2 sm:gap-2.5 text-left min-w-0">
-          <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs shrink-0 ${isDark ? 'bg-emerald-400' : 'bg-emerald-600'}`} />
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <h2 className={`text-[11px] sm:text-xs md:text-sm font-mono font-black tracking-wider uppercase truncate ${
-                isDark ? 'text-slate-100' : 'text-slate-950'
+        {/* Left: Back Button + Clean Station Title */}
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <button
+            type="button"
+            onClick={() => handleSecurityExit(false)}
+            className={`h-10 px-3 sm:px-3.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer shadow-xs shrink-0 ${
+              isDark
+                ? 'border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200'
+                : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-800'
+            }`}
+            title="Return to Mode Selection"
+          >
+            <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+            <span className="hidden sm:inline">Back to Menu</span>
+            <span className="sm:hidden">Back</span>
+          </button>
+
+          <div className="flex items-center gap-2 truncate">
+            <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shrink-0 ${isDark ? 'bg-cyan-400' : 'bg-blue-600'}`} />
+            <div>
+              <h2 className={`text-sm sm:text-base font-extrabold tracking-tight truncate ${
+                isDark ? 'text-slate-100' : 'text-slate-900'
               }`}>
-                <span className="sm:hidden">RETURN STATION</span>
-                <span className="hidden sm:inline">RETURN EQUIPMENT STATION • CUSTODIAN RECONCILIATION</span>
+                Return Equipment Station
               </h2>
-              <span className={`hidden md:inline font-mono text-[10px] px-2 py-0.5 rounded border shrink-0 ${
-                isDark
-                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                  : 'bg-emerald-50 text-emerald-800 border-emerald-200 font-bold'
+              <p className={`text-[11px] font-medium hidden sm:block ${
+                isDark ? 'text-slate-400' : 'text-slate-500'
               }`}>
-                ISOLATED SESSION
-              </span>
+                School of Engineering Laboratory Custody
+              </p>
             </div>
-            <p className={`text-[10px] sm:text-[11px] font-mono truncate ${
-              isDark ? 'text-slate-400' : 'text-slate-600 font-bold'
-            }`}>
-              <span className="sm:hidden">PRIVACY GUARD ACTIVE</span>
-              <span className="hidden sm:inline">PRIVACY GUARD ACTIVE • ZERO CROSS-RECORD LEAKAGE</span>
-            </p>
           </div>
         </div>
 
-        {/* 30-Second Inactivity Security Timer & Exit Button */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        {/* Right: Inactivity Countdown Badge & Theme Toggle */}
+        <div className="flex items-center gap-2 shrink-0">
           <div
-            className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold border whitespace-nowrap shrink-0 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-bold border whitespace-nowrap shadow-xs ${
               secondsLeft <= 10
                 ? 'bg-rose-500/20 text-rose-400 border-rose-500/40 animate-pulse'
                 : isDark
                 ? 'bg-slate-800/90 border-slate-700 text-slate-300'
-                : 'bg-white border-slate-300 text-slate-800 shadow-xs'
+                : 'bg-white border-slate-300 text-slate-800'
             }`}
             title="Session automatically clears when unattended to protect student data"
           >
@@ -363,19 +371,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
             <span className="hidden sm:inline">Auto-reset in {secondsLeft}s</span>
           </div>
 
-          <button
-            type="button"
-            onClick={() => handleSecurityExit(false)}
-            className={`px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border font-mono text-xs font-bold flex items-center gap-1.5 transition-transform active:scale-95 cursor-pointer shadow-xs shrink-0 ${
-              isDark
-                ? 'border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200'
-                : 'border-slate-300 bg-white hover:bg-slate-100 text-slate-900 shadow-xs'
-            }`}
-            title="Return to Mode Selection"
-          >
-            <ArrowLeft className="w-4 h-4 shrink-0 stroke-[2.5]" />
-            <span className="font-bold">BACK</span>
-          </button>
+          <ThemeToggle />
         </div>
       </div>
 

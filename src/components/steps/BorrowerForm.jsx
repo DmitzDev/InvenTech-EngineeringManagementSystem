@@ -267,9 +267,9 @@ export default function BorrowerForm() {
 
     const trimmedLeader = (borrower.groupLeader || '').trim();
     if (!trimmedLeader) {
-      errs.groupLeader = 'Student / Borrower Name is required';
-    } else if (trimmedLeader.length < 3) {
-      errs.groupLeader = 'Name must be at least 3 characters';
+      errs.groupLeader = 'Student Full Name is required';
+    } else if (trimmedLeader.length < 5 || !trimmedLeader.includes(' ')) {
+      errs.groupLeader = 'Please enter your complete Full Name (First Name and Last Name)';
     } else if (!/^[A-Za-z\s.\-ñÑ]+$/.test(trimmedLeader)) {
       errs.groupLeader = 'Name should only contain letters and spaces';
     }
@@ -638,7 +638,7 @@ export default function BorrowerForm() {
               <label className={`block text-[10.5px] sm:text-sm font-medium mb-1 ${
                 isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
               }`}>
-                Student Name
+                Student Full Name <span className="text-[10px] sm:text-xs opacity-75 font-normal">(First & Last Name)</span>
               </label>
               <input
                 type="text"
@@ -647,7 +647,7 @@ export default function BorrowerForm() {
                   setErrors((prev) => ({ ...prev, groupLeader: null }));
                   setBorrowerField('groupLeader', e.target.value.toUpperCase());
                 }}
-                placeholder="e.g. JASON CAYABYAB"
+                placeholder="e.g. JUAN DELA CRUZ"
                 autoComplete="off"
                 spellCheck={false}
                 enterKeyHint="next"

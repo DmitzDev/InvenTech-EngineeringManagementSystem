@@ -4263,11 +4263,24 @@ const DEFAULT_EQUIPMENT_ITEMS = [
   }
 ];
 
-const STORAGE_KEY = 'udd_master_lab_inventory_v9';
+const STORAGE_KEY = 'udd_master_lab_inventory_v10';
 
 // Clean old test cache keys from previous testing sessions
 try {
-  ['udd_master_lab_inventory_v1', 'udd_master_lab_inventory_v2', 'udd_master_lab_inventory_v3', 'udd_master_lab_inventory_v4', 'udd_master_lab_inventory_v5', 'udd_master_lab_inventory_v6', 'udd_master_lab_inventory_v7', 'udd_master_lab_inventory_v8', 'udd_kiosk_incident_logs_v1'].forEach((k) => {
+  [
+    'udd_master_lab_inventory_v1',
+    'udd_master_lab_inventory_v2',
+    'udd_master_lab_inventory_v3',
+    'udd_master_lab_inventory_v4',
+    'udd_master_lab_inventory_v5',
+    'udd_master_lab_inventory_v6',
+    'udd_master_lab_inventory_v7',
+    'udd_master_lab_inventory_v8',
+    'udd_master_lab_inventory_v9',
+    'udd_kiosk_incident_logs_v1',
+    'udd_kiosk_incident_logs_v2',
+    'udd_kiosk_clearance_holds_v1',
+  ].forEach((k) => {
     localStorage.removeItem(k);
   });
 } catch {

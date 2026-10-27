@@ -36,8 +36,8 @@ const getInitialDateStrings = () => {
   };
 };
 
-const RESERVATIONS_STORAGE_KEY = 'udd_kiosk_reservations_v3';
-const TRANSACTIONS_STORAGE_KEY = 'udd_kiosk_transactions_v3';
+const RESERVATIONS_STORAGE_KEY = 'udd_kiosk_reservations_v4';
+const TRANSACTIONS_STORAGE_KEY = 'udd_kiosk_transactions_v4';
 
 export const clearAllTransactions = () => {
   try {
@@ -46,6 +46,7 @@ export const clearAllTransactions = () => {
       'udd_kiosk_transactions_v1',
       'udd_kiosk_transactions_v2',
       'udd_kiosk_transactions_v3',
+      'udd_kiosk_transactions_v4',
     ].forEach((k) => {
       localStorage.removeItem(k);
     });
@@ -60,9 +61,11 @@ try {
     'udd_kiosk_reservations',
     'udd_kiosk_reservations_v1',
     'udd_kiosk_reservations_v2',
+    'udd_kiosk_reservations_v3',
     'udd_kiosk_transactions',
     'udd_kiosk_transactions_v1',
     'udd_kiosk_transactions_v2',
+    'udd_kiosk_transactions_v3',
     'udd_kiosk_incident_logs',
     'udd_kiosk_incident_logs_v1',
     'udd_kiosk_incident_logs_v2',
