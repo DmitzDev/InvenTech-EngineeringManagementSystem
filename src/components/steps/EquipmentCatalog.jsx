@@ -38,6 +38,8 @@ export default function EquipmentCatalog() {
   const isDark = theme === 'dark';
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [mobileLabFilter, setMobileLabFilter] = useState('ALL'); // 'ALL' | 'CE' | 'CHEM'
   const [mobileViewMode, setMobileViewMode] = useState('grid'); // 'grid' | 'compact'
@@ -335,30 +337,53 @@ export default function EquipmentCatalog() {
             <span className="sm:hidden">Lab</span>
           </button>
 
-          {/* Instant Search Box (Directly beside Change Lab) */}
-          <div className="relative w-36 sm:w-48 md:w-60 lg:w-72 shrink-0">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search apparatus..."
-              className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
-                isDark
-                  ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500'
-                  : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white'
-              }`}
-            />
-            {searchQuery && (
+          {/* Expandable Search Button & Input Box (Directly beside Change Lab) */}
+          {isSearchOpen || searchQuery ? (
+            <div className="relative w-40 sm:w-52 md:w-64 lg:w-72 shrink-0 animate-fade-in">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search apparatus..."
+                autoFocus
+                className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
+                  isDark
+                    ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500 ring-1 ring-cyan-500/20'
+                    : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white ring-1 ring-blue-500/20'
+                }`}
+              />
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+                onClick={() => {
+                  setSearchQuery('');
+                  setIsSearchOpen(false);
+                }}
+                title="Close search"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setIsSearchOpen(true);
+                setTimeout(() => searchInputRef.current?.focus(), 50);
+              }}
+              title="Search apparatus"
+              className={`h-10 px-3 sm:px-3.5 rounded-xl border flex items-center gap-1.5 transition-transform active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
+                isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+                  : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-300'
+              }`}
+            >
+              <Search className="w-4 h-4 text-slate-400" />
+              <span className="hidden sm:inline text-xs sm:text-sm font-bold">Search</span>
+            </button>
+          )}
 
           {/* Sub-Lab & Category Chips Container (Directly beside Search Bar) */}
           <div className="flex-1 min-w-0 max-w-full overflow-hidden">

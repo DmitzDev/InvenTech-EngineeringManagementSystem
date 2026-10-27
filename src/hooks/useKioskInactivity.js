@@ -24,37 +24,38 @@ export function useKioskInactivity({
   const inactivityTimerRef = useRef(null);
   const countdownIntervalRef = useRef(null);
   const onResetRef = useRef(onReset);
+  const isWarningVisibleRef = useRef(false);
 
-  // Keep latest onReset reference
+  // Keep latest references
   useEffect(() => {
     onResetRef.current = onReset;
   }, [onReset]);
 
-  // Clear all pending timers
-  const clearAllTimers = useCallback(() => {
+  useEffect(() => {
+    isWarningVisibleRef.current = isWarningVisible;
+  }, [isWarningVisible]);
+
+  // Clear inactivity timer
+  const clearInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
       clearTimeout(inactivityTimerRef.current);
       inactivityTimerRef.current = null;
     }
+  }, []);
+
+  // Clear countdown interval
+  const clearCountdownInterval = useCallback(() => {
     if (countdownIntervalRef.current) {
       clearInterval(countdownIntervalRef.current);
       countdownIntervalRef.current = null;
     }
   }, []);
 
-  // Continue session - dismissed by user tap/click
-  const continueSession = useCallback(() => {
-    clearAllTimers();
-    setIsWarningVisible(false);
-    setRemainingSeconds(countdownSec);
-
-    // If still in an active interaction, restart the 45s timer
-    if (isActive) {
-      inactivityTimerRef.current = setTimeout(() => {
-        startCountdown();
-      }, inactivityMs);
-    }
-  }, [clearAllTimers, countdownSec, isActive, inactivityMs]);
+  // Clear all pending timers
+  const clearAllTimers = useCallback(() => {
+    clearInactivityTimer();
+    clearCountdownInterval();
+  }, [clearInactivityTimer, clearCountdownInterval]);
 
   // Execute hard reset
   const executeHardReset = useCallback(() => {
@@ -77,12 +78,11 @@ export function useKioskInactivity({
 
   // Start the 15-second countdown modal
   const startCountdown = useCallback(() => {
+    clearInactivityTimer();
+    clearCountdownInterval();
+
     setIsWarningVisible(true);
     setRemainingSeconds(countdownSec);
-
-    if (countdownIntervalRef.current) {
-      clearInterval(countdownIntervalRef.current);
-    }
 
     let currentSec = countdownSec;
     countdownIntervalRef.current = setInterval(() => {
@@ -90,12 +90,25 @@ export function useKioskInactivity({
       setRemainingSeconds(currentSec);
 
       if (currentSec <= 0) {
-        clearInterval(countdownIntervalRef.current);
-        countdownIntervalRef.current = null;
+        clearCountdownInterval();
         executeHardReset();
       }
     }, 1000);
-  }, [countdownSec, executeHardReset]);
+  }, [countdownSec, clearInactivityTimer, clearCountdownInterval, executeHardReset]);
+
+  // Continue session - dismissed by user tap/click
+  const continueSession = useCallback(() => {
+    clearAllTimers();
+    setIsWarningVisible(false);
+    setRemainingSeconds(countdownSec);
+
+    // Restart the 45s timer if session is still active
+    if (isActive) {
+      inactivityTimerRef.current = setTimeout(() => {
+        startCountdown();
+      }, inactivityMs);
+    }
+  }, [clearAllTimers, countdownSec, isActive, inactivityMs, startCountdown]);
 
   // Main activity listener hook
   useEffect(() => {
@@ -108,8 +121,7 @@ export function useKioskInactivity({
     // Reset inactivity timer on any detected interaction
     const handleActivity = () => {
       // Do not auto-dismiss modal with passive mouse moves if warning is already visible
-      // (User must deliberately tap [CONTINUE SESSION] or click)
-      if (isWarningVisible) return;
+      if (isWarningVisibleRef.current) return;
 
       if (inactivityTimerRef.current) {
         clearTimeout(inactivityTimerRef.current);
@@ -136,7 +148,7 @@ export function useKioskInactivity({
       });
       clearAllTimers();
     };
-  }, [isActive, isWarningVisible, inactivityMs, startCountdown, clearAllTimers]);
+  }, [isActive, inactivityMs, startCountdown, clearAllTimers]);
 
   return {
     isWarningVisible,
