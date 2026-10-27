@@ -1,0 +1,24 @@
+# Vercel Deployment Ignore File
+# Prevents unnecessary repository files from consuming Vercel deployment storage and cache
+
+# Development & Documentation
+*.md
+!README.md
+scripts/
+supabase_schema.sql
+desktop.ini
+InvenTech logo.png
+
+# Sensitive & Master Inventory Lists
+Master List LaboratoryINVENTORY/
+
+# Workspace & Agent metadata
+.agents/
+.gemini/
+.github/
+.vscode/
+.idea/
+
+# Logs & temp files
+*.log
+.DS_Store
