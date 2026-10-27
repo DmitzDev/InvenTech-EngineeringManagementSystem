@@ -310,7 +310,7 @@ export default function KioskScreensaver() {
       {/* 3. Footer: Subtext & Version Identifier */}
       <footer className="w-full max-w-5xl flex items-center justify-between text-[10px] font-mono text-slate-500 relative z-10 pt-2">
         <span className="truncate">Universidad de Dagupan • Engineering Department</span>
-        <span className="shrink-0">v2.4 KIOSK ISO-CERTIFIED</span>
+        <span className="shrink-0">v2.4 KIOSK SYSTEM TERMINAL</span>
       </footer>
     </div>
   );

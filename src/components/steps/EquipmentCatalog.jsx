@@ -40,6 +40,7 @@ export default function EquipmentCatalog() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchInputRef = useRef(null);
+  const searchContainerRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [mobileLabFilter, setMobileLabFilter] = useState('ALL'); // 'ALL' | 'CE' | 'CHEM'
   const [mobileViewMode, setMobileViewMode] = useState('grid'); // 'grid' | 'compact'
@@ -47,6 +48,33 @@ export default function EquipmentCatalog() {
   const [selectedItemForReservation, setSelectedItemForReservation] = useState(null);
 
   const scrollContainerRef = useRef(null);
+
+  // Close search when clicking outside
+  useEffect(() => {
+    if (!isSearchOpen) return;
+
+    const handleClickOutside = (e) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setIsSearchOpen(false);
+        if (!searchQuery.trim()) {
+          setSearchQuery('');
+        }
+      }
+    };
+
+    document.addEventListener('pointerdown', handleClickOutside);
+    return () => {
+      document.removeEventListener('pointerdown', handleClickOutside);
+    };
+  }, [isSearchOpen, searchQuery]);
+
+  // Reset filter and search on lab change
+  useEffect(() => {
+    setMobileLabFilter('ALL');
+    setActiveCategory('ALL');
+    setSearchQuery('');
+    setIsSearchOpen(false);
+  }, [selectedLab]);
 
   // Get live inventory from shared storage
   const allEquipment = useMemo(() => getInventory(), []);
@@ -338,52 +366,73 @@ export default function EquipmentCatalog() {
           </button>
 
           {/* Expandable Search Button & Input Box (Directly beside Change Lab) */}
-          {isSearchOpen || searchQuery ? (
-            <div className="relative w-40 sm:w-52 md:w-64 lg:w-72 shrink-0 animate-fade-in">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search apparatus..."
-                autoFocus
-                className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
-                  isDark
-                    ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500 ring-1 ring-cyan-500/20'
-                    : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white ring-1 ring-blue-500/20'
-                }`}
-              />
+          <div ref={searchContainerRef} className="relative flex items-center shrink-0">
+            {isSearchOpen ? (
+              <div className="relative w-44 sm:w-60 md:w-72 lg:w-80 shrink-0 transition-all duration-300 ease-out animate-fade-in">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search apparatus..."
+                  autoFocus
+                  className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all duration-200 ${
+                    isDark
+                      ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500 ring-1 ring-cyan-500/20'
+                      : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white ring-1 ring-blue-500/20'
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSearchQuery('');
+                    setIsSearchOpen(false);
+                  }}
+                  title="Close search"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1.5 cursor-pointer rounded-lg transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : (
               <button
                 type="button"
                 onClick={() => {
-                  setSearchQuery('');
-                  setIsSearchOpen(false);
+                  setIsSearchOpen(true);
+                  setTimeout(() => searchInputRef.current?.focus(), 60);
                 }}
-                title="Close search"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+                title="Search apparatus"
+                className={`h-10 px-3 sm:px-3.5 rounded-xl border flex items-center gap-1.5 transition-all duration-200 active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
+                  searchQuery
+                    ? isDark
+                      ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
+                      : 'bg-blue-50 border-blue-300 text-blue-900'
+                    : isDark
+                    ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-300 hover:border-slate-400'
+                }`}
               >
-                <X className="w-3.5 h-3.5" />
+                <Search className="w-4 h-4 text-slate-400" />
+                <span className="hidden sm:inline text-xs sm:text-sm font-bold">
+                  {searchQuery ? `"${searchQuery}"` : 'Search'}
+                </span>
+                {searchQuery && (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSearchQuery('');
+                    }}
+                    className="ml-1 p-0.5 rounded-full hover:bg-rose-500 hover:text-white transition-colors"
+                    title="Clear filter"
+                  >
+                    <X className="w-3 h-3" />
+                  </span>
+                )}
               </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setIsSearchOpen(true);
-                setTimeout(() => searchInputRef.current?.focus(), 50);
-              }}
-              title="Search apparatus"
-              className={`h-10 px-3 sm:px-3.5 rounded-xl border flex items-center gap-1.5 transition-transform active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
-                isDark
-                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-                  : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-300'
-              }`}
-            >
-              <Search className="w-4 h-4 text-slate-400" />
-              <span className="hidden sm:inline text-xs sm:text-sm font-bold">Search</span>
-            </button>
-          )}
+            )}
+          </div>
 
           {/* Sub-Lab & Category Chips Container (Directly beside Search Bar) */}
           <div className="flex-1 min-w-0 max-w-full overflow-hidden">
