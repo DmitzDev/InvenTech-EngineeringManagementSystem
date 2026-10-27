@@ -69,6 +69,12 @@ try {
     'udd_kiosk_incident_logs',
     'udd_kiosk_incident_logs_v1',
     'udd_kiosk_incident_logs_v2',
+    'udd_student_clearance_holds',
+    'udd_student_clearance_holds_v1',
+    'udd_student_clearance_holds_v2',
+    'udd_student_clearance_holds_v3',
+    'udd_kiosk_clearance_holds',
+    'udd_kiosk_clearance_holds_v1',
   ].forEach((k) => {
     localStorage.removeItem(k);
   });
@@ -1016,16 +1022,15 @@ export function TransactionProvider({ children }) {
       const idMatch =
         cleanSId &&
         cleanTxId &&
-        (cleanTxId === cleanSId ||
-          cleanTxId.includes(cleanSId) ||
-          cleanSId.includes(cleanTxId));
+        cleanSId.length === 9 &&
+        cleanTxId === cleanSId;
 
       const nameMatch =
         sName &&
         txBorrowerName &&
-        (txBorrowerName === sName ||
-          txBorrowerName.includes(sName) ||
-          sName.includes(txBorrowerName));
+        sName.length >= 5 &&
+        sName.includes(' ') &&
+        txBorrowerName === sName;
 
       return Boolean(idMatch || nameMatch);
     });
@@ -1039,16 +1044,15 @@ export function TransactionProvider({ children }) {
       const idMatch =
         cleanSId &&
         cleanHoldId &&
-        (cleanHoldId === cleanSId ||
-          cleanHoldId.includes(cleanSId) ||
-          cleanSId.includes(cleanHoldId));
+        cleanSId.length === 9 &&
+        cleanHoldId === cleanSId;
 
       const nameMatch =
         sName &&
         holdName &&
-        (holdName === sName ||
-          holdName.includes(sName) ||
-          sName.includes(holdName));
+        sName.length >= 5 &&
+        sName.includes(' ') &&
+        holdName === sName;
 
       return Boolean(idMatch || nameMatch);
     });

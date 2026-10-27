@@ -4398,33 +4398,25 @@ export function resolveIncidentLog(id, resolutionNotes = 'Repaired and restored 
 }
 
 // --- STUDENT OVERDUE / CLEARANCE HOLDS MANAGEMENT ---
-const CLEARANCE_HOLDS_STORAGE_KEY = 'udd_student_clearance_holds_v2';
+const CLEARANCE_HOLDS_STORAGE_KEY = 'udd_student_clearance_holds_v4';
 
-export const DEFAULT_STUDENT_CLEARANCE_HOLDS = [
-  {
-    id: 'HOLD-001',
-    studentId: '21-0482-119',
-    studentName: 'MARK JOSHUA DELA CRUZ',
-    reason: 'Unreturned Digital Multimeter & Oscilloscope Probe (Due Sept 18)',
-    date: 'Sept 18, 2026',
-    status: 'ACTIVE_LOCKOUT',
-    items: [
-      { name: 'Digital Multimeter', tagCode: 'ENG-EQ-DMM-001-26', qty: 1, dueDate: 'Sept 18, 2026' },
-      { name: 'Oscilloscope Probe Kit', tagCode: 'ENG-EQ-OSCP-012-26', qty: 1, dueDate: 'Sept 18, 2026' }
-    ]
-  },
-  {
-    id: 'HOLD-002',
-    studentId: '20-1102-045',
-    studentName: 'CHRISTIAN PAUL SANTOS',
-    reason: 'Unreturned Concrete Slump Cone Apparatus (Due Sept 20)',
-    date: 'Sept 20, 2026',
-    status: 'ACTIVE_LOCKOUT',
-    items: [
-      { name: 'Concrete Slump Cone', tagCode: 'ENG-EQ-SLMP-104-26', qty: 1, dueDate: 'Sept 20, 2026' }
-    ]
-  }
-];
+// Purge mock clearance holds from previous test sessions
+try {
+  [
+    'udd_student_clearance_holds',
+    'udd_student_clearance_holds_v1',
+    'udd_student_clearance_holds_v2',
+    'udd_student_clearance_holds_v3',
+    'udd_kiosk_clearance_holds',
+    'udd_kiosk_clearance_holds_v1',
+  ].forEach((k) => {
+    localStorage.removeItem(k);
+  });
+} catch {
+  // ignore
+}
+
+export const DEFAULT_STUDENT_CLEARANCE_HOLDS = [];
 
 export function getStudentClearanceHolds() {
   try {
@@ -4436,7 +4428,7 @@ export function getStudentClearanceHolds() {
   } catch (e) {
     console.warn('Failed to load clearance holds from localStorage', e);
   }
-  return DEFAULT_STUDENT_CLEARANCE_HOLDS;
+  return [];
 }
 
 export function saveStudentClearanceHolds(holds) {
