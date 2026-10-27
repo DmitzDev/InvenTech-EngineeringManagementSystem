@@ -938,108 +938,56 @@ export default function BorrowerForm() {
               )}
             </div>
 
-            {/* Laboratory Schedule Time Selector (Material 3 Android Time Picker) */}
-            <div className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border transition-all ${
-              (hasSubmitted || touched.labTime) && errors.labTime ? 'ring-2 ring-rose-500 border-rose-500' : ''
-            } ${
-              isDark ? 'neu-inset border-slate-800/80 bg-[#080d19]' : 'bg-slate-50 border border-slate-200 shadow-xs'
-            }`}>
-              <div className="flex items-center justify-between gap-2 sm:gap-3">
-                {/* Start Time Card */}
-                <button
-                  type="button"
-                  onClick={() => setActivePicker('start')}
-                  className={`flex-1 p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
-                    isDark
-                      ? 'bg-[#0f172a] hover:bg-[#15213b] border-slate-800 hover:border-cyan-500/50 shadow-sm'
-                      : 'bg-white hover:bg-blue-50/50 border-slate-200 hover:border-blue-400 shadow-xs'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className={`text-[10px] sm:text-xs uppercase font-bold tracking-wider flex items-center gap-1.5 ${
-                      isDark ? 'text-cyan-400' : 'text-blue-700'
+            {/* Laboratory Schedule Time Selector (slim single-row) */}
+            <div className="flex items-center gap-2">
+              {[
+                { key: 'start', label: 'Start', h: startHour, m: startMinute, p: startPeriod },
+                { key: 'end', label: 'End', h: endHour, m: endMinute, p: endPeriod },
+              ].map((t, idx) => (
+                <React.Fragment key={t.key}>
+                  {idx === 1 && (
+                    <span className={`text-[10px] sm:text-xs font-bold uppercase shrink-0 ${
+                      isDark ? 'text-slate-500' : 'text-slate-400'
                     }`}>
-                      <Clock className="w-3.5 h-3.5" /> Start Time
+                      to
                     </span>
-                    {startHour ? (
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                        startPeriod === 'AM'
-                          ? isDark ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20' : 'text-amber-800 bg-amber-100 border border-amber-200'
-                          : isDark ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/20' : 'text-blue-800 bg-blue-100 border border-blue-200'
-                      }`}>
-                        {startPeriod}
-                      </span>
-                    ) : (
-                      <span className={`text-[9px] font-medium tracking-wide ${
-                        isDark ? 'text-slate-500' : 'text-slate-400'
-                      }`}>
-                        Tap to set
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-baseline gap-1 font-mono">
-                    <span className={`text-xl sm:text-2xl font-black tracking-tight ${
-                      startHour
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setActivePicker(t.key)}
+                    className={`flex-1 h-9 sm:h-11 px-2.5 sm:px-3 rounded-lg sm:rounded-xl border flex items-center gap-2 cursor-pointer transition-colors ${
+                      (hasSubmitted || touched.labTime) && errors.labTime
+                        ? 'border-rose-500 ring-1 ring-rose-500'
+                        : isDark
+                        ? 'border-slate-800 hover:border-cyan-500/60'
+                        : 'border-slate-300 hover:border-blue-400'
+                    } ${isDark ? 'neu-inset bg-[#0e1422]' : 'bg-white shadow-xs'}`}
+                  >
+                    <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+                    <span className={`text-[9px] sm:text-[11px] font-bold uppercase tracking-wide ${
+                      isDark ? 'text-slate-400' : 'text-slate-500'
+                    }`}>
+                      {t.label}
+                    </span>
+                    <span className={`ml-auto font-mono text-sm sm:text-base font-extrabold ${
+                      t.h
                         ? isDark ? 'text-slate-100' : 'text-slate-900'
                         : isDark ? 'text-slate-600' : 'text-slate-300'
                     }`}>
-                      {startHour ? `${startHour}:${startMinute || '00'}` : '--:--'}
+                      {t.h ? `${t.h}:${t.m || '00'}` : '--:--'}
                     </span>
-                  </div>
-                </button>
-
-                {/* "to" separator */}
-                <div className="flex flex-col items-center justify-center shrink-0 px-1">
-                  <span className={`text-[11px] sm:text-xs font-black uppercase tracking-widest select-none ${
-                    isDark ? 'text-slate-400' : 'text-slate-500'
-                  }`}>
-                    to
-                  </span>
-                </div>
-
-                {/* End Time Card */}
-                <button
-                  type="button"
-                  onClick={() => setActivePicker('end')}
-                  className={`flex-1 p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
-                    isDark
-                      ? 'bg-[#0f172a] hover:bg-[#15213b] border-slate-800 hover:border-cyan-500/50 shadow-sm'
-                      : 'bg-white hover:bg-blue-50/50 border-slate-200 hover:border-blue-400 shadow-xs'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className={`text-[10px] sm:text-xs uppercase font-bold tracking-wider flex items-center gap-1.5 ${
-                      isDark ? 'text-cyan-400' : 'text-blue-700'
-                    }`}>
-                      <Clock className="w-3.5 h-3.5" /> End Time
-                    </span>
-                    {endHour ? (
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                        endPeriod === 'AM'
-                          ? isDark ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20' : 'text-amber-800 bg-amber-100 border border-amber-200'
-                          : isDark ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/20' : 'text-blue-800 bg-blue-100 border border-blue-200'
+                    {t.h && (
+                      <span className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                        t.p === 'AM'
+                          ? isDark ? 'text-amber-400 bg-amber-500/10' : 'text-amber-800 bg-amber-100'
+                          : isDark ? 'text-cyan-400 bg-cyan-500/10' : 'text-blue-800 bg-blue-100'
                       }`}>
-                        {endPeriod}
-                      </span>
-                    ) : (
-                      <span className={`text-[9px] font-medium tracking-wide ${
-                        isDark ? 'text-slate-500' : 'text-slate-400'
-                      }`}>
-                        Tap to set
+                        {t.p}
                       </span>
                     )}
-                  </div>
-                  <div className="flex items-baseline gap-1 font-mono">
-                    <span className={`text-xl sm:text-2xl font-black tracking-tight ${
-                      endHour
-                        ? isDark ? 'text-slate-100' : 'text-slate-900'
-                        : isDark ? 'text-slate-600' : 'text-slate-300'
-                    }`}>
-                      {endHour ? `${endHour}:${endMinute || '00'}` : '--:--'}
-                    </span>
-                  </div>
-                </button>
-              </div>
+                  </button>
+                </React.Fragment>
+              ))}
             </div>
 
             {(hasSubmitted || touched.labTime) && errors.labTime && (
