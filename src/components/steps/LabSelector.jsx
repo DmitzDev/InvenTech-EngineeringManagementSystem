@@ -118,9 +118,7 @@ export default function LabSelector() {
                 <p className={`text-xs font-bold mt-1 uppercase tracking-wider ${
                   isDark ? 'text-cyan-400' : 'text-slate-700'
                 }`}>
-                  {lab.id === 'DIGITAL'
-                    ? `Consumables & ECE • ${itemCount} Items`
-                    : `${lab.shortName} • ${itemCount} Items`}
+                  {itemCount} Items Available
                 </p>
                 <p className={`text-xs mt-2 line-clamp-3 leading-relaxed ${
                   isDark ? 'text-slate-300' : 'text-slate-600 font-medium'

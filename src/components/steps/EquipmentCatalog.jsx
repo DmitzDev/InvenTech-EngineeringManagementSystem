@@ -333,14 +333,11 @@ export default function EquipmentCatalog() {
             <span>Change Lab</span>
           </button>
 
-          <div className="flex items-center gap-2 truncate">
-            <span className={`text-xs font-mono font-black px-2.5 py-1 rounded-lg border shrink-0 ${
-              isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' : 'bg-blue-50 text-blue-800 border-blue-200'
-            }`}>
-              {currentLabInfo.shortName}
-            </span>
-            <span className={`text-xs sm:text-sm font-bold truncate hidden md:inline ${
-              isDark ? 'text-slate-200' : 'text-slate-800'
+          <div className="flex items-center min-w-0">
+            <span className={`text-xs sm:text-sm font-extrabold px-3 py-1.5 rounded-xl border truncate ${
+              isDark
+                ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'
+                : 'bg-blue-50 text-blue-900 border-blue-200'
             }`}>
               {currentLabInfo.name}
             </span>
@@ -465,7 +462,7 @@ export default function EquipmentCatalog() {
 
             {/* Sub-Lab switcher for Digital Lab: Consumables & ECE Inventory */}
             {(selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') && (
-              <div className="flex items-center gap-1.5 shrink-0 pr-2 border-r border-slate-300 dark:border-slate-700">
+              <div className="flex items-center gap-1.5 shrink-0">
                 {[
                   { id: 'ALL', label: `All (${subLabCounts.total})` },
                   { id: 'DIGITAL', label: `Consumables (${subLabCounts.digCount})` },
@@ -492,8 +489,8 @@ export default function EquipmentCatalog() {
               </div>
             )}
 
-            {/* Category Filter Chips */}
-            {categories.map((cat) => (
+            {/* Category Filter Chips for other laboratories */}
+            {selectedLab !== 'DIGITAL' && selectedLab !== 'DIGITAL_ECE' && categories.map((cat) => (
               <button
                 key={cat}
                 type="button"
