@@ -969,46 +969,49 @@ export default function BorrowerForm() {
                 <button
                   type="button"
                   onClick={() => setActivePicker('start')}
-                  className={`flex-1 p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
+                  className={`flex-1 p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
                     isDark
                       ? 'bg-[#0f172a] hover:bg-[#15213b] border-slate-800 hover:border-cyan-500/50 shadow-sm'
                       : 'bg-white hover:bg-blue-50/50 border-slate-200 hover:border-blue-400 shadow-xs'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center justify-between mb-1.5">
                     <span className={`text-[10px] sm:text-xs uppercase font-bold tracking-wider flex items-center gap-1.5 ${
                       isDark ? 'text-cyan-400' : 'text-blue-700'
                     }`}>
                       <Clock className="w-3.5 h-3.5" /> Start Time
                     </span>
-                    <span className={`text-[9.5px] font-bold px-2 py-0.5 rounded-md ${
-                      startPeriod === 'AM'
-                        ? isDark ? 'text-amber-400 bg-amber-500/10' : 'text-amber-800 bg-amber-100'
-                        : isDark ? 'text-cyan-400 bg-cyan-500/10' : 'text-blue-800 bg-blue-100'
-                    }`}>
-                      {startPeriod || 'AM'}
-                    </span>
+                    {startHour ? (
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                        startPeriod === 'AM'
+                          ? isDark ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20' : 'text-amber-800 bg-amber-100 border border-amber-200'
+                          : isDark ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/20' : 'text-blue-800 bg-blue-100 border border-blue-200'
+                      }`}>
+                        {startPeriod}
+                      </span>
+                    ) : (
+                      <span className={`text-[9px] font-medium tracking-wide ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>
+                        Tap to set
+                      </span>
+                    )}
                   </div>
-                  <div className="flex items-baseline gap-1.5 font-mono">
+                  <div className="flex items-baseline gap-1 font-mono">
                     <span className={`text-xl sm:text-2xl font-black tracking-tight ${
                       startHour
                         ? isDark ? 'text-slate-100' : 'text-slate-900'
-                        : isDark ? 'text-slate-500' : 'text-slate-400'
+                        : isDark ? 'text-slate-600' : 'text-slate-300'
                     }`}>
                       {startHour ? `${startHour}:${startMinute || '00'}` : '--:--'}
-                    </span>
-                    <span className={`text-[10px] font-bold ${
-                      isDark ? 'text-slate-400' : 'text-slate-500'
-                    }`}>
-                      {startPeriod || 'AM'}
                     </span>
                   </div>
                 </button>
 
                 {/* "to" separator */}
-                <div className="flex flex-col items-center justify-center shrink-0">
-                  <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest px-1 select-none ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
+                <div className="flex flex-col items-center justify-center shrink-0 px-1">
+                  <span className={`text-[11px] sm:text-xs font-black uppercase tracking-widest select-none ${
+                    isDark ? 'text-slate-400' : 'text-slate-500'
                   }`}>
                     to
                   </span>
@@ -1018,38 +1021,41 @@ export default function BorrowerForm() {
                 <button
                   type="button"
                   onClick={() => setActivePicker('end')}
-                  className={`flex-1 p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
+                  className={`flex-1 p-3 rounded-xl border text-left transition-all cursor-pointer group active:scale-[0.98] ${
                     isDark
                       ? 'bg-[#0f172a] hover:bg-[#15213b] border-slate-800 hover:border-cyan-500/50 shadow-sm'
                       : 'bg-white hover:bg-blue-50/50 border-slate-200 hover:border-blue-400 shadow-xs'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center justify-between mb-1.5">
                     <span className={`text-[10px] sm:text-xs uppercase font-bold tracking-wider flex items-center gap-1.5 ${
                       isDark ? 'text-cyan-400' : 'text-blue-700'
                     }`}>
                       <Clock className="w-3.5 h-3.5" /> End Time
                     </span>
-                    <span className={`text-[9.5px] font-bold px-2 py-0.5 rounded-md ${
-                      endPeriod === 'AM'
-                        ? isDark ? 'text-amber-400 bg-amber-500/10' : 'text-amber-800 bg-amber-100'
-                        : isDark ? 'text-cyan-400 bg-cyan-500/10' : 'text-blue-800 bg-blue-100'
-                    }`}>
-                      {endPeriod || 'AM'}
-                    </span>
+                    {endHour ? (
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                        endPeriod === 'AM'
+                          ? isDark ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20' : 'text-amber-800 bg-amber-100 border border-amber-200'
+                          : isDark ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/20' : 'text-blue-800 bg-blue-100 border border-blue-200'
+                      }`}>
+                        {endPeriod}
+                      </span>
+                    ) : (
+                      <span className={`text-[9px] font-medium tracking-wide ${
+                        isDark ? 'text-slate-500' : 'text-slate-400'
+                      }`}>
+                        Tap to set
+                      </span>
+                    )}
                   </div>
-                  <div className="flex items-baseline gap-1.5 font-mono">
+                  <div className="flex items-baseline gap-1 font-mono">
                     <span className={`text-xl sm:text-2xl font-black tracking-tight ${
                       endHour
                         ? isDark ? 'text-slate-100' : 'text-slate-900'
-                        : isDark ? 'text-slate-500' : 'text-slate-400'
+                        : isDark ? 'text-slate-600' : 'text-slate-300'
                     }`}>
                       {endHour ? `${endHour}:${endMinute || '00'}` : '--:--'}
-                    </span>
-                    <span className={`text-[10px] font-bold ${
-                      isDark ? 'text-slate-400' : 'text-slate-500'
-                    }`}>
-                      {endPeriod || 'AM'}
                     </span>
                   </div>
                 </button>

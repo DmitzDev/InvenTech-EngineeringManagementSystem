@@ -3,17 +3,17 @@ import { Keyboard, Clock } from 'lucide-react';
 
 /**
  * MaterialTimePicker
- * 1:1 Recreation of Android Material 3 Time Picker Dialog
+ * 1:1 Pixel-Accurate Recreation of Android Material 3 Time Picker Dialog
  * Features:
- * - 24-hour dual-ring clock dial (Outer: 1-12, Inner: 00, 13-23)
- * - Auto-advances from Hour selection to Minute selection on release
- * - Interactive touch / drag / click tracking with accurate angles
- * - Mode toggle between Dial and Keyboard manual numeric entry
- * - "Clear", "Cancel", "Set" action buttons
+ * - Clean matte header with thin time digits (00:27 style)
+ * - True 24-hour dual-ring clock face (Outer: 1-12, Inner: 00, 13-23)
+ * - Properly centered pivot dot and indicator hand line
+ * - Seamless pointer tracking and auto-advance to minute on release
+ * - Keyboard manual numeric entry toggle
+ * - Clean "Clear", "Cancel", "Set" actions
  */
 export default function MaterialTimePicker({
   isOpen,
-  title = 'Select time',
   initialHour24 = 8,
   initialMinute = 0,
   onSave,
@@ -24,15 +24,14 @@ export default function MaterialTimePicker({
   const [inputStyle, setInputStyle] = useState('dial'); // 'dial' | 'keyboard'
   const [selectedHour, setSelectedHour] = useState(initialHour24);
   const [selectedMinute, setSelectedMinute] = useState(initialMinute);
-  const [isDragging, setIsDragging] = useState(false);
 
-  // Manual keyboard input temp states
+  // Manual keyboard temp values
   const [manualHour, setManualHour] = useState('');
   const [manualMinute, setManualMinute] = useState('');
 
   const dialRef = useRef(null);
 
-  // Sync state whenever modal opens or initial values change
+  // Sync state whenever modal opens
   useEffect(() => {
     if (isOpen) {
       const h = Number.isInteger(initialHour24) ? Math.max(0, Math.min(23, initialHour24)) : 8;
@@ -46,13 +45,11 @@ export default function MaterialTimePicker({
     }
   }, [isOpen, initialHour24, initialMinute]);
 
-  // Update manual inputs when dial changes
   useEffect(() => {
     setManualHour(String(selectedHour).padStart(2, '0'));
     setManualMinute(String(selectedMinute).padStart(2, '0'));
   }, [selectedHour, selectedMinute]);
 
-  // Calculate hour/minute from pointer event on dial
   const handleDialPointer = useCallback(
     (e, isRelease = false) => {
       if (!dialRef.current) return;
@@ -67,31 +64,27 @@ export default function MaterialTimePicker({
       const dy = clientY - centerY;
       const dist = Math.hypot(dx, dy);
 
-      // Angle in degrees (0° = 12 o'clock, 90° = 3 o'clock, 180° = 6 o'clock, 270° = 9 o'clock)
+      // Angle in degrees (0° = 12 o'clock / top, clockwise)
       let angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
       if (angle < 0) angle += 360;
 
       if (mode === 'hour') {
-        // Outer ring: radius ~92px, Inner ring: radius ~58px. Boundary at 75px
-        const isInner = dist < 75;
+        // Outer ring radius: 96px, Inner ring radius: 56px. Boundary: 76px
+        const isInner = dist < 76;
         const index = Math.round(angle / 30) % 12; // 0..11
 
         let hourVal;
         if (isInner) {
-          // Inner: 00 at 0°, 13 at 30°, 14 at 60° ... 23 at 330°
           hourVal = index === 0 ? 0 : index + 12;
         } else {
-          // Outer: 12 at 0°, 1 at 30°, 2 at 60° ... 11 at 330°
           hourVal = index === 0 ? 12 : index;
         }
         setSelectedHour(hourVal);
 
-        // Auto advance to minute when released
         if (isRelease) {
           setMode('minute');
         }
       } else {
-        // Minute mode: 60 minutes around the circle
         const minuteVal = Math.round(angle / 6) % 60;
         setSelectedMinute(minuteVal);
       }
@@ -100,7 +93,6 @@ export default function MaterialTimePicker({
   );
 
   const onPointerDown = (e) => {
-    setIsDragging(true);
     handleDialPointer(e, false);
     window.addEventListener('pointermove', onGlobalPointerMove);
     window.addEventListener('pointerup', onGlobalPointerUp);
@@ -111,13 +103,11 @@ export default function MaterialTimePicker({
   };
 
   const onGlobalPointerUp = (e) => {
-    setIsDragging(false);
     handleDialPointer(e, true);
     window.removeEventListener('pointermove', onGlobalPointerMove);
     window.removeEventListener('pointerup', onGlobalPointerUp);
   };
 
-  // Clean up global listeners on unmount
   useEffect(() => {
     return () => {
       window.removeEventListener('pointermove', onGlobalPointerMove);
@@ -127,30 +117,38 @@ export default function MaterialTimePicker({
 
   if (!isOpen) return null;
 
-  // Geometry calculations for selected indicator
-  const dialRadius = 128; // dial is 256px diameter
+  // Geometry calculations
+  const dialRadius = 128; // 256px / 2
   let handAngle = 0;
-  let handRadius = 92; // default outer ring
+  let handRadius = 96;
 
   if (mode === 'hour') {
     const isInner = selectedHour === 0 || selectedHour >= 13;
-    handRadius = isInner ? 58 : 92;
+    handRadius = isInner ? 56 : 96;
     if (isInner) {
       handAngle = (selectedHour === 0 ? 0 : selectedHour - 12) * 30;
     } else {
       handAngle = (selectedHour === 12 ? 0 : selectedHour) * 30;
     }
   } else {
-    handRadius = 92;
+    handRadius = 96;
     handAngle = selectedMinute * 6;
   }
 
-  // Convert degrees to radians for hand position
   const rad = ((handAngle - 90) * Math.PI) / 180;
   const targetX = dialRadius + handRadius * Math.cos(rad);
   const targetY = dialRadius + handRadius * Math.sin(rad);
 
-  // Outer and Inner hour definitions for dial display
+  // Selected label inside bubble
+  let selectedBubbleLabel = '';
+  if (mode === 'hour') {
+    if (selectedHour === 0) selectedBubbleLabel = '00';
+    else selectedBubbleLabel = String(selectedHour);
+  } else {
+    selectedBubbleLabel = String(selectedMinute).padStart(2, '0');
+  }
+
+  // Hours definition
   const outerHours = [
     { label: '12', hour: 12, angle: 0 },
     { label: '1', hour: 1, angle: 30 },
@@ -207,7 +205,6 @@ export default function MaterialTimePicker({
       if (!isNaN(parsedM)) finalM = Math.max(0, Math.min(59, parsedM));
     }
 
-    // Convert to 12-hour format for system compatibility
     let h12 = finalH % 12;
     if (h12 === 0) h12 = 12;
     const period = finalH >= 12 ? 'PM' : 'AM';
@@ -234,41 +231,30 @@ export default function MaterialTimePicker({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[328px] bg-[#212327] rounded-[28px] shadow-2xl border border-white/10 overflow-hidden select-none"
+        className="w-full max-w-[320px] bg-[#222428] rounded-[28px] shadow-2xl border border-white/5 overflow-hidden select-none"
         onClick={(e) => e.stopPropagation()}
         style={{
-          boxShadow: '0 20px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06)',
+          boxShadow: '0 24px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)',
         }}
       >
-        {/* Top Header Card (Lighter charcoal with huge centered time) */}
-        <div className="bg-[#34373c] pt-5 pb-4 px-6 rounded-t-[28px] flex flex-col items-center justify-center">
-          {title && (
-            <span className="text-[11px] font-medium tracking-wider uppercase text-slate-300 mb-1">
-              {title}
-            </span>
-          )}
-
-          {/* Time digits */}
-          <div className="flex items-center justify-center gap-1 font-sans text-5xl font-light text-[#e2e3e5] tracking-tight">
+        {/* Top Header Card (Lighter charcoal with huge clean time display 00:27) */}
+        <div className="bg-[#35373c] py-7 px-6 rounded-t-[28px] flex items-center justify-center">
+          <div className="flex items-center justify-center font-sans text-5xl font-light tracking-tight select-none">
             <button
               type="button"
               onClick={() => setMode('hour')}
-              className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                mode === 'hour'
-                  ? 'bg-[#434850] text-[#a8c7fa] font-normal shadow-xs'
-                  : 'hover:bg-white/5 text-[#e2e3e5]'
+              className={`transition-colors cursor-pointer px-1 ${
+                mode === 'hour' ? 'text-white font-normal' : 'text-[#8e9299] hover:text-[#c4c7cc]'
               }`}
             >
               {String(selectedHour).padStart(2, '0')}
             </button>
-            <span className="text-[#a8c7fa] font-light -mt-1">:</span>
+            <span className="text-[#8e9299] font-light pb-1">:</span>
             <button
               type="button"
               onClick={() => setMode('minute')}
-              className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
-                mode === 'minute'
-                  ? 'bg-[#434850] text-[#a8c7fa] font-normal shadow-xs'
-                  : 'hover:bg-white/5 text-[#e2e3e5]'
+              className={`transition-colors cursor-pointer px-1 ${
+                mode === 'minute' ? 'text-white font-normal' : 'text-[#8e9299] hover:text-[#c4c7cc]'
               }`}
             >
               {String(selectedMinute).padStart(2, '0')}
@@ -277,17 +263,14 @@ export default function MaterialTimePicker({
         </div>
 
         {/* Content Body: Dial or Keyboard mode */}
-        <div className="p-5 flex flex-col items-center justify-center bg-[#212327]">
+        <div className="pt-6 pb-4 px-6 flex flex-col items-center justify-center bg-[#222428]">
           {inputStyle === 'dial' ? (
             /* Dial Circle Plate */
             <div
               ref={dialRef}
               onPointerDown={onPointerDown}
-              className="relative w-64 h-64 rounded-full bg-[#3b3e44] cursor-pointer touch-none select-none flex items-center justify-center shadow-inner"
+              className="relative w-64 h-64 rounded-full bg-[#3c3e44] cursor-pointer touch-none select-none shadow-inner"
             >
-              {/* Dial Center Pivot Dot */}
-              <div className="absolute w-2 h-2 rounded-full bg-[#a8c7fa] z-10 pointer-events-none" />
-
               {/* Dial Hand Line (from center to target) */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
                 <line
@@ -300,18 +283,27 @@ export default function MaterialTimePicker({
                 />
               </svg>
 
-              {/* Selected Value Indicator Circle (Material You light blue bubble) */}
+              {/* Exact Center Pivot Dot */}
+              <div
+                className="absolute w-2 h-2 rounded-full bg-[#a8c7fa] z-20 pointer-events-none"
+                style={{
+                  left: `${dialRadius}px`,
+                  top: `${dialRadius}px`,
+                  transform: 'translate(-50%, -50%)',
+                }}
+              />
+
+              {/* Selected Value Indicator Circle (Light blue bubble replacing the number) */}
               <div
                 className="absolute w-[36px] h-[36px] rounded-full bg-[#a8c7fa] flex items-center justify-center z-20 pointer-events-none shadow-md"
                 style={{
-                  left: `${targetX - 18}px`,
-                  top: `${targetY - 18}px`,
+                  left: `${targetX}px`,
+                  top: `${targetY}px`,
+                  transform: 'translate(-50%, -50%)',
                 }}
               >
                 <span className="font-sans font-bold text-sm text-[#041e49]">
-                  {mode === 'hour'
-                    ? String(selectedHour).padStart(2, '0')
-                    : String(selectedMinute).padStart(2, '0')}
+                  {selectedBubbleLabel}
                 </span>
               </div>
 
@@ -320,7 +312,7 @@ export default function MaterialTimePicker({
                 <>
                   {/* Outer Hours: 12, 1..11 */}
                   {outerHours.map(({ label, hour, angle }) => {
-                    const r = 92;
+                    const r = 96;
                     const radA = ((angle - 90) * Math.PI) / 180;
                     const x = dialRadius + r * Math.cos(radA);
                     const y = dialRadius + r * Math.sin(radA);
@@ -329,10 +321,14 @@ export default function MaterialTimePicker({
                     return (
                       <div
                         key={`outer-${label}`}
-                        className={`absolute w-7 h-7 -ml-3.5 -mt-3.5 flex items-center justify-center text-[13px] font-sans font-medium pointer-events-none ${
-                          isSelected ? 'opacity-0' : 'text-[#c7c9cf]'
+                        className={`absolute w-7 h-7 flex items-center justify-center text-[14px] font-sans font-medium pointer-events-none transition-opacity duration-150 ${
+                          isSelected ? 'opacity-0' : 'text-[#c5c7ce]'
                         }`}
-                        style={{ left: `${x}px`, top: `${y}px` }}
+                        style={{
+                          left: `${x}px`,
+                          top: `${y}px`,
+                          transform: 'translate(-50%, -50%)',
+                        }}
                       >
                         {label}
                       </div>
@@ -341,7 +337,7 @@ export default function MaterialTimePicker({
 
                   {/* Inner Hours: 00, 13..23 */}
                   {innerHours.map(({ label, hour, angle }) => {
-                    const r = 58;
+                    const r = 56;
                     const radA = ((angle - 90) * Math.PI) / 180;
                     const x = dialRadius + r * Math.cos(radA);
                     const y = dialRadius + r * Math.sin(radA);
@@ -350,10 +346,14 @@ export default function MaterialTimePicker({
                     return (
                       <div
                         key={`inner-${label}`}
-                        className={`absolute w-6 h-6 -ml-3 -mt-3 flex items-center justify-center text-[11px] font-sans font-medium pointer-events-none ${
-                          isSelected ? 'opacity-0' : 'text-[#9fa3a9]'
+                        className={`absolute w-6 h-6 flex items-center justify-center text-[12px] font-sans font-medium pointer-events-none transition-opacity duration-150 ${
+                          isSelected ? 'opacity-0' : 'text-[#8e9299]'
                         }`}
-                        style={{ left: `${x}px`, top: `${y}px` }}
+                        style={{
+                          left: `${x}px`,
+                          top: `${y}px`,
+                          transform: 'translate(-50%, -50%)',
+                        }}
                       >
                         {label}
                       </div>
@@ -363,7 +363,7 @@ export default function MaterialTimePicker({
               ) : (
                 /* Minutes Dial: 00, 05, 10..55 */
                 minutesList.map(({ label, min, angle }) => {
-                  const r = 92;
+                  const r = 96;
                   const radA = ((angle - 90) * Math.PI) / 180;
                   const x = dialRadius + r * Math.cos(radA);
                   const y = dialRadius + r * Math.sin(radA);
@@ -372,10 +372,14 @@ export default function MaterialTimePicker({
                   return (
                     <div
                       key={`min-${label}`}
-                      className={`absolute w-7 h-7 -ml-3.5 -mt-3.5 flex items-center justify-center text-[13px] font-sans font-medium pointer-events-none ${
-                        isSelected ? 'opacity-0' : 'text-[#c7c9cf]'
+                      className={`absolute w-7 h-7 flex items-center justify-center text-[14px] font-sans font-medium pointer-events-none transition-opacity duration-150 ${
+                        isSelected ? 'opacity-0' : 'text-[#c5c7ce]'
                       }`}
-                      style={{ left: `${x}px`, top: `${y}px` }}
+                      style={{
+                        left: `${x}px`,
+                        top: `${y}px`,
+                        transform: 'translate(-50%, -50%)',
+                      }}
                     >
                       {label}
                     </div>
@@ -401,7 +405,7 @@ export default function MaterialTimePicker({
                     const n = parseInt(v, 10);
                     if (!isNaN(n)) setSelectedHour(Math.max(0, Math.min(23, n)));
                   }}
-                  className="w-20 h-16 rounded-xl bg-[#3b3e44] text-center font-mono text-3xl font-bold text-[#a8c7fa] border border-white/10 focus:border-[#a8c7fa] focus:outline-none"
+                  className="w-20 h-16 rounded-xl bg-[#3c3e44] text-center font-mono text-3xl font-bold text-[#a8c7fa] border border-white/10 focus:border-[#a8c7fa] focus:outline-none"
                   placeholder="00"
                 />
                 <span className="text-3xl text-slate-400 font-bold">:</span>
@@ -416,7 +420,7 @@ export default function MaterialTimePicker({
                     const n = parseInt(v, 10);
                     if (!isNaN(n)) setSelectedMinute(Math.max(0, Math.min(59, n)));
                   }}
-                  className="w-20 h-16 rounded-xl bg-[#3b3e44] text-center font-mono text-3xl font-bold text-[#a8c7fa] border border-white/10 focus:border-[#a8c7fa] focus:outline-none"
+                  className="w-20 h-16 rounded-xl bg-[#3c3e44] text-center font-mono text-3xl font-bold text-[#a8c7fa] border border-white/10 focus:border-[#a8c7fa] focus:outline-none"
                   placeholder="00"
                 />
               </div>
@@ -425,12 +429,12 @@ export default function MaterialTimePicker({
         </div>
 
         {/* Bottom Action Footer */}
-        <div className="px-5 py-3.5 flex items-center justify-between border-t border-white/5 bg-[#212327]">
+        <div className="px-5 py-4 flex items-center justify-between bg-[#222428]">
           {/* Toggle Dial / Keyboard icon */}
           <button
             type="button"
             onClick={() => setInputStyle((prev) => (prev === 'dial' ? 'keyboard' : 'dial'))}
-            className="p-2 rounded-full text-[#a8c7fa] hover:bg-white/10 transition-colors cursor-pointer active:scale-95"
+            className="p-1 text-[#a8c7fa] hover:text-[#d3e3fd] transition-colors cursor-pointer active:scale-95"
             title={inputStyle === 'dial' ? 'Switch to text input' : 'Switch to dial picker'}
           >
             {inputStyle === 'dial' ? (
@@ -441,25 +445,25 @@ export default function MaterialTimePicker({
           </button>
 
           {/* Action text buttons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={handleClear}
-              className="px-2 py-1.5 text-sm font-medium text-[#a8c7fa] hover:text-[#d3e3fd] hover:bg-white/5 rounded-md transition-colors cursor-pointer"
+              className="text-sm font-medium text-[#a8c7fa] hover:text-[#d3e3fd] transition-colors cursor-pointer"
             >
               Clear
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="px-2 py-1.5 text-sm font-medium text-[#a8c7fa] hover:text-[#d3e3fd] hover:bg-white/5 rounded-md transition-colors cursor-pointer"
+              className="text-sm font-medium text-[#a8c7fa] hover:text-[#d3e3fd] transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={handleSave}
-              className="px-3 py-1.5 text-sm font-bold text-[#a8c7fa] hover:text-[#d3e3fd] hover:bg-white/5 rounded-md transition-colors cursor-pointer"
+              className="text-sm font-medium text-[#a8c7fa] hover:text-[#d3e3fd] transition-colors cursor-pointer"
             >
               Set
             </button>
