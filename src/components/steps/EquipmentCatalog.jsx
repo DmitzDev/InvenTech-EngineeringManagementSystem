@@ -314,33 +314,102 @@ export default function EquipmentCatalog() {
 
   return (
     <div className="flex-1 max-w-[1720px] mx-auto w-full max-w-full overflow-x-hidden p-2 sm:p-3 lg:p-4 flex flex-col justify-between select-none min-h-0 relative">
-      {/* 1. Header Navigation Bar (Clean 15" Kiosk & Mobile Header) */}
-      <div className={`p-2 sm:p-2.5 rounded-2xl border mb-2 flex items-center justify-between gap-2.5 shrink-0 shadow-xs ${
+      {/* 1. Master Control Toolbar: Change Lab + Instant Search + Filter Chips + Cart */}
+      <div className={`p-2 sm:p-2.5 rounded-2xl border mb-2 flex items-center justify-between gap-2 shrink-0 shadow-xs ${
         isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200'
       }`}>
-        {/* Left: Change Lab Breadcrumb */}
-        <div className="flex items-center gap-2 min-w-0">
+        {/* Left: Change Lab + Search Box + Chips Container */}
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          {/* Change Lab Button */}
           <button
             type="button"
             onClick={() => setStep(2)}
-            className={`h-10 px-3.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-transform active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
+            className={`h-10 px-3 sm:px-3.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-transform active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
               isDark
                 ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
                 : 'bg-slate-50 border-slate-300 text-slate-700 hover:bg-slate-100'
             }`}
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Change Lab</span>
+            <span className="hidden sm:inline">Change Lab</span>
+            <span className="sm:hidden">Lab</span>
           </button>
 
-          <div className="flex items-center min-w-0">
-            <span className={`text-xs sm:text-sm font-extrabold px-3 py-1.5 rounded-xl border truncate ${
-              isDark
-                ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'
-                : 'bg-blue-50 text-blue-900 border-blue-200'
-            }`}>
-              {currentLabInfo.name}
-            </span>
+          {/* Instant Search Box (Directly beside Change Lab) */}
+          <div className="relative w-36 sm:w-48 md:w-60 lg:w-72 shrink-0">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search apparatus..."
+              className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
+                isDark
+                  ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500'
+                  : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white'
+              }`}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Sub-Lab & Category Chips Container (Directly beside Search Bar) */}
+          <div className="flex-1 min-w-0 max-w-full overflow-hidden">
+            <div className="flex items-center gap-1.5 overflow-x-auto touch-pan-x scroll-smooth py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {/* Sub-Lab switcher for Digital Lab: Consumables & ECE Inventory */}
+              {(selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {[
+                    { id: 'ALL', label: `All (${subLabCounts.total})` },
+                    { id: 'DIGITAL', label: `Consumables (${subLabCounts.digCount})` },
+                    { id: 'ECE', label: `ECE Inventory (${subLabCounts.eceCount})` },
+                  ].map((sub) => (
+                    <button
+                      key={sub.id}
+                      type="button"
+                      onClick={() => {
+                        setMobileLabFilter(sub.id);
+                        setActiveCategory('ALL');
+                      }}
+                      className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer ${
+                        mobileLabFilter === sub.id
+                          ? 'bg-blue-600 text-white shadow-xs'
+                          : isDark
+                          ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      }`}
+                    >
+                      {sub.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Category Filter Chips for other laboratories */}
+              {selectedLab !== 'DIGITAL' && selectedLab !== 'DIGITAL_ECE' && categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 whitespace-nowrap transition-transform active:scale-[0.97] cursor-pointer ${
+                    activeCategory === cat
+                      ? 'bg-slate-900 dark:bg-cyan-500 text-white dark:text-slate-950 font-black shadow-xs'
+                      : isDark
+                      ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -399,117 +468,6 @@ export default function EquipmentCatalog() {
         </div>
       </div>
 
-      {/* 2. Fast Search & Category Filters (Responsive & Horizontal Swipe on Touch) */}
-      <div className={`p-2 sm:p-2.5 rounded-2xl border mb-2 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 shrink-0 shadow-xs ${
-        isDark ? 'bg-[#0f172a] border-slate-800' : 'bg-white border-slate-200'
-      }`}>
-        {/* Instant Search Box */}
-        <div className="relative w-full md:w-72 lg:w-80 shrink-0">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search apparatus..."
-            className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
-              isDark
-                ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500'
-                : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white'
-            }`}
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
-
-        {/* Sub-Lab & Category Chips Container */}
-        <div className="flex-1 min-w-0 max-w-full overflow-hidden">
-          <div className="flex items-center gap-1.5 overflow-x-auto touch-pan-x scroll-smooth py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {/* Sub-Lab switcher for CE_CHEM */}
-            {selectedLab === 'CE_CHEM' && (
-              <div className="flex items-center gap-1.5 shrink-0 pr-2 border-r border-slate-300 dark:border-slate-700">
-                {[
-                  { id: 'ALL', label: `All (${subLabCounts.total})` },
-                  { id: 'CE', label: `Civil (${subLabCounts.ceCount})` },
-                  { id: 'CHEM', label: `Chem (${subLabCounts.chemCount})` },
-                ].map((sub) => (
-                  <button
-                    key={sub.id}
-                    type="button"
-                    onClick={() => {
-                      setMobileLabFilter(sub.id);
-                      setActiveCategory('ALL');
-                    }}
-                    className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer ${
-                      mobileLabFilter === sub.id
-                        ? 'bg-blue-600 text-white shadow-xs'
-                        : isDark
-                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
-                  >
-                    {sub.label}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Sub-Lab switcher for Digital Lab: Consumables & ECE Inventory */}
-            {(selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') && (
-              <div className="flex items-center gap-1.5 shrink-0">
-                {[
-                  { id: 'ALL', label: `All (${subLabCounts.total})` },
-                  { id: 'DIGITAL', label: `Consumables (${subLabCounts.digCount})` },
-                  { id: 'ECE', label: `ECE Inventory (${subLabCounts.eceCount})` },
-                ].map((sub) => (
-                  <button
-                    key={sub.id}
-                    type="button"
-                    onClick={() => {
-                      setMobileLabFilter(sub.id);
-                      setActiveCategory('ALL');
-                    }}
-                    className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer ${
-                      mobileLabFilter === sub.id
-                        ? 'bg-blue-600 text-white shadow-xs'
-                        : isDark
-                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`}
-                  >
-                    {sub.label}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Category Filter Chips for other laboratories */}
-            {selectedLab !== 'DIGITAL' && selectedLab !== 'DIGITAL_ECE' && categories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveCategory(cat)}
-                className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 whitespace-nowrap transition-transform active:scale-[0.97] cursor-pointer ${
-                  activeCategory === cat
-                    ? 'bg-slate-900 dark:bg-cyan-500 text-white dark:text-slate-950 font-black shadow-xs'
-                    : isDark
-                    ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* 4. Fast Catalog Grid / Compact View (Ultra-fast scrolling on mobile, 4-columns on 15" kiosk/desktop) */}
       <div
         id="equipment-scroll-area"
@@ -562,111 +520,140 @@ export default function EquipmentCatalog() {
         )}
       </div>
 
-      {/* 5. Fixed / Sticky Pagination Bar (Centered at bottom, adaptive for Mobile & Kiosk) */}
-      {totalPages > 1 && (
-        <div className={`shrink-0 py-2 sm:py-2.5 px-3 border-t flex items-center justify-center z-20 pb-[max(0.6rem,env(safe-area-inset-bottom,8px))] ${
-          isDark
-            ? 'bg-[#0a0e17]/95 border-slate-800/90 backdrop-blur-sm'
-            : 'bg-slate-100/95 border-slate-200/90 backdrop-blur-sm'
-        }`}>
-          {/* A. Mobile Browser View (< sm): Compact 3-piece control that never wraps */}
-          <div className="flex sm:hidden items-center justify-center gap-2 w-full max-w-xs">
-            <button
-              type="button"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-                isDark
-                  ? 'bg-slate-800 border-slate-700 text-slate-200'
-                  : 'bg-white border-slate-300 text-slate-800 shadow-xs'
-              }`}
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span>Prev</span>
-            </button>
-
-            {/* Mobile Page Status Badge */}
-            <div className={`h-10 px-4 rounded-xl border flex items-center justify-center text-xs font-bold min-w-[90px] shadow-xs ${
-              isDark
-                ? 'bg-slate-900 border-slate-700 text-slate-200'
-                : 'bg-white border-slate-300 text-slate-800'
-            }`}>
-              <span className="text-blue-600 dark:text-cyan-400 font-extrabold mr-1">{currentPage}</span>
-              <span className="text-slate-400 font-medium">/ {totalPages}</span>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-                isDark
-                  ? 'bg-slate-800 border-slate-700 text-slate-200'
-                  : 'bg-white border-slate-300 text-slate-800 shadow-xs'
-              }`}
-            >
-              <span>Next</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* B. 15" Kiosk & Desktop View (>= sm): Full Centered Numeric Button Group */}
-          <div className="hidden sm:flex items-center gap-1.5 flex-wrap justify-center">
-            <button
-              type="button"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-                isDark
-                  ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
-                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
-              }`}
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span>Prev</span>
-            </button>
-
-            <div className="flex items-center gap-1">
-              {getPageNumbers().map((p, idx) =>
-                p === '...' ? (
-                  <span key={`ellipsis-${idx}`} className="px-2 text-xs text-slate-400 font-bold select-none">
-                    ...
-                  </span>
-                ) : (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => handlePageChange(p)}
-                    className={`h-10 min-w-[40px] px-3 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer ${
-                      currentPage === p
-                        ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-500/30 font-black'
-                        : isDark
-                        ? 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'
-                        : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
-                    }`}
-                  >
-                    {p}
-                  </button>
-                )
-              )}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
-                isDark
-                  ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
-                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
-              }`}
-            >
-              <span>Next</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+      {/* 5. Fixed / Sticky Bottom Bar: Facility Title on Left + Centered Pagination */}
+      <div className={`shrink-0 py-2 sm:py-2.5 px-3 sm:px-4 border-t flex items-center justify-between gap-3 z-20 pb-[max(0.6rem,env(safe-area-inset-bottom,8px))] ${
+        isDark
+          ? 'bg-[#0a0e17]/95 border-slate-800/90 backdrop-blur-sm'
+          : 'bg-slate-100/95 border-slate-200/90 backdrop-blur-sm'
+      }`}>
+        {/* Left: Facility Title (e.g. CHEMISTRY LABORATORY) */}
+        <div className="flex items-center gap-2 shrink-0 min-w-0">
+          <span className={`text-[11px] sm:text-xs md:text-sm font-black px-3 py-1.5 rounded-xl border tracking-wide uppercase truncate ${
+            isDark
+              ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30 shadow-xs'
+              : 'bg-white text-slate-900 border-slate-300 shadow-xs'
+          }`}>
+            {currentLabInfo.name}
+          </span>
+          <span className={`hidden lg:inline text-xs font-semibold ${
+            isDark ? 'text-slate-400' : 'text-slate-500'
+          }`}>
+            ({filteredEquipment.length} items)
+          </span>
         </div>
-      )}
+
+        {/* Center / Right: Pagination Controls */}
+        {totalPages > 1 ? (
+          <>
+            {/* A. Mobile Browser View (< sm): Compact 3-piece control that never wraps */}
+            <div className="flex sm:hidden items-center justify-end gap-1.5">
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`h-9 px-2.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                  isDark
+                    ? 'bg-slate-800 border-slate-700 text-slate-200'
+                    : 'bg-white border-slate-300 text-slate-800 shadow-xs'
+                }`}
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>Prev</span>
+              </button>
+
+              <div className={`h-9 px-2.5 rounded-xl border flex items-center justify-center text-xs font-bold min-w-[70px] shadow-xs ${
+                isDark
+                  ? 'bg-slate-900 border-slate-700 text-slate-200'
+                  : 'bg-white border-slate-300 text-slate-800'
+              }`}>
+                <span className="text-blue-600 dark:text-cyan-400 font-extrabold mr-1">{currentPage}</span>
+                <span className="text-slate-400 font-medium">/{totalPages}</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`h-9 px-2.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                  isDark
+                    ? 'bg-slate-800 border-slate-700 text-slate-200'
+                    : 'bg-white border-slate-300 text-slate-800 shadow-xs'
+                }`}
+              >
+                <span>Next</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            {/* B. 15" Kiosk & Desktop View (>= sm): Centered Numeric Button Group */}
+            <div className="hidden sm:flex items-center gap-1.5 flex-wrap justify-center flex-1">
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                  isDark
+                    ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
+                }`}
+              >
+                <ChevronLeft className="w-4 h-4" />
+                <span>Prev</span>
+              </button>
+
+              <div className="flex items-center gap-1">
+                {getPageNumbers().map((p, idx) =>
+                  p === '...' ? (
+                    <span key={`ellipsis-${idx}`} className="px-2 text-xs text-slate-400 font-bold select-none">
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => handlePageChange(p)}
+                      className={`h-10 min-w-[40px] px-3 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer ${
+                        currentPage === p
+                          ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-500/30 font-black'
+                          : isDark
+                          ? 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700'
+                          : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  )
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`h-10 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                  isDark
+                    ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
+                }`}
+              >
+                <span>Next</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Right Spacer to keep pagination visually balanced */}
+            <div className="hidden sm:block shrink-0 min-w-[120px] text-right">
+              <span className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                Page {currentPage} of {totalPages}
+              </span>
+            </div>
+          </>
+        ) : (
+          <div className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            Showing all items
+          </div>
+        )}
+      </div>
 
       {/* Floating Scroll to Top Quick Jump Button (Phone View Only) */}
       {showScrollTop && (
