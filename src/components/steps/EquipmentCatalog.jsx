@@ -16,7 +16,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
-import { getInventory, LAB_OPTIONS, getItemImage, isItemConsumable } from '../../data/equipmentData';
+import { getInventory, LAB_OPTIONS, getItemImage } from '../../data/equipmentData';
 import BorrowCart from './BorrowCart';
 import ReservationModal from './ReservationModal';
 
@@ -67,13 +67,14 @@ export default function EquipmentCatalog() {
     };
   }, [isSearchOpen, searchQuery]);
 
-  // Reset filter and search on lab change
-  useEffect(() => {
+  const [prevLab, setPrevLab] = useState(selectedLab);
+  if (prevLab !== selectedLab) {
+    setPrevLab(selectedLab);
     setMobileLabFilter('ALL');
     setActiveCategory('ALL');
     setSearchQuery('');
     setIsSearchOpen(false);
-  }, [selectedLab]);
+  }
 
   // Get live inventory from shared storage
   const allEquipment = useMemo(() => getInventory(), []);
@@ -212,20 +213,17 @@ export default function EquipmentCatalog() {
   // ----------------------------------------------------------------------
   // Pagination State & Logic
   // ----------------------------------------------------------------------
-  const [currentPage, setCurrentPage] = useState(1);
+  const [rawPage, setCurrentPage] = useState(1);
   const itemsPerPage = viewMode === 'compact' ? 12 : 8;
-
-  useEffect(() => {
+  const filterKey = `${selectedLab}|${mobileLabFilter}|${activeCategory}|${searchQuery}|${viewMode}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (prevFilterKey !== filterKey) {
+    setPrevFilterKey(filterKey);
     setCurrentPage(1);
-  }, [searchQuery, activeCategory, mobileLabFilter, selectedLab, viewMode]);
+  }
 
   const totalPages = Math.max(1, Math.ceil(groupedEquipment.length / itemsPerPage));
-
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [totalPages, currentPage]);
+  const currentPage = Math.min(rawPage, totalPages);
 
   const paginatedEquipment = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -412,8 +410,8 @@ export default function EquipmentCatalog() {
                         className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer border ${
                           mobileLabFilter === sub.id
                             ? isDark
-                              ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
-                              : 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                              ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-sm'
+                              : 'bg-slate-900 text-white border-slate-900 shadow-sm'
                             : isDark
                             ? 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
                             : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200/80'
@@ -435,8 +433,8 @@ export default function EquipmentCatalog() {
                       className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 whitespace-nowrap transition-transform active:scale-[0.97] cursor-pointer border ${
                         activeCategory === cat
                           ? isDark
-                            ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
-                            : 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                            ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-sm'
+                            : 'bg-slate-900 text-white border-slate-900 shadow-sm'
                           : isDark
                           ? 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
                           : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200/80'
@@ -465,8 +463,8 @@ export default function EquipmentCatalog() {
                 className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'grid'
                     ? isDark
-                      ? 'bg-cyan-500 text-slate-950 shadow-xs'
-                      : 'bg-white text-slate-900 shadow-xs border border-slate-300/80'
+                      ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                      : 'bg-white text-slate-900 shadow-sm border border-slate-300/80'
                     : isDark
                     ? 'text-slate-400 hover:text-slate-200'
                     : 'text-slate-600 hover:text-slate-900'
@@ -482,8 +480,8 @@ export default function EquipmentCatalog() {
                 className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'compact'
                     ? isDark
-                      ? 'bg-cyan-500 text-slate-950 shadow-xs'
-                      : 'bg-white text-slate-900 shadow-xs border border-slate-300/80'
+                      ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                      : 'bg-white text-slate-900 shadow-sm border border-slate-300/80'
                     : isDark
                     ? 'text-slate-400 hover:text-slate-200'
                     : 'text-slate-600 hover:text-slate-900'
@@ -498,18 +496,18 @@ export default function EquipmentCatalog() {
             <button
               type="button"
               onClick={openCartDrawer}
-              className={`h-9 sm:h-10 px-2.5 sm:px-4 rounded-xl border flex items-center gap-1.5 sm:gap-2 transition-transform duration-75 ease-out active:scale-[0.97] touch-manipulation cursor-pointer shadow-xs ${
+              className={`h-9 sm:h-10 px-2.5 sm:px-4 rounded-xl border flex items-center gap-1.5 sm:gap-2 transition-transform duration-75 ease-out active:scale-[0.97] touch-manipulation cursor-pointer shadow-sm ${
                 isDark
                   ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
                   : 'bg-slate-900 hover:bg-slate-800 text-white border-slate-900'
               }`}
             >
-              <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-xs">
+              <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-sm">
                 <img src="/images/engrCartLogo.jpg" alt="Cart" className="w-full h-full object-cover" />
               </div>
               <span className="text-xs sm:text-sm font-bold">Cart</span>
               <span
-                className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[11px] sm:text-xs font-black shadow-xs ${
+                className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[11px] sm:text-xs font-black shadow-sm ${
                   isDark ? 'bg-cyan-500 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
@@ -631,7 +629,7 @@ export default function EquipmentCatalog() {
         className={`shrink-0 py-1.5 sm:py-2.5 px-2 sm:px-3 border-t flex items-center justify-between sm:grid sm:grid-cols-3 gap-1.5 sm:gap-3 z-20 mt-2 rounded-xl border ${
           isDark
             ? 'bg-[#0a0e17]/95 border-slate-800/90'
-            : 'bg-white border-slate-300 shadow-xs'
+            : 'bg-white border-slate-300 shadow-sm'
         }`}
       >
         {/* Left: Facility Title (Shortened on Mobile so pagination never overflows) */}
@@ -667,7 +665,7 @@ export default function EquipmentCatalog() {
                 className={`h-8 px-2 rounded-xl border text-[11px] font-bold flex items-center gap-0.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                   isDark
                     ? 'bg-slate-800 border-slate-700 text-slate-200'
-                    : 'bg-white border-slate-300 text-slate-800 shadow-xs'
+                    : 'bg-white border-slate-300 text-slate-800 shadow-sm'
                 }`}
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
@@ -675,7 +673,7 @@ export default function EquipmentCatalog() {
               </button>
 
               <div
-                className={`h-8 px-2 rounded-xl border flex items-center justify-center text-[11px] font-bold min-w-[54px] shadow-xs ${
+                className={`h-8 px-2 rounded-xl border flex items-center justify-center text-[11px] font-bold min-w-[54px] shadow-sm ${
                   isDark
                     ? 'bg-slate-900 border-slate-700 text-slate-200'
                     : 'bg-slate-50 border-slate-300 text-slate-800'
@@ -692,7 +690,7 @@ export default function EquipmentCatalog() {
                 className={`h-8 px-2 rounded-xl border text-[11px] font-bold flex items-center gap-0.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                   isDark
                     ? 'bg-slate-800 border-slate-700 text-slate-200'
-                    : 'bg-white border-slate-300 text-slate-800 shadow-xs'
+                    : 'bg-white border-slate-300 text-slate-800 shadow-sm'
                 }`}
               >
                 <span>Next</span>
@@ -709,7 +707,7 @@ export default function EquipmentCatalog() {
                 className={`h-9 px-3 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                   isDark
                     ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
-                    : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
+                    : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-sm'
                 }`}
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -730,11 +728,11 @@ export default function EquipmentCatalog() {
                       className={`h-9 min-w-[36px] px-2.5 rounded-xl text-xs font-bold transition-all touch-manipulation active:scale-[0.97] cursor-pointer border ${
                         currentPage === p
                           ? isDark
-                            ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
-                            : 'bg-slate-900 text-white border-slate-900 font-black shadow-xs'
+                            ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-sm'
+                            : 'bg-slate-900 text-white border-slate-900 font-black shadow-sm'
                           : isDark
                           ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
-                          : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-xs'
+                          : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-sm'
                       }`}
                     >
                       {p}
@@ -750,7 +748,7 @@ export default function EquipmentCatalog() {
                 className={`h-9 px-3 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all touch-manipulation active:scale-[0.97] cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                   isDark
                     ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
-                    : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
+                    : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-sm'
                 }`}
               >
                 <span>Next</span>
@@ -789,7 +787,7 @@ export default function EquipmentCatalog() {
           <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end md:items-stretch justify-center md:justify-end animate-fade-in touch-none">
             <div className="absolute inset-0 cursor-pointer" onClick={closeCartDrawer} />
             <div
-              className={`relative z-10 w-full max-h-[85vh] h-auto rounded-t-2xl md:rounded-none md:rounded-l-3xl md:h-full md:max-h-[100dvh] md:max-w-lg ${
+              className={`relative z-10 w-full max-h-[85vh] h-auto rounded-t-2xl md:rounded-none md:rounded-l-3xl md:h-full md:max-h-dvh md:max-w-lg ${
                 isDark ? 'bg-[#0e1422] border-slate-800' : 'bg-slate-50 border-slate-300 shadow-2xl'
               } border-t md:border-t-0 md:border-l shadow-2xl flex flex-col animate-slide-up md:animate-slide-left overflow-hidden`}
             >
@@ -916,7 +914,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
               key={itemImg}
               src={itemImg}
               alt={currentItem.name}
-              className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-300"
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
               loading="lazy"
             />
           ) : (
@@ -930,7 +928,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           )}
 
           {/* Bottom-Left Stock Capsule */}
-          <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 z-10 flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-slate-950/90 backdrop-blur-md border border-white/15 text-white font-sans text-[10px] sm:text-[11px] font-bold pointer-events-none shadow-xs">
+          <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 z-10 flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-slate-950/90 backdrop-blur-md border border-white/15 text-white font-sans text-[10px] sm:text-[11px] font-bold pointer-events-none shadow-sm">
             <span
               className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full shrink-0 ${
                 isMaintenance || isOutOfStock
@@ -1067,11 +1065,11 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                 : 'opacity-50 cursor-not-allowed bg-slate-100 text-slate-400 border border-slate-300'
               : inCartQty > 0
               ? isDark
-                ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black shadow-xs'
-                : 'bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-xs'
+                ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black shadow-sm'
+                : 'bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm'
               : isDark
-              ? 'bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-xs'
-              : 'bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-xs'
+              ? 'bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-sm'
+              : 'bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-sm'
           }`}
         >
           <Plus className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
@@ -1137,7 +1135,7 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, is
       <div className="min-w-0 flex-1 flex items-center gap-3">
         {itemImg && (
           <div
-            className={`w-13 h-13 sm:w-14 sm:h-14 rounded-lg shrink-0 overflow-hidden flex items-center justify-center border ${
+            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-lg shrink-0 overflow-hidden flex items-center justify-center border ${
               isDark ? 'bg-[#080d16] border-slate-800' : 'bg-slate-100 border-slate-200'
             }`}
           >

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   ArrowRight,
   ArrowLeft,
@@ -9,13 +9,11 @@ import {
   ShieldAlert,
   CheckCircle2,
   X,
-  Plus,
-  Minus,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 import MaterialTimePicker from '../ui/MaterialTimePicker';
-import { handleStudentIdChange, isValidStudentId } from '../../utils/studentIdFormatter';
+import { handleStudentIdChange } from '../../utils/studentIdFormatter';
 
 const ENGINEERING_PROGRAMS = ['BSCPE', 'BSCE', 'BSCEE', 'BSECE'];
 const YEAR_LEVELS = [
@@ -79,17 +77,6 @@ export default function BorrowerForm() {
     };
   }, [borrower.studentId, lookupStudentInDatabase]);
 
-  // Computed field validation states
-  const cleanStudentId = useMemo(() => (borrower.studentId || '').replace(/\D/g, ''), [borrower.studentId]);
-  const isStudentIdValid = cleanStudentId.length === 9;
-
-  const trimmedLeader = (borrower.groupLeader || '').trim();
-  const isFullNameValid = trimmedLeader.length >= 5 && trimmedLeader.includes(' ') && /^[A-Za-z\s.\-ñÑ]+$/.test(trimmedLeader);
-
-  const trimmedInstructor = (borrower.instructor || '').trim();
-  const isInstructorValid = trimmedInstructor.length >= 3 && /^[A-Za-z\s.\-ñÑ,]+$/.test(trimmedInstructor);
-
-  const isAcademicInfoComplete = Boolean(borrower.program && selectedYear && selectedSem && selectedSection && borrower.courseCode);
   const isTimeScheduleValid = Boolean(startHour && endHour && !(startHour === endHour && startMinute === endMinute && startPeriod === endPeriod));
 
   const handleApplyPreviousProfile = () => {
