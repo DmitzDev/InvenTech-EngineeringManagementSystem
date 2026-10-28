@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTransaction } from '../../context/TransactionContext';
 
 const PURPOSE_OPTIONS = [
@@ -52,54 +53,53 @@ export default function TransactionCommit() {
     Boolean(borrower.purpose && !PURPOSE_OPTIONS.includes(borrower.purpose))
   );
 
-  // Digital Signature Canvas State & Refs
+  // Digital Signature Canvas & Pop-up Modal State & Refs
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
-  const [hasSignature, setHasSignature] = useState(Boolean(borrower.signature));
+  const hasSignature = Boolean(borrower.signature);
+  const [isSignatureModalOpen, setIsSignatureModalOpen] = useState(false);
+  const [hasModalStroke, setHasModalStroke] = useState(false);
 
-  // Initialize and auto-scale canvas with high-DPI rendering (Pure Black Ink)
+  // Initialize and auto-scale modal canvas with high-DPI rendering (Pure Black Ink)
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!isSignatureModalOpen) return;
 
-    const ctx = canvas.getContext('2d');
-    const updateCanvasScale = () => {
+    const initModalCanvas = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       const rect = canvas.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return;
       const dpr = window.devicePixelRatio || 1;
-
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = canvas.width;
-      tempCanvas.height = canvas.height;
-      const tempCtx = tempCanvas.getContext('2d');
-      if (canvas.width > 0 && canvas.height > 0) {
-        tempCtx.drawImage(canvas, 0, 0);
-      }
 
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
 
       ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 2.6;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
 
-      if (tempCanvas.width > 0 && tempCanvas.height > 0) {
-        ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
-      } else if (borrower.signature) {
+      if (borrower.signature) {
         const img = new Image();
         img.onload = () => {
           ctx.drawImage(img, 0, 0, rect.width, rect.height);
+          setHasModalStroke(true);
         };
         img.src = borrower.signature;
+      } else {
+        setHasModalStroke(false);
       }
     };
 
-    updateCanvasScale();
-    window.addEventListener('resize', updateCanvasScale);
-    return () => window.removeEventListener('resize', updateCanvasScale);
-  }, [borrower.signature]);
+    const rafId = requestAnimationFrame(initModalCanvas);
+    window.addEventListener('resize', initModalCanvas);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', initModalCanvas);
+    };
+  }, [isSignatureModalOpen, borrower.signature]);
 
   const getCanvasPos = (canvas, clientX, clientY) => {
     const rect = canvas.getBoundingClientRect();
@@ -116,7 +116,7 @@ export default function TransactionCommit() {
     isDrawing.current = true;
 
     ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2.4;
+    ctx.lineWidth = 2.6;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
@@ -137,29 +137,39 @@ export default function TransactionCommit() {
     const pos = getCanvasPos(canvas, clientX, clientY);
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
-    setHasSignature(true);
+    setHasModalStroke(true);
   };
 
   const stopDrawing = () => {
     if (!isDrawing.current) return;
     isDrawing.current = false;
-    const canvas = canvasRef.current;
-    if (canvas) {
-      try {
-        const dataUrl = canvas.toDataURL('image/png');
-        setBorrowerField('signature', dataUrl);
-      } catch (err) {
-        console.warn('Canvas export failed', err);
-      }
-    }
   };
 
-  const handleClearSignature = () => {
+  const handleClearModalCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    setHasSignature(false);
+    setHasModalStroke(false);
+  };
+
+  const handleSaveModalSignature = () => {
+    const canvas = canvasRef.current;
+    if (!canvas || !hasModalStroke) {
+      showToast?.('Please draw your signature on the pad before saving.', 'error');
+      return;
+    }
+    try {
+      const dataUrl = canvas.toDataURL('image/png');
+      setBorrowerField('signature', dataUrl);
+      setIsSignatureModalOpen(false);
+    } catch (err) {
+      console.warn('Canvas export failed', err);
+    }
+  };
+
+  const handleClearSavedSignature = () => {
+    setHasModalStroke(false);
     setBorrowerField('signature', null);
   };
 
@@ -180,7 +190,8 @@ export default function TransactionCommit() {
       return;
     }
     if (!hasSignature && !borrower.signature) {
-      showToast?.('Please sign in the signature box before printing.', 'error');
+      setIsSignatureModalOpen(true);
+      showToast?.('Please provide your digital signature in the pop-up box.', 'error');
       return;
     }
     try {
@@ -577,11 +588,11 @@ export default function TransactionCommit() {
               </div>
             </div>
 
-            {/* B. Borrower Signature Pad (Pure Black Ink on White Surface) */}
+            {/* B. Borrower Digital Signature Card (Opens Centered Pop-up Modal) */}
             <div className={`rounded-xl border overflow-hidden ${cardSurface}`}>
               <div className={`px-4 py-2 border-b flex items-center justify-between ${sectionHeaderSurface}`}>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider">
-                  Borrower&apos;s Signature (Black Ink)
+                  Borrower&apos;s Digital Signature
                 </span>
 
                 <div className="flex items-center gap-2">
@@ -602,7 +613,7 @@ export default function TransactionCommit() {
                   {hasSignature && (
                     <button
                       type="button"
-                      onClick={handleClearSignature}
+                      onClick={handleClearSavedSignature}
                       className="text-[11px] font-bold px-2.5 py-0.5 rounded border bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-700 border-slate-300 hover:border-rose-300 transition-colors cursor-pointer active:scale-95"
                     >
                       Clear
@@ -611,40 +622,56 @@ export default function TransactionCommit() {
                 </div>
               </div>
 
-              <div className="p-3">
-                <div className="relative w-full rounded-lg border border-slate-300 bg-white overflow-hidden select-none">
-                  <canvas
-                    ref={canvasRef}
-                    onMouseDown={startDrawing}
-                    onMouseMove={draw}
-                    onMouseUp={stopDrawing}
-                    onMouseLeave={stopDrawing}
-                    onTouchStart={(e) => {
-                      e.preventDefault();
-                      startDrawing(e);
-                    }}
-                    onTouchMove={(e) => {
-                      e.preventDefault();
-                      draw(e);
-                    }}
-                    onTouchEnd={(e) => {
-                      e.preventDefault();
-                      stopDrawing();
-                    }}
-                    className="h-28 sm:h-32 w-full touch-none cursor-crosshair block bg-white"
-                    style={{ touchAction: 'none' }}
-                  />
+              <div className="p-3.5">
+                {hasSignature && borrower.signature ? (
+                  <div className="space-y-2.5">
+                    <div
+                      onClick={() => setIsSignatureModalOpen(true)}
+                      className="relative w-full h-24 rounded-lg border border-slate-300 bg-white overflow-hidden flex flex-col items-center justify-center px-4 cursor-pointer hover:border-blue-500 transition-colors"
+                    >
+                      <img
+                        src={borrower.signature}
+                        alt="Borrower Digital Signature"
+                        className="h-14 max-w-[240px] object-contain pointer-events-none select-none"
+                      />
+                      <div className="w-full border-t border-slate-300 pt-1 mt-1 flex items-center justify-between text-[10px] font-mono text-slate-500 uppercase">
+                        <span className="font-bold text-slate-700 truncate">
+                          {borrower.groupLeader || 'Borrower Signature'}
+                        </span>
+                        <span>Tap to Re-sign</span>
+                      </div>
+                    </div>
 
-                  {/* Clean Institutional Signature Baseline */}
-                  <div className="absolute inset-x-4 bottom-3 pointer-events-none border-b border-slate-300 flex items-center justify-between pb-1">
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Sign Above Line
-                    </span>
-                    <span className="font-mono text-[10px] text-slate-400 uppercase truncate max-w-[180px]">
-                      {borrower.groupLeader || 'Borrower Signature'}
-                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setIsSignatureModalOpen(true)}
+                      className={`w-full h-9 rounded-lg border text-xs font-bold transition-colors cursor-pointer active:scale-[0.99] ${
+                        isDark
+                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
+                      }`}
+                    >
+                      Edit Digital Signature
+                    </button>
                   </div>
-                </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setIsSignatureModalOpen(true)}
+                    className={`w-full py-5 px-4 rounded-xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer active:scale-[0.99] ${
+                      isDark
+                        ? 'bg-[#090d16] border-slate-700 hover:border-cyan-500 text-slate-200'
+                        : 'bg-slate-50 border-slate-300 hover:border-blue-600 hover:bg-blue-50/40 text-slate-900'
+                    }`}
+                  >
+                    <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wide">
+                      Tap to Sign Digital Signature
+                    </span>
+                    <span className={`text-[11px] font-medium ${labelMuted}`}>
+                      Opens centered signature pad for {borrower.groupLeader || 'Borrower'}
+                    </span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -663,7 +690,7 @@ export default function TransactionCommit() {
                       ? 'Required: Check the safety agreement and sign above to enable printing.'
                       : !safetyAgreement
                       ? 'Required: Check the safety & custody agreement box above.'
-                      : 'Required: Provide borrower signature in the signature box above.'}
+                      : 'Required: Tap "Tap to Sign Digital Signature" above to sign.'}
                   </span>
                 </div>
               )}
@@ -741,6 +768,137 @@ export default function TransactionCommit() {
           </div>
         </div>
       </div>
+
+      {/* ========================================================= */}
+      {/* Centered Digital Signature Pop-Up Modal                   */}
+      {/* ========================================================= */}
+      {isSignatureModalOpen &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 select-none animate-fade-in no-print"
+            onClick={() => setIsSignatureModalOpen(false)}
+          >
+            <div
+              className={`w-full max-w-xl rounded-2xl border overflow-hidden shadow-2xl ${
+                isDark
+                  ? 'bg-[#0f172a] border-slate-700 text-slate-100'
+                  : 'bg-white border-slate-300 text-slate-900'
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div
+                className={`px-5 py-3.5 border-b flex items-center justify-between ${
+                  isDark ? 'bg-[#0b1120] border-slate-800' : 'bg-slate-100 border-slate-300'
+                }`}
+              >
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold uppercase tracking-tight">
+                    Borrower&apos;s Digital Signature
+                  </h3>
+                  <p className={`text-[11px] font-medium ${labelMuted}`}>
+                    Sign inside the white box below using your finger, stylus, or mouse.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsSignatureModalOpen(false)}
+                  className={`h-8 px-3 rounded-lg border text-xs font-bold transition-colors cursor-pointer ${
+                    isDark
+                      ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+                      : 'bg-white hover:bg-slate-200 text-slate-700 border-slate-300'
+                  }`}
+                >
+                  Close
+                </button>
+              </div>
+
+              {/* Modal Body — Centered White Signature Canvas */}
+              <div className="p-4 sm:p-5 space-y-3">
+                <div className="relative w-full rounded-xl border-2 border-slate-400 bg-white overflow-hidden select-none shadow-inner">
+                  <canvas
+                    ref={canvasRef}
+                    onMouseDown={startDrawing}
+                    onMouseMove={draw}
+                    onMouseUp={stopDrawing}
+                    onMouseLeave={stopDrawing}
+                    onTouchStart={(e) => {
+                      e.preventDefault();
+                      startDrawing(e);
+                    }}
+                    onTouchMove={(e) => {
+                      e.preventDefault();
+                      draw(e);
+                    }}
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      stopDrawing();
+                    }}
+                    className="h-52 sm:h-60 w-full touch-none cursor-crosshair block bg-white"
+                    style={{ touchAction: 'none' }}
+                  />
+
+                  {/* Signature Baseline Guide */}
+                  <div className="absolute inset-x-6 bottom-4 pointer-events-none border-b-2 border-slate-300 flex items-center justify-between pb-1">
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Sign Above Line (Black Ink)
+                    </span>
+                    <span className="font-mono text-[11px] font-bold text-slate-500 uppercase truncate max-w-[240px]">
+                      {borrower.groupLeader || 'Borrower Signature'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Footer Controls */}
+              <div
+                className={`px-5 py-3.5 border-t flex items-center justify-between gap-2.5 ${
+                  isDark ? 'bg-[#0b1120] border-slate-800' : 'bg-slate-50 border-slate-300'
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={handleClearModalCanvas}
+                  className="h-10 px-4 rounded-lg border bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-700 border-slate-300 hover:border-rose-300 text-xs font-bold transition-colors cursor-pointer active:scale-95"
+                >
+                  Clear Pad
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsSignatureModalOpen(false)}
+                    className={`h-10 px-4 rounded-lg border text-xs font-bold transition-colors cursor-pointer active:scale-95 ${
+                      isDark
+                        ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+                        : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300'
+                    }`}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveModalSignature}
+                    disabled={!hasModalStroke}
+                    className={`h-10 px-5 rounded-lg text-xs font-extrabold uppercase tracking-wider transition-all active:scale-95 ${
+                      !hasModalStroke
+                        ? isDark
+                          ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
+                          : 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed'
+                        : isDark
+                        ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 cursor-pointer shadow-sm'
+                        : 'bg-slate-900 hover:bg-slate-800 text-white cursor-pointer shadow-sm'
+                    }`}
+                  >
+                    Apply Signature
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

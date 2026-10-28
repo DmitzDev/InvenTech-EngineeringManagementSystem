@@ -985,18 +985,18 @@
 }
 
 /* Light Theme Data Tables */
-[data-theme="light"] table thead {
+[data-theme="light"] table:not(.borrower-sheet-table) thead {
   background-color: #e2e8f0 !important;
   color: #090e17 !important;
 }
 
-[data-theme="light"] table th {
+[data-theme="light"] table:not(.borrower-sheet-table) th {
   color: #090e17 !important;
   font-weight: 800 !important;
   border-bottom: 2px solid #cbd5e1 !important;
 }
 
-[data-theme="light"] table td {
+[data-theme="light"] table:not(.borrower-sheet-table) td {
   border-bottom-color: #e2e8f0 !important;
   color: #090e17 !important;
   font-weight: 600 !important;
@@ -1144,11 +1144,35 @@
   animation: shakeFeedback 0.35s ease-in-out;
 }
 
-/* Print specific optimizations */
+/* Print specific optimizations — Crisp Solid Black (#000000) Full-Page A4 Coupon */
+#printable-borrower-sheet,
+#printable-borrower-sheet *,
+#screen-preview-borrower-sheet,
+#screen-preview-borrower-sheet * {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+#printable-borrower-sheet table.borrower-sheet-table,
+#screen-preview-borrower-sheet table.borrower-sheet-table {
+  border-collapse: collapse !important;
+  border: 1.5px solid #000000 !important;
+}
+
+#printable-borrower-sheet table.borrower-sheet-table th,
+#printable-borrower-sheet table.borrower-sheet-table td,
+#screen-preview-borrower-sheet table.borrower-sheet-table th,
+#screen-preview-borrower-sheet table.borrower-sheet-table td {
+  border: 1.5px solid #000000 !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
 @media print {
   @page {
     size: A4 portrait;
-    margin: 6mm;
+    margin: 5mm;
   }
 
   html,
@@ -1177,15 +1201,20 @@
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
-    width: 100% !important;
-    max-width: 210mm !important;
-    display: block !important;
+    width: 200mm !important;
+    min-height: 286mm !important;
+    height: 286mm !important;
+    max-width: 200mm !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
     background: #ffffff !important;
     color: #000000 !important;
-    padding: 0 !important;
+    padding: 5mm 6mm !important;
     margin: 0 auto !important;
     box-shadow: none !important;
-    border: none !important;
+    border: 2px solid #000000 !important;
+    box-sizing: border-box !important;
   }
 
   .no-print {
