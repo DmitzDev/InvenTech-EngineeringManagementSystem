@@ -299,117 +299,141 @@ export default function EquipmentCatalog() {
     <div className="flex-1 max-w-[1720px] mx-auto w-full max-w-full overflow-x-hidden p-2 sm:p-3 lg:p-4 flex flex-col justify-between select-none min-h-0 relative">
       {/* 1. Master Control Toolbar: Change Lab + Instant Search + Filter Chips + View Switcher + Cart */}
       <div
-        className={`p-2 sm:p-2.5 rounded-2xl border mb-2.5 flex items-center justify-between gap-2 shrink-0 ${
+        className={`p-2 sm:p-2.5 rounded-2xl border mb-2.5 flex flex-col gap-2 shrink-0 ${
           isDark
             ? 'bg-[#0f172a] border-slate-800 shadow-sm'
             : 'bg-white border-slate-300 shadow-sm'
         }`}
       >
-        {/* Left: Change Lab + Search Box + Chips Container */}
-        <div className="flex items-center gap-2 flex-1 min-w-0">
-          {/* Change Lab Button */}
-          <button
-            type="button"
-            onClick={() => setStep(2)}
-            className={`h-10 px-3 sm:px-3.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-transform active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
-              isDark
-                ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
-                : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200/80'
-            }`}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Change Lab</span>
-            <span className="sm:hidden">Lab</span>
-          </button>
+        <div className="flex items-center justify-between gap-2">
+          {/* Left: Change Lab + Search Box + Desktop Chips Container */}
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+            {/* Change Lab Button */}
+            <button
+              type="button"
+              onClick={() => setStep(2)}
+              className={`h-9 sm:h-10 px-2.5 sm:px-3.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-transform active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
+                isDark
+                  ? 'bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700'
+                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200/80'
+              }`}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Change Lab</span>
+              <span className="sm:hidden">Lab</span>
+            </button>
 
-          {/* Expandable Search Button & Input Box */}
-          <div ref={searchContainerRef} className="relative flex items-center shrink-0">
-            {isSearchOpen ? (
-              <div className="relative w-44 sm:w-60 md:w-72 lg:w-80 shrink-0 transition-all duration-200 ease-out">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search apparatus or tag..."
-                  autoFocus
-                  className={`w-full h-10 pl-9 pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
-                    isDark
-                      ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500 ring-1 ring-cyan-500/20'
-                      : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:bg-white ring-1 ring-blue-500/20'
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSearchQuery('');
-                    setIsSearchOpen(false);
-                  }}
-                  title="Close search"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1.5 cursor-pointer rounded-lg transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSearchOpen(true);
-                  setTimeout(() => searchInputRef.current?.focus(), 60);
-                }}
-                title="Search apparatus"
-                className={`h-10 px-3 sm:px-3.5 rounded-xl border flex items-center gap-1.5 transition-all active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
-                  searchQuery
-                    ? isDark
-                      ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
-                      : 'bg-blue-50 border-blue-400 text-blue-900'
-                    : isDark
-                    ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-                    : 'bg-slate-100 hover:bg-slate-200/80 text-slate-800 border-slate-300'
-                }`}
-              >
-                <Search className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-                <span className="hidden sm:inline text-xs sm:text-sm font-bold">
-                  {searchQuery ? `"${searchQuery}"` : 'Search'}
-                </span>
-                {searchQuery && (
-                  <span
+            {/* Expandable Search Button & Input Box */}
+            <div ref={searchContainerRef} className="relative flex items-center shrink-0">
+              {isSearchOpen ? (
+                <div className="relative w-36 sm:w-60 md:w-72 lg:w-80 shrink-0 transition-all duration-200 ease-out">
+                  <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search apparatus..."
+                    autoFocus
+                    className={`w-full h-9 sm:h-10 pl-8 sm:pl-9 pr-7 sm:pr-8 rounded-xl text-xs sm:text-sm focus:outline-none transition-all ${
+                      isDark
+                        ? 'bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-500 focus:border-cyan-500 ring-1 ring-cyan-500/20'
+                        : 'bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:bg-white ring-1 ring-blue-500/20'
+                    }`}
+                  />
+                  <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setSearchQuery('');
+                      setIsSearchOpen(false);
                     }}
-                    className="ml-1 p-0.5 rounded-full hover:bg-rose-500 hover:text-white transition-colors"
-                    title="Clear filter"
+                    title="Close search"
+                    className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 cursor-pointer rounded-lg transition-colors"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSearchOpen(true);
+                    setTimeout(() => searchInputRef.current?.focus(), 60);
+                  }}
+                  title="Search apparatus"
+                  className={`h-9 sm:h-10 px-2.5 sm:px-3.5 rounded-xl border flex items-center gap-1.5 transition-all active:scale-[0.97] touch-manipulation cursor-pointer shrink-0 ${
+                    searchQuery
+                      ? isDark
+                        ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
+                        : 'bg-blue-50 border-blue-400 text-blue-900'
+                      : isDark
+                      ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+                      : 'bg-slate-100 hover:bg-slate-200/80 text-slate-800 border-slate-300'
+                  }`}
+                >
+                  <Search className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                  <span className="hidden sm:inline text-xs sm:text-sm font-bold">
+                    {searchQuery ? `"${searchQuery}"` : 'Search'}
                   </span>
-                )}
-              </button>
-            )}
-          </div>
-
-          {/* Sub-Lab & Category Chips Container */}
-          <div className="flex-1 min-w-0 max-w-full overflow-hidden">
-            <div className="flex items-center gap-1.5 overflow-x-auto touch-pan-x scroll-smooth py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {(selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') && (
-                <div className="flex items-center gap-1.5 shrink-0">
-                  {[
-                    { id: 'ALL', label: `All (${subLabCounts.total})` },
-                    { id: 'DIGITAL', label: `Consumables (${subLabCounts.digCount})` },
-                    { id: 'ECE', label: `ECE Modules (${subLabCounts.eceCount})` },
-                  ].map((sub) => (
-                    <button
-                      key={sub.id}
-                      type="button"
-                      onClick={() => {
-                        setMobileLabFilter(sub.id);
-                        setActiveCategory('ALL');
+                  {searchQuery && (
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSearchQuery('');
                       }}
-                      className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer border ${
-                        mobileLabFilter === sub.id
+                      className="ml-1 p-0.5 rounded-full hover:bg-rose-500 hover:text-white transition-colors"
+                      title="Clear filter"
+                    >
+                      <X className="w-3 h-3" />
+                    </span>
+                  )}
+                </button>
+              )}
+            </div>
+
+            {/* Desktop/Tablet Sub-Lab & Category Chips Container (Hidden on narrow mobile so it never clips) */}
+            <div className="hidden sm:block flex-1 min-w-0 max-w-full overflow-hidden">
+              <div className="flex items-center gap-1.5 overflow-x-auto touch-pan-x scroll-smooth py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {(selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') && (
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {[
+                      { id: 'ALL', label: `All (${subLabCounts.total})` },
+                      { id: 'DIGITAL', label: `Consumables (${subLabCounts.digCount})` },
+                      { id: 'ECE', label: `ECE Modules (${subLabCounts.eceCount})` },
+                    ].map((sub) => (
+                      <button
+                        key={sub.id}
+                        type="button"
+                        onClick={() => {
+                          setMobileLabFilter(sub.id);
+                          setActiveCategory('ALL');
+                        }}
+                        className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 transition-transform active:scale-[0.97] cursor-pointer border ${
+                          mobileLabFilter === sub.id
+                            ? isDark
+                              ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
+                              : 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                            : isDark
+                            ? 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
+                            : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200/80'
+                        }`}
+                      >
+                        {sub.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {selectedLab !== 'DIGITAL' &&
+                  selectedLab !== 'DIGITAL_ECE' &&
+                  categories.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setActiveCategory(cat)}
+                      className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 whitespace-nowrap transition-transform active:scale-[0.97] cursor-pointer border ${
+                        activeCategory === cat
                           ? isDark
                             ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
                             : 'bg-slate-900 text-white border-slate-900 shadow-xs'
@@ -418,105 +442,134 @@ export default function EquipmentCatalog() {
                           : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200/80'
                       }`}
                     >
-                      {sub.label}
+                      {cat === 'ALL' ? `All (${subLabFiltered.length})` : cat}
                     </button>
                   ))}
-                </div>
-              )}
-
-              {selectedLab !== 'DIGITAL' &&
-                selectedLab !== 'DIGITAL_ECE' &&
-                categories.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setActiveCategory(cat)}
-                    className={`h-10 px-3.5 rounded-xl text-xs font-bold shrink-0 whitespace-nowrap transition-transform active:scale-[0.97] cursor-pointer border ${
-                      activeCategory === cat
-                        ? isDark
-                          ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black shadow-xs'
-                          : 'bg-slate-900 text-white border-slate-900 shadow-xs'
-                        : isDark
-                        ? 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
-                        : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200/80'
-                    }`}
-                  >
-                    {cat === 'ALL' ? `All (${subLabFiltered.length})` : cat}
-                  </button>
-                ))}
+              </div>
             </div>
+          </div>
+
+          {/* Right: Universal Grid / List View Switcher & Borrow Cart */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <div
+              className={`flex items-center gap-0.5 p-0.5 sm:p-1 rounded-xl border ${
+                isDark
+                  ? 'bg-slate-900 border-slate-700'
+                  : 'bg-slate-200/80 border-slate-300'
+              }`}
+            >
+              <button
+                type="button"
+                onClick={() => setViewMode('grid')}
+                title="Card Grid View"
+                className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
+                  viewMode === 'grid'
+                    ? isDark
+                      ? 'bg-cyan-500 text-slate-950 shadow-xs'
+                      : 'bg-white text-slate-900 shadow-xs border border-slate-300/80'
+                    : isDark
+                    ? 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <LayoutGrid className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                <span className="hidden lg:inline">Grid</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('compact')}
+                title="Compact List View"
+                className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
+                  viewMode === 'compact'
+                    ? isDark
+                      ? 'bg-cyan-500 text-slate-950 shadow-xs'
+                      : 'bg-white text-slate-900 shadow-xs border border-slate-300/80'
+                    : isDark
+                    ? 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <List className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                <span className="hidden lg:inline">List</span>
+              </button>
+            </div>
+
+            {/* Borrow Cart Button */}
+            <button
+              type="button"
+              onClick={openCartDrawer}
+              className={`h-9 sm:h-10 px-2.5 sm:px-4 rounded-xl border flex items-center gap-1.5 sm:gap-2 transition-transform duration-75 ease-out active:scale-[0.97] touch-manipulation cursor-pointer shadow-xs ${
+                isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
+                  : 'bg-slate-900 hover:bg-slate-800 text-white border-slate-900'
+              }`}
+            >
+              <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-xs">
+                <img src="/images/engrCartLogo.jpg" alt="Cart" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-xs sm:text-sm font-bold">Cart</span>
+              <span
+                className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[11px] sm:text-xs font-black shadow-xs ${
+                  isDark ? 'bg-cyan-500 text-slate-950' : 'bg-white text-slate-900'
+                }`}
+              >
+                {totalUnitsCount}
+              </span>
+            </button>
           </div>
         </div>
 
-        {/* Right: Universal Grid / List View Switcher & Borrow Cart */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {/* Universal View Mode Switcher (Compact icon-only on Mobile, labeled on Desktop/Kiosk) */}
-          <div
-            className={`flex items-center gap-0.5 p-0.5 sm:p-1 rounded-xl border ${
-              isDark
-                ? 'bg-slate-900 border-slate-700'
-                : 'bg-slate-200/80 border-slate-300'
-            }`}
-          >
-            <button
-              type="button"
-              onClick={() => setViewMode('grid')}
-              title="Card Grid View"
-              className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
-                viewMode === 'grid'
-                  ? isDark
-                    ? 'bg-cyan-500 text-slate-950 shadow-xs'
-                    : 'bg-white text-slate-900 shadow-xs border border-slate-300/80'
-                  : isDark
-                  ? 'text-slate-400 hover:text-slate-200'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <LayoutGrid className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
-              <span className="hidden lg:inline">Grid</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode('compact')}
-              title="Compact List View"
-              className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
-                viewMode === 'compact'
-                  ? isDark
-                    ? 'bg-cyan-500 text-slate-950 shadow-xs'
-                    : 'bg-white text-slate-900 shadow-xs border border-slate-300/80'
-                  : isDark
-                  ? 'text-slate-400 hover:text-slate-200'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <List className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
-              <span className="hidden lg:inline">List</span>
-            </button>
+        {/* Mobile-Only Filter Chips Row (Only shown when Digital/ECE sub-labs or multiple categories exist) */}
+        {((selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') || categories.length > 2) && (
+          <div className="sm:hidden flex items-center gap-1.5 overflow-x-auto touch-pan-x scroll-smooth pt-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {(selectedLab === 'DIGITAL' || selectedLab === 'DIGITAL_ECE') ? (
+              [
+                { id: 'ALL', label: `All (${subLabCounts.total})` },
+                { id: 'DIGITAL', label: `Consumables (${subLabCounts.digCount})` },
+                { id: 'ECE', label: `ECE (${subLabCounts.eceCount})` },
+              ].map((sub) => (
+                <button
+                  key={sub.id}
+                  type="button"
+                  onClick={() => {
+                    setMobileLabFilter(sub.id);
+                    setActiveCategory('ALL');
+                  }}
+                  className={`h-8 px-3 rounded-lg text-[11px] font-bold shrink-0 cursor-pointer border ${
+                    mobileLabFilter === sub.id
+                      ? isDark
+                        ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black'
+                        : 'bg-slate-900 text-white border-slate-900'
+                      : isDark
+                      ? 'bg-slate-800 text-slate-300 border-slate-700'
+                      : 'bg-slate-100 text-slate-700 border-slate-300'
+                  }`}
+                >
+                  {sub.label}
+                </button>
+              ))
+            ) : (
+              categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  className={`h-8 px-3 rounded-lg text-[11px] font-bold shrink-0 whitespace-nowrap cursor-pointer border ${
+                    activeCategory === cat
+                      ? isDark
+                        ? 'bg-cyan-500 text-slate-950 border-cyan-400 font-black'
+                        : 'bg-slate-900 text-white border-slate-900'
+                      : isDark
+                      ? 'bg-slate-800 text-slate-300 border-slate-700'
+                      : 'bg-slate-100 text-slate-700 border-slate-300'
+                  }`}
+                >
+                  {cat === 'ALL' ? `All (${subLabFiltered.length})` : cat}
+                </button>
+              ))
+            )}
           </div>
-
-          {/* Borrow Cart Button */}
-          <button
-            type="button"
-            onClick={openCartDrawer}
-            className={`h-10 px-3 sm:px-4 rounded-xl border flex items-center gap-1.5 sm:gap-2 transition-transform duration-75 ease-out active:scale-[0.97] touch-manipulation cursor-pointer shadow-xs ${
-              isDark
-                ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
-                : 'bg-slate-900 hover:bg-slate-800 text-white border-slate-900'
-            }`}
-          >
-            <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-white shadow-xs">
-              <img src="/images/engrCartLogo.jpg" alt="Cart" className="w-full h-full object-cover" />
-            </div>
-            <span className="text-xs sm:text-sm font-bold">Cart</span>
-            <span
-              className={`px-2 py-0.5 rounded-full text-xs font-black shadow-xs ${
-                isDark ? 'bg-cyan-500 text-slate-950' : 'bg-white text-slate-900'
-              }`}
-            >
-              {totalUnitsCount}
-            </span>
-          </button>
-        </div>
+        )}
       </div>
 
       {/* 2. High-Contrast Catalog Viewport (Recessed slate tray in Light Mode prevents white-on-white blending) */}
@@ -575,22 +628,23 @@ export default function EquipmentCatalog() {
 
       {/* 3. Bottom Bar: Facility Title on Left + Truly Centered Pagination + Page Status on Right */}
       <div
-        className={`shrink-0 py-2 sm:py-2.5 px-2 sm:px-3 border-t flex items-center justify-between sm:grid sm:grid-cols-3 gap-2 sm:gap-3 z-20 mt-2 rounded-xl border ${
+        className={`shrink-0 py-1.5 sm:py-2.5 px-2 sm:px-3 border-t flex items-center justify-between sm:grid sm:grid-cols-3 gap-1.5 sm:gap-3 z-20 mt-2 rounded-xl border ${
           isDark
             ? 'bg-[#0a0e17]/95 border-slate-800/90'
             : 'bg-white border-slate-300 shadow-xs'
         }`}
       >
-        {/* Left: Facility Title */}
+        {/* Left: Facility Title (Shortened on Mobile so pagination never overflows) */}
         <div className="flex items-center gap-2 shrink-0 min-w-0 justify-self-start">
           <span
-            className={`text-[11px] sm:text-xs font-black px-2.5 sm:px-3 py-1.5 rounded-xl border tracking-wide uppercase truncate max-w-[165px] sm:max-w-none ${
+            className={`text-[10.5px] sm:text-xs font-black px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl border tracking-wide uppercase truncate ${
               isDark
                 ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'
                 : 'bg-slate-100 text-slate-900 border-slate-300'
             }`}
           >
-            {currentLabInfo.name}
+            <span className="sm:hidden">{currentLabInfo.shortName || currentLabInfo.name}</span>
+            <span className="hidden sm:inline">{currentLabInfo.name}</span>
           </span>
           <span
             className={`hidden xl:inline text-xs font-semibold truncate ${
@@ -605,12 +659,12 @@ export default function EquipmentCatalog() {
         {totalPages > 1 ? (
           <>
             {/* Mobile (< sm): Compact 3-piece control */}
-            <div className="flex sm:hidden items-center justify-end gap-1.5 shrink-0">
+            <div className="flex sm:hidden items-center justify-end gap-1 shrink-0">
               <button
                 type="button"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`h-9 px-2.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                className={`h-8 px-2 rounded-xl border text-[11px] font-bold flex items-center gap-0.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                   isDark
                     ? 'bg-slate-800 border-slate-700 text-slate-200'
                     : 'bg-white border-slate-300 text-slate-800 shadow-xs'
@@ -621,13 +675,13 @@ export default function EquipmentCatalog() {
               </button>
 
               <div
-                className={`h-9 px-2.5 rounded-xl border flex items-center justify-center text-xs font-bold min-w-[66px] shadow-xs ${
+                className={`h-8 px-2 rounded-xl border flex items-center justify-center text-[11px] font-bold min-w-[54px] shadow-xs ${
                   isDark
                     ? 'bg-slate-900 border-slate-700 text-slate-200'
                     : 'bg-slate-50 border-slate-300 text-slate-800'
                 }`}
               >
-                <span className="text-blue-600 dark:text-cyan-400 font-extrabold mr-1">{currentPage}</span>
+                <span className="text-blue-600 dark:text-cyan-400 font-extrabold mr-0.5">{currentPage}</span>
                 <span className="text-slate-400 font-medium">/{totalPages}</span>
               </div>
 
@@ -635,7 +689,7 @@ export default function EquipmentCatalog() {
                 type="button"
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`h-9 px-2.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                className={`h-8 px-2 rounded-xl border text-[11px] font-bold flex items-center gap-0.5 transition-all active:scale-95 touch-manipulation cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                   isDark
                     ? 'bg-slate-800 border-slate-700 text-slate-200'
                     : 'bg-white border-slate-300 text-slate-800 shadow-xs'
@@ -801,7 +855,7 @@ const getLabAccent = (lab, isDark = true) => {
 };
 
 // ----------------------------------------------------------------------
-// 1. EquipmentCard: Structured, High-Contrast Grid Card
+// 1. EquipmentCard: Clean, Uncluttered High-Contrast Grid Card
 // ----------------------------------------------------------------------
 function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemActiveReservations, isDark = false }) {
   const [selectedVariantId, setSelectedVariantId] = useState(group.variants[0].id);
@@ -826,9 +880,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
   const isLowStock = !isMaintenance && availableStock > 0 && availableStock <= 3;
 
   const labBadgeClass = getLabAccent(currentItem.lab, isDark);
-  const isConsumable = isItemConsumable(currentItem);
 
-  // Display title: if single item with explicit parenthetical spec, show full clean item name
   const displayTitle =
     group.variants.length === 1 && currentItem.hasExplicitVariant
       ? currentItem.name
@@ -836,7 +888,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
 
   return (
     <div
-      className={`group relative rounded-xl p-2.5 sm:p-3 flex flex-col justify-between text-left select-none touch-manipulation transition-all duration-150 ${
+      className={`group relative rounded-xl p-2 sm:p-3 flex flex-col justify-between text-left select-none touch-manipulation transition-all duration-150 ${
         isDark
           ? 'bg-[#111827] border border-slate-800 hover:border-slate-700 shadow-md'
           : 'bg-white border border-slate-300 hover:border-slate-400 shadow-sm hover:shadow-md'
@@ -851,9 +903,9 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
       }`}
     >
       <div>
-        {/* 1. Framed Image Stage with Integrated Stock & Type Overlays */}
+        {/* 1. Framed Image Stage with Single Bottom-Left Stock Capsule (No Top-Right Clutter) */}
         <div
-          className={`relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-2.5 flex items-center justify-center border ${
+          className={`relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-2 flex items-center justify-center border ${
             isDark
               ? 'bg-[#080d16] border-slate-800/90'
               : 'bg-slate-100 border-slate-200'
@@ -877,17 +929,6 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             </div>
           )}
 
-          {/* Top-Right Classification Pill (Consumable vs Returnable) */}
-          <span
-            className={`absolute top-2 right-2 z-10 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wide border backdrop-blur-md pointer-events-none ${
-              isConsumable
-                ? 'bg-amber-950/85 text-amber-200 border-amber-500/40'
-                : 'bg-slate-900/80 text-slate-200 border-white/15'
-            }`}
-          >
-            {isConsumable ? 'Consumable' : 'Returnable'}
-          </span>
-
           {/* Bottom-Left Stock Capsule */}
           <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 z-10 flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-slate-950/90 backdrop-blur-md border border-white/15 text-white font-sans text-[10px] sm:text-[11px] font-bold pointer-events-none shadow-xs">
             <span
@@ -908,7 +949,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                 ? `Max (${inCartQty})`
                 : isOutOfStock
                 ? 'Out of stock'
-                : `${availableStock} ${currentItem.unit || 'pc'} avail`}
+                : `${availableStock} avail`}
             </span>
             {totalReservedQty > 0 && !isMaintenance && (
               <span className="text-[10px] shrink-0 font-semibold text-amber-300">
@@ -918,7 +959,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           </div>
         </div>
 
-        {/* 2. Single-Line Metadata Header (Never wraps into messy multi-line badges) */}
+        {/* 2. Single-Line Metadata Row (Full Tag Code on Desktop, Short Tag on Mobile so it never shows '...') */}
         <div className="flex items-center justify-between gap-1 mb-1">
           <span
             className={`font-mono text-[9.5px] sm:text-[11px] font-bold px-1.5 sm:px-2 py-0.5 rounded border truncate ${
@@ -928,7 +969,10 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             }`}
             title={currentItem.tagCode}
           >
-            {currentItem.tagCode}
+            <span className="sm:hidden">
+              {(currentItem.tagCode || '').replace(/^ENG-EQ-/, '')}
+            </span>
+            <span className="hidden sm:inline">{currentItem.tagCode}</span>
           </span>
 
           <span className={`text-[9.5px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded uppercase border shrink-0 ${labBadgeClass}`}>
@@ -946,56 +990,49 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           {displayTitle}
         </h3>
 
-        {/* 4. Dedicated Specification / Variant Slot (Consistent height across all cards) */}
-        <div className="mt-1.5 sm:mt-2">
-          {group.variants.length > 1 ? (
-            <div className="relative">
-              <select
-                value={selectedVariantId}
-                onChange={(e) => setSelectedVariantId(e.target.value)}
-                className={`w-full h-7 sm:h-8 pl-2 sm:pl-2.5 pr-6 sm:pr-7 rounded-lg text-[11px] sm:text-xs font-bold appearance-none cursor-pointer focus:outline-none transition-colors truncate border ${
-                  isDark
-                    ? 'bg-[#090e17] border-slate-700 text-cyan-300 focus:border-cyan-500'
-                    : 'bg-slate-50 border-slate-300 text-slate-900 hover:border-slate-400 focus:border-blue-600'
-                }`}
-              >
-                {group.variants.map((v) => {
-                  const vQty = getItemCartQty(v.id);
-                  const vStock = v.stock || 10;
-                  const vAvail = Math.max(0, vStock - vQty);
-                  return (
-                    <option
-                      key={v.id}
-                      value={v.id}
-                      className={isDark ? 'bg-[#131b28] text-slate-100' : 'bg-white text-slate-900'}
-                    >
-                      {v.variantLabel} — {vAvail === 0 ? 'Out of stock' : `${vAvail} avail`}{' '}
-                      {vQty > 0 ? `(${vQty} in cart)` : ''}
-                    </option>
-                  );
-                })}
-              </select>
-              <ChevronDown
-                className={`w-3.5 h-3.5 absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 pointer-events-none ${
-                  isDark ? 'text-slate-400' : 'text-slate-600'
-                }`}
-              />
-            </div>
-          ) : (
-            <div
-              className={`w-full h-7 sm:h-8 px-2 sm:px-2.5 rounded-lg border flex items-center justify-between text-[10px] sm:text-[11px] font-medium truncate ${
+        {/* 4. Variant Dropdown ONLY if item has multiple specs; clean subtitle if single item */}
+        {group.variants.length > 1 ? (
+          <div className="mt-1.5 relative">
+            <select
+              value={selectedVariantId}
+              onChange={(e) => setSelectedVariantId(e.target.value)}
+              className={`w-full h-7 sm:h-8 pl-2 sm:pl-2.5 pr-6 sm:pr-7 rounded-lg text-[11px] sm:text-xs font-bold appearance-none cursor-pointer focus:outline-none transition-colors truncate border ${
                 isDark
-                  ? 'bg-[#0b111e] border-slate-800/80 text-slate-400'
-                  : 'bg-slate-50 border-slate-200/90 text-slate-600'
+                  ? 'bg-[#090e17] border-slate-700 text-cyan-300 focus:border-cyan-500'
+                  : 'bg-slate-50 border-slate-300 text-slate-900 hover:border-slate-400 focus:border-blue-600'
               }`}
             >
-              <span className="truncate">{currentItem.category}</span>
-              <span className="hidden sm:inline font-mono font-semibold shrink-0 ml-2">
-                Unit: {currentItem.unit || 'pc'}
-              </span>
-            </div>
-          )}
-        </div>
+              {group.variants.map((v) => {
+                const vQty = getItemCartQty(v.id);
+                const vStock = v.stock || 10;
+                const vAvail = Math.max(0, vStock - vQty);
+                return (
+                  <option
+                    key={v.id}
+                    value={v.id}
+                    className={isDark ? 'bg-[#131b28] text-slate-100' : 'bg-white text-slate-900'}
+                  >
+                    {v.variantLabel} • {vAvail === 0 ? 'Out of stock' : `${vAvail} left`}{' '}
+                    {vQty > 0 ? `(${vQty} in cart)` : ''}
+                  </option>
+                );
+              })}
+            </select>
+            <ChevronDown
+              className={`w-3.5 h-3.5 absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 pointer-events-none ${
+                isDark ? 'text-slate-400' : 'text-slate-600'
+              }`}
+            />
+          </div>
+        ) : (
+          <p
+            className={`text-[10.5px] sm:text-xs truncate mt-0.5 ${
+              isDark ? 'text-slate-400' : 'text-slate-500'
+            }`}
+          >
+            {currentItem.category}
+          </p>
+        )}
       </div>
 
       {/* 5. Card Footer: Action Buttons */}
@@ -1128,13 +1165,16 @@ function EquipmentCompactRow({ group, onAddToCart, onReserve, getItemCartQty, is
           {/* Row 2: Tag + Lab + Stock Indicator */}
           <div className="flex items-center gap-1.5 mt-1 flex-nowrap overflow-hidden">
             <span
-              className={`font-mono text-[10px] px-1.5 py-0.5 rounded font-bold border truncate max-w-[130px] shrink-0 ${
+              className={`font-mono text-[10px] px-1.5 py-0.5 rounded font-bold border truncate shrink-0 ${
                 isDark
                   ? 'text-slate-300 bg-slate-900 border-slate-800'
                   : 'bg-slate-100 text-slate-700 border-slate-200'
               }`}
             >
-              {currentItem.tagCode}
+              <span className="sm:hidden">
+                {(currentItem.tagCode || '').replace(/^ENG-EQ-/, '')}
+              </span>
+              <span className="hidden sm:inline">{currentItem.tagCode}</span>
             </span>
 
             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase shrink-0 border ${labBadgeClass}`}>
