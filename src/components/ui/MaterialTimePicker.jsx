@@ -1,14 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-/**
- * MaterialTimePicker
- * Material 3 style 12-hour clock dial dialog.
- * - Single pointer handler on the dial (tap or drag) for instant response
- * - Hour selection auto-advances to minutes on release
- * - AM / PM segmented toggle
- * - Clear / Cancel / Set actions
- */
-const DIAL_RADIUS = 128; // dial is 256px
+const DIAL_RADIUS = 128;
 const NUM_RADIUS = 96;
 
 const HOURS = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -99,13 +91,11 @@ export default function MaterialTimePicker({
   };
 
   const headerBtn = (active) =>
-    `px-2 py-0.5 rounded-lg cursor-pointer ${
-      active ? 'bg-[#444850] text-[#a8c7fa] font-normal' : 'text-[#9ea2a9] hover:text-[#d3e3fd]'
+    `px-2 py-0.5 rounded-lg cursor-pointer ${active ? 'bg-[#444850] text-[#a8c7fa] font-normal' : 'text-[#9ea2a9] hover:text-[#d3e3fd]'
     }`;
 
   const periodBtn = (active) =>
-    `px-3 py-1.5 text-xs font-bold cursor-pointer ${
-      active ? 'bg-[#a8c7fa] text-[#041e49]' : 'text-[#9ea2a9] hover:text-white'
+    `px-3 py-1.5 text-xs font-bold cursor-pointer ${active ? 'bg-[#a8c7fa] text-[#041e49]' : 'text-[#9ea2a9] hover:text-white'
     }`;
 
   return (
@@ -158,9 +148,8 @@ export default function MaterialTimePicker({
               return (
                 <span
                   key={`${mode}-${val}`}
-                  className={`absolute pointer-events-none font-sans font-medium ${
-                    selected ? 'text-[#041e49] font-bold text-sm' : 'text-[#d2d4da] text-[15px]'
-                  }`}
+                  className={`absolute pointer-events-none font-sans font-medium ${selected ? 'text-[#041e49] font-bold text-sm' : 'text-[#d2d4da] text-[15px]'
+                    }`}
                   style={{ left: x, top: y, transform: 'translate(-50%, -50%)' }}
                 >
                   {mode === 'hour' ? val : String(val).padStart(2, '0')}
