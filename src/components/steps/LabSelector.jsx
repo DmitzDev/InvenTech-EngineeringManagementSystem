@@ -1,46 +1,15 @@
 import React, { useMemo } from 'react';
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { Building2, Cpu, Radio, FlaskConical, Atom, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
-import { LAB_OPTIONS, getInventory, isItemConsumable } from '../../data/equipmentData';
+import { LAB_OPTIONS, getInventory } from '../../data/equipmentData';
 import TouchButton from '../ui/TouchButton';
 
-const FACILITY_META = {
-  CE: {
-    code: 'DEPT-CE',
-    division: 'Structural, Geotechnical & Surveying Division',
-    highlights: ['Surveying Instruments', 'Concrete & Soil Testing', 'Materials Apparatus'],
-    accentLight: 'border-t-amber-600',
-    accentDark: 'border-t-amber-500',
-    badgeLight: 'bg-amber-50 text-amber-900 border-amber-300',
-    badgeDark: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-  },
-  CHEM: {
-    code: 'DEPT-CHEM',
-    division: 'Analytical & General Chemistry Division',
-    highlights: ['Volumetric Glassware', 'Analytical Balances', 'Thermal & Titration'],
-    accentLight: 'border-t-emerald-600',
-    accentDark: 'border-t-emerald-500',
-    badgeLight: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-    badgeDark: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  },
-  DIGITAL: {
-    code: 'DEPT-DIG/ECE',
-    division: 'Digital Logic, Microcontrollers & Communications',
-    highlights: ['TTL Logic Gate ICs', 'ETEK Trainer Modules', 'Test & Measurement'],
-    accentLight: 'border-t-blue-600',
-    accentDark: 'border-t-cyan-500',
-    badgeLight: 'bg-sky-50 text-sky-900 border-sky-300',
-    badgeDark: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
-  },
-  PHYSICS: {
-    code: 'DEPT-PHY',
-    division: 'Classical Mechanics, Optics & Electromagnetism',
-    highlights: ['Mechanics & Dynamics', 'Optics & Lasers', 'Calorimetry & Balances'],
-    accentLight: 'border-t-rose-600',
-    accentDark: 'border-t-rose-500',
-    badgeLight: 'bg-rose-50 text-rose-900 border-rose-300',
-    badgeDark: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-  },
+const ICON_MAP = {
+  Building2,
+  Cpu,
+  Radio,
+  FlaskConical,
+  Atom,
 };
 
 export default function LabSelector() {
@@ -53,261 +22,177 @@ export default function LabSelector() {
     setStep(3);
   };
 
+  const getCardStyle = (lab, isSelected) => {
+    const topAccent =
+      lab.id === 'CE'
+        ? 'border-t-4 border-t-amber-500'
+        : lab.id === 'CHEM'
+        ? 'border-t-4 border-t-emerald-500'
+        : lab.id === 'DIGITAL' || lab.id === 'DIGITAL_ECE'
+        ? 'border-t-4 border-t-cyan-500'
+        : 'border-t-4 border-t-rose-500';
+
+    if (isSelected) {
+      if (isDark) {
+        return `bg-[#121c2e] border border-cyan-500/80 ${topAccent} ring-2 ring-cyan-500/25 shadow-lg`;
+      }
+      return `bg-white border-2 border-slate-900 ${topAccent} ring-2 ring-slate-900/10 shadow-md`;
+    }
+
+    return isDark
+      ? `bg-[#0f172a] border border-slate-800 ${topAccent} hover:border-slate-700 hover:bg-[#131d31] shadow-md`
+      : `bg-white border border-slate-300 ${topAccent} hover:border-slate-400 shadow-sm hover:shadow-md`;
+  };
+
+  const getIconStyle = (labId) => {
+    if (isDark) {
+      if (labId === 'CE') return 'bg-amber-500/10 text-amber-400 border border-amber-500/25';
+      if (labId === 'CHEM') return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25';
+      if (labId === 'DIGITAL' || labId === 'DIGITAL_ECE') return 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/25';
+      return 'bg-rose-500/10 text-rose-400 border border-rose-500/25';
+    }
+    if (labId === 'CE') return 'bg-amber-50 border border-amber-200 text-amber-700';
+    if (labId === 'CHEM') return 'bg-emerald-50 border border-emerald-200 text-emerald-700';
+    if (labId === 'DIGITAL' || labId === 'DIGITAL_ECE') return 'bg-sky-50 border border-sky-200 text-sky-700';
+    return 'bg-rose-50 border border-rose-200 text-rose-700';
+  };
+
   return (
-    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full max-w-full overflow-x-hidden p-3 sm:p-5 lg:p-6 pb-4 sm:pb-6 flex flex-col justify-between select-none min-h-0">
-      {/* 1. Institutional Step Header */}
+    <div className="flex-1 max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto w-full max-w-full overflow-x-hidden p-3 sm:p-5 lg:p-6 pb-5 sm:pb-7 flex flex-col md:justify-between select-none min-h-0">
+      {/* 1. Step Header */}
       <div
-        className={`flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b pb-2.5 sm:pb-3 shrink-0 ${
-          isDark ? 'border-slate-800' : 'border-slate-300'
+        className={`flex items-center justify-between border-b pb-2.5 shrink-0 ${
+          isDark ? 'border-slate-800/80' : 'border-slate-300'
         }`}
       >
-        <div>
-          <span
-            className={`font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest block mb-0.5 ${
-              isDark ? 'text-cyan-400' : 'text-slate-600'
-            }`}
-          >
-            Step 2 of 4 • Laboratory Facility Selection
-          </span>
-          <h1
-            className={`text-lg sm:text-2xl lg:text-3xl font-black tracking-tight leading-tight ${
-              isDark ? 'text-slate-100' : 'text-slate-950'
-            }`}
-          >
-            Select Engineering Laboratory Facility
-          </h1>
-        </div>
-
-        {/* Active Borrower Summary Strip */}
-        <div
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs w-fit ${
-            isDark
-              ? 'bg-[#0f172a] border-slate-800 text-slate-300'
-              : 'bg-white border-slate-300 text-slate-700 shadow-xs'
+        <h1
+          className={`text-lg sm:text-2xl lg:text-3xl font-black leading-tight ${
+            isDark ? 'text-slate-100' : 'text-slate-950'
           }`}
         >
-          <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>Borrower:</span>
-          <span className={`font-extrabold uppercase ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
-            {borrower.groupLeader || 'STUDENT'}
-          </span>
-          <span className="opacity-40">•</span>
-          <span
-            className={`font-mono font-bold ${
-              isDark ? 'text-cyan-400' : 'text-blue-700'
-            }`}
-          >
-            {borrower.courseCode || borrower.program || 'ENGR'}
-          </span>
-        </div>
+          Select Laboratory Department
+        </h1>
+        <p
+          className={`text-xs sm:text-sm hidden md:block ${
+            isDark ? 'text-slate-400' : 'text-slate-600 font-semibold'
+          }`}
+        >
+          Choose the laboratory facility for your session.
+        </p>
       </div>
 
-      {/* 2. 4-Facility Selector Grid (1-col on phone, 2-col on tablet, 4-col on desktop/kiosk) */}
+      {/* 2. 4 Department Selection Cards Grid */}
       <div
-        className={`my-3 sm:my-auto rounded-2xl p-2 sm:p-3.5 border ${
+        className={`my-3 md:my-auto rounded-2xl p-2.5 sm:p-3.5 border ${
           isDark
             ? 'bg-[#080d16] border-slate-800/80'
-            : 'bg-slate-200/75 border-slate-300 shadow-inner'
+            : 'bg-slate-200/70 border-slate-300 shadow-inner'
         }`}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 lg:gap-4">
-          {LAB_OPTIONS.map((lab, idx) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {LAB_OPTIONS.map((lab) => {
+            const Icon = ICON_MAP[lab.iconName] || Building2;
             const isSelected = selectedLab === lab.id;
-            const meta = FACILITY_META[lab.id] || FACILITY_META.CE;
-
-            const labItems = lab.subLabs
-              ? allEquipment.filter((item) => lab.subLabs.includes(item.lab))
-              : allEquipment.filter((item) => item.lab === lab.id);
-
-            const totalApparatus = labItems.length;
-            const totalUnits = labItems.reduce((sum, item) => sum + (Number(item.stock) || 0), 0);
-            const returnableCount = labItems.filter((item) => !isItemConsumable(item)).length;
-            const consumableCount = totalApparatus - returnableCount;
+            const itemCount = lab.subLabs
+              ? allEquipment.filter((item) => lab.subLabs.includes(item.lab)).length
+              : allEquipment.filter((item) => item.lab === lab.id).length;
 
             return (
-              <button
+              <div
                 key={lab.id}
-                type="button"
                 onClick={() => handleSelectLab(lab.id)}
-                className={`group text-left rounded-xl p-3.5 sm:p-4 lg:p-5 flex flex-col justify-between transition-all duration-150 cursor-pointer touch-manipulation active:scale-[0.99] border border-t-4 ${
-                  isDark ? meta.accentDark : meta.accentLight
-                } ${
+                className={`p-4 sm:p-5 rounded-2xl cursor-pointer flex flex-col justify-between group active:scale-[0.98] transition-all duration-150 touch-manipulation min-h-[200px] sm:min-h-[235px] lg:min-h-[260px] ${getCardStyle(
+                  lab,
                   isSelected
-                    ? isDark
-                      ? 'bg-[#131d31] border-cyan-400 ring-2 ring-cyan-400/30 shadow-lg'
-                      : 'bg-white border-slate-900 ring-2 ring-slate-900/15 shadow-md'
-                    : isDark
-                    ? 'bg-[#0f172a] border-slate-800 hover:border-slate-700 hover:bg-[#131c30] shadow-md'
-                    : 'bg-white border-slate-300 hover:border-slate-400 shadow-sm hover:shadow-md'
-                }`}
+                )}`}
               >
-                <div className="w-full">
-                  {/* Row 1: Facility Index + Room Code Badge */}
-                  <div className="flex items-center justify-between gap-2 mb-2.5">
-                    <span
-                      className={`font-mono text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${
-                        isDark ? meta.badgeDark : meta.badgeLight
-                      }`}
+                <div>
+                  {/* Top Icon & Tag */}
+                  <div className="flex items-center justify-between mb-3.5">
+                    <div
+                      className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 ${getIconStyle(
+                        lab.id
+                      )}`}
                     >
-                      0{idx + 1} • {lab.tag}
-                    </span>
-
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
                     <span
-                      className={`font-mono text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded border truncate ${
+                      className={`text-[11px] font-mono px-2.5 py-1 rounded-lg font-bold border ${
                         isDark
                           ? 'bg-slate-900 text-slate-300 border-slate-700'
                           : 'bg-slate-100 text-slate-800 border-slate-300'
                       }`}
                     >
-                      {lab.room}
+                      {lab.tag}
                     </span>
                   </div>
 
-                  {/* Row 2: Department Title & Division Subtitle */}
-                  <h2
-                    className={`text-base sm:text-lg lg:text-xl font-black tracking-tight leading-snug ${
-                      isDark ? 'text-slate-100' : 'text-slate-950'
+                  {/* Lab Name & Available Items */}
+                  <h3
+                    className={`text-base sm:text-lg font-black leading-snug ${
+                      isDark ? 'text-slate-100' : 'text-slate-900'
                     }`}
                   >
                     {lab.name}
-                  </h2>
+                  </h3>
                   <p
-                    className={`text-[11px] sm:text-xs font-semibold mt-0.5 ${
-                      isDark ? 'text-slate-400' : 'text-slate-600'
+                    className={`text-xs font-bold mt-1 uppercase tracking-wider ${
+                      isDark ? 'text-cyan-400' : 'text-blue-700'
                     }`}
                   >
-                    {meta.division}
+                    {itemCount} Items Available
                   </p>
-
-                  {/* Row 3: Live Inventory Specification Ledger */}
-                  <div
-                    className={`mt-3 rounded-lg border grid grid-cols-2 divide-x overflow-hidden ${
-                      isDark
-                        ? 'bg-[#090e19] border-slate-800 divide-slate-800'
-                        : 'bg-slate-50 border-slate-200/90 divide-slate-200/90'
-                    }`}
-                  >
-                    <div className="px-2.5 py-2">
-                      <span
-                        className={`text-[10px] font-bold uppercase tracking-wider block ${
-                          isDark ? 'text-slate-400' : 'text-slate-500'
-                        }`}
-                      >
-                        Catalog Specs
-                      </span>
-                      <span
-                        className={`font-mono text-xs sm:text-sm font-extrabold tabular-nums ${
-                          isDark ? 'text-slate-100' : 'text-slate-900'
-                        }`}
-                      >
-                        {totalApparatus} Items
-                      </span>
-                    </div>
-                    <div className="px-2.5 py-2">
-                      <span
-                        className={`text-[10px] font-bold uppercase tracking-wider block ${
-                          isDark ? 'text-slate-400' : 'text-slate-500'
-                        }`}
-                      >
-                        Total Stock
-                      </span>
-                      <span
-                        className={`font-mono text-xs sm:text-sm font-extrabold tabular-nums ${
-                          isDark ? 'text-cyan-400' : 'text-blue-700'
-                        }`}
-                      >
-                        {totalUnits} Units
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Row 4: Description & Scope Tags */}
                   <p
-                    className={`text-xs mt-2.5 leading-relaxed line-clamp-2 ${
-                      isDark ? 'text-slate-300' : 'text-slate-600'
+                    className={`text-xs mt-2 line-clamp-2 leading-relaxed ${
+                      isDark ? 'text-slate-400' : 'text-slate-600 font-medium'
                     }`}
                   >
                     {lab.description}
                   </p>
-
-                  <div className="flex flex-wrap gap-1 mt-2.5">
-                    {meta.highlights.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${
-                          isDark
-                            ? 'bg-slate-900/90 text-slate-300 border-slate-800'
-                            : 'bg-slate-100 text-slate-700 border-slate-200'
-                        }`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                    {consumableCount > 0 && (
-                      <span
-                        className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
-                          isDark
-                            ? 'bg-amber-950/50 text-amber-300 border-amber-800/60'
-                            : 'bg-amber-50 text-amber-900 border-amber-200'
-                        }`}
-                      >
-                        {consumableCount} Consumables
-                      </span>
-                    )}
-                  </div>
                 </div>
 
-                {/* Row 5: Action Footer */}
+                {/* Card Footer */}
                 <div
-                  className={`w-full pt-3 mt-3.5 border-t flex items-center justify-between ${
+                  className={`pt-3.5 mt-4 flex items-center justify-between border-t ${
                     isDark ? 'border-slate-800' : 'border-slate-200'
                   }`}
                 >
                   <span
-                    className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+                    className={`text-xs flex items-center gap-1.5 font-bold px-2.5 py-1 rounded-lg border ${
+                      isDark
+                        ? 'text-slate-300 border-slate-800 bg-slate-900'
+                        : 'bg-slate-100 text-slate-800 border-slate-300'
+                    }`}
+                  >
+                    <ShieldCheck className={`w-3.5 h-3.5 ${isDark ? 'text-emerald-400' : 'text-blue-700'}`} />
+                    <span>{lab.room ? lab.room.split(' ')[0] : 'Ready'}</span>
+                  </span>
+
+                  <span
+                    className={`text-xs sm:text-sm font-black flex items-center gap-1.5 transition-colors ${
                       isSelected
                         ? isDark
                           ? 'text-cyan-400'
                           : 'text-blue-700'
                         : isDark
-                        ? 'text-slate-400'
-                        : 'text-slate-500'
+                        ? 'text-slate-300 group-hover:text-cyan-400'
+                        : 'text-slate-800 group-hover:text-blue-700'
                     }`}
                   >
-                    {isSelected ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                        <span>Active Facility</span>
-                      </>
-                    ) : (
-                      <span>Ready for Requisition</span>
-                    )}
-                  </span>
-
-                  <span
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-                      isSelected
-                        ? isDark
-                          ? 'bg-cyan-500 text-slate-950 font-black'
-                          : 'bg-slate-900 text-white'
-                        : isDark
-                        ? 'bg-slate-800 text-slate-200 group-hover:bg-cyan-500 group-hover:text-slate-950'
-                        : 'bg-slate-900 text-white group-hover:bg-blue-700'
-                    }`}
-                  >
-                    <span>Open Catalog</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <span>{isSelected ? 'Selected' : 'Open Catalog'}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </span>
                 </div>
-              </button>
+              </div>
             );
           })}
         </div>
       </div>
 
-      {/* 3. Bottom Navigation Bar (Responsive on both Mobile & Kiosk) */}
+      {/* 3. Bottom Navigation */}
       <div
-        className={`pt-2.5 sm:pt-3.5 border-t flex items-center justify-between gap-3 shrink-0 ${
-          isDark ? 'border-slate-800' : 'border-slate-300'
+        className={`mt-auto md:mt-0 pt-3 border-t flex flex-col-reverse sm:flex-row items-center justify-between gap-3 shrink-0 ${
+          isDark ? 'border-slate-800/80' : 'border-slate-300'
         }`}
       >
         <TouchButton
@@ -315,17 +200,21 @@ export default function LabSelector() {
           size="md"
           icon={ArrowLeft}
           onClick={() => setStep(1)}
-          className="px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold shrink-0"
+          className="w-full sm:w-auto min-w-[150px] text-xs sm:text-sm font-bold"
         >
-          Back to Borrower Form
+          Back to Borrower Info
         </TouchButton>
 
         <div
-          className={`text-[11px] sm:text-xs font-medium text-right truncate ${
+          className={`text-xs sm:text-sm font-medium text-center sm:text-right ${
             isDark ? 'text-slate-400' : 'text-slate-600'
           }`}
         >
-          Tap any laboratory card above to browse its apparatus catalog.
+          Borrower:{' '}
+          <span className={`font-bold ${isDark ? 'text-cyan-400' : 'text-slate-900'}`}>
+            {borrower.groupLeader || 'Not set'}
+          </span>{' '}
+          ({borrower.program || 'N/A'})
         </div>
       </div>
     </div>
