@@ -654,13 +654,6 @@ export default function BorrowerForm() {
               }`}>
                 Course Code
               </label>
-              {isAcademicInfoComplete && (
-                <span className={`text-[10px] font-bold flex items-center gap-0.5 ${
-                  isDark ? 'text-emerald-400' : 'text-emerald-700'
-                }`}>
-                  <CheckCircle2 className="w-3 h-3" /> Auto-Generated
-                </span>
-              )}
             </div>
             <div
               tabIndex={-1}
@@ -697,21 +690,14 @@ export default function BorrowerForm() {
           </h2>
 
           {/* Student Name & Student ID Number (Grid on 15" screen) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 items-start">
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className={`block text-[10.5px] sm:text-sm font-medium ${
                   isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
                 }`}>
-                  Student Full Name <span className="text-[10px] sm:text-xs opacity-75 font-normal">(First & Last Name)</span>
+                  Student Fullname
                 </label>
-                {isFullNameValid && (
-                  <span className={`text-[10px] font-bold flex items-center gap-0.5 ${
-                    isDark ? 'text-emerald-400' : 'text-emerald-700'
-                  }`}>
-                    <CheckCircle2 className="w-3 h-3" /> Validated
-                  </span>
-                )}
               </div>
               <input
                 type="text"
@@ -743,13 +729,6 @@ export default function BorrowerForm() {
                 }`}>
                   Student ID Number
                 </label>
-                {isStudentIdValid && !clearanceStatus.isRestricted && !databaseCheck.hasDuplicateActiveLoan && (
-                  <span className={`text-[10px] font-bold flex items-center gap-0.5 ${
-                    isDark ? 'text-emerald-400' : 'text-emerald-700'
-                  }`}>
-                    <CheckCircle2 className="w-3 h-3" /> 9-Digit ID Validated
-                  </span>
-                )}
                 {databaseCheck.hasDuplicateActiveLoan && (
                   <span className="text-[10px] font-bold text-rose-500 flex items-center gap-0.5">
                     <AlertTriangle className="w-3 h-3" /> May Aktibong Hirap
@@ -884,13 +863,6 @@ export default function BorrowerForm() {
                 }`}>
                   Instructor
                 </label>
-                {isInstructorValid && (
-                  <span className={`text-[10px] font-bold flex items-center gap-0.5 ${
-                    isDark ? 'text-emerald-400' : 'text-emerald-700'
-                  }`}>
-                    <CheckCircle2 className="w-3 h-3" /> Validated
-                  </span>
-                )}
               </div>
               <input
                 type="text"

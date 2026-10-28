@@ -387,12 +387,12 @@ export default function TransactionCommit() {
                     }`}
                   >
                     <tr>
-                      <th className="py-2.5 px-3 w-10 text-center">#</th>
-                      <th className="py-2.5 px-3">Apparatus Description</th>
-                      <th className="py-2.5 px-3 w-36">Tag Code</th>
-                      <th className="py-2.5 px-3 w-24 text-center">Type</th>
-                      <th className="py-2.5 px-3 w-24 text-center">Condition</th>
-                      <th className="py-2.5 px-3 w-20 text-right">Qty</th>
+                      <th className="py-2.5 px-2.5 sm:px-3 w-8 sm:w-10 text-center">#</th>
+                      <th className="py-2.5 px-2.5 sm:px-3">Apparatus Description</th>
+                      <th className="hidden sm:table-cell py-2.5 px-3 w-36">Tag Code</th>
+                      <th className="hidden md:table-cell py-2.5 px-3 w-24 text-center">Type</th>
+                      <th className="hidden sm:table-cell py-2.5 px-3 w-24 text-center">Condition</th>
+                      <th className="py-2.5 px-2.5 sm:px-3 w-16 sm:w-20 text-right">Qty</th>
                     </tr>
                   </thead>
                   <tbody
@@ -405,19 +405,23 @@ export default function TransactionCommit() {
                         key={item.id}
                         className={isDark ? 'hover:bg-slate-800/30' : 'hover:bg-slate-50/80'}
                       >
-                        <td className={`py-2.5 px-3 text-center font-mono font-bold ${labelMuted}`}>
+                        <td className={`py-2.5 px-2.5 sm:px-3 text-center font-mono font-bold ${labelMuted}`}>
                           {String(idx + 1).padStart(2, '0')}
                         </td>
-                        <td className="py-2.5 px-3">
+                        <td className="py-2.5 px-2.5 sm:px-3">
                           <div className="font-bold leading-snug">{item.name}</div>
-                          <div className={`text-[10px] font-medium ${labelMuted}`}>
-                            {formatLabName(item.lab)}
+                          <div className={`text-[10px] font-medium flex flex-wrap items-center gap-1.5 mt-0.5 ${labelMuted}`}>
+                            <span>{formatLabName(item.lab)}</span>
+                            <span className="sm:hidden font-mono">• {item.tagCode}</span>
+                            {item.isDamaged && (
+                              <span className="sm:hidden text-amber-600 dark:text-amber-400 font-bold">• Noted Defect</span>
+                            )}
                           </div>
                         </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] font-semibold">
+                        <td className="hidden sm:table-cell py-2.5 px-3 font-mono text-[11px] font-semibold">
                           {item.tagCode}
                         </td>
-                        <td className="py-2.5 px-3 text-center">
+                        <td className="hidden md:table-cell py-2.5 px-3 text-center">
                           <span
                             className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${
                               item.isConsumable
@@ -432,7 +436,7 @@ export default function TransactionCommit() {
                             {item.isConsumable ? 'Consumable' : 'Returnable'}
                           </span>
                         </td>
-                        <td className="py-2.5 px-3 text-center">
+                        <td className="hidden sm:table-cell py-2.5 px-3 text-center">
                           {item.isDamaged ? (
                             <span
                               className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase border ${
@@ -449,7 +453,7 @@ export default function TransactionCommit() {
                             </span>
                           )}
                         </td>
-                        <td className="py-2.5 px-3 text-right font-mono font-extrabold">
+                        <td className="py-2.5 px-2.5 sm:px-3 text-right font-mono font-extrabold whitespace-nowrap">
                           {item.qty} {item.unit || 'pc'}
                         </td>
                       </tr>

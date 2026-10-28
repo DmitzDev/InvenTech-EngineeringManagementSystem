@@ -449,10 +449,10 @@ export default function EquipmentCatalog() {
         </div>
 
         {/* Right: Universal Grid / List View Switcher & Borrow Cart */}
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Universal View Mode Switcher (Visible on both Kiosk/Desktop and Mobile) */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Universal View Mode Switcher (Compact icon-only on Mobile, labeled on Desktop/Kiosk) */}
           <div
-            className={`flex items-center gap-0.5 p-1 rounded-xl border ${
+            className={`flex items-center gap-0.5 p-0.5 sm:p-1 rounded-xl border ${
               isDark
                 ? 'bg-slate-900 border-slate-700'
                 : 'bg-slate-200/80 border-slate-300'
@@ -462,7 +462,7 @@ export default function EquipmentCatalog() {
               type="button"
               onClick={() => setViewMode('grid')}
               title="Card Grid View"
-              className={`h-8 px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
+              className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
                 viewMode === 'grid'
                   ? isDark
                     ? 'bg-cyan-500 text-slate-950 shadow-xs'
@@ -472,14 +472,14 @@ export default function EquipmentCatalog() {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Grid</span>
+              <LayoutGrid className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+              <span className="hidden lg:inline">Grid</span>
             </button>
             <button
               type="button"
               onClick={() => setViewMode('compact')}
               title="Compact List View"
-              className={`h-8 px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
+              className={`p-1.5 sm:h-8 sm:px-2.5 rounded-lg flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
                 viewMode === 'compact'
                   ? isDark
                     ? 'bg-cyan-500 text-slate-950 shadow-xs'
@@ -489,8 +489,8 @@ export default function EquipmentCatalog() {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <List className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">List</span>
+              <List className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+              <span className="hidden lg:inline">List</span>
             </button>
           </div>
 
@@ -498,7 +498,7 @@ export default function EquipmentCatalog() {
           <button
             type="button"
             onClick={openCartDrawer}
-            className={`h-10 px-3.5 sm:px-4 rounded-xl border flex items-center gap-2 transition-transform duration-75 ease-out active:scale-[0.97] touch-manipulation cursor-pointer shadow-xs ${
+            className={`h-10 px-3 sm:px-4 rounded-xl border flex items-center gap-1.5 sm:gap-2 transition-transform duration-75 ease-out active:scale-[0.97] touch-manipulation cursor-pointer shadow-xs ${
               isDark
                 ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
                 : 'bg-slate-900 hover:bg-slate-800 text-white border-slate-900'
@@ -542,7 +542,7 @@ export default function EquipmentCatalog() {
           </div>
         ) : viewMode === 'compact' ? (
           /* Compact List / Strip View (1-col on phone, 2-col on tablet, 3-col on desktop/kiosk) */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
+          <div className="space-y-2 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-3">
             {paginatedEquipment.map((group) => (
               <EquipmentCompactRow
                 key={group.id}
@@ -557,7 +557,7 @@ export default function EquipmentCatalog() {
           </div>
         ) : (
           /* Standard Card Grid View (2-col on phone, 3-col on tablet, 4-col on desktop/kiosk) */
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-3.5">
             {paginatedEquipment.map((group) => (
               <EquipmentCard
                 key={group.id}
@@ -573,35 +573,39 @@ export default function EquipmentCatalog() {
         )}
       </div>
 
-      {/* 3. Bottom Bar: Facility Title on Left + Centered Pagination */}
+      {/* 3. Bottom Bar: Facility Title on Left + Truly Centered Pagination + Page Status on Right */}
       <div
-        className={`shrink-0 pt-2.5 pb-1 px-1 flex items-center justify-between gap-3 z-20`}
+        className={`shrink-0 py-2 sm:py-2.5 px-2 sm:px-3 border-t flex items-center justify-between sm:grid sm:grid-cols-3 gap-2 sm:gap-3 z-20 mt-2 rounded-xl border ${
+          isDark
+            ? 'bg-[#0a0e17]/95 border-slate-800/90'
+            : 'bg-white border-slate-300 shadow-xs'
+        }`}
       >
         {/* Left: Facility Title */}
-        <div className="flex items-center gap-2 shrink-0 min-w-0">
+        <div className="flex items-center gap-2 shrink-0 min-w-0 justify-self-start">
           <span
-            className={`text-[11px] sm:text-xs font-black px-3 py-1.5 rounded-xl border tracking-wide uppercase truncate ${
+            className={`text-[11px] sm:text-xs font-black px-2.5 sm:px-3 py-1.5 rounded-xl border tracking-wide uppercase truncate max-w-[165px] sm:max-w-none ${
               isDark
                 ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'
-                : 'bg-white text-slate-900 border-slate-300 shadow-xs'
+                : 'bg-slate-100 text-slate-900 border-slate-300'
             }`}
           >
             {currentLabInfo.name}
           </span>
           <span
-            className={`hidden lg:inline text-xs font-semibold ${
-              isDark ? 'text-slate-400' : 'text-slate-600'
+            className={`hidden xl:inline text-xs font-semibold truncate ${
+              isDark ? 'text-slate-400' : 'text-slate-500'
             }`}
           >
-            ({groupedEquipment.length} apparatus groups • {filteredEquipment.length} total specs)
+            ({filteredEquipment.length} items)
           </span>
         </div>
 
         {/* Center / Right: Pagination Controls */}
         {totalPages > 1 ? (
           <>
-            {/* Mobile (< sm) */}
-            <div className="flex sm:hidden items-center justify-end gap-1.5">
+            {/* Mobile (< sm): Compact 3-piece control */}
+            <div className="flex sm:hidden items-center justify-end gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -617,10 +621,10 @@ export default function EquipmentCatalog() {
               </button>
 
               <div
-                className={`h-9 px-2.5 rounded-xl border flex items-center justify-center text-xs font-bold min-w-[70px] shadow-xs ${
+                className={`h-9 px-2.5 rounded-xl border flex items-center justify-center text-xs font-bold min-w-[66px] shadow-xs ${
                   isDark
                     ? 'bg-slate-900 border-slate-700 text-slate-200'
-                    : 'bg-white border-slate-300 text-slate-800'
+                    : 'bg-slate-50 border-slate-300 text-slate-800'
                 }`}
               >
                 <span className="text-blue-600 dark:text-cyan-400 font-extrabold mr-1">{currentPage}</span>
@@ -642,8 +646,8 @@ export default function EquipmentCatalog() {
               </button>
             </div>
 
-            {/* Kiosk & Desktop (>= sm) */}
-            <div className="hidden sm:flex items-center gap-1.5 flex-wrap justify-center flex-1">
+            {/* Kiosk & Desktop (>= sm): Perfectly Centered in Middle Grid Column */}
+            <div className="hidden sm:flex items-center justify-center gap-1.5 justify-self-center">
               <button
                 type="button"
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -700,14 +704,14 @@ export default function EquipmentCatalog() {
               </button>
             </div>
 
-            <div className="hidden sm:block shrink-0 min-w-[110px] text-right">
+            <div className="hidden sm:block shrink-0 text-right justify-self-end">
               <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Page {currentPage} of {totalPages}
               </span>
             </div>
           </>
         ) : (
-          <div className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <div className={`text-xs font-semibold sm:col-span-2 text-right ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Showing all {groupedEquipment.length} apparatus
           </div>
         )}
@@ -885,9 +889,9 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           </span>
 
           {/* Bottom-Left Stock Capsule */}
-          <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-950/90 backdrop-blur-md border border-white/15 text-white font-sans text-[11px] font-bold pointer-events-none shadow-xs">
+          <div className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 z-10 flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-slate-950/90 backdrop-blur-md border border-white/15 text-white font-sans text-[10px] sm:text-[11px] font-bold pointer-events-none shadow-xs">
             <span
-              className={`w-2 h-2 rounded-full shrink-0 ${
+              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full shrink-0 ${
                 isMaintenance || isOutOfStock
                   ? 'bg-rose-400'
                   : isAllInCart
@@ -915,9 +919,9 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
         </div>
 
         {/* 2. Single-Line Metadata Header (Never wraps into messy multi-line badges) */}
-        <div className="flex items-center justify-between gap-1.5 mb-1">
+        <div className="flex items-center justify-between gap-1 mb-1">
           <span
-            className={`font-mono text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded border truncate ${
+            className={`font-mono text-[9.5px] sm:text-[11px] font-bold px-1.5 sm:px-2 py-0.5 rounded border truncate ${
               isDark
                 ? 'bg-slate-900 text-slate-300 border-slate-800'
                 : 'bg-slate-100 text-slate-700 border-slate-200/90'
@@ -927,7 +931,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
             {currentItem.tagCode}
           </span>
 
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase border shrink-0 ${labBadgeClass}`}>
+          <span className={`text-[9.5px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded uppercase border shrink-0 ${labBadgeClass}`}>
             {currentItem.lab}
           </span>
         </div>
@@ -943,13 +947,13 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
         </h3>
 
         {/* 4. Dedicated Specification / Variant Slot (Consistent height across all cards) */}
-        <div className="mt-2">
+        <div className="mt-1.5 sm:mt-2">
           {group.variants.length > 1 ? (
             <div className="relative">
               <select
                 value={selectedVariantId}
                 onChange={(e) => setSelectedVariantId(e.target.value)}
-                className={`w-full h-8 pl-2.5 pr-7 rounded-lg text-xs font-bold appearance-none cursor-pointer focus:outline-none transition-colors truncate border ${
+                className={`w-full h-7 sm:h-8 pl-2 sm:pl-2.5 pr-6 sm:pr-7 rounded-lg text-[11px] sm:text-xs font-bold appearance-none cursor-pointer focus:outline-none transition-colors truncate border ${
                   isDark
                     ? 'bg-[#090e17] border-slate-700 text-cyan-300 focus:border-cyan-500'
                     : 'bg-slate-50 border-slate-300 text-slate-900 hover:border-slate-400 focus:border-blue-600'
@@ -972,21 +976,21 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
                 })}
               </select>
               <ChevronDown
-                className={`w-3.5 h-3.5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none ${
+                className={`w-3.5 h-3.5 absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 pointer-events-none ${
                   isDark ? 'text-slate-400' : 'text-slate-600'
                 }`}
               />
             </div>
           ) : (
             <div
-              className={`w-full h-8 px-2.5 rounded-lg border flex items-center justify-between text-[11px] font-medium truncate ${
+              className={`w-full h-7 sm:h-8 px-2 sm:px-2.5 rounded-lg border flex items-center justify-between text-[10px] sm:text-[11px] font-medium truncate ${
                 isDark
                   ? 'bg-[#0b111e] border-slate-800/80 text-slate-400'
                   : 'bg-slate-50 border-slate-200/90 text-slate-600'
               }`}
             >
               <span className="truncate">{currentItem.category}</span>
-              <span className="font-mono font-semibold shrink-0 ml-2">
+              <span className="hidden sm:inline font-mono font-semibold shrink-0 ml-2">
                 Unit: {currentItem.unit || 'pc'}
               </span>
             </div>
@@ -996,7 +1000,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
 
       {/* 5. Card Footer: Action Buttons */}
       <div
-        className={`mt-2.5 pt-2.5 border-t flex items-center gap-1.5 sm:gap-2 ${
+        className={`mt-2 sm:mt-2.5 pt-2 sm:pt-2.5 border-t flex items-center gap-1 sm:gap-2 ${
           isDark ? 'border-slate-800' : 'border-slate-200'
         }`}
       >
@@ -1004,7 +1008,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           type="button"
           disabled={isMaintenance}
           onClick={() => onReserve(currentItem)}
-          className={`h-9 px-2.5 sm:px-3 rounded-lg flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform touch-manipulation disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 font-bold text-xs border ${
+          className={`h-8 sm:h-9 px-2 sm:px-3 rounded-lg flex items-center justify-center gap-1.5 active:scale-[0.97] transition-transform touch-manipulation disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 font-bold text-xs border ${
             isDark
               ? 'bg-slate-800/90 hover:bg-slate-800 text-amber-300 border-slate-700'
               : 'bg-amber-50 hover:bg-amber-100 border-amber-300 text-amber-900'
@@ -1019,7 +1023,7 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
           type="button"
           onClick={() => onAddToCart(currentItem)}
           disabled={isOutOfStock || isAllInCart || isMaintenance}
-          className={`flex-1 h-9 text-xs font-bold px-3 rounded-lg transition-transform touch-manipulation flex items-center justify-center gap-1.5 active:scale-[0.97] cursor-pointer ${
+          className={`flex-1 h-8 sm:h-9 text-[11px] sm:text-xs font-bold px-2 sm:px-3 rounded-lg transition-transform touch-manipulation flex items-center justify-center gap-1 sm:gap-1.5 active:scale-[0.97] cursor-pointer ${
             isMaintenance || isOutOfStock || isAllInCart
               ? isDark
                 ? 'opacity-40 cursor-not-allowed bg-slate-800 text-slate-400 border border-slate-700'
@@ -1033,17 +1037,17 @@ function EquipmentCard({ group, onAddToCart, onReserve, getItemCartQty, getItemA
               : 'bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-xs'
           }`}
         >
-          <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+          <Plus className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
           <span className="truncate">
             {isMaintenance
               ? 'Locked'
               : isAllInCart
-              ? 'Max Added'
+              ? 'Max'
               : isOutOfStock
               ? '0 Stock'
               : inCartQty > 0
-              ? `Add (+1) • ${inCartQty}`
-              : 'Add to Cart'}
+              ? `Add (${inCartQty})`
+              : 'Add'}
           </span>
         </button>
       </div>
