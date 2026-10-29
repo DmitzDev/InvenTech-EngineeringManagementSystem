@@ -13,6 +13,7 @@ import LabSelector from './components/steps/LabSelector';
 import EquipmentCatalog from './components/steps/EquipmentCatalog';
 import TransactionCommit from './components/steps/TransactionCommit';
 import BorrowerSheet from './components/print/BorrowerSheet';
+import ReturnReceiptDownload from './components/receipt/ReturnReceiptDownload';
 import AdminPanel from './components/admin/AdminPanel';
 import AdminLogin from './components/admin/AdminLogin';
 import { useKioskInactivity } from './hooks/useKioskInactivity';
@@ -154,6 +155,7 @@ export default function App() {
     <TransactionProvider>
       <Routes>
         <Route path="/" element={<KioskContent />} />
+        <Route path="/receipt/:txId" element={<ReturnReceiptDownload />} />
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
