@@ -113,6 +113,7 @@ export async function fetchTransactionsFromSupabase() {
 
     return data.map((row) => ({
       id: row.transaction_id,
+      txId: row.transaction_id,
       transactionId: row.transaction_id,
       studentId: row.student_id,
       studentName: row.student_name,
@@ -125,12 +126,48 @@ export async function fetchTransactionsFromSupabase() {
       instructor: row.instructor,
       purpose: row.purpose,
       lab: row.lab,
-      items: row.items,
+      items: row.items || [],
       totalUnits: row.total_units,
-      status: row.status,
+      status: row.status === 'RETURNED' ? 'RETURNED_CLEARED' : row.status,
       signature: row.signature,
       timestamp: row.timestamp,
+      borrowedAt: row.timestamp
+        ? new Date(row.timestamp).toLocaleString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          })
+        : 'Recent Session',
       returnedAt: row.returned_at,
+      borrower: {
+        studentId: row.student_id || '',
+        groupLeader: row.student_name || '',
+        program: row.program || '',
+        yearLevel: row.year_level || '',
+        semester: row.semester || '',
+        section: row.section || '',
+        courseCode: row.course_code || '',
+        groupNo: row.group_no || '1',
+        instructor: row.instructor || '',
+        purpose: row.purpose || '',
+        signature: row.signature || null,
+        date: row.timestamp
+          ? new Date(row.timestamp).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          : '',
+        actualDate: row.timestamp
+          ? new Date(row.timestamp).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          : '',
+      },
     }));
   } catch (err) {
     console.warn('[SUPABASE] Fetch transactions error:', err);
@@ -138,13 +175,13 @@ export async function fetchTransactionsFromSupabase() {
   }
 }
 
-export async function markTransactionReturnedInSupabase(txId, returnNotes) {
-  if (!isSupabaseConfigured || !supabase) return false;
+export async function markTransactionReturnedInSupabase(txId, returnNotes, status = 'RETURNED_CLEARED') {
+  if (!isSupabaseConfigured || !supabase || !txId) return false;
   try {
     const { error } = await supabase
       .from('transactions')
       .update({
-        status: 'RETURNED',
+        status,
         returned_at: new Date().toISOString(),
       })
       .eq('transaction_id', txId);

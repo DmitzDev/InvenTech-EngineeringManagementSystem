@@ -7,7 +7,6 @@ import {
   Clock,
   AlertTriangle,
   ShieldAlert,
-  CheckCircle2,
   X,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
@@ -276,8 +275,6 @@ export default function BorrowerForm() {
       errs.studentId = 'Kinakailangan ang Student ID Number';
     } else if (curCleanId.length !== 9) {
       errs.studentId = `Kulang ang Student ID: 9 digits ang kailangan (${curCleanId.length}/9 digits naipasa)`;
-    } else if (databaseCheck.hasDuplicateActiveLoan) {
-      errs.studentId = `Bawal humiram muli: May aktibong hiniram pa ang Student ID na ito (${databaseCheck.activeLoanTx?.transactionId || databaseCheck.activeLoanTx?.txId}). Paki-sauli muna ang mga gamit bago magsimula ng bagong transaksyon.`;
     }
 
     const curInstructor = (borrower.instructor || '').trim();
@@ -385,7 +382,7 @@ export default function BorrowerForm() {
                   ? 'bg-slate-900 border-slate-700 text-slate-300'
                   : 'bg-slate-100 border-slate-200 text-slate-700'
               }`}>
-                Ref: {clearanceStatus.clearanceHold?.id || 'HOLD-001'}
+                Ref: {clearanceStatus.clearanceHold?.id || clearanceStatus.unreturnedTxs?.[0]?.txId || clearanceStatus.unreturnedTxs?.[0]?.transactionId || 'ACTIVE-LOAN'}
               </span>
             </div>
           </div>
@@ -711,15 +708,21 @@ export default function BorrowerForm() {
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className={`text-[10.5px] sm:text-sm font-medium ${
+                <label className={`block text-[10.5px] sm:text-sm font-medium ${
                   isDark ? 'text-slate-300 font-bold' : 'text-slate-700'
                 }`}>
                   Student ID Number
                 </label>
-                {databaseCheck.hasDuplicateActiveLoan && (
-                  <span className="text-[10px] font-bold text-rose-500 flex items-center gap-0.5">
-                    <AlertTriangle className="w-3 h-3" /> May Aktibong Hirap
-                  </span>
+                {databaseCheck.previousProfile && !clearanceStatus.isRestricted && !databaseCheck.hasDuplicateActiveLoan && (!borrower.groupLeader || !borrower.program) && (
+                  <button
+                    type="button"
+                    onClick={handleApplyPreviousProfile}
+                    className={`text-[10px] font-bold transition-colors cursor-pointer ${
+                      isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700'
+                    }`}
+                  >
+                    Auto-fill Profile
+                  </button>
                 )}
               </div>
               <input
@@ -741,64 +744,16 @@ export default function BorrowerForm() {
                 className={`w-full h-9 sm:h-12 min-h-[36px] sm:min-h-[48px] px-3 sm:px-4 rounded-lg sm:rounded-xl font-mono text-xs sm:text-sm font-extrabold transition-all uppercase ${
                   clearanceStatus.isRestricted || databaseCheck.hasDuplicateActiveLoan
                     ? isDark
-                      ? 'text-rose-400 border border-rose-500 bg-rose-950/40 ring-2 ring-rose-500'
-                      : 'text-rose-900 border-2 border-rose-400 bg-rose-50 ring-2 ring-rose-200'
+                      ? 'text-rose-400 border border-rose-500 bg-rose-950/40 ring-1 ring-rose-500'
+                      : 'text-rose-900 border border-rose-400 bg-rose-50/60'
                     : isDark
                       ? 'neu-inset text-cyan-300 placeholder:text-slate-600/70 focus:outline-none focus:ring-1 focus:ring-cyan-500'
                       : 'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs'
                 } ${(hasSubmitted || touched.studentId) && errors.studentId ? 'ring-2 ring-rose-500 border-rose-500' : ''}`}
               />
               {(hasSubmitted || touched.studentId) && errors.studentId && (
-                <p className="text-[10px] sm:text-xs text-rose-500 mt-1 font-semibold">{errors.studentId}</p>
+                <p className="text-[10px] sm:text-xs text-rose-500 mt-0.5 font-semibold">{errors.studentId}</p>
               )}
-
-              {/* Duplicate Active Loan Warning */}
-              {databaseCheck.hasDuplicateActiveLoan && (
-                <div className="mt-2 p-2.5 rounded-xl border border-rose-500/40 bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs animate-fade-in">
-                  <div className="flex items-center gap-1.5 font-bold">
-                    <AlertTriangle className="w-4 h-4 shrink-0 text-rose-500" />
-                    <span>May Aktibong Hirap pa sa Database!</span>
-                  </div>
-                  <p className="mt-1 text-[11px] leading-relaxed">
-                    Ang ID na ito ay may kasalukuyang hiniram na gamit sa transaksyon (
-                    <span className="font-mono font-bold">{databaseCheck.activeLoanTx?.transactionId || databaseCheck.activeLoanTx?.txId}</span>
-                    ). Paki-sauli muna ang gamit sa laboratory custodian bago humiram muli.
-                  </p>
-                </div>
-              )}
-
-              {/* Database Registered Profile Match / Auto-fill Helper */}
-              {databaseCheck.previousProfile && !databaseCheck.hasDuplicateActiveLoan && (
-                <div className={`mt-2 p-2.5 rounded-xl border text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 animate-fade-in ${
-                  isDark ? 'bg-blue-950/30 border-blue-500/30 text-blue-300' : 'bg-blue-50/80 border-blue-200 text-blue-900'
-                }`}>
-                  <div className="flex items-center gap-2 min-w-0">
-                    <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0" />
-                    <div className="truncate">
-                      <span className="font-bold">Record sa Database:</span>{' '}
-                      <span>{databaseCheck.previousProfile.studentName} ({databaseCheck.previousProfile.program})</span>
-                    </div>
-                  </div>
-                  {(!borrower.groupLeader || !borrower.program) && (
-                    <button
-                      type="button"
-                      onClick={handleApplyPreviousProfile}
-                      className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-600 hover:bg-blue-700 text-white shrink-0 active:scale-95 transition-all cursor-pointer shadow-xs"
-                    >
-                      I-fill Out
-                    </button>
-                  )}
-                </div>
-              )}
-
-              {/* Mismatched Name Warning */}
-              {borrower.groupLeader && databaseCheck.previousProfile &&
-                !databaseCheck.previousProfile.studentName.toLowerCase().includes(borrower.groupLeader.trim().toLowerCase()) &&
-                !borrower.groupLeader.trim().toLowerCase().includes(databaseCheck.previousProfile.studentName.toLowerCase()) && (
-                  <p className="text-[11px] text-amber-500 mt-1 font-medium">
-                    ⚠️ Paalala: Ang ID na ito ay nakatala sa database bilang "{databaseCheck.previousProfile.studentName}".
-                  </p>
-                )}
             </div>
           </div>
 

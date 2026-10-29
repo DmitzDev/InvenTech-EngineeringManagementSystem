@@ -135,7 +135,8 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
     const list = [];
     activeLoans.forEach((tx) => {
       (tx.items || []).forEach((item) => {
-        const itemKey = `${tx.txId}:${item.id}`;
+        const currentTxId = tx.txId || tx.transactionId || tx.id;
+        const itemKey = `${currentTxId}:${item.id || item.tagCode || item.name}`;
         // Calculate assigned locker / cabinet bin location
         const lockerNumber = item.tagCode
           ? item.tagCode.replace(/[^0-9]/g, '').slice(-2) || '01'
@@ -144,7 +145,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
         list.push({
           itemKey,
-          txId: tx.txId,
+          txId: currentTxId,
           itemId: item.id,
           name: item.name,
           tagCode: item.tagCode,
@@ -274,8 +275,9 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
     // Group selected items by transaction ID
     activeLoans.forEach((tx) => {
+      const currentTxId = tx.txId || tx.transactionId || tx.id;
       const returnedInTx = (tx.items || []).filter((item) =>
-        selectedItems.has(`${tx.txId}:${item.id}`)
+        selectedItems.has(`${currentTxId}:${item.id || item.tagCode || item.name}`)
       );
 
       if (returnedInTx.length > 0) {
@@ -291,7 +293,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
 
         // Update transaction status in TransactionContext
         returnEquipmentTransaction({
-          txId: tx.txId,
+          txId: currentTxId,
           returnedItems: formattedReturnedItems,
           custodianNotes: 'Self-Service Kiosk Return Check-In (Pending Custodian Inspection)',
         });

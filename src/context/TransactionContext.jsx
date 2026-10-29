@@ -100,12 +100,46 @@ export const saveStoredReservations = (reservations) => {
   }
 };
 
+export const normalizeTransactionRecord = (tx) => {
+  if (!tx) return tx;
+  const canonicalId = tx.txId || tx.transactionId || tx.id || "";
+  const isReturned =
+    tx.status === "RETURNED" ||
+    tx.status === "RETURNED_CLEARED" ||
+    tx.status === "INCIDENT_REPORTED" ||
+    Boolean(tx.returnedAt);
+  return {
+    ...tx,
+    id: canonicalId,
+    txId: canonicalId,
+    transactionId: canonicalId,
+    status: isReturned && tx.status === "BORROWED" ? "RETURNED_CLEARED" : (tx.status === "RETURNED" ? "RETURNED_CLEARED" : tx.status),
+    borrower: {
+      studentId: tx.borrower?.studentId || tx.studentId || "",
+      groupLeader: tx.borrower?.groupLeader || tx.studentName || "",
+      program: tx.borrower?.program || tx.program || "",
+      yearLevel: tx.borrower?.yearLevel || tx.yearLevel || "",
+      semester: tx.borrower?.semester || tx.semester || "",
+      section: tx.borrower?.section || tx.section || "",
+      courseCode: tx.borrower?.courseCode || tx.courseCode || "",
+      groupNo: tx.borrower?.groupNo || tx.groupNo || "1",
+      instructor: tx.borrower?.instructor || tx.instructor || "",
+      labTime: tx.borrower?.labTime || tx.labTime || "",
+      purpose: tx.borrower?.purpose || tx.purpose || "",
+      signature: tx.borrower?.signature || tx.signature || null,
+      date: tx.borrower?.date || "",
+      actualDate: tx.borrower?.actualDate || "",
+      ...(tx.borrower || {}),
+    },
+  };
+};
+
 export const getStoredTransactions = () => {
   try {
     const data = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
     if (data) {
       const parsed = JSON.parse(data);
-      if (Array.isArray(parsed)) return parsed;
+      if (Array.isArray(parsed)) return parsed.map(normalizeTransactionRecord);
     }
   } catch {
     // fallback
@@ -644,17 +678,21 @@ function transactionReducer(state, action) {
       let updatedRecord = null;
 
       const updatedTransactions = state.activeTransactions.map((tx) => {
-        if (tx.txId === txId) {
-          updatedRecord = {
+        const currentTxId = tx.txId || tx.transactionId || tx.id;
+        if (currentTxId === txId) {
+          updatedRecord = normalizeTransactionRecord({
             ...tx,
+            id: currentTxId,
+            txId: currentTxId,
+            transactionId: currentTxId,
             status,
             returnedAt: returnTimestamp,
             returnedItems,
             custodianNotes: custodianNotes || '',
-          };
+          });
           return updatedRecord;
         }
-        return tx;
+        return normalizeTransactionRecord(tx);
       });
 
       saveStoredTransactions(updatedTransactions);
@@ -765,11 +803,28 @@ function transactionReducer(state, action) {
         activeClearanceRecord: action.payload,
       };
 
-    case 'SYNC_STORED_TRANSACTIONS':
+    case 'SYNC_STORED_TRANSACTIONS': {
+      const localReturnedMap = new Map();
+      (state.activeTransactions || []).forEach((t) => {
+        const tid = t.txId || t.transactionId || t.id;
+        if (tid && t.status !== 'BORROWED') {
+          localReturnedMap.set(tid, t);
+        }
+      });
+      const merged = (action.payload || []).map((incoming) => {
+        const norm = normalizeTransactionRecord(incoming);
+        const tid = norm.txId;
+        if (tid && norm.status === 'BORROWED' && localReturnedMap.has(tid)) {
+          return localReturnedMap.get(tid);
+        }
+        return norm;
+      });
+      saveStoredTransactions(merged);
       return {
         ...state,
-        activeTransactions: action.payload,
+        activeTransactions: merged,
       };
+    }
 
     case 'COMMIT_TRANSACTION': {
       if (state.isTransactionCommitted) {
