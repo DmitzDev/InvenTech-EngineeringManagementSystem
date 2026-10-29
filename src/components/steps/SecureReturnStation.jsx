@@ -18,6 +18,7 @@ import { useTransaction } from '../../context/TransactionContext';
 import ThemeToggle from '../ui/ThemeToggle';
 import InstitutionalQrCode from '../ui/InstitutionalQrCode';
 import { generateReturnReceiptPdf } from '../../utils/generateReturnReceiptPdf';
+import { getReceiptBaseUrl } from '../../utils/networkConfig';
 import { formatStudentId, handleStudentIdChange } from '../../utils/studentIdFormatter';
 import { useRateLimiter } from '../../utils/rateLimiter';
 
@@ -309,7 +310,8 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
     };
 
     // Build compact base64 payload so scanning the QR code on any mobile phone auto-downloads the exact PDF receipt
-    let qrUrl = `${window.location.origin}/receipt/${encodeURIComponent(primaryTxId)}?auto=1`;
+    const baseUrl = getReceiptBaseUrl();
+    let qrUrl = `${baseUrl}/receipt/${encodeURIComponent(primaryTxId)}?auto=1`;
     try {
       const compact = {
         t: summaryObj.txId,
@@ -329,7 +331,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
         ]),
       };
       const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compact))));
-      qrUrl = `${window.location.origin}/receipt/${encodeURIComponent(primaryTxId)}?auto=1&d=${encodeURIComponent(encoded)}`;
+      qrUrl = `${baseUrl}/receipt/${encodeURIComponent(primaryTxId)}?auto=1&d=${encodeURIComponent(encoded)}`;
     } catch (err) {
       console.warn('Compact QR payload fallback:', err);
     }
