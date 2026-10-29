@@ -24,7 +24,7 @@ function decodeCompactPayload(encoded) {
       date:
         parsed.dt ||
         new Date().toLocaleDateString('en-US', {
-          month: 'long',
+          month: 'short',
           day: 'numeric',
           year: 'numeric',
         }),
@@ -127,7 +127,7 @@ export default function ReturnReceiptDownload() {
       date:
         record.borrower?.date ||
         new Date().toLocaleDateString('en-US', {
-          month: 'long',
+          month: 'short',
           day: 'numeric',
           year: 'numeric',
         }),
@@ -141,7 +141,7 @@ export default function ReturnReceiptDownload() {
     };
   }, [decodedPayload, localMatch, cloudRecord, txId]);
 
-  // Automatically trigger PDF download once receiptData is ready
+  // Automatically trigger thermal PDF download once receiptData is ready
   useEffect(() => {
     if (shouldAutoDownload && receiptData && !hasTriggeredAutoDownload.current) {
       hasTriggeredAutoDownload.current = true;
@@ -152,7 +152,7 @@ export default function ReturnReceiptDownload() {
         } catch (err) {
           console.error('Auto PDF download failed:', err);
         }
-      }, 250);
+      }, 300);
       return () => clearTimeout(timer);
     }
   }, [shouldAutoDownload, receiptData]);
@@ -163,148 +163,178 @@ export default function ReturnReceiptDownload() {
     setDownloadedFileName(fname);
   };
 
+  const totalUnits = (receiptData?.items || []).reduce(
+    (sum, it) => sum + Number(it.qtyReturned || it.qty || 1),
+    0
+  );
+
   return (
-    <div className="min-h-screen w-full bg-slate-100 text-slate-900 px-4 py-6 sm:py-10 flex flex-col items-center justify-center font-sans select-none">
-      <div className="w-full max-w-lg bg-white border border-slate-300 rounded-2xl shadow-md overflow-hidden">
-        {/* Top Institutional Header */}
-        <div className="bg-slate-900 text-white px-5 py-4 border-b border-slate-800 flex items-center justify-between gap-3">
-          <div>
-            <span className="font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-              Form UdD-FM-LM-RETURN-01
-            </span>
-            <h1 className="text-base sm:text-lg font-extrabold tracking-tight mt-1">
-              Official Return Clearance Receipt
-            </h1>
-            <p className="text-xs text-slate-300">
-              Universidad de Dagupan • School of Engineering
-            </p>
-          </div>
-          <img
-            src="/images/udd_logo.png"
-            alt="UdD Logo"
-            className="w-12 h-12 object-contain shrink-0 bg-white rounded-full p-0.5"
-          />
+    <div className="min-h-screen w-full bg-slate-900 text-slate-100 px-3 py-6 sm:py-10 flex flex-col items-center justify-center font-mono select-none">
+      {/* Fastfood Thermal Paper Slip Card (White Paper Container) */}
+      <div className="w-full max-w-[340px] sm:max-w-[360px] bg-white text-slate-950 p-5 rounded-lg shadow-2xl border border-slate-300 relative text-xs leading-relaxed">
+        {/* Jagged thermal receipt top tear effect */}
+        <div className="text-center font-bold text-sm tracking-wider uppercase mb-1">
+          Universidad de Dagupan
+        </div>
+        <div className="text-center font-bold text-[11px] text-slate-800">
+          SCHOOL OF ENGINEERING
+        </div>
+        <div className="text-center text-[10px] text-slate-600 mb-2">
+          Arellano St., Dagupan City, Pangasinan
+          <br />
+          LABORATORY CUSTODY KIOSK
         </div>
 
+        <div className="border-b-2 border-dashed border-slate-400 my-2" />
+
+        <div className="text-center font-extrabold text-xs tracking-wider uppercase py-0.5">
+          ** OFFICIAL RETURN RECEIPT **
+        </div>
+        <div className="text-center text-[10px] text-slate-600">
+          FORM UdD-FM-LM-RETURN-01
+        </div>
+
+        <div className="border-b border-dashed border-slate-400 my-2" />
+
         {isLoadingCloud ? (
-          <div className="p-8 text-center space-y-2">
-            <p className="text-sm font-bold text-slate-700">
-              Generating Official Return Receipt PDF...
-            </p>
-            <p className="text-xs text-slate-500 font-mono">Ref: {txId}</p>
+          <div className="py-8 text-center text-xs font-bold text-slate-600">
+            Printing Official Thermal Receipt...
           </div>
         ) : !receiptData ? (
-          <div className="p-6 text-center space-y-3">
-            <p className="text-sm font-bold text-rose-700">
-              Receipt Record Not Found ({txId})
-            </p>
-            <p className="text-xs text-slate-600">
-              Please scan the QR code again from the Kiosk Return Station screen.
-            </p>
+          <div className="py-6 text-center text-xs font-bold text-rose-700">
+            Receipt record not found ({txId}).
           </div>
         ) : (
-          <div className="p-5 space-y-4">
-            {/* Status Banner */}
-            <div className="px-3.5 py-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 flex items-center justify-between gap-2">
-              <div>
-                <div className="text-xs font-extrabold uppercase tracking-wide">
-                  Status: Officially Returned & Cleared
-                </div>
-                <div className="text-[11px] text-emerald-800 mt-0.5">
-                  Present this PDF receipt to your Laboratory Professor or Custodian.
-                </div>
+          <>
+            {/* Monospace Metadata List */}
+            <div className="space-y-1 text-[11px] pt-1">
+              <div className="flex justify-between">
+                <span className="font-bold">TX REF NO:</span>
+                <span className="font-bold">{receiptData.txId}</span>
               </div>
-              <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-emerald-300 text-emerald-900 shrink-0">
-                VERIFIED
-              </span>
-            </div>
-
-            {downloadedFileName && (
-              <div className="px-3 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-900 text-xs font-medium">
-                PDF Receipt downloaded automatically:{' '}
-                <span className="font-mono font-bold">{downloadedFileName}</span>
-              </div>
-            )}
-
-            {/* Student & Session Metadata */}
-            <div className="rounded-xl border border-slate-300 divide-y divide-slate-200 text-xs">
-              <div className="p-2.5 flex justify-between gap-2">
-                <span className="text-slate-500 font-semibold">Student Name</span>
-                <span className="font-extrabold uppercase text-right">
-                  {receiptData.studentName}
+              <div className="flex justify-between">
+                <span className="font-bold">DATE/TIME:</span>
+                <span>
+                  {receiptData.date} {receiptData.timestamp}
                 </span>
               </div>
-              <div className="p-2.5 flex justify-between gap-2">
-                <span className="text-slate-500 font-semibold">Student ID Number</span>
-                <span className="font-mono font-bold text-blue-700">
+              <div className="flex justify-between">
+                <span className="font-bold">STUDENT ID:</span>
+                <span className="font-extrabold text-blue-800">
                   {receiptData.studentId}
                 </span>
               </div>
-              <div className="p-2.5 flex justify-between gap-2">
-                <span className="text-slate-500 font-semibold">Program & Course</span>
-                <span className="font-bold">
-                  {receiptData.program} ({receiptData.courseCode})
+              <div className="flex justify-between">
+                <span className="font-bold">BORROWER:</span>
+                <span className="font-bold uppercase truncate max-w-[170px]">
+                  {receiptData.studentName}
                 </span>
               </div>
-              <div className="p-2.5 flex justify-between gap-2">
-                <span className="text-slate-500 font-semibold">Instructor / Professor</span>
-                <span className="font-bold text-right">
+              <div className="flex justify-between">
+                <span className="font-bold">PROGRAM:</span>
+                <span>
+                  {receiptData.program} (Grp {receiptData.groupNo})
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-bold">COURSE:</span>
+                <span>{receiptData.courseCode}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-bold">INSTRUCTOR:</span>
+                <span className="truncate max-w-[170px]">
                   {receiptData.instructor}
                 </span>
               </div>
-              <div className="p-2.5 flex justify-between gap-2">
-                <span className="text-slate-500 font-semibold">Date & Time Returned</span>
-                <span className="font-mono font-bold text-right">
-                  {receiptData.date} • {receiptData.timestamp}
-                </span>
-              </div>
-              <div className="p-2.5 flex justify-between gap-2 bg-slate-50">
-                <span className="text-slate-500 font-semibold">Transaction Ref</span>
-                <span className="font-mono font-bold text-slate-900">
-                  {receiptData.txId}
-                </span>
-              </div>
             </div>
 
-            {/* Returned Apparatus Table */}
-            <div className="rounded-xl border border-slate-300 overflow-hidden">
-              <div className="bg-slate-100 px-3 py-2 border-b border-slate-300 flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-slate-800">
-                <span>Returned Apparatus List</span>
-                <span className="font-mono">{receiptData.items.length} Item(s)</span>
-              </div>
-              <div className="divide-y divide-slate-200 max-h-52 overflow-y-auto text-xs">
-                {receiptData.items.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="px-3 py-2 flex items-center justify-between gap-2"
-                  >
-                    <div className="min-w-0">
-                      <div className="font-bold text-slate-900 truncate">
-                        {idx + 1}. {item.name}
-                      </div>
-                      <div className="font-mono text-[10px] text-slate-500">
-                        Tag: {item.tagCode || 'N/A'} • Condition: GOOD / CLEARED
-                      </div>
-                    </div>
-                    <span className="font-mono font-extrabold text-slate-900 shrink-0">
-                      {item.qtyReturned || item.qty || 1} {item.unit || 'pc'}
+            <div className="border-b-2 border-dashed border-slate-400 my-2.5" />
+
+            {/* Column Header */}
+            <div className="flex justify-between text-[10.5px] font-extrabold pb-1 border-b border-slate-300">
+              <span className="w-40 truncate">ITEM DESCRIPTION</span>
+              <span className="w-10 text-center">QTY</span>
+              <span className="w-16 text-right">STATUS</span>
+            </div>
+
+            {/* Itemized List */}
+            <div className="divide-y divide-dashed divide-slate-200 py-1 space-y-1.5 text-[11px]">
+              {receiptData.items.map((item, idx) => (
+                <div key={idx} className="pt-1">
+                  <div className="flex justify-between font-bold">
+                    <span className="w-44 truncate">
+                      {idx + 1}. {item.name}
+                    </span>
+                    <span className="w-10 text-center font-extrabold">
+                      {item.qtyReturned || item.qty || 1}
+                    </span>
+                    <span className="w-16 text-right text-emerald-700 font-extrabold">
+                      CLEARED
                     </span>
                   </div>
-                ))}
+                  <div className="text-[9.5px] text-slate-500 pl-3">
+                    TAG: {item.tagCode || 'N/A'}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-b-2 border-dashed border-slate-400 my-2.5" />
+
+            {/* Summary Totals */}
+            <div className="space-y-1 text-xs font-bold">
+              <div className="flex justify-between">
+                <span>TOTAL ITEMS:</span>
+                <span>{receiptData.items.length} ITEM(S)</span>
+              </div>
+              <div className="flex justify-between text-sm font-extrabold">
+                <span>TOTAL UNITS CLEARED:</span>
+                <span>{totalUnits} UNIT(S)</span>
               </div>
             </div>
 
-            {/* Primary Download PDF Button */}
+            <div className="border-b-2 border-dashed border-slate-400 my-3" />
+
+            {/* Verification Stamp & Barcode */}
+            <div className="text-center space-y-1 text-[10px]">
+              <div className="font-extrabold text-[11px] uppercase tracking-wider text-emerald-800">
+                *** RETURN CHECK-IN VERIFIED ***
+              </div>
+              <p className="text-slate-600 leading-tight">
+                All listed apparatus have been officially logged into the Kiosk
+                Database. Present this receipt to your Professor / Custodian.
+              </p>
+              <div className="pt-2 font-bold tracking-widest text-xs">
+                ||||||||||||||||||||||||||||||||||
+              </div>
+              <div className="text-[9px] text-slate-500 font-bold">
+                * {receiptData.txId} *
+              </div>
+            </div>
+
+            <div className="border-b border-dashed border-slate-300 my-3" />
+
+            <div className="text-center text-[9.5px] text-slate-600 font-bold">
+              *** THANK YOU & KEEP LABS SAFE ***
+            </div>
+
+            {/* Download Again Button */}
             <button
               type="button"
               onClick={handleManualDownload}
-              className="w-full h-11 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider cursor-pointer active:scale-[0.99] transition-all shadow-sm"
+              className="mt-4 w-full h-10 rounded bg-slate-950 text-white font-bold text-xs uppercase tracking-wider cursor-pointer active:scale-95 transition-transform"
             >
-              Download Official Receipt PDF Again
+              Download PDF Slip Again
             </button>
-          </div>
+          </>
         )}
       </div>
+
+      {downloadedFileName && (
+        <div className="mt-3 text-center text-xs text-slate-400">
+          Receipt file: <span className="text-white font-bold">{downloadedFileName}</span>
+        </div>
+      )}
     </div>
   );
 }

@@ -944,125 +944,130 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
               VIEW 4: CONFIRMATION & QR CODE PDF RECEIPT SCREEN
              ========================================================================= */}
           {isSubmitted && submittedSummary && (
-            <div className="flex-1 flex flex-col justify-between max-w-3xl mx-auto w-full py-2 sm:py-4">
-              <div className="space-y-3.5">
+            <div className="flex-1 flex flex-col justify-between max-w-4xl mx-auto w-full py-2 sm:py-4">
+              <div className="space-y-4">
                 {/* Top Status Header Card */}
                 <div
-                  className={`rounded-xl px-4 py-3 border flex flex-col sm:flex-row sm:items-center justify-between gap-2 ${
+                  className={`rounded-2xl px-5 py-4 border flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md ${
                     isDark
                       ? 'bg-[#0f172a] border-slate-800 text-slate-100'
-                      : 'bg-white border-slate-300 text-slate-900 shadow-xs'
+                      : 'bg-white border-slate-300 text-slate-900'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3.5">
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border ${
                         isDark
-                          ? 'bg-emerald-950/60 border-emerald-700 text-emerald-400'
+                          ? 'bg-emerald-950/70 border-emerald-600 text-emerald-400'
                           : 'bg-emerald-50 border-emerald-300 text-emerald-700'
                       }`}
                     >
-                      <CheckCircle2 className="w-5 h-5 stroke-[2.5]" />
+                      <CheckCircle2 className="w-7 h-7 stroke-[2.5]" />
                     </div>
                     <div className="text-left">
-                      <h3 className="text-sm sm:text-base font-extrabold tracking-tight">
-                        Return Check-In Recorded & Cleared
+                      <h3 className="text-base sm:text-lg font-black tracking-tight text-emerald-600 dark:text-emerald-400">
+                        Pagsasauli Matagumpay na Naitukoy (Cleared)
                       </h3>
-                      <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                        Scan the QR code below with your phone camera to download your official PDF receipt.
+                      <p className={`text-xs sm:text-sm font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                        I-scan ang QR code sa ibaba gamit ang cellphone camera para awtomatikong ma-download ang Fastfood-style PDF resibo.
                       </p>
                     </div>
                   </div>
 
                   <span
-                    className={`font-mono text-[11px] font-bold uppercase px-2.5 py-1 rounded border w-fit ${
+                    className={`font-mono text-xs sm:text-sm font-black uppercase px-3 py-1.5 rounded-lg border w-fit shrink-0 ${
                       isDark
                         ? 'bg-emerald-950/60 text-emerald-300 border-emerald-700'
                         : 'bg-emerald-50 text-emerald-900 border-emerald-300'
                     }`}
                   >
-                    Ref: {submittedSummary.txId}
+                    REF: {submittedSummary.txId}
                   </span>
                 </div>
 
-                {/* Main Two-Column Grid: Left = Return Summary Ledger, Right = Mobile QR Code PDF Auto-Download */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-stretch">
-                  {/* Left Column (md:col-span-7): Official Return Summary & Items */}
+                {/* Main Two-Column Grid: Left = Fastfood-style Ledger Summary, Right = Large QR Code Auto-Download */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch">
+                  {/* Left Column (md:col-span-6): Official Fastfood-style Return Summary & Items */}
                   <div
-                    className={`md:col-span-7 rounded-xl border overflow-hidden flex flex-col justify-between ${
+                    className={`md:col-span-6 rounded-2xl border overflow-hidden flex flex-col justify-between shadow-sm ${
                       isDark
                         ? 'bg-[#0f172a] border-slate-800 text-slate-100'
-                        : 'bg-white border-slate-300 text-slate-900 shadow-xs'
+                        : 'bg-white border-slate-300 text-slate-900'
                     }`}
                   >
                     <div>
                       <div
-                        className={`px-4 py-2 border-b flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider ${
+                        className={`px-4 py-3 border-b flex items-center justify-between text-xs sm:text-sm font-black uppercase tracking-wider ${
                           isDark
-                            ? 'bg-[#0b1120] border-slate-800 text-slate-300'
+                            ? 'bg-[#0b1120] border-slate-800 text-slate-200'
                             : 'bg-slate-100 border-slate-300 text-slate-800'
                         }`}
                       >
-                        <span>Official Return Summary</span>
-                        <span className="font-mono">{submittedSummary.returnedCount} Item(s)</span>
+                        <span>Official Return Receipt Summary</span>
+                        <span className="font-mono bg-emerald-600/20 text-emerald-500 px-2 py-0.5 rounded text-xs font-bold">
+                          {submittedSummary.returnedCount} Item(s)
+                        </span>
                       </div>
 
-                      <div className="p-3.5 space-y-2 text-xs">
+                      <div className="p-4 space-y-3 text-xs sm:text-sm font-sans">
                         <div className="flex items-center justify-between py-1 border-b border-slate-200 dark:border-slate-800">
-                          <span className={isDark ? 'text-slate-400' : 'text-slate-500 font-semibold'}>
+                          <span className={isDark ? 'text-slate-400 font-semibold' : 'text-slate-500 font-bold'}>
                             Student Borrower
                           </span>
-                          <span className="font-extrabold uppercase">
+                          <span className="font-black uppercase text-sm">
                             {submittedSummary.studentName}
                           </span>
                         </div>
                         <div className="flex items-center justify-between py-1 border-b border-slate-200 dark:border-slate-800">
-                          <span className={isDark ? 'text-slate-400' : 'text-slate-500 font-semibold'}>
+                          <span className={isDark ? 'text-slate-400 font-semibold' : 'text-slate-500 font-bold'}>
                             Student ID Number
                           </span>
-                          <span className={`font-mono font-bold ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
+                          <span className={`font-mono text-sm font-black ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
                             {submittedSummary.studentId}
                           </span>
                         </div>
                         <div className="flex items-center justify-between py-1 border-b border-slate-200 dark:border-slate-800">
-                          <span className={isDark ? 'text-slate-400' : 'text-slate-500 font-semibold'}>
+                          <span className={isDark ? 'text-slate-400 font-semibold' : 'text-slate-500 font-bold'}>
                             Program & Course
                           </span>
-                          <span className="font-bold">
+                          <span className="font-extrabold text-xs sm:text-sm text-right">
                             {submittedSummary.program} ({submittedSummary.courseCode})
                           </span>
                         </div>
                         <div className="flex items-center justify-between py-1 border-b border-slate-200 dark:border-slate-800">
-                          <span className={isDark ? 'text-slate-400' : 'text-slate-500 font-semibold'}>
-                            Professor / Instructor
+                          <span className={isDark ? 'text-slate-400 font-semibold' : 'text-slate-500 font-bold'}>
+                            Instructor / Professor
                           </span>
-                          <span className="font-bold truncate max-w-[200px]">
+                          <span className="font-bold truncate max-w-[220px]">
                             {submittedSummary.instructor}
                           </span>
                         </div>
                         <div className="flex items-center justify-between py-1">
-                          <span className={isDark ? 'text-slate-400' : 'text-slate-500 font-semibold'}>
+                          <span className={isDark ? 'text-slate-400 font-semibold' : 'text-slate-500 font-bold'}>
                             Date & Time Returned
                           </span>
-                          <span className="font-mono font-bold">
+                          <span className="font-mono font-bold text-xs">
                             {submittedSummary.date} • {submittedSummary.timestamp}
                           </span>
                         </div>
 
                         {/* Returned Items List */}
                         <div className="pt-2">
-                          <div className={`text-[10px] font-bold uppercase tracking-wider mb-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                            Checked-In Apparatus
+                          <div className={`text-xs font-black uppercase tracking-wider mb-2 flex items-center justify-between ${
+                            isDark ? 'text-slate-300' : 'text-slate-700'
+                          }`}>
+                            <span>Apparatus Checked In</span>
+                            <span className="text-[11px] font-mono text-emerald-500 font-bold">STATUS: CLEARED</span>
                           </div>
-                          <div className={`rounded-lg border divide-y max-h-36 overflow-y-auto ${
+                          <div className={`rounded-xl border divide-y max-h-44 overflow-y-auto ${
                             isDark ? 'bg-[#090d16] border-slate-800 divide-slate-800' : 'bg-slate-50 border-slate-200 divide-slate-200'
                           }`}>
                             {(submittedSummary.items || []).map((item, idx) => (
-                              <div key={idx} className="px-2.5 py-1.5 flex items-center justify-between gap-2 text-[11px]">
-                                <span className="font-bold truncate">
-                                  {idx + 1}. {item.name} <span className="font-mono font-normal opacity-75">({item.tagCode})</span>
+                              <div key={idx} className="px-3 py-2 flex items-center justify-between gap-2 text-xs">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 truncate">
+                                  {idx + 1}. {item.name} <span className="font-mono font-normal opacity-70">({item.tagCode})</span>
                                 </span>
-                                <span className="font-mono font-extrabold shrink-0">
+                                <span className="font-mono font-black shrink-0 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                                   {item.qtyReturned || item.qty || 1} {item.unit || 'pc'}
                                 </span>
                               </div>
@@ -1073,49 +1078,58 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                     </div>
 
                     {/* Direct Kiosk PDF Download Fallback Button */}
-                    <div className="p-3.5 pt-0">
+                    <div className="p-4 pt-1">
                       <button
                         type="button"
                         onClick={() => generateReturnReceiptPdf(submittedSummary)}
-                        className={`w-full h-9 rounded-lg border text-xs font-bold transition-colors cursor-pointer active:scale-[0.99] ${
+                        className={`w-full h-11 rounded-xl border text-xs sm:text-sm font-black transition-all cursor-pointer active:scale-[0.98] flex items-center justify-center gap-2 ${
                           isDark
-                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-                            : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
+                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
+                            : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
                         }`}
                       >
-                        Download Receipt PDF Directly on Kiosk
+                        <FileText className="w-4 h-4 text-emerald-500" />
+                        <span>I-download ang Receipt PDF Dito sa Kiosk</span>
                       </button>
                     </div>
                   </div>
 
-                  {/* Right Column (md:col-span-5): Phone Camera QR Code Auto-Download Panel */}
+                  {/* Right Column (md:col-span-6): Phone Camera QR Code Auto-Download Panel (Enlarged) */}
                   <div
-                    className={`md:col-span-5 rounded-xl border overflow-hidden flex flex-col justify-between ${
+                    className={`md:col-span-6 rounded-2xl border overflow-hidden flex flex-col justify-between shadow-sm ${
                       isDark
                         ? 'bg-[#0f172a] border-slate-800 text-slate-100'
-                        : 'bg-white border-slate-300 text-slate-900 shadow-xs'
+                        : 'bg-white border-slate-300 text-slate-900'
                     }`}
                   >
                     <div
-                      className={`px-4 py-2 border-b flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider ${
+                      className={`px-4 py-3 border-b flex items-center justify-between text-xs sm:text-sm font-black uppercase tracking-wider ${
                         isDark
-                          ? 'bg-[#0b1120] border-slate-800 text-slate-300'
+                          ? 'bg-[#0b1120] border-slate-800 text-slate-200'
                           : 'bg-slate-100 border-slate-300 text-slate-800'
                       }`}
                     >
-                      <span>Mobile PDF Receipt QR</span>
-                      <span className="font-mono text-[10px]">Auto-Download</span>
+                      <span className="flex items-center gap-1.5">
+                        <QrCode className="w-4 h-4 text-cyan-500" />
+                        Mobile PDF Receipt Scan
+                      </span>
+                      <span className="font-mono text-xs font-bold text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">
+                        Fastfood Style
+                      </span>
                     </div>
 
-                    <div className="p-4 flex flex-col items-center justify-center text-center flex-1 space-y-2.5">
-                      <InstitutionalQrCode value={submittedSummary.qrUrl} size={172} />
+                    <div className="p-5 flex flex-col items-center justify-center text-center flex-1 space-y-3.5">
+                      {/* Big, High-Contrast QR Code */}
+                      <div className="p-3 bg-white rounded-2xl shadow-md border-2 border-slate-200 dark:border-slate-700">
+                        <InstitutionalQrCode value={submittedSummary.qrUrl} size={250} />
+                      </div>
 
-                      <div className="space-y-1 max-w-[240px]">
-                        <div className="text-xs font-extrabold uppercase tracking-wide">
-                          Scan with Phone Camera
+                      <div className="space-y-1.5 max-w-sm">
+                        <div className="text-sm sm:text-base font-black uppercase tracking-wide text-slate-900 dark:text-white flex items-center justify-center gap-1.5">
+                          <span>Itapat ang Camera ng Cellphone</span>
                         </div>
-                        <p className={`text-[11px] leading-snug ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                          Automatically downloads the official <strong className={isDark ? 'text-slate-200' : 'text-slate-900'}>Return Receipt PDF</strong> to your phone to present to your Laboratory Professor.
+                        <p className={`text-xs leading-relaxed font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                          Awtomatikong mag-da-download sa iyong phone ang official <strong className={isDark ? 'text-cyan-300' : 'text-blue-700'}>Fastfood POS-Style Return Clearance Receipt (PDF)</strong> na maipapakita mo agad kay Professor o Laboratory Custodian.
                         </p>
                       </div>
                     </div>
@@ -1128,13 +1142,13 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
                 <button
                   type="button"
                   onClick={() => handleSecurityExit(false)}
-                  className={`w-full h-11 rounded-xl text-xs sm:text-sm font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
+                  className={`w-full h-12 rounded-xl text-sm font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-transform duration-75 ease-out active:scale-95 touch-manipulation cursor-pointer ${
                     isDark
-                      ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950'
+                      ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black'
                       : 'bg-slate-900 text-white hover:bg-slate-800'
                   }`}
                 >
-                  <span>Finish & Return to Main Screen</span>
+                  <span>Tapusin at Bumalik sa Main Screen</span>
                 </button>
               </div>
             </div>

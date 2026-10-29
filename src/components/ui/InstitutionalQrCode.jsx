@@ -3,9 +3,9 @@ import QRCode from 'qrcode';
 
 /**
  * Renders a crisp, high-contrast SVG QR code on a pure white surface
- * so phone cameras can scan it effortlessly in any lighting condition.
+ * so phone cameras can scan it effortlessly even from a distance.
  */
-export default function InstitutionalQrCode({ value, size = 168 }) {
+export default function InstitutionalQrCode({ value, size = 260 }) {
   const [svgMarkup, setSvgMarkup] = useState('');
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function InstitutionalQrCode({ value, size = 168 }) {
     QRCode.toString(value, {
       type: 'svg',
       errorCorrectionLevel: 'M',
-      margin: 1,
+      margin: 2,
       width: size,
       color: {
         dark: '#000000',
@@ -42,9 +42,9 @@ export default function InstitutionalQrCode({ value, size = 168 }) {
     return (
       <div
         style={{ width: size, height: size }}
-        className="bg-white border border-slate-300 rounded-xl flex items-center justify-center text-[11px] font-mono text-slate-400"
+        className="bg-white border-2 border-slate-300 rounded-2xl flex items-center justify-center text-xs font-mono text-slate-500 shadow-sm"
       >
-        Generating QR...
+        Generating QR Code...
       </div>
     );
   }
@@ -52,7 +52,7 @@ export default function InstitutionalQrCode({ value, size = 168 }) {
   return (
     <div
       style={{ width: size, height: size }}
-      className="bg-white p-2 rounded-xl border-2 border-slate-300 shadow-xs flex items-center justify-center shrink-0 select-none"
+      className="bg-white p-3 rounded-2xl border-4 border-slate-900 shadow-xl flex items-center justify-center shrink-0 select-none overflow-hidden"
       dangerouslySetInnerHTML={{ __html: svgMarkup }}
     />
   );
