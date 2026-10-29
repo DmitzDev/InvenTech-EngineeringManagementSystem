@@ -967,10 +967,10 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
                     </div>
                     <div className="text-left">
                       <h3 className="text-base sm:text-lg font-black tracking-tight text-emerald-600 dark:text-emerald-400">
-                        Pagsasauli Matagumpay na Naitukoy (Cleared)
+                        Equipment Return Cleared
                       </h3>
                       <p className={`text-xs sm:text-sm font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-                        I-scan ang QR code sa ibaba gamit ang cellphone camera para awtomatikong ma-download ang Fastfood-style PDF resibo.
+                        Transaction completed. Scan the QR code with your mobile device to download your official receipt.
                       </p>
                     </div>
                   </div>
@@ -1090,7 +1090,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
                         }`}
                       >
                         <FileText className="w-4 h-4 text-emerald-500" />
-                        <span>I-download ang Receipt PDF Dito sa Kiosk</span>
+                        <span>Download PDF Receipt on Kiosk</span>
                       </button>
                     </div>
                   </div>
@@ -1115,24 +1115,18 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
                         Mobile PDF Receipt Scan
                       </span>
                       <span className="font-mono text-xs font-bold text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">
-                        Fastfood Style
+                        Official PDF
                       </span>
                     </div>
 
-                    <div className="p-5 flex flex-col items-center justify-center text-center flex-1 space-y-3.5">
-                      {/* Big, High-Contrast QR Code */}
-                      <div className="p-3 bg-white rounded-2xl shadow-md border-2 border-slate-200 dark:border-slate-700">
+                                        <div className="p-6 flex flex-col items-center justify-center text-center flex-1 space-y-3">
+                      {/* Big, High-Contrast Clean QR Code */}
+                      <div className="p-4 bg-white rounded-2xl shadow-md border-2 border-slate-200 dark:border-slate-700">
                         <InstitutionalQrCode value={submittedSummary.qrUrl} size={250} />
                       </div>
-
-                      <div className="space-y-1.5 max-w-sm">
-                        <div className="text-sm sm:text-base font-black uppercase tracking-wide text-slate-900 dark:text-white flex items-center justify-center gap-1.5">
-                          <span>Itapat ang Camera ng Cellphone</span>
-                        </div>
-                        <p className={`text-xs leading-relaxed font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-                          Awtomatikong mag-da-download sa iyong phone ang official <strong className={isDark ? 'text-cyan-300' : 'text-blue-700'}>Fastfood POS-Style Return Clearance Receipt (PDF)</strong> na maipapakita mo agad kay Professor o Laboratory Custodian.
-                        </p>
-                      </div>
+                      <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                        Scan with phone camera
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1149,7 +1143,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
                       : 'bg-slate-900 text-white hover:bg-slate-800'
                   }`}
                 >
-                  <span>Tapusin at Bumalik sa Main Screen</span>
+                  <span>Finish & Return to Main Screen</span>
                 </button>
               </div>
             </div>
