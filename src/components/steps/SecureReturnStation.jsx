@@ -13,6 +13,8 @@ import {
   Square,
   MapPin,
   AlertOctagon,
+  FileText,
+  QrCode,
 } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import ThemeToggle from '../ui/ThemeToggle';
@@ -22,7 +24,7 @@ import { getReceiptBaseUrl } from '../../utils/networkConfig';
 import { formatStudentId, handleStudentIdChange } from '../../utils/studentIdFormatter';
 import { useRateLimiter } from '../../utils/rateLimiter';
 
-export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpenClearance }) {
+export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
   const { activeTransactions, returnEquipmentTransaction, showToast, theme } = useTransaction();
   const isDark = theme === 'dark';
 
@@ -30,8 +32,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   const {
     isLocked,
     remainingSeconds: lockoutSeconds,
-    failedAttempts,
-    maxAttempts,
+        maxAttempts,
     recordFailure,
     recordSuccess,
   } = useRateLimiter('student_return_lookup');

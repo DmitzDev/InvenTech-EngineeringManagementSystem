@@ -128,12 +128,12 @@ export default function ReservationModal({ item, isOpen, onClose }) {
     }
   }, [program, isOtherProgram, customProgram, selectedYear, selectedSem, selectedSection]);
 
+  const [errors, setErrors] = useState({});
+
   if (!isOpen || !item) return null;
 
   // Formatted Time Slot
   const formattedLabTime = `${startHour.padStart(2, '0')}:${startMinute.padStart(2, '0')} ${startPeriod} - ${endHour.padStart(2, '0')}:${endMinute.padStart(2, '0')} ${endPeriod}`;
-
-  const [errors, setErrors] = useState({});
 
   // Real-time conflict check
   const conflictInfo = checkReservationConflict(item.id, reserveDate, formattedLabTime, qty, item.stock);
