@@ -1067,49 +1067,31 @@ export function TransactionProvider({ children }) {
       return { isRestricted: false, overdueCount: 0, overdueItems: [], reason: '', unreturnedTxs: [] };
     }
 
-    // 1. Query active unreturned transactions in activeTransactions
+    // 1. Query active unreturned transactions in activeTransactions (STRICT STUDENT ID VALIDATION)
     const unreturnedTxs = (state.activeTransactions || []).filter((tx) => {
       if (tx.status !== 'BORROWED') return false;
-      const txBorrowerName = (tx.borrower?.groupLeader || tx.studentName || '').trim().toLowerCase();
       const rawTxId = (tx.borrower?.studentId || tx.studentId || '').trim().toLowerCase();
       const cleanTxId = rawTxId.replace(/[^a-z0-9]/gi, '');
 
-      const idMatch =
-        cleanSId &&
-        cleanTxId &&
-        cleanSId.length === 9 &&
-        cleanTxId === cleanSId;
+      // Primary & strict check: Student ID (9 digits)
+      if (cleanSId && cleanSId.length >= 9) {
+        return cleanTxId === cleanSId;
+      }
 
-      const nameMatch =
-        sName &&
-        txBorrowerName &&
-        sName.length >= 5 &&
-        sName.includes(' ') &&
-        txBorrowerName === sName;
-
-      return Boolean(idMatch || nameMatch);
+      // If no valid 9-digit Student ID has been entered yet, do not restrict by name
+      return false;
     });
 
-    // 2. Query administrative clearance holds
+    // 2. Query administrative clearance holds (STRICT STUDENT ID VALIDATION)
     const matchedClearanceHolds = (state.studentClearanceHolds || []).filter((h) => {
-      const holdName = (h.studentName || '').trim().toLowerCase();
       const rawHoldId = (h.studentId || '').trim().toLowerCase();
       const cleanHoldId = rawHoldId.replace(/[^a-z0-9]/gi, '');
 
-      const idMatch =
-        cleanSId &&
-        cleanHoldId &&
-        cleanSId.length === 9 &&
-        cleanHoldId === cleanSId;
+      if (cleanSId && cleanSId.length >= 9) {
+        return cleanHoldId === cleanSId;
+      }
 
-      const nameMatch =
-        sName &&
-        holdName &&
-        sName.length >= 5 &&
-        sName.includes(' ') &&
-        holdName === sName;
-
-      return Boolean(idMatch || nameMatch);
+      return false;
     });
 
     const overdueItems = [];

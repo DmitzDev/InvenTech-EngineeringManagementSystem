@@ -109,13 +109,13 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
   // STRICT DATA PRIVACY FILTERING (Zero Leakage)
   // Query or filter the borrowed transactions database STRICTLY by the entered Student ID
   const activeLoans = useMemo(() => {
-    const cleanEnteredId = enteredId.trim().toUpperCase();
-    if (!cleanEnteredId || !lookupAttempted) return [];
+    const cleanEnteredDigits = enteredId.replace(/\D/g, '');
+    if (!cleanEnteredDigits || cleanEnteredDigits.length !== 9 || !lookupAttempted) return [];
 
     return activeTransactions.filter((tx) => {
       if (tx.status !== 'BORROWED') return false;
-      const sId = (tx.borrower?.studentId || tx.studentId || '').trim().toUpperCase();
-      return sId === cleanEnteredId;
+      const txDigits = (tx.borrower?.studentId || tx.studentId || '').replace(/\D/g, '');
+      return txDigits === cleanEnteredDigits;
     });
   }, [activeTransactions, enteredId, lookupAttempted]);
 
@@ -206,11 +206,11 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose, onOpen
     }
 
     setInputError('');
-    const cleanEnteredId = enteredId.trim().toUpperCase();
+    const cleanEnteredDigits = digitsOnly;
     const matchingLoans = activeTransactions.filter((tx) => {
       if (tx.status !== 'BORROWED') return false;
-      const sId = (tx.borrower?.studentId || tx.studentId || '').trim().toUpperCase();
-      return sId === cleanEnteredId;
+      const txDigits = (tx.borrower?.studentId || tx.studentId || '').replace(/\D/g, '');
+      return txDigits === cleanEnteredDigits;
     });
 
     if (matchingLoans.length === 0) {
