@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, Maximize2, Minimize2, Home, RotateCcw, X } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import ConfirmDialog from './ConfirmDialog';
-import ReturnEquipmentModal from '../steps/ReturnEquipmentModal';
-import ReturnClearanceModal from '../steps/ReturnClearanceModal';
+const ReturnEquipmentModal = lazy(() => import('../steps/ReturnEquipmentModal'));
+const ReturnClearanceModal = lazy(() => import('../steps/ReturnClearanceModal'));
 import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
@@ -360,17 +360,25 @@ export default function Header() {
       />
 
       {/* Global Return Equipment Station Modal */}
-      <ReturnEquipmentModal
-        isOpen={isReturnModalOpen}
-        onClose={() => setIsReturnModalOpen(false)}
-        onOpenClearance={() => setIsClearanceModalOpen(true)}
-      />
+      {isReturnModalOpen && (
+        <Suspense fallback={null}>
+          <ReturnEquipmentModal
+            isOpen={isReturnModalOpen}
+            onClose={() => setIsReturnModalOpen(false)}
+            onOpenClearance={() => setIsClearanceModalOpen(true)}
+          />
+        </Suspense>
+      )}
 
       {/* Global Return Clearance Slip Modal */}
-      <ReturnClearanceModal
-        isOpen={isClearanceModalOpen}
-        onClose={() => setIsClearanceModalOpen(false)}
-      />
+      {isClearanceModalOpen && (
+        <Suspense fallback={null}>
+          <ReturnClearanceModal
+            isOpen={isClearanceModalOpen}
+            onClose={() => setIsClearanceModalOpen(false)}
+          />
+        </Suspense>
+      )}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import {
   ArrowRight,
   ArrowLeft,
@@ -18,9 +18,9 @@ import { useNavigate } from 'react-router-dom';
 import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 import ThemeToggle from '../ui/ThemeToggle';
-import SecureReturnStation from './SecureReturnStation';
-import ReturnEquipmentModal from './ReturnEquipmentModal';
-import ReturnClearanceModal from './ReturnClearanceModal';
+const SecureReturnStation = lazy(() => import('./SecureReturnStation'));
+const ReturnEquipmentModal = lazy(() => import('./ReturnEquipmentModal'));
+const ReturnClearanceModal = lazy(() => import('./ReturnClearanceModal'));
 
 export default function WelcomeScreen() {
   const navigate = useNavigate();
@@ -110,6 +110,9 @@ export default function WelcomeScreen() {
                   <img
                     src="/images/soe_logo.png"
                     alt="School of Engineering Seal"
+                    width="128"
+                    height="128"
+                    fetchPriority="high"
                     className="w-full h-full object-contain drop-shadow"
                   />
                 </div>
@@ -129,6 +132,9 @@ export default function WelcomeScreen() {
                   <img
                     src="/images/inventech_logo.png"
                     alt="InvenTech Brand Logo"
+                    width="128"
+                    height="128"
+                    fetchPriority="high"
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
@@ -402,25 +408,35 @@ export default function WelcomeScreen() {
           VIEW C: RETURN EQUIPMENT TERMINAL (Full-Screen View, Zero Floating Box)
          ========================================================================= */}
       {viewMode === 'return' && (
-        <SecureReturnStation
-          onBack={() => setViewMode('mode_select')}
-          onTimeout={() => setViewMode('landing')}
-          onOpenClearance={() => setIsClearanceModalOpen(true)}
-        />
+        <Suspense fallback={<div className="flex-1" />}>
+          <SecureReturnStation
+            onBack={() => setViewMode('mode_select')}
+            onTimeout={() => setViewMode('landing')}
+            onOpenClearance={() => setIsClearanceModalOpen(true)}
+          />
+        </Suspense>
       )}
 
       {/* Legacy Return Modal (Available if needed for custodian check-in) */}
-      <ReturnEquipmentModal
-        isOpen={isReturnModalOpen}
-        onClose={() => setIsReturnModalOpen(false)}
-        onOpenClearance={() => setIsClearanceModalOpen(true)}
-      />
+      {isReturnModalOpen && (
+        <Suspense fallback={null}>
+          <ReturnEquipmentModal
+            isOpen={isReturnModalOpen}
+            onClose={() => setIsReturnModalOpen(false)}
+            onOpenClearance={() => setIsClearanceModalOpen(true)}
+          />
+        </Suspense>
+      )}
 
       {/* Return Clearance Certificate Slip Modal */}
-      <ReturnClearanceModal
-        isOpen={isClearanceModalOpen}
-        onClose={() => setIsClearanceModalOpen(false)}
-      />
+      {isClearanceModalOpen && (
+        <Suspense fallback={null}>
+          <ReturnClearanceModal
+            isOpen={isClearanceModalOpen}
+            onClose={() => setIsClearanceModalOpen(false)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

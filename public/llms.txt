@@ -1,0 +1,12 @@
+# InvenTech Engineering Laboratory Management System
+
+> Touchscreen Kiosk & Automated Apparatus Borrowing, Return, and Inventory Management System for Universidad de Dagupan — School of Engineering.
+
+## Overview
+
+InvenTech provides real-time engineering laboratory apparatus borrowing, digital borrower slip generation (UdD-FM-LM-01A-01), QR-based return clearance receipts, and administrative custody tracking across Computer, Civil, Electrical, and Electronics Engineering laboratories.
+
+## Key Modules
+
+- [Laboratory Borrowing Kiosk](https://inven-tech-engineering-management-kiosk.vercel.app/): Self-service student apparatus borrowing and return check-in terminal.
+- [Laboratory Custody & Inventory Portal](https://inven-tech-engineering-management-kiosk.vercel.app/admin): Authorized laboratory custodian and administrator portal.

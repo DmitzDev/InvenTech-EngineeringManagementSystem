@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { TransactionProvider, useTransaction } from './context/TransactionContext';
 import Header from './components/ui/Header';
 import ChevronProgressBar from './components/ui/ChevronProgressBar';
-import FloatingCpexBot from './components/ui/FloatingCpexBot';
 import KioskScreensaver from './components/ui/KioskScreensaver';
 import InactivityWarningModal from './components/ui/InactivityWarningModal';
 import VirtualKeyboard from './components/ui/VirtualKeyboard';
 import WelcomeScreen from './components/steps/WelcomeScreen';
-import BorrowerForm from './components/steps/BorrowerForm';
-import LabSelector from './components/steps/LabSelector';
-import EquipmentCatalog from './components/steps/EquipmentCatalog';
-import TransactionCommit from './components/steps/TransactionCommit';
-import BorrowerSheet from './components/print/BorrowerSheet';
-import ReturnReceiptDownload from './components/receipt/ReturnReceiptDownload';
-import AdminPanel from './components/admin/AdminPanel';
-import AdminLogin from './components/admin/AdminLogin';
 import { useKioskInactivity } from './hooks/useKioskInactivity';
 import { useVirtualKeyboard } from './hooks/useVirtualKeyboard';
+
+// Lazy-load secondary steps, modals, PDF generators, and admin dashboard to keep initial bundle ultra-fast
+const BorrowerForm = lazy(() => import('./components/steps/BorrowerForm'));
+const LabSelector = lazy(() => import('./components/steps/LabSelector'));
+const EquipmentCatalog = lazy(() => import('./components/steps/EquipmentCatalog'));
+const TransactionCommit = lazy(() => import('./components/steps/TransactionCommit'));
+const BorrowerSheet = lazy(() => import('./components/print/BorrowerSheet'));
+const FloatingCpexBot = lazy(() => import('./components/ui/FloatingCpexBot'));
+const ReturnReceiptDownload = lazy(() => import('./components/receipt/ReturnReceiptDownload'));
+const AdminPanel = lazy(() => import('./components/admin/AdminPanel'));
 
 function KioskContent() {
   const { currentStep, theme, goToWelcome, showToast } = useTransaction();
@@ -51,7 +52,7 @@ function KioskContent() {
     if (isWarningVisible) {
       osk.closeKeyboard();
     }
-  }, [isWarningVisible, osk.closeKeyboard]);
+  }, [isWarningVisible, osk]);
 
   // Kiosk Lockdown: Disable right-click, long-press contextmenu, and DevTools inspection shortcuts
   React.useEffect(() => {
@@ -123,11 +124,15 @@ function KioskContent() {
         <main className={`flex-1 flex flex-col animate-fade-in relative min-h-0 w-full max-w-full overflow-x-hidden overflow-y-auto md:overflow-y-auto ${
           isDark ? 'bg-[#0a0e17]' : 'bg-slate-100/80'
         }`}>
-          {renderCurrentStep()}
+          <Suspense fallback={<div className="flex-1" />}>
+            {renderCurrentStep()}
+          </Suspense>
         </main>
 
         {/* Global Floating CPEX Copilot Assistant */}
-        <FloatingCpexBot />
+        <Suspense fallback={null}>
+          <FloatingCpexBot />
+        </Suspense>
 
         {/* Global Inactivity Sleep Mode Screensaver */}
         <KioskScreensaver />
@@ -145,7 +150,11 @@ function KioskContent() {
       </div>
 
       {/* Official Printable Borrower's Sheet (Automated / Print Only) */}
-      <BorrowerSheet />
+      {currentStep >= 3 && (
+        <Suspense fallback={null}>
+          <BorrowerSheet />
+        </Suspense>
+      )}
     </div>
   );
 }
@@ -153,13 +162,15 @@ function KioskContent() {
 export default function App() {
   return (
     <TransactionProvider>
-      <Routes>
-        <Route path="/" element={<KioskContent />} />
-        <Route path="/receipt/:txId" element={<ReturnReceiptDownload />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen bg-[#0a0e17]" />}>
+        <Routes>
+          <Route path="/" element={<KioskContent />} />
+          <Route path="/receipt/:txId" element={<ReturnReceiptDownload />} />
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </TransactionProvider>
   );
 }
