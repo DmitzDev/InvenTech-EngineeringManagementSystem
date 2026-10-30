@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { isDemoTransaction } from '../utils/demoAccount';
 
 export async function fetchEquipmentFromSupabase() {
   if (!isSupabaseConfigured || !supabase) return null;
@@ -59,6 +60,10 @@ export async function updateEquipmentStockInSupabase(itemId, newStock) {
 
 export async function saveTransactionToSupabase(tx) {
   if (!isSupabaseConfigured || !supabase || !tx) return null;
+  if (isDemoTransaction(tx)) {
+    console.info('[SANDBOX DEMO MODE] Skipped saving demo transaction to Supabase database:', tx.id || tx.txId);
+    return null;
+  }
   try {
     const payload = {
       transaction_id: tx.id || tx.transactionId,
@@ -177,6 +182,10 @@ export async function fetchTransactionsFromSupabase() {
 
 export async function markTransactionReturnedInSupabase(txId, returnNotes, status = 'RETURNED_CLEARED') {
   if (!isSupabaseConfigured || !supabase || !txId) return false;
+  if (isDemoTransaction(txId)) {
+    console.info('[SANDBOX DEMO MODE] Skipped updating demo return in Supabase database:', txId);
+    return true;
+  }
   try {
     const { error } = await supabase
       .from('transactions')
@@ -199,6 +208,10 @@ export async function markTransactionReturnedInSupabase(txId, returnNotes, statu
 
 export async function saveReservationToSupabase(reservation) {
   if (!isSupabaseConfigured || !supabase || !reservation) return null;
+  if (isDemoTransaction(reservation)) {
+    console.info('[SANDBOX DEMO MODE] Skipped saving demo reservation to Supabase database');
+    return null;
+  }
   try {
     const payload = {
       id: reservation.id || `RES-${Date.now()}`,
@@ -305,6 +318,10 @@ export async function updateReservationStatusInSupabase(resId, nextStatus) {
 
 export async function saveIncidentLogToSupabase(log) {
   if (!isSupabaseConfigured || !supabase || !log) return null;
+  if (isDemoTransaction(log)) {
+    console.info('[SANDBOX DEMO MODE] Skipped saving demo incident log to Supabase database');
+    return null;
+  }
   try {
     const payload = {
       item_id: log.itemId || log.id || null,

@@ -22,11 +22,13 @@ import InstitutionalQrCode from '../ui/InstitutionalQrCode';
 import { generateReturnReceiptPdf } from '../../utils/generateReturnReceiptPdf';
 import { getReceiptBaseUrl } from '../../utils/networkConfig';
 import { formatStudentId, handleStudentIdChange } from '../../utils/studentIdFormatter';
+import { DEMO_STUDENT_PROFILE, isLocalTestingEnvironment } from '../../utils/demoAccount';
 import { useRateLimiter } from '../../utils/rateLimiter';
 
 export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
   const { activeTransactions, returnEquipmentTransaction, showToast, theme } = useTransaction();
   const isDark = theme === 'dark';
+  const isLocalSandbox = useMemo(() => isLocalTestingEnvironment(), []);
 
   // Anti-Brute-Force Rate Limiter Guardrail (Max 4 attempts, 60s cooldown lock)
   const {
@@ -111,12 +113,43 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
     const cleanEnteredDigits = enteredId.replace(/\D/g, '');
     if (!cleanEnteredDigits || cleanEnteredDigits.length !== 9 || !lookupAttempted) return [];
 
-    return activeTransactions.filter((tx) => {
+    const matches = activeTransactions.filter((tx) => {
       if (String(tx.status || '').toUpperCase() !== 'BORROWED') return false;
       const txDigits = (tx.borrower?.studentId || tx.studentId || '').replace(/\D/g, '');
       return txDigits === cleanEnteredDigits;
     });
-  }, [activeTransactions, enteredId, lookupAttempted]);
+
+    if (matches.length === 0 && isLocalSandbox && cleanEnteredDigits === DEMO_STUDENT_PROFILE.studentIdDigits) {
+      return [
+        {
+          txId: 'UDD-DEMO-SANDBOX-001',
+          status: 'BORROWED',
+          borrower: {
+            groupLeader: DEMO_STUDENT_PROFILE.groupLeader,
+            studentId: DEMO_STUDENT_PROFILE.studentId,
+            program: DEMO_STUDENT_PROFILE.program,
+            courseCode: DEMO_STUDENT_PROFILE.courseCode,
+            groupNo: DEMO_STUDENT_PROFILE.groupNo,
+            instructor: DEMO_STUDENT_PROFILE.instructor,
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            labTime: DEMO_STUDENT_PROFILE.labTime,
+          },
+          items: [
+            {
+              id: 'demo-item-1',
+              name: 'Digital Multimeter (Sandbox Demo)',
+              tagCode: 'DEMO-DMM-01',
+              qty: 1,
+              unit: 'pc',
+              status: 'BORROWED',
+            },
+          ],
+        },
+      ];
+    }
+
+    return matches;
+  }, [activeTransactions, enteredId, lookupAttempted, isLocalSandbox]);
 
   // Aggregate all individual tools across the student's active loans
   const loanToolsList = useMemo(() => {
@@ -196,11 +229,20 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
 
     setInputError('');
     const cleanEnteredDigits = digitsOnly;
-    const matchingLoans = activeTransactions.filter((tx) => {
+    let matchingLoans = activeTransactions.filter((tx) => {
       if (String(tx.status || '').toUpperCase() !== 'BORROWED') return false;
       const txDigits = (tx.borrower?.studentId || tx.studentId || '').replace(/\D/g, '');
       return txDigits === cleanEnteredDigits;
     });
+
+    if (matchingLoans.length === 0 && isLocalSandbox && cleanEnteredDigits === DEMO_STUDENT_PROFILE.studentIdDigits) {
+      matchingLoans = [
+        {
+          txId: 'UDD-DEMO-SANDBOX-001',
+          items: [{ id: 'demo-item-1', name: 'Digital Multimeter (Sandbox Demo)', tagCode: 'DEMO-DMM-01', qty: 1, unit: 'pc' }],
+        },
+      ];
+    }
 
     if (matchingLoans.length === 0) {
       const res = recordFailure(enteredId, 'Student ID Return Lookup - No active loan records found');
@@ -454,6 +496,24 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
 
               {/* ID Input Box & Digital Display */}
               <div className="w-full space-y-2 mb-2.5">
+                {isLocalSandbox && (
+                  <div className="flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setInputError('');
+                        setEnteredId(DEMO_STUDENT_PROFILE.studentId);
+                      }}
+                      className={`px-3 py-1 rounded-lg font-mono text-[11px] font-extrabold uppercase tracking-wider border transition-all cursor-pointer active:scale-95 ${
+                        isDark
+                          ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border-amber-500/40'
+                          : 'bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-300'
+                      }`}
+                    >
+                      Use Demo Test ID ({DEMO_STUDENT_PROFILE.studentId})
+                    </button>
+                  </div>
+                )}
                 <form onSubmit={handleLookup} className="relative">
                   <div className="relative">
                     <input

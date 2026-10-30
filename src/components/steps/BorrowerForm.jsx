@@ -13,6 +13,7 @@ import { useTransaction } from '../../context/TransactionContext';
 import TouchButton from '../ui/TouchButton';
 import MaterialTimePicker from '../ui/MaterialTimePicker';
 import { handleStudentIdChange } from '../../utils/studentIdFormatter';
+import { DEMO_STUDENT_PROFILE, isLocalTestingEnvironment } from '../../utils/demoAccount';
 
 const ENGINEERING_PROGRAMS = ['BSCPE', 'BSCE', 'BSCEE', 'BSECE'];
 const YEAR_LEVELS = [
@@ -77,6 +78,36 @@ export default function BorrowerForm() {
   }, [borrower.studentId, lookupStudentInDatabase]);
 
   const isTimeScheduleValid = Boolean(startHour && endHour && !(startHour === endHour && startMinute === endMinute && startPeriod === endPeriod));
+
+  const isLocalSandbox = useMemo(() => isLocalTestingEnvironment(), []);
+
+  const handleFillDemoAccount = () => {
+    setIsOtherProgram(false);
+    setCustomProgram('');
+    setBorrowerField('program', DEMO_STUDENT_PROFILE.program);
+    setSelectedYear(DEMO_STUDENT_PROFILE.yearLevel);
+    setBorrowerField('yearLevel', DEMO_STUDENT_PROFILE.yearLevel);
+    setSelectedSem(DEMO_STUDENT_PROFILE.semester);
+    setBorrowerField('semester', DEMO_STUDENT_PROFILE.semester);
+    setSelectedSection(DEMO_STUDENT_PROFILE.section);
+    setBorrowerField('section', DEMO_STUDENT_PROFILE.section);
+    setBorrowerField('courseCode', DEMO_STUDENT_PROFILE.courseCode);
+    setBorrowerField('groupNo', DEMO_STUDENT_PROFILE.groupNo);
+    setBorrowerField('groupLeader', DEMO_STUDENT_PROFILE.groupLeader);
+    setBorrowerField('studentId', DEMO_STUDENT_PROFILE.studentId);
+    setBorrowerField('instructor', DEMO_STUDENT_PROFILE.instructor);
+    setStartHour(DEMO_STUDENT_PROFILE.startHour);
+    setStartMinute(DEMO_STUDENT_PROFILE.startMinute);
+    setStartPeriod(DEMO_STUDENT_PROFILE.startPeriod);
+    setEndHour(DEMO_STUDENT_PROFILE.endHour);
+    setEndMinute(DEMO_STUDENT_PROFILE.endMinute);
+    setEndPeriod(DEMO_STUDENT_PROFILE.endPeriod);
+    setBorrowerField('labTime', DEMO_STUDENT_PROFILE.labTime);
+    setErrors({});
+    if (showToast) {
+      showToast('Demo Sandbox Account loaded (Local Testing Only — will not save to cloud database).', 'info');
+    }
+  };
 
   const handleApplyPreviousProfile = () => {
     if (!databaseCheck.previousProfile) return;
@@ -338,11 +369,27 @@ export default function BorrowerForm() {
             Borrower Identification Form
           </h1>
         </div>
-        <p className={`text-xs sm:text-sm hidden md:block ${
-          isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
-        }`}>
-          Select program, academic level, student credentials, and laboratory schedule.
-        </p>
+        <div className="flex items-center gap-2.5">
+          {isLocalSandbox && (
+            <button
+              type="button"
+              onClick={handleFillDemoAccount}
+              className={`px-3 py-1.5 rounded-xl font-mono text-[11px] sm:text-xs font-extrabold uppercase tracking-wider border transition-all cursor-pointer active:scale-95 ${
+                isDark
+                  ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border-amber-500/40'
+                  : 'bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-300'
+              }`}
+              title="Localhost Sandbox Only: Auto-fills demo borrower without saving to Supabase cloud database"
+            >
+              Fill Demo Account (00-0000-000)
+            </button>
+          )}
+          <p className={`text-xs sm:text-sm hidden lg:block ${
+            isDark ? 'text-slate-400' : 'text-slate-700 font-bold'
+          }`}>
+            Select program, academic level, student credentials, and laboratory schedule.
+          </p>
+        </div>
       </div>
 
       {/* Overdue / Clearance Hold Alert Banner (Clean & Elegant Institutional Card) */}

@@ -1063,7 +1063,7 @@ export function TransactionProvider({ children }) {
 
     const cleanSId = rawSId.replace(/[^a-z0-9]/gi, '');
 
-    if (!sName && !cleanSId) {
+    if ((!sName && !cleanSId) || cleanSId === '000000000') {
       return { isRestricted: false, overdueCount: 0, overdueItems: [], reason: '', unreturnedTxs: [] };
     }
 
@@ -1159,7 +1159,7 @@ export function TransactionProvider({ children }) {
   const lookupStudentInDatabase = (studentId) => {
     if (!studentId) return { hasDuplicateActiveLoan: false, activeLoanTx: null, previousProfile: null };
     const cleanSId = studentId.replace(/[^a-z0-9]/gi, '').toLowerCase();
-    if (cleanSId.length < 5) return { hasDuplicateActiveLoan: false, activeLoanTx: null, previousProfile: null };
+    if (cleanSId.length < 5 || cleanSId === '000000000') return { hasDuplicateActiveLoan: false, activeLoanTx: null, previousProfile: null };
 
     const txs = state.activeTransactions || [];
 
