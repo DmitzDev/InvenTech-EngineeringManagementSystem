@@ -306,6 +306,8 @@ export default function BorrowerForm() {
       errs.studentId = 'Kinakailangan ang Student ID Number';
     } else if (curCleanId.length !== 9) {
       errs.studentId = `Kulang ang Student ID: 9 digits ang kailangan (${curCleanId.length}/9 digits naipasa)`;
+    } else if (curCleanId === DEMO_STUDENT_PROFILE.studentIdDigits && !isLocalSandbox) {
+      errs.studentId = 'Ang Demo ID (00-0000-000) ay para sa localhost testing lamang.';
     }
 
     const curInstructor = (borrower.instructor || '').trim();

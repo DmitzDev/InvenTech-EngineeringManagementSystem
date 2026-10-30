@@ -226,6 +226,11 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
       showToast('Student ID must be exactly 9 digits (e.g. 23-1374-693)', 'error');
       return;
     }
+    if (digitsOnly === DEMO_STUDENT_PROFILE.studentIdDigits && !isLocalSandbox) {
+      setInputError('Demo ID (00-0000-000) is disabled on the live production system.');
+      showToast('Demo ID (00-0000-000) is disabled on the live production system.', 'error');
+      return;
+    }
 
     setInputError('');
     const cleanEnteredDigits = digitsOnly;
