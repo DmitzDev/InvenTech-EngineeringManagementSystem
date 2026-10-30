@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import {
   RotateCcw,
   Search,
@@ -48,13 +48,28 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
 
   const inputRef = useRef(null);
 
+  // Clean exit handler (wipes all state for student privacy)
+  const handleSecurityExit = useCallback((timedOut = false) => {
+    setEnteredId('');
+    setLookupAttempted(false);
+    setSelectedItems(new Set());
+    setIsSubmitted(false);
+    setSubmittedSummary(null);
+    if (timedOut) {
+      if (onTimeout) onTimeout();
+      else if (onBack) onBack();
+      else if (onClose) onClose();
+      showToast('Session automatically closed to protect your student privacy.', 'info');
+    } else {
+      if (onBack) onBack();
+      else if (onClose) onClose();
+    }
+  }, [onTimeout, onBack, onClose, showToast]);
+
   // 30-Second Security Inactivity Auto-Reset Safeguard
   useEffect(() => {
-    // Reset countdown on mount
-    setSecondsLeft(30);
-
     const resetInactivity = () => {
-      setSecondsLeft(30);
+      setSecondsLeft((prev) => (prev > 30 ? prev : 30));
     };
 
     const interval = setInterval(() => {
@@ -78,7 +93,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
       window.removeEventListener('keydown', resetInactivity);
       window.removeEventListener('touchstart', resetInactivity);
     };
-  }, []);
+  }, [handleSecurityExit]);
 
   // Auto-focus on desktop / kiosk displays only (avoids mobile viewport jump)
   useEffect(() => {
@@ -90,24 +105,6 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
     }
   }, [lookupAttempted]);
 
-  // Clean exit handler (wipes all state for student privacy)
-  const handleSecurityExit = (timedOut = false) => {
-    setEnteredId('');
-    setLookupAttempted(false);
-    setSelectedItems(new Set());
-    setIsSubmitted(false);
-    setSubmittedSummary(null);
-    if (timedOut) {
-      if (onTimeout) onTimeout();
-      else if (onBack) onBack();
-      else if (onClose) onClose();
-      showToast('Session automatically closed to protect your student privacy.', 'info');
-    } else {
-      if (onBack) onBack();
-      else if (onClose) onClose();
-    }
-  };
-
   // STRICT DATA PRIVACY FILTERING (Zero Leakage)
   // Query or filter the borrowed transactions database STRICTLY by the entered Student ID
   const activeLoans = useMemo(() => {
@@ -115,7 +112,7 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
     if (!cleanEnteredDigits || cleanEnteredDigits.length !== 9 || !lookupAttempted) return [];
 
     return activeTransactions.filter((tx) => {
-      if (tx.status !== 'BORROWED') return false;
+      if (String(tx.status || '').toUpperCase() !== 'BORROWED') return false;
       const txDigits = (tx.borrower?.studentId || tx.studentId || '').replace(/\D/g, '');
       return txDigits === cleanEnteredDigits;
     });
@@ -151,16 +148,6 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
     });
     return list;
   }, [activeLoans]);
-
-  // Auto-select all items upon loan retrieval
-  useEffect(() => {
-    if (loanToolsList.length > 0) {
-      const allKeys = new Set(loanToolsList.map((i) => i.itemKey));
-      setSelectedItems(allKeys);
-    } else {
-      setSelectedItems(new Set());
-    }
-  }, [loanToolsList]);
 
   // Handle Numpad / Keypad Input (Automatic dash formatting, max 9 digits)
   const handleNumpadPress = (char) => {
@@ -210,13 +197,13 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
     setInputError('');
     const cleanEnteredDigits = digitsOnly;
     const matchingLoans = activeTransactions.filter((tx) => {
-      if (tx.status !== 'BORROWED') return false;
+      if (String(tx.status || '').toUpperCase() !== 'BORROWED') return false;
       const txDigits = (tx.borrower?.studentId || tx.studentId || '').replace(/\D/g, '');
       return txDigits === cleanEnteredDigits;
     });
 
     if (matchingLoans.length === 0) {
-      const res = recordFailure(cleanEnteredId, 'Student ID Return Lookup - No active loan records found');
+      const res = recordFailure(enteredId, 'Student ID Return Lookup - No active loan records found');
       if (res.isLocked) {
         showToast(`[ SECURITY LOCKOUT // EXCESSIVE ATTEMPTS DETECTED - COOLDOWN ${res.remainingSeconds}s ]`, 'error');
       } else {
@@ -228,7 +215,15 @@ export default function SecureReturnStation({ onBack, onTimeout, onClose }) {
       return;
     }
 
-    // Success
+    // Success: Auto-select all items upon loan retrieval
+    const allKeys = new Set();
+    matchingLoans.forEach((tx) => {
+      const currentTxId = tx.txId || tx.transactionId || tx.id;
+      (tx.items || []).forEach((item) => {
+        allKeys.add(`${currentTxId}:${item.id || item.tagCode || item.name}`);
+      });
+    });
+    setSelectedItems(allKeys);
     recordSuccess();
     setLookupAttempted(true);
   };

@@ -38,7 +38,6 @@ export function getRateLimitState(contextKey) {
       };
     }
 
-    // Cooldown expired
     if (data.lockoutUntil && data.lockoutUntil <= now) {
       resetRateLimit(contextKey);
       return { isLocked: false, remainingSeconds: 0, failedAttempts: 0 };
@@ -76,7 +75,6 @@ export function recordFailedAttempt(contextKey, actorId = 'UNKNOWN', description
     isLocked = true;
     remainingSeconds = LOCKOUT_DURATION_SECONDS;
 
-    // Trigger Audit Log for threshold breach
     logSecurityEvent({
       eventType: SECURITY_EVENT_TYPES.LOCKOUT_TRIGGERED,
       actorId,
@@ -85,7 +83,7 @@ export function recordFailedAttempt(contextKey, actorId = 'UNKNOWN', description
       metadata: { contextKey, attempts: newAttempts, cooldownSeconds: LOCKOUT_DURATION_SECONDS },
     });
   } else {
-    // Log individual failure
+
     logSecurityEvent({
       eventType: SECURITY_EVENT_TYPES.AUTH_FAILURE,
       actorId,
@@ -104,7 +102,7 @@ export function recordFailedAttempt(contextKey, actorId = 'UNKNOWN', description
   try {
     localStorage.setItem(`${RATE_LIMIT_STORAGE_PREFIX}${contextKey}`, JSON.stringify(payload));
   } catch {
-    // ignore
+
   }
 
   return {
